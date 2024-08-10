@@ -12,8 +12,6 @@ tags:
 
 # [2. 两数相加](https://leetcode.cn/problems/add-two-numbers)
 
-[English Version](/solution/0000-0099/0002.Add%20Two%20Numbers/README_EN.md)
-
 ## 题目描述
 
 <!-- description:start -->

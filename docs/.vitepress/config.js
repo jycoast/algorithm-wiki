@@ -14,6 +14,7 @@ export default defineConfig({
   cleanUrls: true,
 
   base: process.env.BASE || '/',
+
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }]
   ],
