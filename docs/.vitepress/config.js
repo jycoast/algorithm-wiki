@@ -53,10 +53,10 @@ export default defineConfig({
     // sidebar
     sidebar,
 
-    editLink: {
-      pattern: 'https://github.com/xinlei3166/vitepress-demo/edit/master/docs/:path',
-      text: '在 GitHub 上编辑此页'
-    },
+    // editLink: {
+    //   pattern: 'https://github.com/xinlei3166/vitepress-demo/edit/master/docs/:path',
+    //   text: '在 GitHub 上编辑此页'
+    // },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/jycoast/algorithm-wiki.git' }

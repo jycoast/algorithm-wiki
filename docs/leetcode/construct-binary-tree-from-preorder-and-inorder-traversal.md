@@ -76,9 +76,6 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-
-
-
 ```java [Java]
 /**
  * Definition for a binary tree node.
@@ -120,8 +117,6 @@ class Solution {
     }
 }
 ```
-
-
 
 ```cpp [C++]
 /**
