@@ -59,11 +59,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：优先队列（大根堆）
+## 方法一：优先队列（大根堆）
 
 我们可以使用优先队列（大根堆）来维护滑动窗口中的最大值。
 
@@ -72,24 +72,7 @@ tags:
 时间复杂度 $O(n \times \log k)$，空间复杂度 $O(k)$。其中 $n$ 为数组长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        q = [(-v, i) for i, v in enumerate(nums[: k - 1])]
-        heapify(q)
-        ans = []
-        for i in range(k - 1, len(nums)):
-            heappush(q, (-nums[i], i))
-            while q[0][1] <= i - k:
-                heappop(q)
-            ans.append(-q[0][0])
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -113,8 +96,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -137,139 +118,28 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func maxSlidingWindow(nums []int, k int) (ans []int) {
-	q := hp{}
-	for i, v := range nums[:k-1] {
-		heap.Push(&q, pair{v, i})
-	}
-	for i := k - 1; i < len(nums); i++ {
-		heap.Push(&q, pair{nums[i], i})
-		for q[0].i <= i-k {
-			heap.Pop(&q)
-		}
-		ans = append(ans, q[0].v)
-	}
-	return
-}
-
-type pair struct{ v, i int }
-
-type hp []pair
-
-func (h hp) Len() int { return len(h) }
-func (h hp) Less(i, j int) bool {
-	a, b := h[i], h[j]
-	return a.v > b.v || (a.v == b.v && i < j)
-}
-func (h hp) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
-func (h *hp) Push(v any)   { *h = append(*h, v.(pair)) }
-func (h *hp) Pop() any     { a := *h; v := a[len(a)-1]; *h = a[:len(a)-1]; return v }
+```python
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        q = [(-v, i) for i, v in enumerate(nums[: k - 1])]
+        heapify(q)
+        ans = []
+        for i in range(k - 1, len(nums)):
+            heappush(q, (-nums[i], i))
+            while q[0][1] <= i - k:
+                heappop(q)
+            ans.append(-q[0][0])
+        return ans
 ```
 
-#### Rust
-
-```rust
-use std::collections::VecDeque;
-
-impl Solution {
-    #[allow(dead_code)]
-    pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {
-        // The deque contains the index of `nums`
-        let mut q: VecDeque<usize> = VecDeque::new();
-        let mut ans_vec: Vec<i32> = Vec::new();
-
-        for i in 0..nums.len() {
-            // Check the first element of queue, if it's out of bound
-            if !q.is_empty() && (i as i32) - k + 1 > (*q.front().unwrap() as i32) {
-                // Pop it out
-                q.pop_front();
-            }
-            // Pop back elements out until either the deque is empty
-            // Or the back element is greater than the current traversed element
-            while !q.is_empty() && nums[*q.back().unwrap()] <= nums[i] {
-                q.pop_back();
-            }
-            // Push the current index in queue
-            q.push_back(i);
-            // Check if the condition is satisfied
-            if i >= ((k - 1) as usize) {
-                ans_vec.push(nums[*q.front().unwrap()]);
-            }
-        }
-
-        ans_vec
-    }
-}
-```
-
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @param {number} k
- * @return {number[]}
- */
-var maxSlidingWindow = function (nums, k) {
-    let ans = [];
-    let q = [];
-    for (let i = 0; i < nums.length; ++i) {
-        if (q && i - k + 1 > q[0]) {
-            q.shift();
-        }
-        while (q && nums[q[q.length - 1]] <= nums[i]) {
-            q.pop();
-        }
-        q.push(i);
-        if (i >= k - 1) {
-            ans.push(nums[q[0]]);
-        }
-    }
-    return ans;
-};
-```
-
-#### C#
-
-```cs
-using System.Collections.Generic;
-
-public class Solution {
-    public int[] MaxSlidingWindow(int[] nums, int k) {
-        if (nums.Length == 0) return new int[0];
-        var result = new int[nums.Length - k + 1];
-        var descOrderNums = new LinkedList<int>();
-        for (var i = 0; i < nums.Length; ++i)
-        {
-            if (i >= k && nums[i - k] == descOrderNums.First.Value)
-            {
-                descOrderNums.RemoveFirst();
-            }
-            while (descOrderNums.Count > 0 && nums[i] > descOrderNums.Last.Value)
-            {
-                descOrderNums.RemoveLast();
-            }
-            descOrderNums.AddLast(nums[i]);
-            if (i >= k - 1)
-            {
-                result[i - k + 1] = descOrderNums.First.Value;
-            }
-        }
-        return result;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：单调队列
+## 方法二：单调队列
 
 这道题也可以使用单调队列来解决。时间复杂度 $O(n)$，空间复杂度 $O(k)$。
 
@@ -287,26 +157,7 @@ for i in range(n):
 ```
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        q = deque()
-        ans = []
-        for i, v in enumerate(nums):
-            if q and i - k + 1 > q[0]:
-                q.popleft()
-            while q and nums[q[-1]] <= v:
-                q.pop()
-            q.append(i)
-            if i >= k - 1:
-                ans.append(nums[q[0]])
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -331,8 +182,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -356,27 +205,23 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func maxSlidingWindow(nums []int, k int) (ans []int) {
-	q := []int{}
-	for i, v := range nums {
-		if len(q) > 0 && i-k+1 > q[0] {
-			q = q[1:]
-		}
-		for len(q) > 0 && nums[q[len(q)-1]] <= v {
-			q = q[:len(q)-1]
-		}
-		q = append(q, i)
-		if i >= k-1 {
-			ans = append(ans, nums[q[0]])
-		}
-	}
-	return ans
-}
+```python
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        q = deque()
+        ans = []
+        for i, v in enumerate(nums):
+            if q and i - k + 1 > q[0]:
+                q.popleft()
+            while q and nums[q[-1]] <= v:
+                q.pop()
+            q.append(i)
+            if i >= k - 1:
+                ans.append(nums[q[0]])
+        return ans
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

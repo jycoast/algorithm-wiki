@@ -59,11 +59,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+## 方法一：二分查找
 
 我们使用二分，将数组分割成 $[left,.. mid]$, $[mid + 1,.. right]$ 两部分，这时候可以发现，其中有一部分一定是有序的。
 
@@ -81,30 +80,8 @@ tags:
 时间复杂度 $O(\log n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def search(self, nums: List[int], target: int) -> int:
-        n = len(nums)
-        left, right = 0, n - 1
-        while left < right:
-            mid = (left + right) >> 1
-            if nums[0] <= nums[mid]:
-                if nums[0] <= target <= nums[mid]:
-                    right = mid
-                else:
-                    left = mid + 1
-            else:
-                if nums[mid] < target <= nums[n - 1]:
-                    left = mid + 1
-                else:
-                    right = mid
-        return left if nums[left] == target else -1
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -132,8 +109,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -158,37 +133,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-func search(nums []int, target int) int {
-	n := len(nums)
-	left, right := 0, n-1
-	for left < right {
-		mid := (left + right) >> 1
-		if nums[0] <= nums[mid] {
-			if nums[0] <= target && target <= nums[mid] {
-				right = mid
-			} else {
-				left = mid + 1
-			}
-		} else {
-			if nums[mid] < target && target <= nums[n-1] {
-				left = mid + 1
-			} else {
-				right = mid
-			}
-		}
-	}
-	if nums[left] == target {
-		return left
-	}
-	return -1
-}
-```
-
-#### TypeScript
 
 ```ts
 function search(nums: number[], target: number): number {
@@ -215,92 +159,27 @@ function search(nums: number[], target: number): number {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn search(nums: Vec<i32>, target: i32) -> i32 {
-        let mut l = 0;
-        let mut r = nums.len() - 1;
-        while l <= r {
-            let mid = (l + r) >> 1;
-            if nums[mid] == target {
-                return mid as i32;
-            }
-
-            if nums[l] <= nums[mid] {
-                if target < nums[mid] && target >= nums[l] {
-                    r = mid - 1;
-                } else {
-                    l = mid + 1;
-                }
-            } else {
-                if target > nums[mid] && target <= nums[r] {
-                    l = mid + 1;
-                } else {
-                    r = mid - 1;
-                }
-            }
-        }
-        -1
-    }
-}
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        n = len(nums)
+        left, right = 0, n - 1
+        while left < right:
+            mid = (left + right) >> 1
+            if nums[0] <= nums[mid]:
+                if nums[0] <= target <= nums[mid]:
+                    right = mid
+                else:
+                    left = mid + 1
+            else:
+                if nums[mid] < target <= nums[n - 1]:
+                    left = mid + 1
+                else:
+                    right = mid
+        return left if nums[left] == target else -1
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number}
- */
-var search = function (nums, target) {
-    const n = nums.length;
-    let left = 0,
-        right = n - 1;
-    while (left < right) {
-        const mid = (left + right) >> 1;
-        if (nums[0] <= nums[mid]) {
-            if (nums[0] <= target && target <= nums[mid]) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        } else {
-            if (nums[mid] < target && target <= nums[n - 1]) {
-                left = mid + 1;
-            } else {
-                right = mid;
-            }
-        }
-    }
-    return nums[left] == target ? left : -1;
-};
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param integer[] $nums
-     * @param integer $target
-     * @return integer
-     */
-
-    function search($nums, $target) {
-        $foundKey = -1;
-        foreach ($nums as $key => $value) {
-            if ($value === $target) {
-                $foundKey = $key;
-            }
-        }
-        return $foundKey;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

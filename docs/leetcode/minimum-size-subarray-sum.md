@@ -65,8 +65,6 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
 ### 方法一：前缀和 + 二分查找
@@ -80,23 +78,8 @@ tags:
 时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
-        n = len(nums)
-        s = list(accumulate(nums, initial=0))
-        ans = n + 1
-        for i, x in enumerate(s):
-            j = bisect_left(s, x + target)
-            if j <= n:
-                ans = min(ans, j - i)
-        return ans if ans <= n else 0
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -131,7 +114,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -154,30 +137,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func minSubArrayLen(target int, nums []int) int {
-	n := len(nums)
-	s := make([]int, n+1)
-	for i, x := range nums {
-		s[i+1] = s[i] + x
-	}
-	ans := n + 1
-	for i, x := range s {
-		j := sort.SearchInts(s, x+target)
-		if j <= n {
-			ans = min(ans, j-i)
-		}
-	}
-	if ans == n+1 {
-		return 0
-	}
-	return ans
-}
-```
-
-#### TypeScript
 
 ```ts
 function minSubArrayLen(target: number, nums: number[]): number {
@@ -210,59 +169,28 @@ function minSubArrayLen(target: number, nums: number[]): number {
 }
 ```
 
-#### Rust
 
-```rust
-impl Solution {
-    pub fn min_sub_array_len(target: i32, nums: Vec<i32>) -> i32 {
-        let n = nums.len();
-        let mut res = n + 1;
-        let mut sum = 0;
-        let mut i = 0;
-        for j in 0..n {
-            sum += nums[j];
-
-            while sum >= target {
-                res = res.min(j - i + 1);
-                sum -= nums[i];
-                i += 1;
-            }
-        }
-        if res == n + 1 {
-            return 0;
-        }
-        res as i32
-    }
-}
+```python
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        n = len(nums)
+        s = list(accumulate(nums, initial=0))
+        ans = n + 1
+        for i, x in enumerate(s):
+            j = bisect_left(s, x + target)
+            if j <= n:
+                ans = min(ans, j - i)
+        return ans if ans <= n else 0
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    public int MinSubArrayLen(int target, int[] nums) {
-        int n = nums.Length;
-        long s = 0;
-        int ans = n + 1;
-        for (int i = 0, j = 0; i < n; ++i) {
-            s += nums[i];
-            while (s >= target) {
-                ans = Math.Min(ans, i - j + 1);
-                s -= nums[j++];
-            }
-        }
-        return ans == n + 1 ? 0 : ans;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：双指针
+## 方法二：双指针
 
 我们注意到，数组 $\textit{nums}$ 中的元素均为正整数，我们可以考虑使用双指针来维护一个滑动窗口。
 
@@ -275,24 +203,7 @@ public class Solution {
 时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
-        l = s = 0
-        ans = inf
-        for r, x in enumerate(nums):
-            s += x
-            while s >= target:
-                ans = min(ans, r - l + 1)
-                s -= nums[l]
-                l += 1
-        return 0 if ans == inf else ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -311,8 +222,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 class Solution {
@@ -333,29 +242,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func minSubArrayLen(target int, nums []int) int {
-	l, n := 0, len(nums)
-	s, ans := 0, n+1
-	for r, x := range nums {
-		s += x
-		for s >= target {
-			ans = min(ans, r-l+1)
-			s -= nums[l]
-			l++
-		}
-	}
-	if ans > n {
-		return 0
-	}
-	return ans
-}
-```
-
-#### TypeScript
-
 ```ts
 function minSubArrayLen(target: number, nums: number[]): number {
     const n = nums.length;
@@ -371,6 +257,21 @@ function minSubArrayLen(target: number, nums: number[]): number {
 }
 ```
 
+```python
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        l = s = 0
+        ans = inf
+        for r, x in enumerate(nums):
+            s += x
+            while s >= target:
+                ans = min(ans, r - l + 1)
+                s -= nums[l]
+                l += 1
+        return 0 if ans == inf else ans
+```
+
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

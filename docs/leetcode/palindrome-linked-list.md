@@ -50,44 +50,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：快慢指针
+## 方法一：快慢指针
 
 我们可以先用快慢指针找到链表的中点，接着反转右半部分的链表。然后同时遍历前后两段链表，若前后两段链表节点对应的值不等，说明不是回文链表，否则说明是回文链表。
 
 时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为链表的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        slow, fast = head, head.next
-        while fast and fast.next:
-            slow, fast = slow.next, fast.next.next
-        pre, cur = None, slow.next
-        while cur:
-            t = cur.next
-            cur.next = pre
-            pre, cur = cur, t
-        while pre:
-            if pre.val != head.val:
-                return False
-            pre, head = pre.next, head.next
-        return True
-```
-
-#### Java
 
 ```java
 /**
@@ -129,7 +104,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -169,41 +144,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func isPalindrome(head *ListNode) bool {
-	slow, fast := head, head.Next
-	for fast != nil && fast.Next != nil {
-		slow, fast = slow.Next, fast.Next.Next
-	}
-	var pre *ListNode
-	cur := slow.Next
-	for cur != nil {
-		t := cur.Next
-		cur.Next = pre
-		pre = cur
-		cur = t
-	}
-	for pre != nil {
-		if pre.Val != head.Val {
-			return false
-		}
-		pre, head = pre.Next, head.Next
-	}
-	return true
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * Definition for singly-linked list.
@@ -242,90 +182,29 @@ function isPalindrome(head: ListNode | null): boolean {
 }
 ```
 
-#### JavaScript
-
-```js
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} head
- * @return {boolean}
- */
-var isPalindrome = function (head) {
-    let slow = head;
-    let fast = head.next;
-    while (fast && fast.next) {
-        slow = slow.next;
-        fast = fast.next.next;
-    }
-    let cur = slow.next;
-    slow.next = null;
-    let pre = null;
-    while (cur) {
-        let t = cur.next;
-        cur.next = pre;
-        pre = cur;
-        cur = t;
-    }
-    while (pre) {
-        if (pre.val !== head.val) {
-            return false;
-        }
-        pre = pre.next;
-        head = head.next;
-    }
-    return true;
-};
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        slow, fast = head, head.next
+        while fast and fast.next:
+            slow, fast = slow.next, fast.next.next
+        pre, cur = None, slow.next
+        while cur:
+            t = cur.next
+            cur.next = pre
+            pre, cur = cur, t
+        while pre:
+            if pre.val != head.val:
+                return False
+            pre, head = pre.next, head.next
+        return True
 ```
-
-#### C#
-
-```cs
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int val=0, ListNode next=null) {
- *         this.val = val;
- *         this.next = next;
- *     }
- * }
- */
-public class Solution {
-    public bool IsPalindrome(ListNode head) {
-        ListNode slow = head;
-        ListNode fast = head.next;
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-        ListNode cur = slow.next;
-        slow.next = null;
-        ListNode pre = null;
-        while (cur != null) {
-            ListNode t = cur.next;
-            cur.next = pre;
-            pre = cur;
-            cur = t;
-        }
-        while (pre != null) {
-            if (pre.val != head.val) {
-                return false;
-            }
-            pre = pre.next;
-            head = head.next;
-        }
-        return true;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

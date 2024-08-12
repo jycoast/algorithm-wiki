@@ -52,11 +52,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 递归
+## 方法一：哈希表 + 递归
 
 前序序列的第一个节点 $preorder[0]$ 为根节点，我们在中序序列中找到根节点的位置 $k$，可以将中序序列划分为左子树 $inorder[0..k]$ 、右子树 $inorder[k+1..]$。
 
@@ -74,32 +74,10 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树节点个数。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
 
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        def dfs(i: int, j: int, n: int) -> Optional[TreeNode]:
-            if n <= 0:
-                return None
-            v = preorder[i]
-            k = d[v]
-            l = dfs(i + 1, j, k - j)
-            r = dfs(i + 1 + k - j, k + 1, n - k + j - 1)
-            return TreeNode(v, l, r)
 
-        d = {v: i for i, v in enumerate(inorder)}
-        return dfs(0, 0, len(preorder))
-```
-
-#### Java
 
 ```java
 /**
@@ -143,7 +121,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -180,39 +158,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func buildTree(preorder []int, inorder []int) *TreeNode {
-	d := map[int]int{}
-	for i, x := range inorder {
-		d[x] = i
-	}
-	var dfs func(i, j, n int) *TreeNode
-	dfs = func(i, j, n int) *TreeNode {
-		if n <= 0 {
-			return nil
-		}
-		v := preorder[i]
-		k := d[v]
-		l := dfs(i+1, j, k-j)
-		r := dfs(i+1+k-j, k+1, n-1-(k-j))
-		return &TreeNode{v, l, r}
-	}
-	return dfs(0, 0, len(preorder))
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * Definition for a binary tree node.
@@ -248,125 +193,37 @@ function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
 }
 ```
 
-#### Rust
 
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::collections::HashMap;
-use std::rc::Rc;
-impl Solution {
-    pub fn build_tree(preorder: Vec<i32>, inorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
-        let mut d = HashMap::new();
-        for (i, &x) in inorder.iter().enumerate() {
-            d.insert(x, i);
-        }
-        Self::dfs(&preorder, &d, 0, 0, preorder.len())
-    }
 
-    pub fn dfs(
-        preorder: &Vec<i32>,
-        d: &HashMap<i32, usize>,
-        i: usize,
-        j: usize,
-        n: usize,
-    ) -> Option<Rc<RefCell<TreeNode>>> {
-        if n <= 0 {
-            return None;
-        }
-        let v = preorder[i];
-        let k = d[&v];
-        let mut root = TreeNode::new(v);
-        root.left = Self::dfs(preorder, d, i + 1, j, k - j);
-        root.right = Self::dfs(preorder, d, i + k - j + 1, k + 1, n - k + j - 1);
-        Some(Rc::new(RefCell::new(root)))
-    }
-}
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        def dfs(i: int, j: int, n: int) -> Optional[TreeNode]:
+            if n <= 0:
+                return None
+            v = preorder[i]
+            k = d[v]
+            l = dfs(i + 1, j, k - j)
+            r = dfs(i + 1 + k - j, k + 1, n - k + j - 1)
+            return TreeNode(v, l, r)
+
+        d = {v: i for i, v in enumerate(inorder)}
+        return dfs(0, 0, len(preorder))
 ```
 
-#### JavaScript
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {number[]} preorder
- * @param {number[]} inorder
- * @return {TreeNode}
- */
-var buildTree = function (preorder, inorder) {
-    const d = new Map();
-    const n = inorder.length;
-    for (let i = 0; i < n; ++i) {
-        d.set(inorder[i], i);
-    }
-    const dfs = (i, j, n) => {
-        if (n <= 0) {
-            return null;
-        }
-        const v = preorder[i];
-        const k = d.get(v);
-        const l = dfs(i + 1, j, k - j);
-        const r = dfs(i + 1 + k - j, k + 1, n - 1 - (k - j));
-        return new TreeNode(v, l, r);
-    };
-    return dfs(0, 0, n);
-};
-```
-
+:::
 <!-- tabs:end -->
 
 如果题目中给定的节点值存在重复，那么我们只需要记录每个节点值出现的所有位置，然后递归构建出所有可能的二叉树即可。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def getBinaryTrees(self, preOrder: List[int], inOrder: List[int]) -> List[TreeNode]:
-        def dfs(i: int, j: int, n: int) -> List[TreeNode]:
-            if n <= 0:
-                return [None]
-            v = preOrder[i]
-            ans = []
-            for k in d[v]:
-                if j <= k < j + n:
-                    for l in dfs(i + 1, j, k - j):
-                        for r in dfs(i + 1 + k - j, k + 1, n - 1 - (k - j)):
-                            ans.append(TreeNode(v, l, r))
-            return ans
-
-        d = defaultdict(list)
-        for i, x in enumerate(inOrder):
-            d[x].append(i)
-        return dfs(0, 0, len(preOrder))
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -403,7 +260,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -450,40 +307,28 @@ public:
 };
 ```
 
-#### Go
+```python
+class Solution:
+    def getBinaryTrees(self, preOrder: List[int], inOrder: List[int]) -> List[TreeNode]:
+        def dfs(i: int, j: int, n: int) -> List[TreeNode]:
+            if n <= 0:
+                return [None]
+            v = preOrder[i]
+            ans = []
+            for k in d[v]:
+                if j <= k < j + n:
+                    for l in dfs(i + 1, j, k - j):
+                        for r in dfs(i + 1 + k - j, k + 1, n - 1 - (k - j)):
+                            ans.append(TreeNode(v, l, r))
+            return ans
 
-```go
-func getBinaryTrees(preOrder []int, inOrder []int) []*TreeNode {
-	n := len(preOrder)
-	d := map[int][]int{}
-	for i, x := range inOrder {
-		d[x] = append(d[x], i)
-	}
-	var dfs func(i, j, n int) []*TreeNode
-	dfs = func(i, j, n int) []*TreeNode {
-		ans := []*TreeNode{}
-		if n <= 0 {
-			ans = append(ans, nil)
-			return ans
-		}
-		v := preOrder[i]
-		for _, k := range d[v] {
-			if k >= j && k < j+n {
-				lefts := dfs(i+1, j, k-j)
-				rights := dfs(i+1+k-j, k+1, n-1-(k-j))
-				for _, left := range lefts {
-					for _, right := range rights {
-						ans = append(ans, &TreeNode{v, left, right})
-					}
-				}
-			}
-		}
-		return ans
-	}
-	return dfs(0, 0, n)
-}
+        d = defaultdict(list)
+        for i, x in enumerate(inOrder):
+            d[x].append(i)
+        return dfs(0, 0, len(preOrder))
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

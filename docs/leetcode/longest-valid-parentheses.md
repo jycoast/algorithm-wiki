@@ -58,11 +58,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：动态规划
+## 方法一：动态规划
 
 我们定义 $f[i]$ 表示以 $s[i-1]$ 结尾的最长有效括号的长度，那么答案就是 $\max\limits_{i=1}^n f[i]$。
 
@@ -86,26 +84,7 @@ $$
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def longestValidParentheses(self, s: str) -> int:
-        n = len(s)
-        f = [0] * (n + 1)
-        for i, c in enumerate(s, 1):
-            if c == ")":
-                if i > 1 and s[i - 2] == "(":
-                    f[i] = f[i - 2] + 2
-                else:
-                    j = i - f[i - 1] - 1
-                    if j and s[j - 1] == "(":
-                        f[i] = f[i - 1] + 2 + f[j - 1]
-        return max(f)
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -131,7 +110,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -157,27 +136,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func longestValidParentheses(s string) int {
-	n := len(s)
-	f := make([]int, n+1)
-	for i := 2; i <= n; i++ {
-		if s[i-1] == ')' {
-			if s[i-2] == '(' {
-				f[i] = f[i-2] + 2
-			} else if j := i - f[i-1] - 1; j > 0 && s[j-1] == '(' {
-				f[i] = f[i-1] + 2 + f[j-1]
-			}
-		}
-	}
-	return slices.Max(f)
-}
-```
-
-#### TypeScript
-
 ```ts
 function longestValidParentheses(s: string): number {
     const n = s.length;
@@ -198,89 +156,30 @@ function longestValidParentheses(s: string): number {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn longest_valid_parentheses(s: String) -> i32 {
-        let mut ans = 0;
-        let mut f = vec![0; s.len() + 1];
-        for i in 2..=s.len() {
-            if s.chars().nth(i - 1).unwrap() == ')' {
-                if s.chars().nth(i - 2).unwrap() == '(' {
-                    f[i] = f[i - 2] + 2;
-                } else if (i as i32) - f[i - 1] - 1 > 0
-                    && s.chars().nth(i - (f[i - 1] as usize) - 2).unwrap() == '('
-                {
-                    f[i] = f[i - 1] + 2 + f[i - (f[i - 1] as usize) - 2];
-                }
-                ans = ans.max(f[i]);
-            }
-        }
-        ans
-    }
-}
+```python
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        n = len(s)
+        f = [0] * (n + 1)
+        for i, c in enumerate(s, 1):
+            if c == ")":
+                if i > 1 and s[i - 2] == "(":
+                    f[i] = f[i - 2] + 2
+                else:
+                    j = i - f[i - 1] - 1
+                    if j and s[j - 1] == "(":
+                        f[i] = f[i - 1] + 2 + f[j - 1]
+        return max(f)
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {string} s
- * @return {number}
- */
-var longestValidParentheses = function (s) {
-    const n = s.length;
-    const f = new Array(n + 1).fill(0);
-    for (let i = 2; i <= n; ++i) {
-        if (s[i - 1] === ')') {
-            if (s[i - 2] === '(') {
-                f[i] = f[i - 2] + 2;
-            } else {
-                const j = i - f[i - 1] - 1;
-                if (j && s[j - 1] === '(') {
-                    f[i] = f[i - 1] + 2 + f[j - 1];
-                }
-            }
-        }
-    }
-    return Math.max(...f);
-};
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public int LongestValidParentheses(string s) {
-        int n = s.Length;
-        int[] f = new int[n + 1];
-        int ans = 0;
-        for (int i = 2; i <= n; ++i) {
-            if (s[i - 1] == ')') {
-                if (s[i - 2] == '(') {
-                    f[i] = f[i - 2] + 2;
-                } else {
-                    int j = i - f[i - 1] - 1;
-                    if (j > 0 && s[j - 1] == '(') {
-                        f[i] = f[i - 1] + 2 + f[j - 1];
-                    }
-                }
-                ans = Math.Max(ans, f[i]);
-            }
-        }
-        return ans;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：使用栈
+## 方法二：使用栈
 
 -   使用栈来存储左括号的索引，栈底元素初始化为 `-1`，用于辅助计算有效括号的长度。
 -   遍历字符串，对于每个字符：
@@ -295,51 +194,8 @@ public class Solution {
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def longestValidParentheses(self, s: str) -> int:
-        stack = [-1]
-        ans = 0
-        for i in range(len(s)):
-            if s[i] == '(':
-                stack.append(i)
-            else:
-                stack.pop()
-                if not stack:
-                    stack.append(i)
-                else:
-                    ans = max(ans, i - stack[-1])
-        return ans
-```
-
-#### Go
-
-```go
-func longestValidParentheses(s string) int {
-	ans := 0
-	stack := []int{-1}
-	for i, v := range s {
-		if v == '(' {
-			stack = append(stack, i)
-		} else {
-			stack = stack[:len(stack)-1]
-			if len(stack) == 0 {
-				stack = append(stack, i)
-			} else {
-				if ans < i-stack[len(stack)-1] {
-					ans = i - stack[len(stack)-1]
-				}
-			}
-		}
-	}
-	return ans
-}
-```
-
-#### TypeScript
 
 ```ts
 function longestValidParentheses(s: string): number {
@@ -363,89 +219,25 @@ function longestValidParentheses(s: string): number {
 }
 ```
 
-#### Rust
 
-```rust
-impl Solution {
-    pub fn longest_valid_parentheses(s: String) -> i32 {
-        let mut stack = vec![-1];
-        let mut res = 0;
-        for i in 0..s.len() {
-            if let Some('(') = s.chars().nth(i) {
-                stack.push(i as i32);
-            } else {
-                stack.pop().unwrap();
-                if stack.is_empty() {
-                    stack.push(i as i32);
-                } else {
-                    res = std::cmp::max(res, (i as i32) - stack.last().unwrap());
-                }
-            }
-        }
-        res
-    }
-}
+```python
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        stack = [-1]
+        ans = 0
+        for i in range(len(s)):
+            if s[i] == '(':
+                stack.append(i)
+            else:
+                stack.pop()
+                if not stack:
+                    stack.append(i)
+                else:
+                    ans = max(ans, i - stack[-1])
+        return ans
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {string} s
- * @return {number}
- */
-var longestValidParentheses = function (s) {
-    let ans = 0;
-    const stack = [-1];
-    for (i = 0; i < s.length; i++) {
-        if (s.charAt(i) === '(') {
-            stack.push(i);
-        } else {
-            stack.pop();
-            if (stack.length === 0) {
-                stack.push(i);
-            } else {
-                ans = Math.max(ans, i - stack[stack.length - 1]);
-            }
-        }
-    }
-    return ans;
-};
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param string $s
-     * @return integer
-     */
-
-    function longestValidParentheses($s) {
-        $stack = [];
-        $maxLength = 0;
-
-        array_push($stack, -1);
-        for ($i = 0; $i < strlen($s); $i++) {
-            if ($s[$i] === '(') {
-                array_push($stack, $i);
-            } else {
-                array_pop($stack);
-
-                if (empty($stack)) {
-                    array_push($stack, $i);
-                } else {
-                    $length = $i - end($stack);
-                    $maxLength = max($maxLength, $length);
-                }
-            }
-        }
-        return $maxLength;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

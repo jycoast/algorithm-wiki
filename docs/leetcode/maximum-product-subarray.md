@@ -11,7 +11,7 @@ tags:
 
 # [152. 乘积最大子数组](https://leetcode.cn/problems/maximum-product-subarray)
 
-## 题目描述
+
 
 <!-- description:start -->
 
@@ -48,11 +48,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+## 方法一：动态规划
 
 我们定义两个变量 $f$ 和 $g$，其中 $f$ 表示以 $nums[i]$ 结尾的乘积最大子数组的乘积，而 $g$ 表示以 $nums[i]$ 结尾的乘积最小子数组的乘积。初始时 $f$ 和 $g$ 都等于 $nums[0]$。答案为所有 $f$ 中的最大值。
 
@@ -63,22 +62,7 @@ tags:
 时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。我们只需要遍历数组一次即可求得答案。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def maxProduct(self, nums: List[int]) -> int:
-        ans = f = g = nums[0]
-        for x in nums[1:]:
-            ff, gg = f, g
-            f = max(x, ff * x, gg * x)
-            g = min(x, ff * x, gg * x)
-            ans = max(ans, f)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -94,8 +78,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 class Solution {
@@ -113,23 +95,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func maxProduct(nums []int) int {
-	f, g, ans := nums[0], nums[0], nums[0]
-	for _, x := range nums[1:] {
-		ff, gg := f, g
-		f = max(x, max(ff*x, gg*x))
-		g = min(x, min(ff*x, gg*x))
-		ans = max(ans, f)
-	}
-	return ans
-}
-```
-
-#### TypeScript
-
 ```ts
 function maxProduct(nums: number[]): number {
     let [f, g, ans] = [nums[0], nums[0], nums[0]];
@@ -143,61 +108,19 @@ function maxProduct(nums: number[]): number {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn max_product(nums: Vec<i32>) -> i32 {
-        let mut f = nums[0];
-        let mut g = nums[0];
-        let mut ans = nums[0];
-        for &x in nums.iter().skip(1) {
-            let (ff, gg) = (f, g);
-            f = x.max(x * ff).max(x * gg);
-            g = x.min(x * ff).min(x * gg);
-            ans = ans.max(f);
-        }
-        ans
-    }
-}
+```python
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        ans = f = g = nums[0]
+        for x in nums[1:]:
+            ff, gg = f, g
+            f = max(x, ff * x, gg * x)
+            g = min(x, ff * x, gg * x)
+            ans = max(ans, f)
+        return ans
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @return {number}
- */
-var maxProduct = function (nums) {
-    let [f, g, ans] = [nums[0], nums[0], nums[0]];
-    for (let i = 1; i < nums.length; ++i) {
-        const [ff, gg] = [f, g];
-        f = Math.max(nums[i], ff * nums[i], gg * nums[i]);
-        g = Math.min(nums[i], ff * nums[i], gg * nums[i]);
-        ans = Math.max(ans, f);
-    }
-    return ans;
-};
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public int MaxProduct(int[] nums) {
-        int f = nums[0], g = nums[0], ans = nums[0];
-        for (int i = 1; i < nums.Length; ++i) {
-            int ff = f, gg = g;
-            f = Math.Max(nums[i], Math.Max(ff * nums[i], gg * nums[i]));
-            g = Math.Min(nums[i], Math.Min(ff * nums[i], gg * nums[i]));
-            ans = Math.Max(ans, f);
-        }
-        return ans;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

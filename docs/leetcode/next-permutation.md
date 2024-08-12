@@ -67,11 +67,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：两次遍历
+## 方法一：两次遍历
 
 我们先从后往前遍历数组 $nums$，找到第一个满足 $nums[i] \lt nums[i + 1]$ 的位置 $i$，那么 $nums[i]$ 就是我们需要交换的元素，而 $nums[i + 1]$ 到 $nums[n - 1]$ 的元素是一个降序序列。
 
@@ -80,21 +78,7 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def nextPermutation(self, nums: List[int]) -> None:
-        n = len(nums)
-        i = next((i for i in range(n - 2, -1, -1) if nums[i] < nums[i + 1]), -1)
-        if ~i:
-            j = next((j for j in range(n - 1, i, -1) if nums[j] > nums[i]))
-            nums[i], nums[j] = nums[j], nums[i]
-        nums[i + 1 :] = nums[i + 1 :][::-1]
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -128,8 +112,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -152,30 +134,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func nextPermutation(nums []int) {
-	n := len(nums)
-	i := n - 2
-	for ; i >= 0 && nums[i] >= nums[i+1]; i-- {
-	}
-	if i >= 0 {
-		for j := n - 1; j > i; j-- {
-			if nums[j] > nums[i] {
-				nums[i], nums[j] = nums[j], nums[i]
-				break
-			}
-		}
-	}
-	for j, k := i+1, n-1; j < k; j, k = j+1, k-1 {
-		nums[j], nums[k] = nums[k], nums[j]
-	}
-}
-```
-
-#### TypeScript
-
 ```ts
 function nextPermutation(nums: number[]): void {
     const n = nums.length;
@@ -197,102 +155,18 @@ function nextPermutation(nums: number[]): void {
 }
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @return {void} Do not return anything, modify nums in-place instead.
- */
-var nextPermutation = function (nums) {
-    const n = nums.length;
-    let i = n - 2;
-    while (i >= 0 && nums[i] >= nums[i + 1]) {
-        --i;
-    }
-    if (i >= 0) {
-        let j = n - 1;
-        while (j > i && nums[j] <= nums[i]) {
-            --j;
-        }
-        [nums[i], nums[j]] = [nums[j], nums[i]];
-    }
-    for (i = i + 1, j = n - 1; i < j; ++i, --j) {
-        [nums[i], nums[j]] = [nums[j], nums[i]];
-    }
-};
+```python
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        n = len(nums)
+        i = next((i for i in range(n - 2, -1, -1) if nums[i] < nums[i + 1]), -1)
+        if ~i:
+            j = next((j for j in range(n - 1, i, -1) if nums[j] > nums[i]))
+            nums[i], nums[j] = nums[j], nums[i]
+        nums[i + 1 :] = nums[i + 1 :][::-1]
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    public void NextPermutation(int[] nums) {
-        int n = nums.Length;
-        int i = n - 2;
-        while (i >= 0 && nums[i] >= nums[i + 1]) {
-            --i;
-        }
-        if (i >= 0) {
-            for (int j = n - 1; j > i; --j) {
-                if (nums[j] > nums[i]) {
-                    swap(nums, i, j);
-                    break;
-                }
-            }
-        }
-        for (int j = i + 1, k = n - 1; j < k; ++j, --k) {
-            swap(nums, j, k);
-        }
-    }
-
-    private void swap(int[] nums, int i, int j) {
-        int t = nums[j];
-        nums[j] = nums[i];
-        nums[i] = t;
-    }
-}
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param integer[] $nums
-     * @return void
-     */
-
-    function nextPermutation(&$nums) {
-        $n = count($nums);
-        $i = $n - 2;
-        while ($i >= 0 && $nums[$i] >= $nums[$i + 1]) {
-            $i--;
-        }
-        if ($i >= 0) {
-            $j = $n - 1;
-            while ($j >= $i && $nums[$j] <= $nums[$i]) {
-                $j--;
-            }
-            $temp = $nums[$i];
-            $nums[$i] = $nums[$j];
-            $nums[$j] = $temp;
-        }
-        $this->reverse($nums, $i + 1, $n - 1);
-    }
-
-    function reverse(&$nums, $start, $end) {
-        while ($start < $end) {
-            $temp = $nums[$start];
-            $nums[$start] = $nums[$end];
-            $nums[$end] = $temp;
-            $start++;
-            $end--;
-        }
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

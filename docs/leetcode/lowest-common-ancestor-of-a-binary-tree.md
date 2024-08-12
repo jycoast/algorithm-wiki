@@ -59,11 +59,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：递归
+## 方法一：递归
 
 我们递归遍历二叉树：
 
@@ -74,30 +73,7 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树节点个数。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-
-class Solution:
-    def lowestCommonAncestor(
-        self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
-    ) -> "TreeNode":
-        if root in (None, p, q):
-            return root
-        left = self.lowestCommonAncestor(root.left, p, q)
-        right = self.lowestCommonAncestor(root.right, p, q)
-        return root if left and right else (left or right)
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -124,7 +100,6 @@ class Solution {
 }
 ```
 
-#### C++
 
 ```cpp
 /**
@@ -151,35 +126,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-	if root == nil || root == p || root == q {
-		return root
-	}
-	left := lowestCommonAncestor(root.Left, p, q)
-	right := lowestCommonAncestor(root.Right, p, q)
-	if left != nil && right != nil {
-		return root
-	}
-	if left != nil {
-		return left
-	}
-	return right
-}
-```
-
-#### TypeScript
 
 ```ts
 /**
@@ -210,85 +156,27 @@ function lowestCommonAncestor(
 }
 ```
 
-#### Rust
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::rc::Rc;
-impl Solution {
-    pub fn lowest_common_ancestor(
-        root: Option<Rc<RefCell<TreeNode>>>,
-        p: Option<Rc<RefCell<TreeNode>>>,
-        q: Option<Rc<RefCell<TreeNode>>>,
-    ) -> Option<Rc<RefCell<TreeNode>>> {
-        if root.is_none() || root == p || root == q {
-            return root;
-        }
-        let left = Self::lowest_common_ancestor(
-            root.as_ref().unwrap().borrow().left.clone(),
-            p.clone(),
-            q.clone(),
-        );
-        let right = Self::lowest_common_ancestor(
-            root.as_ref().unwrap().borrow().right.clone(),
-            p.clone(),
-            q.clone(),
-        );
-        if left.is_some() && right.is_some() {
-            return root;
-        }
-        if left.is_none() {
-            return right;
-        }
-        return left;
-    }
-}
+
+class Solution:
+    def lowestCommonAncestor(
+        self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
+    ) -> "TreeNode":
+        if root in (None, p, q):
+            return root
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        return root if left and right else (left or right)
 ```
 
-#### JavaScript
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val) {
- *     this.val = val;
- *     this.left = this.right = null;
- * }
- */
-/**
- * @param {TreeNode} root
- * @param {TreeNode} p
- * @param {TreeNode} q
- * @return {TreeNode}
- */
-var lowestCommonAncestor = function (root, p, q) {
-    if (!root || root === p || root === q) {
-        return root;
-    }
-    const left = lowestCommonAncestor(root.left, p, q);
-    const right = lowestCommonAncestor(root.right, p, q);
-    return left && right ? root : left || right;
-};
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

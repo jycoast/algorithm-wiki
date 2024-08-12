@@ -12,11 +12,10 @@ export default defineConfig({
 
   lastUpdated: true,
   cleanUrls: true,
-
   base: process.env.BASE || '/',
 
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }]
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/mlogo.svg' }]
   ],
 
   markdown: {
@@ -43,8 +42,7 @@ export default defineConfig({
   themeConfig: {
     outlineTitle: '本页目录',
     lastUpdatedText: '上次更新',
-    logo: '/logo.svg',
-
+    logo: '/mlogo.svg',
     search: {
       provider: 'local',
     },
@@ -61,7 +59,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/xinlei3166/vitepress-demo' }
+      { icon: 'github', link: 'https://github.com/jycoast/algorithm-wiki.git' }
     ],
 
     footer: {

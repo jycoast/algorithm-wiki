@@ -129,11 +129,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：遍历字符串
+## 方法一：遍历字符串
 
 我们首先判断字符串是否为空，如果是，直接返回 $0$。
 
@@ -148,8 +147,35 @@ tags:
 同[面试题 67. 把字符串转换成整数](https://github.com/doocs/leetcode/blob/main/lcof/面试题67.%20把字符串转换成整数/README.md)。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
+```java
+class Solution {
+    public int myAtoi(String s) {
+        if (s == null) return 0;
+        int n = s.length();
+        if (n == 0) return 0;
+        int i = 0;
+        while (s.charAt(i) == ' ') {
+            // 仅包含空格
+            if (++i == n) return 0;
+        }
+        int sign = 1;
+        if (s.charAt(i) == '-') sign = -1;
+        if (s.charAt(i) == '-' || s.charAt(i) == '+') ++i;
+        int res = 0, flag = Integer.MAX_VALUE / 10;
+        for (; i < n; ++i) {
+            // 非数字，跳出循环体
+            if (s.charAt(i) < '0' || s.charAt(i) > '9') break;
+            // 溢出判断
+            if (res > flag || (res == flag && s.charAt(i) > '7'))
+                return sign > 0 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            res = res * 10 + (s.charAt(i) - '0');
+        }
+        return sign * res;
+    }
+}
+```
 
 ```python
 class Solution:
@@ -182,178 +208,7 @@ class Solution:
         return sign * res
 ```
 
-#### Java
-
-```java
-class Solution {
-    public int myAtoi(String s) {
-        if (s == null) return 0;
-        int n = s.length();
-        if (n == 0) return 0;
-        int i = 0;
-        while (s.charAt(i) == ' ') {
-            // 仅包含空格
-            if (++i == n) return 0;
-        }
-        int sign = 1;
-        if (s.charAt(i) == '-') sign = -1;
-        if (s.charAt(i) == '-' || s.charAt(i) == '+') ++i;
-        int res = 0, flag = Integer.MAX_VALUE / 10;
-        for (; i < n; ++i) {
-            // 非数字，跳出循环体
-            if (s.charAt(i) < '0' || s.charAt(i) > '9') break;
-            // 溢出判断
-            if (res > flag || (res == flag && s.charAt(i) > '7'))
-                return sign > 0 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-            res = res * 10 + (s.charAt(i) - '0');
-        }
-        return sign * res;
-    }
-}
-```
-
-#### Go
-
-```go
-func myAtoi(s string) int {
-	i, n := 0, len(s)
-	num := 0
-
-	for i < n && s[i] == ' ' {
-		i++
-	}
-	if i == n {
-		return 0
-	}
-
-	sign := 1
-	if s[i] == '-' {
-		sign = -1
-		i++
-	} else if s[i] == '+' {
-		i++
-	}
-
-	for i < n && s[i] >= '0' && s[i] <= '9' {
-		num = num*10 + int(s[i]-'0')
-		i++
-		if num > math.MaxInt32 {
-			break
-		}
-	}
-
-	if num > math.MaxInt32 {
-		if sign == -1 {
-			return math.MinInt32
-		}
-		return math.MaxInt32
-	}
-	return sign * num
-}
-```
-
-#### JavaScript
-
-```js
-const myAtoi = function (str) {
-    str = str.trim();
-    if (!str) return 0;
-    let isPositive = 1;
-    let i = 0,
-        ans = 0;
-    if (str[i] === '+') {
-        isPositive = 1;
-        i++;
-    } else if (str[i] === '-') {
-        isPositive = 0;
-        i++;
-    }
-    for (; i < str.length; i++) {
-        let t = str.charCodeAt(i) - 48;
-        if (t > 9 || t < 0) break;
-        if (ans > 2147483647 / 10 || ans > (2147483647 - t) / 10) {
-            return isPositive ? 2147483647 : -2147483648;
-        } else {
-            ans = ans * 10 + t;
-        }
-    }
-    return isPositive ? ans : -ans;
-};
-```
-
-#### C#
-
-```cs
-﻿// https://leetcode.com/problems/string-to-integer-atoi/
-
-public partial class Solution
-{
-    public int MyAtoi(string str)
-    {
-        int i = 0;
-        long result = 0;
-        bool minus = false;
-        while (i < str.Length && char.IsWhiteSpace(str[i]))
-        {
-            ++i;
-        }
-        if (i < str.Length)
-        {
-            if (str[i] == '+')
-            {
-                ++i;
-            }
-            else if (str[i] == '-')
-            {
-                minus = true;
-                ++i;
-            }
-        }
-        while (i < str.Length && char.IsDigit(str[i]))
-        {
-            result = result * 10 + str[i] - '0';
-            if (result > int.MaxValue)
-            {
-                break;
-            }
-            ++i;
-        }
-        if (minus) result = -result;
-        if (result > int.MaxValue)
-        {
-            result = int.MaxValue;
-        }
-        if (result < int.MinValue)
-        {
-            result = int.MinValue;
-        }
-        return (int)result;
-    }
-}
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param string $s
-     * @return int
-     */
-
-    function myAtoi($s) {
-        $s = str_replace('e', 'x', $s);
-        if (intval($s) < pow(-2, 31)) {
-            return -2147483648;
-        }
-        if (intval($s) > pow(2, 31) - 1) {
-            return 2147483647;
-        }
-        return intval($s);
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

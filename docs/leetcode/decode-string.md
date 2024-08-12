@@ -67,36 +67,14 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一
+## 方法一
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def decodeString(self, s: str) -> str:
-        s1, s2 = [], []
-        num, res = 0, ''
-        for c in s:
-            if c.isdigit():
-                num = num * 10 + int(c)
-            elif c == '[':
-                s1.append(num)
-                s2.append(res)
-                num, res = 0, ''
-            elif c == ']':
-                res = s2.pop() + res * s1.pop()
-            else:
-                res += c
-        return res
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -128,8 +106,6 @@ class Solution {
 }
 ```
 
-#### TypeScript
-
 ```ts
 function decodeString(s: string): string {
     let ans = '';
@@ -155,6 +131,25 @@ function decodeString(s: string): string {
 }
 ```
 
+```python
+class Solution:
+    def decodeString(self, s: str) -> str:
+        s1, s2 = [], []
+        num, res = 0, ''
+        for c in s:
+            if c.isdigit():
+                num = num * 10 + int(c)
+            elif c == '[':
+                s1.append(num)
+                s2.append(res)
+                num, res = 0, ''
+            elif c == ']':
+                res = s2.pop() + res * s1.pop()
+            else:
+                res += c
+        return res
+```
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

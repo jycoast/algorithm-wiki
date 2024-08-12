@@ -46,11 +46,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：数学乘法模拟
+## 方法一：数学乘法模拟
 
 假设 $num1$ 和 $num2$ 的长度分别为 $m$ 和 $n$，则它们的乘积的长度最多为 $m + n$。
 
@@ -68,29 +67,7 @@ tags:
 时间复杂度 $O(m \times n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为 $num1$ 和 $num2$ 的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def multiply(self, num1: str, num2: str) -> str:
-        if num1 == "0" or num2 == "0":
-            return "0"
-        m, n = len(num1), len(num2)
-        arr = [0] * (m + n)
-        for i in range(m - 1, -1, -1):
-            a = int(num1[i])
-            for j in range(n - 1, -1, -1):
-                b = int(num2[j])
-                arr[i + j + 1] += a * b
-        for i in range(m + n - 1, 0, -1):
-            arr[i - 1] += arr[i] // 10
-            arr[i] %= 10
-        i = 0 if arr[0] else 1
-        return "".join(str(x) for x in arr[i:])
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -120,8 +97,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 class Solution {
@@ -153,40 +128,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func multiply(num1 string, num2 string) string {
-	if num1 == "0" || num2 == "0" {
-		return "0"
-	}
-	m, n := len(num1), len(num2)
-	arr := make([]int, m+n)
-	for i := m - 1; i >= 0; i-- {
-		a := int(num1[i] - '0')
-		for j := n - 1; j >= 0; j-- {
-			b := int(num2[j] - '0')
-			arr[i+j+1] += a * b
-		}
-	}
-	for i := len(arr) - 1; i > 0; i-- {
-		arr[i-1] += arr[i] / 10
-		arr[i] %= 10
-	}
-	i := 0
-	if arr[0] == 0 {
-		i = 1
-	}
-	ans := []byte{}
-	for ; i < len(arr); i++ {
-		ans = append(ans, byte('0'+arr[i]))
-	}
-	return string(ans)
-}
-```
-
-#### TypeScript
-
 ```ts
 function multiply(num1: string, num2: string): string {
     if (num1 === '0' || num2 === '0') {
@@ -214,115 +155,26 @@ function multiply(num1: string, num2: string): string {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn multiply(num1: String, num2: String) -> String {
-        if num1 == "0" || num2 == "0" {
-            return String::from("0");
-        }
-        let (num1, num2) = (num1.as_bytes(), num2.as_bytes());
-        let (n, m) = (num1.len(), num2.len());
-        let mut res = vec![];
-        for i in 0..n {
-            let a = num1[n - i - 1] - b'0';
-            let mut sum = 0;
-            let mut j = 0;
-            while j < m || sum != 0 {
-                if i + j == res.len() {
-                    res.push(0);
-                }
-                let b = num2.get(m - j - 1).unwrap_or(&b'0') - b'0';
-                sum += a * b + res[i + j];
-                res[i + j] = sum % 10;
-                sum /= 10;
-                j += 1;
-            }
-        }
-        res.into_iter()
-            .rev()
-            .map(|v| char::from(v + b'0'))
-            .collect()
-    }
-}
+```python
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        if num1 == "0" or num2 == "0":
+            return "0"
+        m, n = len(num1), len(num2)
+        arr = [0] * (m + n)
+        for i in range(m - 1, -1, -1):
+            a = int(num1[i])
+            for j in range(n - 1, -1, -1):
+                b = int(num2[j])
+                arr[i + j + 1] += a * b
+        for i in range(m + n - 1, 0, -1):
+            arr[i - 1] += arr[i] // 10
+            arr[i] %= 10
+        i = 0 if arr[0] else 1
+        return "".join(str(x) for x in arr[i:])
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    public string Multiply(string num1, string num2) {
-        if (num1 == "0" || num2 == "0") {
-            return "0";
-        }
-
-        int m = num1.Length;
-        int n = num2.Length;
-        int[] arr = new int[m + n];
-
-        for (int i = m - 1; i >= 0; i--) {
-            int a = num1[i] - '0';
-            for (int j = n - 1; j >= 0; j--) {
-                int b = num2[j] - '0';
-                arr[i + j + 1] += a * b;
-            }
-        }
-
-        for (int i = arr.Length - 1; i > 0; i--) {
-            arr[i - 1] += arr[i] / 10;
-            arr[i] %= 10;
-        }
-
-        int index = 0;
-        while (index < arr.Length && arr[index] == 0) {
-            index++;
-        }
-
-        StringBuilder ans = new StringBuilder();
-        for (; index < arr.Length; index++) {
-            ans.Append(arr[index]);
-        }
-
-        return ans.ToString();
-    }
-}
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param string $num1
-     * @param string $num2
-     * @return string
-     */
-
-    function multiply($num1, $num2) {
-        $length1 = strlen($num1);
-        $length2 = strlen($num2);
-        $product = array_fill(0, $length1 + $length2, 0);
-
-        for ($i = $length1 - 1; $i >= 0; $i--) {
-            for ($j = $length2 - 1; $j >= 0; $j--) {
-                $digit1 = intval($num1[$i]);
-                $digit2 = intval($num2[$j]);
-
-                $temp = $digit1 * $digit2 + $product[$i + $j + 1];
-                $product[$i + $j + 1] = $temp % 10;
-
-                $carry = intval($temp / 10);
-                $product[$i + $j] += $carry;
-            }
-        }
-        $result = implode('', $product);
-        $result = ltrim($result, '0');
-        return $result === '' ? '0' : $result;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

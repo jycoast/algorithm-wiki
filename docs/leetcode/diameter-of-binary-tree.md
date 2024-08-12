@@ -50,39 +50,14 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一
+## 方法一
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def diameterOfBinaryTree(self, root: TreeNode) -> int:
-        def dfs(root):
-            if root is None:
-                return 0
-            nonlocal ans
-            left, right = dfs(root.left), dfs(root.right)
-            ans = max(ans, left + right)
-            return 1 + max(left, right)
-
-        ans = 0
-        dfs(root)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -121,7 +96,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -155,35 +130,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func diameterOfBinaryTree(root *TreeNode) int {
-	ans := 0
-	var dfs func(root *TreeNode) int
-	dfs = func(root *TreeNode) int {
-		if root == nil {
-			return 0
-		}
-		left, right := dfs(root.Left), dfs(root.Right)
-		ans = max(ans, left+right)
-		return 1 + max(left, right)
-	}
-	dfs(root)
-	return ans
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * Definition for a binary tree node.
@@ -216,91 +162,40 @@ function diameterOfBinaryTree(root: TreeNode | null): number {
 }
 ```
 
-#### Rust
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        def dfs(root):
+            if root is None:
+                return 0
+            nonlocal ans
+            left, right = dfs(root.left), dfs(root.right)
+            ans = max(ans, left + right)
+            return 1 + max(left, right)
 
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::rc::Rc;
-impl Solution {
-    fn dfs(root: &Option<Rc<RefCell<TreeNode>>>, res: &mut i32) -> i32 {
-        if root.is_none() {
-            return 0;
-        }
-        let root = root.as_ref().unwrap().as_ref().borrow();
-        let left = Self::dfs(&root.left, res);
-        let right = Self::dfs(&root.right, res);
-        *res = (*res).max(left + right);
-        left.max(right) + 1
-    }
-
-    pub fn diameter_of_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        let mut res = 0;
-        Self::dfs(&root, &mut res);
-        res
-    }
-}
+        ans = 0
+        dfs(root)
+        return ans
 ```
 
-#### C
-
-```c
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
-
-#define max(a, b) (((a) > (b)) ? (a) : (b))
-
-int dfs(struct TreeNode* root, int* res) {
-    if (!root) {
-        return 0;
-    }
-    int left = dfs(root->left, res);
-    int right = dfs(root->right, res);
-    *res = max(*res, left + right);
-    return max(left, right) + 1;
-}
-
-int diameterOfBinaryTree(struct TreeNode* root) {
-    int res = 0;
-    dfs(root, &res);
-    return res;
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二
+## 方法二
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
 
 ```python
 # Definition for a binary tree node.
@@ -346,6 +241,7 @@ class Solution:
         return ans
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

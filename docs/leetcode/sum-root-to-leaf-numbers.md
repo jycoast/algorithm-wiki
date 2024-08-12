@@ -68,11 +68,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：DFS
+## 方法一：DFS
 
 我们可以设计一个函数 $dfs(root, s)$，表示从当前节点 $root$ 出发，且当前路径数字为 $s$，返回从当前节点到叶子节点的所有路径数字之和。那么答案就是 $dfs(root, 0)$。
 
@@ -86,30 +84,7 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(\log n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        def dfs(root, s):
-            if root is None:
-                return 0
-            s = s * 10 + root.val
-            if root.left is None and root.right is None:
-                return s
-            return dfs(root.left, s) + dfs(root.right, s)
-
-        return dfs(root, 0)
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -145,7 +120,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -173,35 +148,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func sumNumbers(root *TreeNode) int {
-	var dfs func(*TreeNode, int) int
-	dfs = func(root *TreeNode, s int) int {
-		if root == nil {
-			return 0
-		}
-		s = s*10 + root.Val
-		if root.Left == nil && root.Right == nil {
-			return s
-		}
-		return dfs(root.Left, s) + dfs(root.Right, s)
-	}
-	return dfs(root, 0)
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * Definition for a binary tree node.
@@ -228,102 +174,26 @@ function sumNumbers(root: TreeNode | null): number {
 }
 ```
 
-#### Rust
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        def dfs(root, s):
+            if root is None:
+                return 0
+            s = s * 10 + root.val
+            if root.left is None and root.right is None:
+                return s
+            return dfs(root.left, s) + dfs(root.right, s)
 
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::rc::Rc;
-impl Solution {
-    fn dfs(node: &Option<Rc<RefCell<TreeNode>>>, mut num: i32) -> i32 {
-        if node.is_none() {
-            return 0;
-        }
-        let node = node.as_ref().unwrap().borrow();
-        num = num * 10 + node.val;
-        if node.left.is_none() && node.right.is_none() {
-            return num;
-        }
-        Self::dfs(&node.left, num) + Self::dfs(&node.right, num)
-    }
-
-    pub fn sum_numbers(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        Self::dfs(&root, 0)
-    }
-}
+        return dfs(root, 0)
 ```
-
-#### JavaScript
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @return {number}
- */
-var sumNumbers = function (root) {
-    function dfs(root, s) {
-        if (!root) return 0;
-        s = s * 10 + root.val;
-        if (!root.left && !root.right) return s;
-        return dfs(root.left, s) + dfs(root.right, s);
-    }
-    return dfs(root, 0);
-};
-```
-
-#### C
-
-```c
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
-
-int dfs(struct TreeNode* root, int num) {
-    if (!root) {
-        return 0;
-    }
-    num = num * 10 + root->val;
-    if (!root->left && !root->right) {
-        return num;
-    }
-    return dfs(root->left, num) + dfs(root->right, num);
-}
-
-int sumNumbers(struct TreeNode* root) {
-    return dfs(root, 0);
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

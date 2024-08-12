@@ -52,11 +52,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：原地交换
+## 方法一：原地交换
 
 我们假设数组 $nums$ 长度为 $n$，那么最小的正整数一定在 $[1, .., n + 1]$ 之间。我们可以遍历数组，将数组中的每个数 $x$ 交换到它应该在的位置上，即 $x$ 应该在的位置为 $x - 1$。如果 $x$ 不在 $[1, n + 1]$ 之间，那么我们就不用管它。
 
@@ -65,26 +65,7 @@ tags:
 时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def firstMissingPositive(self, nums: List[int]) -> int:
-        def swap(i, j):
-            nums[i], nums[j] = nums[j], nums[i]
-
-        n = len(nums)
-        for i in range(n):
-            while 1 <= nums[i] <= n and nums[i] != nums[nums[i] - 1]:
-                swap(i, nums[i] - 1)
-        for i in range(n):
-            if i + 1 != nums[i]:
-                return i + 1
-        return n + 1
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -111,7 +92,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -133,27 +114,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func firstMissingPositive(nums []int) int {
-	n := len(nums)
-	for i := range nums {
-		for nums[i] >= 1 && nums[i] <= n && nums[i] != nums[nums[i]-1] {
-			nums[i], nums[nums[i]-1] = nums[nums[i]-1], nums[i]
-		}
-	}
-	for i, v := range nums {
-		if i+1 != v {
-			return i + 1
-		}
-	}
-	return n + 1
-}
-```
-
-#### TypeScript
-
 ```ts
 function firstMissingPositive(nums: number[]): number {
     const n = nums.length;
@@ -172,118 +132,23 @@ function firstMissingPositive(nums: number[]): number {
 }
 ```
 
-#### Rust
+```python
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        def swap(i, j):
+            nums[i], nums[j] = nums[j], nums[i]
 
-```rust
-impl Solution {
-    pub fn first_missing_positive(mut nums: Vec<i32>) -> i32 {
-        let n = nums.len();
-        let mut i = 0;
-        while i < n {
-            let j = nums[i] - 1;
-            if (i as i32) == j || j < 0 || j >= (n as i32) || nums[i] == nums[j as usize] {
-                i += 1;
-            } else {
-                nums.swap(i, j as usize);
-            }
-        }
-        (nums
-            .iter()
-            .enumerate()
-            .position(|(i, &v)| (v as usize) != i + 1)
-            .unwrap_or(n) as i32)
-            + 1
-    }
-}
+        n = len(nums)
+        for i in range(n):
+            while 1 <= nums[i] <= n and nums[i] != nums[nums[i] - 1]:
+                swap(i, nums[i] - 1)
+        for i in range(n):
+            if i + 1 != nums[i]:
+                return i + 1
+        return n + 1
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    public int FirstMissingPositive(int[] nums) {
-        int n = nums.Length;
-        for (int i = 0; i < n; ++i) {
-            while (nums[i] >= 1 && nums[i] <= n && nums[i] != nums[nums[i] - 1]) {
-                Swap(nums, i, nums[i] - 1);
-            }
-        }
-        for (int i = 0; i < n; ++i) {
-            if (i + 1 != nums[i]) {
-                return i + 1;
-            }
-        }
-        return n + 1;
-    }
-
-    private void Swap(int[] nums, int i, int j) {
-        int t = nums[i];
-        nums[i] = nums[j];
-        nums[j] = t;
-    }
-}
-```
-
-#### C
-
-```c
-int firstMissingPositive(int* nums, int numsSize) {
-    for (int i = 0; i < numsSize; ++i) {
-        while (nums[i] >= 1 && nums[i] <= numsSize && nums[i] != nums[nums[i] - 1]) {
-            swap(&nums[i], &nums[nums[i] - 1]);
-        }
-    }
-    for (int i = 0; i < numsSize; ++i) {
-        if (i + 1 != nums[i]) {
-            return i + 1;
-        }
-    }
-    return numsSize + 1;
-}
-
-void swap(int* a, int* b) {
-    int t = *a;
-    *a = *b;
-    *b = t;
-}
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param integer[] $nums
-     * @return integer
-     */
-
-    function firstMissingPositive($nums) {
-        $n = count($nums);
-
-        for ($i = 0; $i < $n; $i++) {
-            if ($nums[$i] <= 0) {
-                $nums[$i] = $n + 1;
-            }
-        }
-
-        for ($i = 0; $i < $n; $i++) {
-            $num = abs($nums[$i]);
-            if ($num <= $n) {
-                $nums[$num - 1] = -abs($nums[$num - 1]);
-            }
-        }
-
-        for ($i = 0; $i < $n; $i++) {
-            if ($nums[$i] > 0) {
-                return $i + 1;
-            }
-        }
-
-        return $n + 1;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

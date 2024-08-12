@@ -47,7 +47,6 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
@@ -66,29 +65,7 @@ tags:
 时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def longestConsecutive(self, nums: List[int]) -> int:
-        n = len(nums)
-        if n < 2:
-            return n
-        nums.sort()
-        ans = t = 1
-        for a, b in pairwise(nums):
-            if a == b:
-                continue
-            if a + 1 == b:
-                t += 1
-                ans = max(ans, t)
-            else:
-                t = 1
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -113,8 +90,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 class Solution {
@@ -141,33 +116,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func longestConsecutive(nums []int) int {
-	n := len(nums)
-	if n < 2 {
-		return n
-	}
-	sort.Ints(nums)
-	ans, t := 1, 1
-	for i, x := range nums[1:] {
-		if x == nums[i] {
-			continue
-		}
-		if x == nums[i]+1 {
-			t++
-			ans = max(ans, t)
-		} else {
-			t = 1
-		}
-	}
-	return ans
-}
-```
-
-#### TypeScript
-
 ```ts
 function longestConsecutive(nums: number[]): number {
     const n = nums.length;
@@ -191,99 +139,40 @@ function longestConsecutive(nums: number[]): number {
 }
 ```
 
-#### Rust
-
-```rust
-use std::collections::HashSet;
-
-impl Solution {
-    #[allow(dead_code)]
-    pub fn longest_consecutive(nums: Vec<i32>) -> i32 {
-        let mut s = HashSet::new();
-        let mut ret = 0;
-
-        // Initialize the set
-        for num in &nums {
-            s.insert(*num);
-        }
-
-        for num in &nums {
-            if s.contains(&(*num - 1)) {
-                continue;
-            }
-            let mut cur_num = num.clone();
-            while s.contains(&cur_num) {
-                cur_num += 1;
-            }
-            // Update the answer
-            ret = std::cmp::max(ret, cur_num - num);
-        }
-
-        ret
-    }
-}
+```python
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n < 2:
+            return n
+        nums.sort()
+        ans = t = 1
+        for a, b in pairwise(nums):
+            if a == b:
+                continue
+            if a + 1 == b:
+                t += 1
+                ans = max(ans, t)
+            else:
+                t = 1
+        return ans
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @return {number}
- */
-var longestConsecutive = function (nums) {
-    const n = nums.length;
-    if (n < 2) {
-        return n;
-    }
-    nums.sort((a, b) => a - b);
-    let ans = 1;
-    let t = 1;
-    for (let i = 1; i < n; ++i) {
-        if (nums[i] === nums[i - 1]) {
-            continue;
-        }
-        if (nums[i] === nums[i - 1] + 1) {
-            ans = Math.max(ans, ++t);
-        } else {
-            t = 1;
-        }
-    }
-    return ans;
-};
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：哈希表
+## 方法二：哈希表
 
 我们用哈希表存储数组中的所有元素，然后遍历数组中的每个元素 $x$，如果当前元素的前驱 $x-1$ 不在哈希表中，那么我们以当前元素为起点，不断尝试匹配 $x+1, x+2, x+3, \dots$，直到匹配不到为止，此时的匹配长度即为以 $x$ 为起点的最长连续序列长度，我们更新答案即可。
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def longestConsecutive(self, nums: List[int]) -> int:
-        s = set(nums)
-        ans = 0
-        for x in nums:
-            if x - 1 not in s:
-                y = x + 1
-                while y in s:
-                    y += 1
-                ans = max(ans, y - x)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -307,8 +196,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -329,29 +216,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func longestConsecutive(nums []int) (ans int) {
-	s := map[int]bool{}
-	for _, x := range nums {
-		s[x] = true
-	}
-	for _, x := range nums {
-		if !s[x-1] {
-			y := x + 1
-			for s[y] {
-				y++
-			}
-			ans = max(ans, y-x)
-		}
-	}
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 function longestConsecutive(nums: number[]): number {
     const s: Set<number> = new Set(nums);
@@ -369,29 +233,21 @@ function longestConsecutive(nums: number[]): number {
 }
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @return {number}
- */
-var longestConsecutive = function (nums) {
-    const s = new Set(nums);
-    let ans = 0;
-    for (const x of nums) {
-        if (!s.has(x - 1)) {
-            let y = x + 1;
-            while (s.has(y)) {
-                y++;
-            }
-            ans = Math.max(ans, y - x);
-        }
-    }
-    return ans;
-};
+```python
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        s = set(nums)
+        ans = 0
+        for x in nums:
+            if x - 1 not in s:
+                y = x + 1
+                while y in s:
+                    y += 1
+                ans = max(ans, y - x)
+        return ans
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

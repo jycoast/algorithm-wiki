@@ -9,7 +9,7 @@ tags:
 # [1. 两数之和](https://leetcode.cn/problems/two-sum)
 
 
-## 题目描述
+
 
 <!-- description:start -->
 
@@ -60,7 +60,7 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
@@ -73,8 +73,9 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `nums` 的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Java
+
 
 ```java
 class Solution {
@@ -92,7 +93,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {

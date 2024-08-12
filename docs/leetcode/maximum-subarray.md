@@ -12,7 +12,7 @@ tags:
 
 # [53. 最大子数组和](https://leetcode.cn/problems/maximum-subarray)
 
-## 题目描述
+
 
 <!-- description:start -->
 
@@ -59,7 +59,7 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
@@ -84,8 +84,9 @@ $$
 时间复杂度 $O(n)$，其中 $n$ 为数组 $nums$ 的长度。我们只需要遍历一遍数组即可求得答案。空间复杂度 $O(1)$，我们只需要常数空间存放若干变量。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
+
 
 ```python
 class Solution:
@@ -97,7 +98,7 @@ class Solution:
         return ans
 ```
 
-#### Java
+
 
 ```java
 class Solution {
@@ -112,7 +113,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -128,7 +129,7 @@ public:
 };
 ```
 
-#### Go
+
 
 ```go
 func maxSubArray(nums []int) int {
@@ -141,7 +142,7 @@ func maxSubArray(nums []int) int {
 }
 ```
 
-#### TypeScript
+
 
 ```ts
 function maxSubArray(nums: number[]): number {
@@ -154,7 +155,7 @@ function maxSubArray(nums: number[]): number {
 }
 ```
 
-#### Rust
+
 
 ```rust
 impl Solution {
@@ -171,7 +172,7 @@ impl Solution {
 }
 ```
 
-#### JavaScript
+Script
 
 ```js
 /**
@@ -188,7 +189,7 @@ var maxSubArray = function (nums) {
 };
 ```
 
-#### C#
+
 
 ```cs
 public class Solution {
@@ -203,6 +204,7 @@ public class Solution {
 }
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
@@ -212,8 +214,9 @@ public class Solution {
 ### 方法二
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
+
 
 ```python
 class Solution:
@@ -242,7 +245,7 @@ class Solution:
         return maxSub(nums, left, right)
 ```
 
-#### Java
+
 
 ```java
 class Solution {
@@ -276,6 +279,7 @@ class Solution {
 }
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

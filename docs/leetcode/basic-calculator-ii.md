@@ -12,9 +12,9 @@ tags:
 
 # [227. 基本计算器 II](https://leetcode.cn/problems/basic-calculator-ii)
 
-## 题目描述
-
 <!-- description:start -->
+
+## 题目描述
 
 <p>给你一个字符串表达式 <code>s</code> ，请你实现一个基本计算器来计算并返回它的值。</p>
 
@@ -61,11 +61,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：栈
+## 方法一：栈
 
 遍历字符串 $s$，并用变量 `sign` 记录每个数字之前的运算符，对于第一个数字，其之前的运算符视为加号。每次遍历到数字末尾时，根据 `sign` 来决定计算方式：
 
@@ -78,8 +76,8 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
 
 ```python
 class Solution:
@@ -105,7 +103,7 @@ class Solution:
         return sum(stk)
 ```
 
-#### Java
+
 
 ```java
 class Solution {
@@ -141,7 +139,6 @@ class Solution {
 }
 ```
 
-#### C++
 
 ```cpp
 class Solution {
@@ -181,130 +178,7 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func calculate(s string) int {
-	sign := '+'
-	stk := []int{}
-	v := 0
-	for i, c := range s {
-		digit := '0' <= c && c <= '9'
-		if digit {
-			v = v*10 + int(c-'0')
-		}
-		if i == len(s)-1 || !digit && c != ' ' {
-			switch sign {
-			case '+':
-				stk = append(stk, v)
-			case '-':
-				stk = append(stk, -v)
-			case '*':
-				stk[len(stk)-1] *= v
-			case '/':
-				stk[len(stk)-1] /= v
-			}
-			sign = c
-			v = 0
-		}
-	}
-	ans := 0
-	for _, v := range stk {
-		ans += v
-	}
-	return ans
-}
-```
-
-#### C#
-
-```cs
-using System.Collections.Generic;
-using System.Linq;
-
-struct Element
-{
-    public char Op;
-    public int Number;
-    public Element(char op, int number)
-    {
-        Op = op;
-        Number = number;
-    }
-}
-
-public class Solution {
-    public int Calculate(string s) {
-        var stack = new Stack<Element>();
-        var readingNumber = false;
-        var number = 0;
-        var op = '+';
-        foreach (var ch in ((IEnumerable<char>)s).Concat(Enumerable.Repeat('+', 1)))
-        {
-            if (ch >= '0' && ch <= '9')
-            {
-                if (!readingNumber)
-                {
-                    readingNumber = true;
-                    number = 0;
-                }
-                number = (number * 10) + (ch - '0');
-            }
-            else if (ch != ' ')
-            {
-                readingNumber = false;
-                if (op == '+' || op == '-')
-                {
-                    if (stack.Count == 2)
-                    {
-                        var prev = stack.Pop();
-                        var first = stack.Pop();
-                        if (prev.Op == '+')
-                        {
-                            stack.Push(new Element(first.Op, first.Number + prev.Number));
-                        }
-                        else // '-'
-                        {
-                            stack.Push(new Element(first.Op, first.Number - prev.Number));
-                        }
-                    }
-                    stack.Push(new Element(op, number));
-                }
-                else
-                {
-                    var prev = stack.Pop();
-                    if (op == '*')
-                    {
-                        stack.Push(new Element(prev.Op, prev.Number * number));
-                    }
-                    else // '/'
-                    {
-                        stack.Push(new Element(prev.Op, prev.Number / number));
-                    }
-                }
-                op = ch;
-            }
-        }
-
-        if (stack.Count == 2)
-        {
-            var second = stack.Pop();
-            var first = stack.Pop();
-            if (second.Op == '+')
-            {
-                stack.Push(new Element(first.Op, first.Number + second.Number));
-            }
-            else // '-'
-            {
-                stack.Push(new Element(first.Op, first.Number - second.Number));
-            }
-        }
-
-        return stack.Peek().Number;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

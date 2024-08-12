@@ -59,11 +59,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：排序 + 剪枝 + 回溯
+## 方法一：排序 + 剪枝 + 回溯
 
 我们可以先对数组进行排序，方便剪枝。
 
@@ -82,31 +82,8 @@ tags:
 -   [216. 组合总和 III](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0216.Combination%20Sum%20III/README.md)
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        def dfs(i: int, s: int):
-            if s == 0:
-                ans.append(t[:])
-                return
-            if s < candidates[i]:
-                return
-            for j in range(i, len(candidates)):
-                t.append(candidates[j])
-                dfs(j, s - candidates[j])
-                t.pop()
-
-        candidates.sort()
-        t = []
-        ans = []
-        dfs(0, target)
-        return ans
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -138,7 +115,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -167,33 +144,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func combinationSum(candidates []int, target int) (ans [][]int) {
-	sort.Ints(candidates)
-	t := []int{}
-	var dfs func(i, s int)
-	dfs = func(i, s int) {
-		if s == 0 {
-			ans = append(ans, slices.Clone(t))
-			return
-		}
-		if s < candidates[i] {
-			return
-		}
-		for j := i; j < len(candidates); j++ {
-			t = append(t, candidates[j])
-			dfs(j, s-candidates[j])
-			t = t[:len(t)-1]
-		}
-	}
-	dfs(0, target)
-	return
-}
-```
-
-#### TypeScript
 
 ```ts
 function combinationSum(candidates: number[], target: number): number[][] {
@@ -219,82 +169,6 @@ function combinationSum(candidates: number[], target: number): number[][] {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    fn dfs(i: usize, s: i32, candidates: &Vec<i32>, t: &mut Vec<i32>, ans: &mut Vec<Vec<i32>>) {
-        if s == 0 {
-            ans.push(t.clone());
-            return;
-        }
-        if s < candidates[i] {
-            return;
-        }
-        for j in i..candidates.len() {
-            t.push(candidates[j]);
-            Self::dfs(j, s - candidates[j], candidates, t, ans);
-            t.pop();
-        }
-    }
-
-    pub fn combination_sum(mut candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
-        candidates.sort();
-        let mut ans = Vec::new();
-        Self::dfs(0, target, &candidates, &mut vec![], &mut ans);
-        ans
-    }
-}
-```
-
-#### C#
-
-```cs
-public class Solution {
-    private List<IList<int>> ans = new List<IList<int>>();
-    private List<int> t = new List<int>();
-    private int[] candidates;
-
-    public IList<IList<int>> CombinationSum(int[] candidates, int target) {
-        Array.Sort(candidates);
-        this.candidates = candidates;
-        dfs(0, target);
-        return ans;
-    }
-
-    private void dfs(int i, int s) {
-        if (s == 0) {
-            ans.Add(new List<int>(t));
-            return;
-        }
-        if (s < candidates[i]) {
-            return;
-        }
-        for (int j = i; j < candidates.Length; ++j) {
-            t.Add(candidates[j]);
-            dfs(j, s - candidates[j]);
-            t.RemoveAt(t.Count - 1);
-        }
-    }
-}
-```
-
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### 方法二：排序 + 剪枝 + 回溯（写法二）
-
-我们也可以将函数 $dfs(i, s)$ 的实现逻辑改为另一种写法。在函数 $dfs(i, s)$ 中，我们先判断 $s$ 是否为 $0$，如果是，则将当前搜索路径 $t$ 加入答案 $ans$ 中，然后返回。如果 $i \geq n$ 或者 $s \lt candidates[i]$，路径不合法，直接返回。否则，我们考虑两种情况，一种是不选当前下标的元素，即递归调用函数 $dfs(i + 1, s)$，另一种是选当前下标的元素，即递归调用函数 $dfs(i, s - candidates[i])$。
-
-时间复杂度 $O(2^n \times n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $candidates$ 的长度。由于剪枝，实际的时间复杂度要远小于 $O(2^n \times n)$。
-
-<!-- tabs:start -->
-
-#### Python3
-
 ```python
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
@@ -302,12 +176,12 @@ class Solution:
             if s == 0:
                 ans.append(t[:])
                 return
-            if i >= len(candidates) or s < candidates[i]:
+            if s < candidates[i]:
                 return
-            dfs(i + 1, s)
-            t.append(candidates[i])
-            dfs(i, s - candidates[i])
-            t.pop()
+            for j in range(i, len(candidates)):
+                t.append(candidates[j])
+                dfs(j, s - candidates[j])
+                t.pop()
 
         candidates.sort()
         t = []
@@ -316,7 +190,21 @@ class Solution:
         return ans
 ```
 
-#### Java
+:::
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- solution:start -->
+
+## 方法二：排序 + 剪枝 + 回溯（写法二）
+
+我们也可以将函数 $dfs(i, s)$ 的实现逻辑改为另一种写法。在函数 $dfs(i, s)$ 中，我们先判断 $s$ 是否为 $0$，如果是，则将当前搜索路径 $t$ 加入答案 $ans$ 中，然后返回。如果 $i \geq n$ 或者 $s \lt candidates[i]$，路径不合法，直接返回。否则，我们考虑两种情况，一种是不选当前下标的元素，即递归调用函数 $dfs(i + 1, s)$，另一种是选当前下标的元素，即递归调用函数 $dfs(i, s - candidates[i])$。
+
+时间复杂度 $O(2^n \times n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $candidates$ 的长度。由于剪枝，实际的时间复杂度要远小于 $O(2^n \times n)$。
+
+<!-- tabs:start -->
+::: code-group
 
 ```java
 class Solution {
@@ -347,8 +235,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -374,34 +260,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-func combinationSum(candidates []int, target int) (ans [][]int) {
-	sort.Ints(candidates)
-	t := []int{}
-	var dfs func(i, s int)
-	dfs = func(i, s int) {
-		if s == 0 {
-			ans = append(ans, slices.Clone(t))
-			return
-		}
-		if i >= len(candidates) || s < candidates[i] {
-			return
-		}
-		dfs(i+1, s)
-		t = append(t, candidates[i])
-		dfs(i, s-candidates[i])
-		t = t[:len(t)-1]
-	}
-	dfs(0, target)
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 function combinationSum(candidates: number[], target: number): number[][] {
     candidates.sort((a, b) => a - b);
@@ -425,104 +283,27 @@ function combinationSum(candidates: number[], target: number): number[][] {
 }
 ```
 
-#### Rust
+```python
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        def dfs(i: int, s: int):
+            if s == 0:
+                ans.append(t[:])
+                return
+            if i >= len(candidates) or s < candidates[i]:
+                return
+            dfs(i + 1, s)
+            t.append(candidates[i])
+            dfs(i, s - candidates[i])
+            t.pop()
 
-```rust
-impl Solution {
-    fn dfs(i: usize, s: i32, candidates: &Vec<i32>, t: &mut Vec<i32>, ans: &mut Vec<Vec<i32>>) {
-        if s == 0 {
-            ans.push(t.clone());
-            return;
-        }
-        if i >= candidates.len() || s < candidates[i] {
-            return;
-        }
-        Self::dfs(i + 1, s, candidates, t, ans);
-        t.push(candidates[i]);
-        Self::dfs(i, s - candidates[i], candidates, t, ans);
-        t.pop();
-    }
-
-    pub fn combination_sum(mut candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
-        candidates.sort();
-        let mut ans = Vec::new();
-        Self::dfs(0, target, &candidates, &mut vec![], &mut ans);
-        ans
-    }
-}
+        candidates.sort()
+        t = []
+        ans = []
+        dfs(0, target)
+        return ans
 ```
-
-#### C#
-
-```cs
-public class Solution {
-    private List<IList<int>> ans = new List<IList<int>>();
-    private List<int> t = new List<int>();
-    private int[] candidates;
-
-    public IList<IList<int>> CombinationSum(int[] candidates, int target) {
-        Array.Sort(candidates);
-        this.candidates = candidates;
-        dfs(0, target);
-        return ans;
-    }
-
-    private void dfs(int i, int s) {
-        if (s == 0) {
-            ans.Add(new List<int>(t));
-            return;
-        }
-        if (i >= candidates.Length || s < candidates[i]) {
-            return;
-        }
-        dfs(i + 1, s);
-        t.Add(candidates[i]);
-        dfs(i, s - candidates[i]);
-        t.RemoveAt(t.Count - 1);
-    }
-}
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param integer[] $candidates
-     * @param integer $target
-     * @return integer[][]
-     */
-
-    function combinationSum($candidates, $target) {
-        $result = [];
-        $currentCombination = [];
-        $startIndex = 0;
-
-        sort($candidates);
-        $this->findCombinations($candidates, $target, $startIndex, $currentCombination, $result);
-        return $result;
-    }
-
-    function findCombinations($candidates, $target, $startIndex, $currentCombination, &$result) {
-        if ($target === 0) {
-            $result[] = $currentCombination;
-            return;
-        }
-
-        for ($i = $startIndex; $i < count($candidates); $i++) {
-            $num = $candidates[$i];
-            if ($num > $target) {
-                break;
-            }
-            $currentCombination[] = $num;
-
-            $this->findCombinations($candidates, $target - $num, $i, $currentCombination, $result);
-            array_pop($currentCombination);
-        }
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

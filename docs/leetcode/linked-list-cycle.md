@@ -70,40 +70,18 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+## 方法一：哈希表
 
 我们可以遍历链表，用一个哈希表 $s$ 记录每个节点。当某个节点二次出现时，则表示存在环，直接返回 `true`。否则链表遍历结束，返回 `false`。
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是链表中的节点数。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-
-class Solution:
-    def hasCycle(self, head: Optional[ListNode]) -> bool:
-        s = set()
-        while head:
-            if head in s:
-                return True
-            s.add(head)
-            head = head.next
-        return False
-```
-
-#### Java
 
 ```java
 /**
@@ -130,7 +108,6 @@ public class Solution {
 }
 ```
 
-#### C++
 
 ```cpp
 /**
@@ -155,30 +132,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func hasCycle(head *ListNode) bool {
-	s := map[*ListNode]bool{}
-	for ; head != nil; head = head.Next {
-		if s[head] {
-			return true
-		}
-		s[head] = true
-	}
-	return false
-}
-```
-
-#### TypeScript
 
 ```ts
 /**
@@ -205,24 +158,6 @@ function hasCycle(head: ListNode | null): boolean {
 }
 ```
 
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### 方法二：快慢指针
-
-我们定义快慢指针 $fast$ 和 $slow$，初始时均指向 $head$。
-
-快指针每次走两步，慢指针每次走一步，不断循环。当快慢指针相遇时，说明链表存在环。如果循环结束依然没有相遇，说明链表不存在环。
-
-时间复杂度 $O(n)$，其中 $n$ 是链表中的节点数。空间复杂度 $O(1)$。
-
-<!-- tabs:start -->
-
-#### Python3
-
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -232,16 +167,33 @@ function hasCycle(head: ListNode | null): boolean {
 
 
 class Solution:
-    def hasCycle(self, head: ListNode) -> bool:
-        slow = fast = head
-        while fast and fast.next:
-            slow, fast = slow.next, fast.next.next
-            if slow == fast:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        s = set()
+        while head:
+            if head in s:
                 return True
+            s.add(head)
+            head = head.next
         return False
 ```
 
-#### Java
+:::
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- solution:start -->
+
+## 方法二：快慢指针
+
+我们定义快慢指针 $fast$ 和 $slow$，初始时均指向 $head$。
+
+快指针每次走两步，慢指针每次走一步，不断循环。当快慢指针相遇时，说明链表存在环。如果循环结束依然没有相遇，说明链表不存在环。
+
+时间复杂度 $O(n)$，其中 $n$ 是链表中的节点数。空间复杂度 $O(1)$。
+
+<!-- tabs:start -->
+::: code-group
 
 ```java
 /**
@@ -271,8 +223,6 @@ public class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 /**
  * Definition for singly-linked list.
@@ -298,30 +248,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func hasCycle(head *ListNode) bool {
-	slow, fast := head, head
-	for fast != nil && fast.Next != nil {
-		slow, fast = slow.Next, fast.Next.Next
-		if slow == fast {
-			return true
-		}
-	}
-	return false
-}
-```
-
-#### TypeScript
 
 ```ts
 /**
@@ -350,65 +276,25 @@ function hasCycle(head: ListNode | null): boolean {
 }
 ```
 
-#### JavaScript
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 
-```js
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
 
-/**
- * @param {ListNode} head
- * @return {boolean}
- */
-var hasCycle = function (head) {
-    let slow = head;
-    let fast = head;
-    while (fast && fast.next) {
-        slow = slow.next;
-        fast = fast.next.next;
-        if (slow === fast) {
-            return true;
-        }
-    }
-    return false;
-};
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        slow = fast = head
+        while fast and fast.next:
+            slow, fast = slow.next, fast.next.next
+            if slow == fast:
+                return True
+        return False
 ```
 
-#### C#
-
-```cs
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int x) {
- *         val = x;
- *         next = null;
- *     }
- * }
- */
-public class Solution {
-    public bool HasCycle(ListNode head) {
-        var fast = head;
-        var slow = head;
-        while (fast != null && fast.next != null) {
-            fast = fast.next.next;
-            slow = slow.next;
-            if (fast == slow) {
-                return true;
-            }
-        }
-        return false;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

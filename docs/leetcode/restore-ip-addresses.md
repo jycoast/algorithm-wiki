@@ -57,11 +57,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：DFS
+## 方法一：DFS
 
 我们定义一个函数 $dfs(i)$，表示从字符串 $s$ 的第 $i$ 位开始，搜索能够组成的 IP 地址列表。
 
@@ -74,37 +72,7 @@ tags:
 时间复杂度 $O(n \times 3^4)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def restoreIpAddresses(self, s: str) -> List[str]:
-        def check(i: int, j: int) -> int:
-            if s[i] == "0" and i != j:
-                return False
-            return 0 <= int(s[i : j + 1]) <= 255
-
-        def dfs(i: int):
-            if i >= n and len(t) == 4:
-                ans.append(".".join(t))
-                return
-            if i >= n or len(t) >= 4:
-                return
-            for j in range(i, min(i + 3, n)):
-                if check(i, j):
-                    t.append(s[i : j + 1])
-                    dfs(j + 1)
-                    t.pop()
-
-        n = len(s)
-        ans = []
-        t = []
-        dfs(0)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -142,8 +110,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -176,39 +142,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func restoreIpAddresses(s string) (ans []string) {
-	n := len(s)
-	t := []string{}
-	var dfs func(int)
-	dfs = func(i int) {
-		if i >= n && len(t) == 4 {
-			ans = append(ans, strings.Join(t, "."))
-			return
-		}
-		if i >= n || len(t) == 4 {
-			return
-		}
-		x := 0
-		for j := i; j < i+3 && j < n; j++ {
-			x = x*10 + int(s[j]-'0')
-			if x > 255 || (j > i && s[i] == '0') {
-				break
-			}
-			t = append(t, s[i:j+1])
-			dfs(j + 1)
-			t = t[:len(t)-1]
-		}
-	}
-	dfs(0)
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 function restoreIpAddresses(s: string): string[] {
     const n = s.length;
@@ -238,44 +171,34 @@ function restoreIpAddresses(s: string): string[] {
 }
 ```
 
-#### C#
+```python
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        def check(i: int, j: int) -> int:
+            if s[i] == "0" and i != j:
+                return False
+            return 0 <= int(s[i : j + 1]) <= 255
 
-```cs
-public class Solution {
-    private IList<string> ans = new List<string>();
-    private IList<string> t = new List<string>();
-    private int n;
-    private string s;
+        def dfs(i: int):
+            if i >= n and len(t) == 4:
+                ans.append(".".join(t))
+                return
+            if i >= n or len(t) >= 4:
+                return
+            for j in range(i, min(i + 3, n)):
+                if check(i, j):
+                    t.append(s[i : j + 1])
+                    dfs(j + 1)
+                    t.pop()
 
-    public IList<string> RestoreIpAddresses(string s) {
-        n = s.Length;
-        this.s = s;
-        dfs(0);
-        return ans;
-    }
-
-    private void dfs(int i) {
-        if (i >= n && t.Count == 4) {
-            ans.Add(string.Join(".", t));
-            return;
-        }
-        if (i >= n || t.Count == 4) {
-            return;
-        }
-        int x = 0;
-        for (int j = i; j < i + 3 && j < n; ++j) {
-            x = x * 10 + (s[j] - '0');
-            if (x > 255 || (j > i && s[i] == '0')) {
-                break;
-            }
-            t.Add(x.ToString());
-            dfs(j + 1);
-            t.RemoveAt(t.Count - 1);
-        }
-    }
-}
+        n = len(s)
+        ans = []
+        t = []
+        dfs(0)
+        return ans
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

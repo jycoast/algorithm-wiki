@@ -55,11 +55,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：递归
+## 方法一：递归
 
 我们可以对二叉树进行递归中序遍历，如果遍历到的结果是严格升序的，那么这棵树就是一个二叉搜索树。
 
@@ -68,34 +68,7 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        def dfs(root: Optional[TreeNode]) -> bool:
-            if root is None:
-                return True
-            if not dfs(root.left):
-                return False
-            nonlocal prev
-            if prev >= root.val:
-                return False
-            prev = root.val
-            return dfs(root.right)
-
-        prev = -inf
-        return dfs(root)
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -136,8 +109,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 /**
  * Definition for a binary tree node.
@@ -171,39 +142,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func isValidBST(root *TreeNode) bool {
-	var prev *TreeNode
-	var dfs func(*TreeNode) bool
-	dfs = func(root *TreeNode) bool {
-		if root == nil {
-			return true
-		}
-		if !dfs(root.Left) {
-			return false
-		}
-		if prev != nil && prev.Val >= root.Val {
-			return false
-		}
-		prev = root
-		return dfs(root.Right)
-	}
-	return dfs(root)
-}
-```
-
-#### TypeScript
 
 ```ts
 /**
@@ -239,124 +177,31 @@ function isValidBST(root: TreeNode | null): boolean {
 }
 ```
 
-#### Rust
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        def dfs(root: Optional[TreeNode]) -> bool:
+            if root is None:
+                return True
+            if not dfs(root.left):
+                return False
+            nonlocal prev
+            if prev >= root.val:
+                return False
+            prev = root.val
+            return dfs(root.right)
 
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::rc::Rc;
-impl Solution {
-    fn dfs(root: &Option<Rc<RefCell<TreeNode>>>, prev: &mut Option<i32>) -> bool {
-        if root.is_none() {
-            return true;
-        }
-        let root = root.as_ref().unwrap().borrow();
-        if !Self::dfs(&root.left, prev) {
-            return false;
-        }
-        if prev.is_some() && prev.unwrap() >= root.val {
-            return false;
-        }
-        *prev = Some(root.val);
-        Self::dfs(&root.right, prev)
-    }
-
-    pub fn is_valid_bst(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        Self::dfs(&root, &mut None)
-    }
-}
+        prev = -inf
+        return dfs(root)
 ```
 
-#### JavaScript
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @return {boolean}
- */
-var isValidBST = function (root) {
-    let prev = null;
-    const dfs = root => {
-        if (!root) {
-            return true;
-        }
-        if (!dfs(root.left)) {
-            return false;
-        }
-        if (prev && prev.val >= root.val) {
-            return false;
-        }
-        prev = root;
-        return dfs(root.right);
-    };
-    return dfs(root);
-};
-```
-
-#### C#
-
-```cs
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     public int val;
- *     public TreeNode left;
- *     public TreeNode right;
- *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-public class Solution {
-    private TreeNode prev;
-
-    public bool IsValidBST(TreeNode root) {
-        return dfs(root);
-    }
-
-    private bool dfs(TreeNode root) {
-        if (root == null) {
-            return true;
-        }
-        if (!dfs(root.left)) {
-            return false;
-        }
-        if (prev != null && prev.val >= root.val) {
-            return false;
-        }
-        prev = root;
-        return dfs(root.right);
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

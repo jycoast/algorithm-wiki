@@ -77,11 +77,10 @@ myQueue.empty(); // return false
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：双栈
+## 方法一：双栈
 
 我们使用两个栈，其中栈 `stk1`用于入队，另一个栈 `stk2` 用于出队。
 
@@ -94,44 +93,8 @@ myQueue.empty(); // return false
 判断队列是否为空时，只要判断两个栈是否都为空即可。时间复杂度 $O(1)$。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class MyQueue:
-    def __init__(self):
-        self.stk1 = []
-        self.stk2 = []
-
-    def push(self, x: int) -> None:
-        self.stk1.append(x)
-
-    def pop(self) -> int:
-        self.move()
-        return self.stk2.pop()
-
-    def peek(self) -> int:
-        self.move()
-        return self.stk2[-1]
-
-    def empty(self) -> bool:
-        return not self.stk1 and not self.stk2
-
-    def move(self):
-        if not self.stk2:
-            while self.stk1:
-                self.stk2.append(self.stk1.pop())
-
-
-# Your MyQueue object will be instantiated and called as such:
-# obj = MyQueue()
-# obj.push(x)
-# param_2 = obj.pop()
-# param_3 = obj.peek()
-# param_4 = obj.empty()
-```
-
-#### Java
 
 ```java
 class MyQueue {
@@ -168,17 +131,8 @@ class MyQueue {
     }
 }
 
-/**
- * Your MyQueue object will be instantiated and called as such:
- * MyQueue obj = new MyQueue();
- * obj.push(x);
- * int param_2 = obj.pop();
- * int param_3 = obj.peek();
- * boolean param_4 = obj.empty();
- */
 ```
 
-#### C++
 
 ```cpp
 class MyQueue {
@@ -219,69 +173,8 @@ private:
         }
     }
 };
-
-/**
- * Your MyQueue object will be instantiated and called as such:
- * MyQueue* obj = new MyQueue();
- * obj->push(x);
- * int param_2 = obj->pop();
- * int param_3 = obj->peek();
- * bool param_4 = obj->empty();
- */
 ```
 
-#### Go
-
-```go
-type MyQueue struct {
-	stk1 []int
-	stk2 []int
-}
-
-func Constructor() MyQueue {
-	return MyQueue{[]int{}, []int{}}
-}
-
-func (this *MyQueue) Push(x int) {
-	this.stk1 = append(this.stk1, x)
-}
-
-func (this *MyQueue) Pop() int {
-	this.move()
-	ans := this.stk2[len(this.stk2)-1]
-	this.stk2 = this.stk2[:len(this.stk2)-1]
-	return ans
-}
-
-func (this *MyQueue) Peek() int {
-	this.move()
-	return this.stk2[len(this.stk2)-1]
-}
-
-func (this *MyQueue) Empty() bool {
-	return len(this.stk1) == 0 && len(this.stk2) == 0
-}
-
-func (this *MyQueue) move() {
-	if len(this.stk2) == 0 {
-		for len(this.stk1) > 0 {
-			this.stk2 = append(this.stk2, this.stk1[len(this.stk1)-1])
-			this.stk1 = this.stk1[:len(this.stk1)-1]
-		}
-	}
-}
-
-/**
- * Your MyQueue object will be instantiated and called as such:
- * obj := Constructor();
- * obj.Push(x);
- * param_2 := obj.Pop();
- * param_3 := obj.Peek();
- * param_4 := obj.Empty();
- */
-```
-
-#### TypeScript
 
 ```ts
 class MyQueue {
@@ -320,62 +213,35 @@ class MyQueue {
     }
 }
 
-/**
- * Your MyQueue object will be instantiated and called as such:
- * var obj = new MyQueue()
- * obj.push(x)
- * var param_2 = obj.pop()
- * var param_3 = obj.peek()
- * var param_4 = obj.empty()
- */
 ```
 
-#### Rust
 
-```rust
-use std::collections::VecDeque;
+```python
+class MyQueue:
+    def __init__(self):
+        self.stk1 = []
+        self.stk2 = []
 
-struct MyQueue {
-    stk1: Vec<i32>,
-    stk2: Vec<i32>,
-}
+    def push(self, x: int) -> None:
+        self.stk1.append(x)
 
-impl MyQueue {
-    fn new() -> Self {
-        MyQueue {
-            stk1: Vec::new(),
-            stk2: Vec::new(),
-        }
-    }
+    def pop(self) -> int:
+        self.move()
+        return self.stk2.pop()
 
-    fn push(&mut self, x: i32) {
-        self.stk1.push(x);
-    }
+    def peek(self) -> int:
+        self.move()
+        return self.stk2[-1]
 
-    fn pop(&mut self) -> i32 {
-        self.move_elements();
-        self.stk2.pop().unwrap()
-    }
+    def empty(self) -> bool:
+        return not self.stk1 and not self.stk2
 
-    fn peek(&mut self) -> i32 {
-        self.move_elements();
-        *self.stk2.last().unwrap()
-    }
-
-    fn empty(&self) -> bool {
-        self.stk1.is_empty() && self.stk2.is_empty()
-    }
-
-    fn move_elements(&mut self) {
-        if self.stk2.is_empty() {
-            while let Some(element) = self.stk1.pop() {
-                self.stk2.push(element);
-            }
-        }
-    }
-}
+    def move(self):
+        if not self.stk2:
+            while self.stk1:
+                self.stk2.append(self.stk1.pop())
 ```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

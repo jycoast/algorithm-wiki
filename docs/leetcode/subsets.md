@@ -48,11 +48,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：DFS(回溯)
+## 方法一：DFS(回溯)
 
 我们设计一个函数 $dfs(i)$，表示从数组的第 $i$ 个元素开始搜索所有子集。函数 $dfs(i)$ 的执行逻辑如下：
 
@@ -64,28 +63,7 @@ tags:
 时间复杂度 $O(n\times 2^n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。一共有 $2^n$ 个子集，每个子集需要 $O(n)$ 的时间来构造。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-        def dfs(i: int):
-            if i == len(nums):
-                ans.append(t[:])
-                return
-            dfs(i + 1)
-            t.append(nums[i])
-            dfs(i + 1)
-            t.pop()
-
-        ans = []
-        t = []
-        dfs(0)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -112,7 +90,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -136,29 +114,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func subsets(nums []int) (ans [][]int) {
-	t := []int{}
-	var dfs func(int)
-	dfs = func(i int) {
-		if i == len(nums) {
-			ans = append(ans, append([]int(nil), t...))
-			return
-		}
-		dfs(i + 1)
-		t = append(t, nums[i])
-		dfs(i + 1)
-		t = t[:len(t)-1]
-	}
-	dfs(0)
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 function subsets(nums: number[]): number[][] {
     const ans: number[][] = [];
@@ -178,36 +133,32 @@ function subsets(nums: number[]): number[][] {
 }
 ```
 
-#### Rust
+```python
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def dfs(i: int):
+            if i == len(nums):
+                ans.append(t[:])
+                return
+            dfs(i + 1)
+            t.append(nums[i])
+            dfs(i + 1)
+            t.pop()
 
-```rust
-impl Solution {
-    fn dfs(i: usize, t: &mut Vec<i32>, res: &mut Vec<Vec<i32>>, nums: &Vec<i32>) {
-        if i == nums.len() {
-            res.push(t.clone());
-            return;
-        }
-        Self::dfs(i + 1, t, res, nums);
-        t.push(nums[i]);
-        Self::dfs(i + 1, t, res, nums);
-        t.pop();
-    }
-
-    pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {
-        let mut res = Vec::new();
-        Self::dfs(0, &mut Vec::new(), &mut res, &nums);
-        res
-    }
-}
+        ans = []
+        t = []
+        dfs(0)
+        return ans
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：二进制枚举
+## 方法二：二进制枚举
 
 我们也可以使用二进制枚举的方法得到所有的子集。
 
@@ -216,20 +167,7 @@ impl Solution {
 时间复杂度 $O(n\times 2^n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。一共有 $2^n$ 个子集，每个子集需要 $O(n)$ 的时间来构造。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-        ans = []
-        for mask in range(1 << len(nums)):
-            t = [x for i, x in enumerate(nums) if mask >> i & 1]
-            ans.append(t)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -250,7 +188,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -272,26 +210,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func subsets(nums []int) (ans [][]int) {
-	n := len(nums)
-	for mask := 0; mask < 1<<n; mask++ {
-		t := []int{}
-		for i, x := range nums {
-			if mask>>i&1 == 1 {
-				t = append(t, x)
-			}
-		}
-		ans = append(ans, t)
-	}
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 function subsets(nums: number[]): number[][] {
     const n = nums.length;
@@ -309,17 +227,28 @@ function subsets(nums: number[]): number[][] {
 }
 ```
 
+```python
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        ans = []
+        for mask in range(1 << len(nums)):
+            t = [x for i, x in enumerate(nums) if mask >> i & 1]
+            ans.append(t)
+        return ans
+```
+
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法三
+## 方法三
 
 <!-- tabs:start -->
+::: code-group
 
-#### TypeScript
 
 ```ts
 function subsets(nums: number[]): number[][] {
@@ -332,6 +261,7 @@ function subsets(nums: number[]): number[][] {
 }
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

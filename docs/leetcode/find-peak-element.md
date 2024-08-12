@@ -53,11 +53,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+## 方法一：二分查找
 
 我们定义二分查找的左边界 $left=0$，右边界 $right=n-1$，其中 $n$ 是数组的长度。在每一步二分查找中，我们找到当前区间的中间元素 $mid$，然后比较 $mid$ 与其右边元素 $mid+1$ 的值：
 
@@ -68,23 +68,7 @@ tags:
 时间复杂度 $O(\log n)$，其中 $n$ 是数组 $nums$ 的长度。每一步二分查找可以将搜索区间减少一半，因此时间复杂度为 $O(\log n)$。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def findPeakElement(self, nums: List[int]) -> int:
-        left, right = 0, len(nums) - 1
-        while left < right:
-            mid = (left + right) >> 1
-            if nums[mid] > nums[mid + 1]:
-                right = mid
-            else:
-                left = mid + 1
-        return left
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -103,7 +87,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -123,25 +107,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func findPeakElement(nums []int) int {
-	left, right := 0, len(nums)-1
-	for left < right {
-		mid := (left + right) >> 1
-		if nums[mid] > nums[mid+1] {
-			right = mid
-		} else {
-			left = mid + 1
-		}
-	}
-	return left
-}
-```
-
-#### TypeScript
-
 ```ts
 function findPeakElement(nums: number[]): number {
     let [left, right] = [0, nums.length - 1];
@@ -157,6 +122,20 @@ function findPeakElement(nums: number[]): number {
 }
 ```
 
+```python
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = (left + right) >> 1
+            if nums[mid] > nums[mid + 1]:
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
+
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

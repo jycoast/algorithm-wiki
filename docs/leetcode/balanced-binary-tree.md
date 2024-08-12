@@ -12,7 +12,7 @@ tags:
 
 # [110. 平衡二叉树](https://leetcode.cn/problems/balanced-binary-tree)
 
-## 题目描述
+
 
 <!-- description:start -->
 
@@ -52,11 +52,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：自底向上的递归
+## 方法一：自底向上的递归
 
 定义函数 $height(root)$ 计算二叉树的高度，处理逻辑如下：
 
@@ -68,30 +66,7 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        def height(root):
-            if root is None:
-                return 0
-            l, r = height(root.left), height(root.right)
-            if l == -1 or r == -1 or abs(l - r) > 1:
-                return -1
-            return 1 + max(l, r)
-
-        return height(root) >= 0
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -128,7 +103,6 @@ class Solution {
 }
 ```
 
-#### C++
 
 ```cpp
 /**
@@ -161,45 +135,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func isBalanced(root *TreeNode) bool {
-	var height func(*TreeNode) int
-	height = func(root *TreeNode) int {
-		if root == nil {
-			return 0
-		}
-		l, r := height(root.Left), height(root.Right)
-		if l == -1 || r == -1 || abs(l-r) > 1 {
-			return -1
-		}
-		if l > r {
-			return 1 + l
-		}
-		return 1 + r
-	}
-	return height(root) >= 0
-}
-
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * Definition for a binary tree node.
@@ -231,80 +166,27 @@ function isBalanced(root: TreeNode | null): boolean {
 }
 ```
 
-#### Rust
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        def height(root):
+            if root is None:
+                return 0
+            l, r = height(root.left), height(root.right)
+            if l == -1 or r == -1 or abs(l - r) > 1:
+                return -1
+            return 1 + max(l, r)
 
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::rc::Rc;
-impl Solution {
-    pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        Self::dfs(&root) > -1
-    }
-
-    fn dfs(root: &Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        if root.is_none() {
-            return 0;
-        }
-        let node = root.as_ref().unwrap().borrow();
-        let left = Self::dfs(&node.left);
-        let right = Self::dfs(&node.right);
-        if left == -1 || right == -1 || (left - right).abs() > 1 {
-            return -1;
-        }
-        1 + left.max(right)
-    }
-}
+        return height(root) >= 0
 ```
 
-#### JavaScript
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @return {boolean}
- */
-var isBalanced = function (root) {
-    const height = root => {
-        if (!root) {
-            return 0;
-        }
-        const l = height(root.left);
-        const r = height(root.right);
-        if (l == -1 || r == -1 || Math.abs(l - r) > 1) {
-            return -1;
-        }
-        return 1 + Math.max(l, r);
-    };
-    return height(root) >= 0;
-};
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

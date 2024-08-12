@@ -59,27 +59,18 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：贪心
+## 方法一：贪心
 
 从第二天开始，如果当天股价大于前一天股价，则在前一天买入，当天卖出，即可获得利润。如果当天股价小于前一天股价，则不买入，不卖出。也即是说，所有上涨交易日都做买卖，所有下跌交易日都不做买卖，最终获得的利润是最大的。
 
 时间复杂度 $O(n)$，其中 $n$ 为数组 `prices` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        return sum(max(0, b - a) for a, b in pairwise(prices))
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -93,7 +84,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -106,21 +97,7 @@ public:
 };
 ```
 
-#### Go
 
-```go
-func maxProfit(prices []int) (ans int) {
-	for i, v := range prices[1:] {
-		t := v - prices[i]
-		if t > 0 {
-			ans += t
-		}
-	}
-	return
-}
-```
-
-#### TypeScript
 
 ```ts
 function maxProfit(prices: number[]): number {
@@ -132,57 +109,20 @@ function maxProfit(prices: number[]): number {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn max_profit(prices: Vec<i32>) -> i32 {
-        let mut res = 0;
-        for i in 1..prices.len() {
-            res += (0).max(prices[i] - prices[i - 1]);
-        }
-        res
-    }
-}
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        return sum(max(0, b - a) for a, b in pairwise(prices))
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[]} prices
- * @return {number}
- */
-var maxProfit = function (prices) {
-    let ans = 0;
-    for (let i = 1; i < prices.length; i++) {
-        ans += Math.max(0, prices[i] - prices[i - 1]);
-    }
-    return ans;
-};
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public int MaxProfit(int[] prices) {
-        int ans = 0;
-        for (int i = 1; i < prices.Length; ++i) {
-            ans += Math.Max(0, prices[i] - prices[i - 1]);
-        }
-        return ans;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+## 方法二：动态规划
 
 我们设 $f[i][j]$ 表示第 $i$ 天交易完后的最大利润，其中 $j$ 表示当前是否持有股票，持有股票时 $j=0$，不持有股票时 $j=1$。初始状态为 $f[0][0]=-prices[0]$，其余状态均为 $0$。
 
@@ -204,22 +144,7 @@ $$
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `prices` 的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        n = len(prices)
-        f = [[0] * 2 for _ in range(n)]
-        f[0][0] = -prices[0]
-        for i in range(1, n):
-            f[i][0] = max(f[i - 1][0], f[i - 1][1] - prices[i])
-            f[i][1] = max(f[i - 1][1], f[i - 1][0] + prices[i])
-        return f[n - 1][1]
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -236,7 +161,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -255,67 +180,33 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func maxProfit(prices []int) int {
-	n := len(prices)
-	f := make([][2]int, n)
-	f[0][0] = -prices[0]
-	for i := 1; i < n; i++ {
-		f[i][0] = max(f[i-1][0], f[i-1][1]-prices[i])
-		f[i][1] = max(f[i-1][1], f[i-1][0]+prices[i])
-	}
-	return f[n-1][1]
-}
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+        f = [[0] * 2 for _ in range(n)]
+        f[0][0] = -prices[0]
+        for i in range(1, n):
+            f[i][0] = max(f[i - 1][0], f[i - 1][1] - prices[i])
+            f[i][1] = max(f[i - 1][1], f[i - 1][0] + prices[i])
+        return f[n - 1][1]
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    public int MaxProfit(int[] prices) {
-        int f1 = -prices[0], f2 = 0;
-        for (int i = 1; i < prices.Length; ++i)
-        {
-            f1 = Math.Max(f1, f2 - prices[i]);
-            f2 = Math.Max(f2, f1 + prices[i]);
-        }
-        return f2;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法三：动态规划（空间优化）
+## 方法三：动态规划（空间优化）
 
 我们可以发现，在方法二中，第 $i$ 天的状态，只与第 $i-1$ 天的状态有关，因此我们可以只用两个变量来维护第 $i-1$ 天的状态，从而将空间复杂度优化到 $O(1)$。
 
 时间复杂度 $O(n)$，其中 $n$ 为数组 `prices` 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        n = len(prices)
-        f = [-prices[0], 0]
-        for i in range(1, n):
-            g = [0] * 2
-            g[0] = max(f[0], f[1] - prices[i])
-            g[1] = max(f[1], f[0] + prices[i])
-            f = g
-        return f[1]
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -333,7 +224,6 @@ class Solution {
 }
 ```
 
-#### C++
 
 ```cpp
 class Solution {
@@ -352,22 +242,19 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func maxProfit(prices []int) int {
-	n := len(prices)
-	f := [2]int{-prices[0], 0}
-	for i := 1; i < n; i++ {
-		g := [2]int{}
-		g[0] = max(f[0], f[1]-prices[i])
-		g[1] = max(f[1], f[0]+prices[i])
-		f = g
-	}
-	return f[1]
-}
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+        f = [-prices[0], 0]
+        for i in range(1, n):
+            g = [0] * 2
+            g[0] = max(f[0], f[1] - prices[i])
+            g[1] = max(f[1], f[0] + prices[i])
+            f = g
+        return f[1]
 ```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

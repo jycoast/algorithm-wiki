@@ -11,7 +11,7 @@ tags:
 
 # [21. 合并两个有序链表](https://leetcode.cn/problems/merge-two-sorted-lists)
 
-## 题目描述
+
 
 <!-- description:start -->
 
@@ -52,7 +52,7 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
@@ -66,8 +66,9 @@ tags:
 时间复杂度 $O(m + n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为两个链表的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
+
 
 ```python
 # Definition for singly-linked list.
@@ -89,7 +90,7 @@ class Solution:
             return list2
 ```
 
-#### Java
+
 
 ```java
 /**
@@ -121,7 +122,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -150,7 +151,7 @@ public:
 };
 ```
 
-#### Go
+
 
 ```go
 /**
@@ -177,7 +178,7 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 }
 ```
 
-#### TypeScript
+
 
 ```ts
 /**
@@ -206,7 +207,7 @@ function mergeTwoLists(list1: ListNode | null, list2: ListNode | null): ListNode
 }
 ```
 
-#### Rust
+
 
 ```rust
 // Definition for singly-linked list.
@@ -248,7 +249,7 @@ impl Solution {
 }
 ```
 
-#### JavaScript
+Script
 
 ```js
 /**
@@ -277,7 +278,7 @@ var mergeTwoLists = function (list1, list2) {
 };
 ```
 
-#### C#
+
 
 ```cs
 /**
@@ -315,7 +316,7 @@ public class Solution {
 }
 ```
 
-#### Ruby
+
 
 ```rb
 # Definition for singly-linked list.
@@ -347,6 +348,7 @@ def merge_two_lists(list1, list2)
 end
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
@@ -364,8 +366,9 @@ end
 时间复杂度 $O(m + n)$，其中 $m$ 和 $n$ 分别为两个链表的长度。忽略答案链表的空间消耗，空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
+
 
 ```python
 # Definition for singly-linked list.
@@ -391,7 +394,7 @@ class Solution:
         return dummy.next
 ```
 
-#### Java
+
 
 ```java
 /**
@@ -424,7 +427,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -458,7 +461,7 @@ public:
 };
 ```
 
-#### Go
+
 
 ```go
 /**
@@ -490,7 +493,7 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 }
 ```
 
-#### TypeScript
+
 
 ```ts
 /**
@@ -523,7 +526,7 @@ function mergeTwoLists(list1: ListNode | null, list2: ListNode | null): ListNode
 }
 ```
 
-#### Rust
+
 
 ```rust
 // Definition for singly-linked list.
@@ -568,7 +571,7 @@ impl Solution {
 }
 ```
 
-#### JavaScript
+Script
 
 ```js
 /**
@@ -601,7 +604,7 @@ var mergeTwoLists = function (list1, list2) {
 };
 ```
 
-#### PHP
+
 
 ```php
 # Definition for singly-linked list.
@@ -646,6 +649,7 @@ class Solution {
 }
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

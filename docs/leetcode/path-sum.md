@@ -61,41 +61,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：递归
+## 方法一：递归
 
 从根节点开始，递归地对树进行遍历，并在遍历过程中更新节点的值为从根节点到该节点的路径和。当遍历到叶子节点时，判断该路径和是否等于目标值，如果相等则返回 `true`，否则返回 `false`。
 
 时间复杂度 $O(n)$，其中 $n$ 是二叉树的节点数。对每个节点访问一次。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
-        def dfs(root, s):
-            if root is None:
-                return False
-            s += root.val
-            if root.left is None and root.right is None and s == targetSum:
-                return True
-            return dfs(root.left, s) or dfs(root.right, s)
-
-        return dfs(root, 0)
-```
-
-#### Java
 
 ```java
 /**
@@ -131,7 +109,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -158,35 +136,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func hasPathSum(root *TreeNode, targetSum int) bool {
-	var dfs func(*TreeNode, int) bool
-	dfs = func(root *TreeNode, s int) bool {
-		if root == nil {
-			return false
-		}
-		s += root.Val
-		if root.Left == nil && root.Right == nil && s == targetSum {
-			return true
-		}
-		return dfs(root.Left, s) || dfs(root.Right, s)
-	}
-	return dfs(root, 0)
-}
-```
-
-#### TypeScript
 
 ```ts
 /**
@@ -215,75 +164,27 @@ function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
 }
 ```
 
-#### Rust
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        def dfs(root, s):
+            if root is None:
+                return False
+            s += root.val
+            if root.left is None and root.right is None and s == targetSum:
+                return True
+            return dfs(root.left, s) or dfs(root.right, s)
 
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::rc::Rc;
-impl Solution {
-    pub fn has_path_sum(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
-        match root {
-            None => false,
-            Some(node) => {
-                let mut node = node.borrow_mut();
-                // 确定叶结点身份
-                if node.left.is_none() && node.right.is_none() {
-                    return target_sum - node.val == 0;
-                }
-                let val = node.val;
-                Self::has_path_sum(node.left.take(), target_sum - val)
-                    || Self::has_path_sum(node.right.take(), target_sum - val)
-            }
-        }
-    }
-}
+        return dfs(root, 0)
 ```
 
-#### JavaScript
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @param {number} targetSum
- * @return {boolean}
- */
-var hasPathSum = function (root, targetSum) {
-    function dfs(root, s) {
-        if (!root) return false;
-        s += root.val;
-        if (!root.left && !root.right && s == targetSum) return true;
-        return dfs(root.left, s) || dfs(root.right, s);
-    }
-    return dfs(root, 0);
-};
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

@@ -56,40 +56,18 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：DFS
+## 方法一：DFS
 
 我们可以遍历每一个格子 $(i, j)$，从每个格子开始进行深度优先搜索，如果搜索到的格子是陆地，就将当前格子标记为已访问，并且继续搜索上、下、左、右四个方向的格子。搜索结束后，计算标记的陆地的数量，即为岛屿的面积。我们找出最大的岛屿面积即为答案。
 
 时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是二维数组的行数和列数。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        def dfs(i: int, j: int) -> int:
-            if grid[i][j] == 0:
-                return 0
-            ans = 1
-            grid[i][j] = 0
-            dirs = (-1, 0, 1, 0, -1)
-            for a, b in pairwise(dirs):
-                x, y = i + a, j + b
-                if 0 <= x < m and 0 <= y < n:
-                    ans += dfs(x, y)
-            return ans
-
-        m, n = len(grid), len(grid[0])
-        return max(dfs(i, j) for i in range(m) for j in range(n))
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -128,8 +106,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -161,38 +137,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func maxAreaOfIsland(grid [][]int) (ans int) {
-	m, n := len(grid), len(grid[0])
-	dirs := [5]int{-1, 0, 1, 0, -1}
-	var dfs func(i, j int) int
-	dfs = func(i, j int) int {
-		if grid[i][j] == 0 {
-			return 0
-		}
-		ans := 1
-		grid[i][j] = 0
-		for k := 0; k < 4; k++ {
-			x, y := i+dirs[k], j+dirs[k+1]
-			if x >= 0 && x < m && y >= 0 && y < n {
-				ans += dfs(x, y)
-			}
-		}
-		return ans
-	}
-	for i := range grid {
-		for j := range grid[i] {
-			ans = max(ans, dfs(i, j))
-		}
-	}
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 function maxAreaOfIsland(grid: number[][]): number {
     const m = grid.length;
@@ -222,39 +166,26 @@ function maxAreaOfIsland(grid: number[][]): number {
 }
 ```
 
-#### Rust
+```python
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        def dfs(i: int, j: int) -> int:
+            if grid[i][j] == 0:
+                return 0
+            ans = 1
+            grid[i][j] = 0
+            dirs = (-1, 0, 1, 0, -1)
+            for a, b in pairwise(dirs):
+                x, y = i + a, j + b
+                if 0 <= x < m and 0 <= y < n:
+                    ans += dfs(x, y)
+            return ans
 
-```rust
-impl Solution {
-    fn dfs(grid: &mut Vec<Vec<i32>>, i: usize, j: usize) -> i32 {
-        if i == grid.len() || j == grid[0].len() || grid[i][j] == 0 {
-            return 0;
-        }
-        grid[i][j] = 0;
-        let mut res = 1 + Self::dfs(grid, i + 1, j) + Self::dfs(grid, i, j + 1);
-        if i != 0 {
-            res += Self::dfs(grid, i - 1, j);
-        }
-        if j != 0 {
-            res += Self::dfs(grid, i, j - 1);
-        }
-        res
-    }
-
-    pub fn max_area_of_island(mut grid: Vec<Vec<i32>>) -> i32 {
-        let m = grid.len();
-        let n = grid[0].len();
-        let mut res = 0;
-        for i in 0..m {
-            for j in 0..n {
-                res = res.max(Self::dfs(&mut grid, i, j));
-            }
-        }
-        res
-    }
-}
+        m, n = len(grid), len(grid[0])
+        return max(dfs(i, j) for i in range(m) for j in range(n))
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

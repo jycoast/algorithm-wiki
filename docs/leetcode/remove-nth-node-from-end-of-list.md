@@ -57,11 +57,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：快慢指针
+## 方法一：快慢指针
 
 我们定义两个指针 `fast` 和 `slow`，初始时都指向链表的虚拟头结点 `dummy`。
 
@@ -70,28 +69,7 @@ tags:
 时间复杂度 $O(n)$，其中 $n$ 为链表的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        dummy = ListNode(next=head)
-        fast = slow = dummy
-        for _ in range(n):
-            fast = fast.next
-        while fast.next:
-            slow, fast = slow.next, fast.next
-        slow.next = slow.next.next
-        return dummy.next
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -120,8 +98,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 /**
@@ -153,32 +129,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func removeNthFromEnd(head *ListNode, n int) *ListNode {
-	dummy := &ListNode{0, head}
-	fast, slow := dummy, dummy
-	for ; n > 0; n-- {
-		fast = fast.Next
-	}
-	for fast.Next != nil {
-		slow, fast = slow.Next, fast.Next
-	}
-	slow.Next = slow.Next.Next
-	return dummy.Next
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * Definition for singly-linked list.
@@ -208,149 +158,25 @@ function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
 }
 ```
 
-#### Rust
-
-```rust
-// Definition for singly-linked list.
-// #[derive(PartialEq, Eq, Clone, Debug)]
-// pub struct ListNode {
-//   pub val: i32,
-//   pub next: Option<Box<ListNode>>
-// }
-//
-// impl ListNode {
-//   #[inline]
-//   fn new(val: i32) -> Self {
-//     ListNode {
-//       next: None,
-//       val
-//     }
-//   }
-// }
-impl Solution {
-    pub fn remove_nth_from_end(head: Option<Box<ListNode>>, n: i32) -> Option<Box<ListNode>> {
-        let mut dummy = Some(Box::new(ListNode { val: 0, next: head }));
-        let mut slow = &mut dummy;
-        let mut fast = &slow.clone();
-        for _ in 0..=n {
-            fast = &fast.as_ref().unwrap().next;
-        }
-        while fast.is_some() {
-            fast = &fast.as_ref().unwrap().next;
-            slow = &mut slow.as_mut().unwrap().next;
-        }
-        slow.as_mut().unwrap().next = slow.as_mut().unwrap().next.as_mut().unwrap().next.take();
-        dummy.unwrap().next
-    }
-}
-```
-
-#### JavaScript
-
-```js
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} head
- * @param {number} n
- * @return {ListNode}
- */
-var removeNthFromEnd = function (head, n) {
-    const dummy = new ListNode(0, head);
-    let fast = dummy,
-        slow = dummy;
-    while (n--) {
-        fast = fast.next;
-    }
-    while (fast.next) {
-        slow = slow.next;
-        fast = fast.next;
-    }
-    slow.next = slow.next.next;
-    return dummy.next;
-};
-```
-
-#### Ruby
-
-```rb
+```python
 # Definition for singly-linked list.
-# class ListNode
-#     attr_accessor :val, :next
-#     def initialize(val = 0, _next = nil)
-#         @val = val
-#         @next = _next
-#     end
-# end
-# @param {ListNode} head
-# @param {Integer} n
-# @return {ListNode}
-def remove_nth_from_end(head, n)
-    dummy = ListNode.new(0, head)
-    fast = slow = dummy
-    while n > 0
-        fast = fast.next
-        n -= 1
-    end
-    while fast.next
-        slow = slow.next
-        fast = fast.next
-    end
-    slow.next = slow.next.next
-    return dummy.next
-end
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dummy = ListNode(next=head)
+        fast = slow = dummy
+        for _ in range(n):
+            fast = fast.next
+        while fast.next:
+            slow, fast = slow.next, fast.next
+        slow.next = slow.next.next
+        return dummy.next
 ```
 
-#### PHP
-
-```php
-# Definition for singly-linked list.
-# class ListNode {
-#     public $val;
-#     public $next;
-
-#     public function __construct($val = 0, $next = null)
-#     {
-#         $this->val = $val;
-#         $this->next = $next;
-#     }
-# }
-
-class Solution {
-    /**
-     * @param ListNode $head
-     * @param int $n
-     * @return ListNode
-     */
-
-    function removeNthFromEnd($head, $n) {
-        $dummy = new ListNode(0);
-        $dummy->next = $head;
-
-        $first = $dummy;
-        $second = $dummy;
-
-        for ($i = 0; $i <= $n; $i++) {
-            $second = $second->next;
-        }
-
-        while ($second != null) {
-            $first = $first->next;
-            $second = $second->next;
-        }
-
-        $first->next = $first->next->next;
-
-        return $dummy->next;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

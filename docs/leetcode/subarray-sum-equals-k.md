@@ -48,11 +48,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：哈希表 + 前缀和
+## 方法一：哈希表 + 前缀和
 
 我们定义一个哈希表 $\textit{cnt}$，用于存储数组 $\textit{nums}$ 的前缀和出现的次数。初始时，我们将 $\textit{cnt}[0]$ 的值设为 $1$，表示前缀和 $0$ 出现了一次。
 
@@ -63,22 +61,7 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def subarraySum(self, nums: List[int], k: int) -> int:
-        cnt = Counter({0: 1})
-        ans = s = 0
-        for x in nums:
-            s += x
-            ans += cnt[s - k]
-            cnt[s] += 1
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -96,7 +79,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -114,23 +97,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func subarraySum(nums []int, k int) (ans int) {
-	cnt := map[int]int{0: 1}
-	s := 0
-	for _, x := range nums {
-		s += x
-		ans += cnt[s-k]
-		cnt[s]++
-	}
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 function subarraySum(nums: number[], k: number): number {
     const cnt: Map<number, number> = new Map();
@@ -145,29 +111,19 @@ function subarraySum(nums: number[], k: number): number {
 }
 ```
 
-#### Rust
-
-```rust
-use std::collections::HashMap;
-
-impl Solution {
-    pub fn subarray_sum(nums: Vec<i32>, k: i32) -> i32 {
-        let mut cnt = HashMap::new();
-        cnt.insert(0, 1);
-        let mut ans = 0;
-        let mut s = 0;
-        for &x in &nums {
-            s += x;
-            if let Some(&v) = cnt.get(&(s - k)) {
-                ans += v;
-            }
-            *cnt.entry(s).or_insert(0) += 1;
-        }
-        ans
-    }
-}
+```python
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        cnt = Counter({0: 1})
+        ans = s = 0
+        for x in nums:
+            s += x
+            ans += cnt[s - k]
+            cnt[s] += 1
+        return ans
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

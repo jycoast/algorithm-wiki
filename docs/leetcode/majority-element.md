@@ -52,11 +52,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：摩尔投票法
+## 方法一：摩尔投票法
 
 摩尔投票法的基本步骤如下：
 
@@ -70,22 +69,7 @@ tags:
 时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def majorityElement(self, nums: List[int]) -> int:
-        cnt = m = 0
-        for x in nums:
-            if cnt == 0:
-                m, cnt = x, 1
-            else:
-                cnt += 1 if m == x else -1
-        return m
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -103,8 +87,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 class Solution {
@@ -124,28 +106,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func majorityElement(nums []int) int {
-	var cnt, m int
-	for _, x := range nums {
-		if cnt == 0 {
-			m, cnt = x, 1
-		} else {
-			if m == x {
-				cnt++
-			} else {
-				cnt--
-			}
-		}
-	}
-	return m
-}
-```
-
-#### TypeScript
-
 ```ts
 function majorityElement(nums: number[]): number {
     let cnt: number = 0;
@@ -162,93 +122,19 @@ function majorityElement(nums: number[]): number {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn majority_element(nums: Vec<i32>) -> i32 {
-        let mut m = 0;
-        let mut cnt = 0;
-        for &x in nums.iter() {
-            if cnt == 0 {
-                m = x;
-                cnt = 1;
-            } else {
-                cnt += if m == x { 1 } else { -1 };
-            }
-        }
-        m
-    }
-}
+```python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        cnt = m = 0
+        for x in nums:
+            if cnt == 0:
+                m, cnt = x, 1
+            else:
+                cnt += 1 if m == x else -1
+        return m
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @return {number}
- */
-var majorityElement = function (nums) {
-    let cnt = 0;
-    let m = 0;
-    for (const x of nums) {
-        if (cnt === 0) {
-            m = x;
-            cnt = 1;
-        } else {
-            cnt += m === x ? 1 : -1;
-        }
-    }
-    return m;
-};
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public int MajorityElement(int[] nums) {
-        int cnt = 0, m = 0;
-        foreach (int x in nums) {
-            if (cnt == 0) {
-                m = x;
-                cnt = 1;
-            } else {
-                cnt += m == x ? 1 : -1;
-            }
-        }
-        return m;
-    }
-}
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param Integer[] $nums
-     * @return Integer
-     */
-    function majorityElement($nums) {
-        $m = 0;
-        $cnt = 0;
-        foreach ($nums as $x) {
-            if ($cnt == 0) {
-                $m = $x;
-            }
-            if ($m == $x) {
-                $cnt++;
-            } else {
-                $cnt--;
-            }
-        }
-        return $m;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

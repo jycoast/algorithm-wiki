@@ -55,45 +55,18 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：BFS
+## 方法一：BFS
 
 使用 BFS 层序遍历二叉树，每层最后一个节点即为该层的右视图节点。
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树节点个数。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        ans = []
-        if root is None:
-            return ans
-        q = deque([root])
-        while q:
-            ans.append(q[-1].val)
-            for _ in range(len(q)):
-                node = q.popleft()
-                if node.left:
-                    q.append(node.left)
-                if node.right:
-                    q.append(node.right)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -136,7 +109,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -176,41 +149,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func rightSideView(root *TreeNode) (ans []int) {
-	if root == nil {
-		return
-	}
-	q := []*TreeNode{root}
-	for len(q) > 0 {
-		ans = append(ans, q[len(q)-1].Val)
-		for n := len(q); n > 0; n-- {
-			node := q[0]
-			q = q[1:]
-			if node.Left != nil {
-				q = append(q, node.Left)
-			}
-			if node.Right != nil {
-				q = append(q, node.Right)
-			}
-		}
-	}
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * Definition for a binary tree node.
@@ -249,73 +187,7 @@ function rightSideView(root: TreeNode | null): number[] {
 }
 ```
 
-#### Rust
 
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::collections::VecDeque;
-use std::rc::Rc;
-impl Solution {
-    pub fn right_side_view(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-        let mut res = vec![];
-        if root.is_none() {
-            return res;
-        }
-        let mut q = VecDeque::new();
-        q.push_back(root);
-        while !q.is_empty() {
-            let n = q.len();
-            res.push(q[n - 1].as_ref().unwrap().borrow().val);
-            for _ in 0..n {
-                if let Some(node) = q.pop_front().unwrap() {
-                    let mut node = node.borrow_mut();
-                    if node.left.is_some() {
-                        q.push_back(node.left.take());
-                    }
-                    if node.right.is_some() {
-                        q.push_back(node.right.take());
-                    }
-                }
-            }
-        }
-        res
-    }
-}
-```
-
-<!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### 方法二：DFS
-
-使用 DFS 深度优先遍历二叉树，每次先遍历右子树，再遍历左子树，这样每层第一个遍历到的节点即为该层的右视图节点。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树节点个数。
-
-<!-- tabs:start -->
-
-#### Python3
 
 ```python
 # Definition for a binary tree node.
@@ -326,20 +198,36 @@ impl Solution {
 #         self.right = right
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        def dfs(node, depth):
-            if node is None:
-                return
-            if depth == len(ans):
-                ans.append(node.val)
-            dfs(node.right, depth + 1)
-            dfs(node.left, depth + 1)
-
         ans = []
-        dfs(root, 0)
+        if root is None:
+            return ans
+        q = deque([root])
+        while q:
+            ans.append(q[-1].val)
+            for _ in range(len(q)):
+                node = q.popleft()
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
         return ans
 ```
 
-#### Java
+:::
+<!-- tabs:end -->
+
+<!-- solution:end -->
+
+<!-- solution:start -->
+
+## 方法二：DFS
+
+使用 DFS 深度优先遍历二叉树，每次先遍历右子树，再遍历左子树，这样每层第一个遍历到的节点即为该层的右视图节点。
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树节点个数。
+
+<!-- tabs:start -->
+::: code-group
 
 ```java
 /**
@@ -378,7 +266,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -412,36 +300,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func rightSideView(root *TreeNode) (ans []int) {
-	var dfs func(*TreeNode, int)
-	dfs = func(node *TreeNode, depth int) {
-		if node == nil {
-			return
-		}
-		if depth == len(ans) {
-			ans = append(ans, node.Val)
-		}
-		dfs(node.Right, depth+1)
-		dfs(node.Left, depth+1)
-	}
-	dfs(root, 0)
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * Definition for a binary tree node.
@@ -474,6 +332,29 @@ function rightSideView(root: TreeNode | null): number[] {
 }
 ```
 
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        def dfs(node, depth):
+            if node is None:
+                return
+            if depth == len(ans):
+                ans.append(node.val)
+            dfs(node.right, depth + 1)
+            dfs(node.left, depth + 1)
+
+        ans = []
+        dfs(root, 0)
+        return ans
+```
+
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

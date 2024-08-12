@@ -1,5 +1,5 @@
 export default {
-  '/leetcode/': getLeetCode()
+  '/': getLeetCode(),
 }
 
 function getLeetCode() {

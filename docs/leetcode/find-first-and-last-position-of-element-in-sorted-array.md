@@ -54,11 +54,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+## 方法一：二分查找
 
 我们可以进行两次二分查找，分别查找出左边界和右边界。
 
@@ -116,18 +116,7 @@ int search(int left, int right) {
 注意，这两个模板的优点是始终保持答案位于二分区间内，二分结束条件对应的值恰好在答案所处的位置。 对于可能无解的情况，只要判断二分结束后的 $left$ 或者 $right$ 是否满足题意即可。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def searchRange(self, nums: List[int], target: int) -> List[int]:
-        l = bisect_left(nums, target)
-        r = bisect_left(nums, target + 1)
-        return [-1, -1] if l == r else [l, r - 1]
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -152,7 +141,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -165,21 +154,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-func searchRange(nums []int, target int) []int {
-	l := sort.SearchInts(nums, target)
-	r := sort.SearchInts(nums, target+1)
-	if l == r {
-		return []int{-1, -1}
-	}
-	return []int{l, r - 1}
-}
-```
-
-#### TypeScript
 
 ```ts
 function searchRange(nums: number[], target: number): number[] {
@@ -201,92 +175,14 @@ function searchRange(nums: number[], target: number): number[] {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn search_range(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        let n = nums.len();
-        let search = |x| {
-            let mut left = 0;
-            let mut right = n;
-            while left < right {
-                let mid = left + (right - left) / 2;
-                if nums[mid] < x {
-                    left = mid + 1;
-                } else {
-                    right = mid;
-                }
-            }
-            left
-        };
-        let l = search(target);
-        let r = search(target + 1);
-        if l == r {
-            return vec![-1, -1];
-        }
-        vec![l as i32, (r - 1) as i32]
-    }
-}
+```python
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        l = bisect_left(nums, target)
+        r = bisect_left(nums, target + 1)
+        return [-1, -1] if l == r else [l, r - 1]
 ```
-
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
-var searchRange = function (nums, target) {
-    function search(x) {
-        let left = 0,
-            right = nums.length;
-        while (left < right) {
-            const mid = (left + right) >> 1;
-            if (nums[mid] >= x) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return left;
-    }
-    const l = search(target);
-    const r = search(target + 1);
-    return l == r ? [-1, -1] : [l, r - 1];
-};
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param integer[] $nums
-     * @param integer $target
-     * @return integer[]
-     */
-
-    function searchRange($nums, $target) {
-        $min = -1;
-        $max = -1;
-        foreach ($nums as $key => $value) {
-            if ($value == $target) {
-                if ($min == -1) {
-                    $min = $key;
-                }
-
-                if ($key > $max) {
-                    $max = $key;
-                }
-            }
-        }
-        return [$min, $max];
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

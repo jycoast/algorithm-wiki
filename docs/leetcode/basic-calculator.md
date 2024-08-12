@@ -60,11 +60,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：栈
+## 方法一：栈
 
 我们用一个栈 $stk$ 来保存当前的计算结果和操作符，用一个变量 $sign$ 保存当前的符号，变量 $ans$ 保存最终的计算结果。
 
@@ -81,39 +80,7 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def calculate(self, s: str) -> int:
-        stk = []
-        ans, sign = 0, 1
-        i, n = 0, len(s)
-        while i < n:
-            if s[i].isdigit():
-                x = 0
-                j = i
-                while j < n and s[j].isdigit():
-                    x = x * 10 + int(s[j])
-                    j += 1
-                ans += sign * x
-                i = j - 1
-            elif s[i] == "+":
-                sign = 1
-            elif s[i] == "-":
-                sign = -1
-            elif s[i] == "(":
-                stk.append(ans)
-                stk.append(sign)
-                ans, sign = 0, 1
-            elif s[i] == ")":
-                ans = stk.pop() * ans + stk.pop()
-            i += 1
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -150,8 +117,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 class Solution {
@@ -191,44 +156,7 @@ public:
 };
 ```
 
-#### Go
 
-```go
-func calculate(s string) (ans int) {
-	stk := []int{}
-	sign := 1
-	n := len(s)
-	for i := 0; i < n; i++ {
-		switch s[i] {
-		case ' ':
-		case '+':
-			sign = 1
-		case '-':
-			sign = -1
-		case '(':
-			stk = append(stk, ans)
-			stk = append(stk, sign)
-			ans, sign = 0, 1
-		case ')':
-			ans *= stk[len(stk)-1]
-			stk = stk[:len(stk)-1]
-			ans += stk[len(stk)-1]
-			stk = stk[:len(stk)-1]
-		default:
-			x := 0
-			j := i
-			for ; j < n && '0' <= s[j] && s[j] <= '9'; j++ {
-				x = x*10 + int(s[j]-'0')
-			}
-			ans += sign * x
-			i = j - 1
-		}
-	}
-	return
-}
-```
-
-#### TypeScript
 
 ```ts
 function calculate(s: string): number {
@@ -266,46 +194,36 @@ function calculate(s: string): number {
 }
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    public int Calculate(string s) {
-        var stk = new Stack<int>();
-        int sign = 1;
-        int n = s.Length;
-        int ans = 0;
-        for (int i = 0; i < n; ++i) {
-            if (s[i] == ' ') {
-                continue;
-            }
-            if (s[i] == '+') {
-                sign = 1;
-            } else if (s[i] == '-') {
-                sign = -1;
-            } else if (s[i] == '(') {
-                stk.Push(ans);
-                stk.Push(sign);
-                ans = 0;
-                sign = 1;
-            } else if (s[i] == ')') {
-                ans *= stk.Pop();
-                ans += stk.Pop();
-            } else {
-                int num = 0;
-                while (i < n && char.IsDigit(s[i])) {
-                    num = num * 10 + s[i] - '0';
-                    ++i;
-                }
-                --i;
-                ans += sign * num;
-            }
-        }
-        return ans;
-    }
-}
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        stk = []
+        ans, sign = 0, 1
+        i, n = 0, len(s)
+        while i < n:
+            if s[i].isdigit():
+                x = 0
+                j = i
+                while j < n and s[j].isdigit():
+                    x = x * 10 + int(s[j])
+                    j += 1
+                ans += sign * x
+                i = j - 1
+            elif s[i] == "+":
+                sign = 1
+            elif s[i] == "-":
+                sign = -1
+            elif s[i] == "(":
+                stk.append(ans)
+                stk.append(sign)
+                ans, sign = 0, 1
+            elif s[i] == ")":
+                ans = stk.pop() * ans + stk.pop()
+            i += 1
+        return ans
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

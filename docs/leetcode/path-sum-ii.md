@@ -60,47 +60,18 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：DFS
+## 方法一：DFS
 
 我们从根节点开始，递归遍历所有从根节点到叶子节点的路径，并记录路径和。当遍历到叶子节点时，如果此时路径和等于 `targetSum`，则将此路径加入答案。
 
 时间复杂度 $O(n^2)$，其中 $n$ 是二叉树的节点数。空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
-        def dfs(root, s):
-            if root is None:
-                return
-            s += root.val
-            t.append(root.val)
-            if root.left is None and root.right is None and s == targetSum:
-                ans.append(t[:])
-            dfs(root.left, s)
-            dfs(root.right, s)
-            t.pop()
-
-        ans = []
-        t = []
-        dfs(root, 0)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -143,8 +114,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 /**
  * Definition for a binary tree node.
@@ -177,130 +146,33 @@ public:
 };
 ```
 
-#### Go
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        def dfs(root, s):
+            if root is None:
+                return
+            s += root.val
+            t.append(root.val)
+            if root.left is None and root.right is None and s == targetSum:
+                ans.append(t[:])
+            dfs(root.left, s)
+            dfs(root.right, s)
+            t.pop()
 
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func pathSum(root *TreeNode, targetSum int) (ans [][]int) {
-	t := []int{}
-	var dfs func(*TreeNode, int)
-	dfs = func(root *TreeNode, s int) {
-		if root == nil {
-			return
-		}
-		s -= root.Val
-		t = append(t, root.Val)
-		if root.Left == nil && root.Right == nil && s == 0 {
-			ans = append(ans, slices.Clone(t))
-		}
-		dfs(root.Left, s)
-		dfs(root.Right, s)
-		t = t[:len(t)-1]
-	}
-	dfs(root, targetSum)
-	return
-}
+        ans = []
+        t = []
+        dfs(root, 0)
+        return ans
 ```
 
-#### Rust
-
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::rc::Rc;
-impl Solution {
-    fn dfs(
-        root: Option<Rc<RefCell<TreeNode>>>,
-        paths: &mut Vec<i32>,
-        mut target_sum: i32,
-        res: &mut Vec<Vec<i32>>,
-    ) {
-        if let Some(node) = root {
-            let mut node = node.borrow_mut();
-            target_sum -= node.val;
-            paths.push(node.val);
-            if node.left.is_none() && node.right.is_none() {
-                if target_sum == 0 {
-                    res.push(paths.clone());
-                }
-            } else {
-                if node.left.is_some() {
-                    Self::dfs(node.left.take(), paths, target_sum, res);
-                }
-                if node.right.is_some() {
-                    Self::dfs(node.right.take(), paths, target_sum, res);
-                }
-            }
-            paths.pop();
-        }
-    }
-
-    pub fn path_sum(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> Vec<Vec<i32>> {
-        let mut res = vec![];
-        let mut paths = vec![];
-        Self::dfs(root, &mut paths, target_sum, &mut res);
-        res
-    }
-}
-```
-
-#### JavaScript
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @param {number} targetSum
- * @return {number[][]}
- */
-var pathSum = function (root, targetSum) {
-    const ans = [];
-    const t = [];
-    function dfs(root, s) {
-        if (!root) return;
-        s -= root.val;
-        t.push(root.val);
-        if (!root.left && !root.right && s == 0) ans.push([...t]);
-        dfs(root.left, s);
-        dfs(root.right, s);
-        t.pop();
-    }
-    dfs(root, targetSum);
-    return ans;
-};
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

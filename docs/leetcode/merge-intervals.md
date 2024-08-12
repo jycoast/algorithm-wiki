@@ -46,11 +46,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：排序 + 一次遍历
+## 方法一：排序 + 一次遍历
 
 我们可以将区间按照左端点升序排列，然后遍历区间进行合并操作。
 
@@ -66,26 +66,8 @@ tags:
 时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为区间个数。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        intervals.sort()
-        ans = []
-        st, ed = intervals[0]
-        for s, e in intervals[1:]:
-            if ed < s:
-                ans.append([st, ed])
-                st, ed = s, e
-            else:
-                ed = max(ed, e)
-        ans.append([st, ed])
-        return ans
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -109,7 +91,6 @@ class Solution {
 }
 ```
 
-#### C++
 
 ```cpp
 class Solution {
@@ -133,29 +114,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func merge(intervals [][]int) (ans [][]int) {
-	sort.Slice(intervals, func(i, j int) bool {
-		return intervals[i][0] < intervals[j][0]
-	})
-	st, ed := intervals[0][0], intervals[0][1]
-	for _, e := range intervals[1:] {
-		if ed < e[0] {
-			ans = append(ans, []int{st, ed})
-			st, ed = e[0], e[1]
-		} else if ed < e[1] {
-			ed = e[1]
-		}
-	}
-	ans = append(ans, []int{st, ed})
-	return ans
-}
-```
-
-#### TypeScript
-
 ```ts
 function merge(intervals: number[][]): number[][] {
     intervals.sort((a, b) => a[0] - b[0]);
@@ -174,79 +132,34 @@ function merge(intervals: number[][]): number[][] {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn merge(mut intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
-        intervals.sort_unstable_by(|a, b| a[0].cmp(&b[0]));
-        let n = intervals.len();
-        let mut res = vec![];
-        let mut i = 0;
-        while i < n {
-            let l = intervals[i][0];
-            let mut r = intervals[i][1];
-            i += 1;
-            while i < n && r >= intervals[i][0] {
-                r = r.max(intervals[i][1]);
-                i += 1;
-            }
-            res.push(vec![l, r]);
-        }
-        res
-    }
-}
+```python
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort()
+        ans = []
+        st, ed = intervals[0]
+        for s, e in intervals[1:]:
+            if ed < s:
+                ans.append([st, ed])
+                st, ed = s, e
+            else:
+                ed = max(ed, e)
+        ans.append([st, ed])
+        return ans
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    public int[][] Merge(int[][] intervals) {
-        intervals = intervals.OrderBy(a => a[0]).ToArray();
-        int st = intervals[0][0], ed = intervals[0][1];
-        var ans = new List<int[]>();
-        for (int i = 1; i < intervals.Length; ++i) {
-            if (ed < intervals[i][0]) {
-                ans.Add(new int[] { st, ed });
-                st = intervals[i][0];
-                ed = intervals[i][1];
-            } else {
-                ed = Math.Max(ed, intervals[i][1]);
-            }
-        }
-        ans.Add(new int[] { st, ed });
-        return ans.ToArray();
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二
+## 方法二
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        intervals.sort()
-        ans = [intervals[0]]
-        for s, e in intervals[1:]:
-            if ans[-1][1] < s:
-                ans.append([s, e])
-            else:
-                ans[-1][1] = max(ans[-1][1], e)
-        return ans
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -267,7 +180,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -288,25 +201,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func merge(intervals [][]int) (ans [][]int) {
-	sort.Slice(intervals, func(i, j int) bool { return intervals[i][0] < intervals[j][0] })
-	ans = append(ans, intervals[0])
-	for _, e := range intervals[1:] {
-		if ans[len(ans)-1][1] < e[0] {
-			ans = append(ans, e)
-		} else {
-			ans[len(ans)-1][1] = max(ans[len(ans)-1][1], e[1])
-		}
-	}
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 function merge(intervals: number[][]): number[][] {
     intervals.sort((a, b) => a[0] - b[0]);
@@ -322,37 +216,30 @@ function merge(intervals: number[][]): number[][] {
 }
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    public int[][] Merge(int[][] intervals) {
-        intervals = intervals.OrderBy(a => a[0]).ToArray();
-        var ans = new List<int[]>();
-        ans.Add(intervals[0]);
-        for (int i = 1; i < intervals.Length; ++i) {
-            if (ans[ans.Count - 1][1] < intervals[i][0]) {
-                ans.Add(intervals[i]);
-            } else {
-                ans[ans.Count - 1][1] = Math.Max(ans[ans.Count - 1][1], intervals[i][1]);
-            }
-        }
-        return ans.ToArray();
-    }
-}
+```python
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort()
+        ans = [intervals[0]]
+        for s, e in intervals[1:]:
+            if ans[-1][1] < s:
+                ans.append([s, e])
+            else:
+                ans[-1][1] = max(ans[-1][1], e)
+        return ans
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法三
+## 方法三
 
 <!-- tabs:start -->
-
-#### TypeScript
+::: code-group
 
 ```ts
 function merge(intervals: number[][]): number[][] {
@@ -373,6 +260,7 @@ function merge(intervals: number[][]): number[][] {
 }
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

@@ -49,11 +49,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：动态规划
+## 方法一：动态规划
 
 我们定义 $f[i][j]$ 表示以 $nums1[i - 1]$ 和 $nums2[j - 1]$ 结尾的最长公共子数组的长度，那么我们可以得到状态转移方程：
 
@@ -70,24 +68,8 @@ $$
 时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是数组 $nums1$ 和 $nums2$ 的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def findLength(self, nums1: List[int], nums2: List[int]) -> int:
-        m, n = len(nums1), len(nums2)
-        f = [[0] * (n + 1) for _ in range(m + 1)]
-        ans = 0
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                if nums1[i - 1] == nums2[j - 1]:
-                    f[i][j] = f[i - 1][j - 1] + 1
-                    ans = max(ans, f[i][j])
-        return ans
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -109,7 +91,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -131,31 +113,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func findLength(nums1 []int, nums2 []int) (ans int) {
-	m, n := len(nums1), len(nums2)
-	f := make([][]int, m+1)
-	for i := range f {
-		f[i] = make([]int, n+1)
-	}
-	for i := 1; i <= m; i++ {
-		for j := 1; j <= n; j++ {
-			if nums1[i-1] == nums2[j-1] {
-				f[i][j] = f[i-1][j-1] + 1
-				if ans < f[i][j] {
-					ans = f[i][j]
-				}
-			}
-		}
-	}
-	return ans
-}
-```
-
-#### TypeScript
-
 ```ts
 function findLength(nums1: number[], nums2: number[]): number {
     const m = nums1.length;
@@ -174,31 +131,21 @@ function findLength(nums1: number[], nums2: number[]): number {
 }
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums1
- * @param {number[]} nums2
- * @return {number}
- */
-var findLength = function (nums1, nums2) {
-    const m = nums1.length;
-    const n = nums2.length;
-    const f = Array.from({ length: m + 1 }, _ => new Array(n + 1).fill(0));
-    let ans = 0;
-    for (let i = 1; i <= m; ++i) {
-        for (let j = 1; j <= n; ++j) {
-            if (nums1[i - 1] == nums2[j - 1]) {
-                f[i][j] = f[i - 1][j - 1] + 1;
-                ans = Math.max(ans, f[i][j]);
-            }
-        }
-    }
-    return ans;
-};
+```python
+class Solution:
+    def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+        m, n = len(nums1), len(nums2)
+        f = [[0] * (n + 1) for _ in range(m + 1)]
+        ans = 0
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if nums1[i - 1] == nums2[j - 1]:
+                    f[i][j] = f[i - 1][j - 1] + 1
+                    ans = max(ans, f[i][j])
+        return ans
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

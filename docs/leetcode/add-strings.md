@@ -13,7 +13,7 @@ tags:
 # [415. 字符串相加](https://leetcode.cn/problems/add-strings)
 
 
-## 题目描述
+
 
 <!-- description:start -->
 
@@ -58,11 +58,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：双指针
+## 方法一：双指针
 
 我们用两个指针 $i$ 和 $j$ 分别指向两个字符串的末尾，从末尾开始逐位相加。每次取出对应位的数字 $a$ 和 $b$，计算它们的和 $a + b + c$，其中 $c$ 表示上一次相加的进位，最后将 $a + b + c$ 的个位数添加到追加到答案字符串的末尾，然后将 $a + b + c$ 的十位数作为进位 $c$ 的值，循环此过程直至两个字符串的指针都已经指向了字符串的开头并且进位 $c$ 的值为 $0$。
 
@@ -73,44 +71,7 @@ tags:
 以下代码还实现了字符串相减，参考 `subStrings(num1, num2)` 函数。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def addStrings(self, num1: str, num2: str) -> str:
-        i, j = len(num1) - 1, len(num2) - 1
-        ans = []
-        c = 0
-        while i >= 0 or j >= 0 or c:
-            a = 0 if i < 0 else int(num1[i])
-            b = 0 if j < 0 else int(num2[j])
-            c, v = divmod(a + b + c, 10)
-            ans.append(str(v))
-            i, j = i - 1, j - 1
-        return "".join(ans[::-1])
-
-    def subStrings(self, num1: str, num2: str) -> str:
-        m, n = len(num1), len(num2)
-        neg = m < n or (m == n and num1 < num2)
-        if neg:
-            num1, num2 = num2, num1
-        i, j = len(num1) - 1, len(num2) - 1
-        ans = []
-        c = 0
-        while i >= 0:
-            c = int(num1[i]) - c - (0 if j < 0 else int(num2[j]))
-            ans.append(str((c + 10) % 10))
-            c = 1 if c < 0 else 0
-            i, j = i - 1, j - 1
-        while len(ans) > 1 and ans[-1] == '0':
-            ans.pop()
-        if neg:
-            ans.append('-')
-        return ''.join(ans[::-1])
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -152,8 +113,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 class Solution {
@@ -197,62 +156,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func addStrings(num1 string, num2 string) string {
-	i, j := len(num1)-1, len(num2)-1
-	ans := []byte{}
-	for c := 0; i >= 0 || j >= 0 || c > 0; i, j = i-1, j-1 {
-		if i >= 0 {
-			c += int(num1[i] - '0')
-		}
-		if j >= 0 {
-			c += int(num2[j] - '0')
-		}
-		ans = append(ans, byte(c%10+'0'))
-		c /= 10
-	}
-	for i, j := 0, len(ans)-1; i < j; i, j = i+1, j-1 {
-		ans[i], ans[j] = ans[j], ans[i]
-	}
-	return string(ans)
-}
-
-func subStrings(num1 string, num2 string) string {
-	m, n := len(num1), len(num2)
-	neg := m < n || (m == n && num1 < num2)
-	if neg {
-		num1, num2 = num2, num1
-	}
-	i, j := len(num1)-1, len(num2)-1
-	ans := []byte{}
-	for c := 0; i >= 0; i, j = i-1, j-1 {
-		c = int(num1[i]-'0') - c
-		if j >= 0 {
-			c -= int(num2[j] - '0')
-		}
-		ans = append(ans, byte((c+10)%10+'0'))
-		if c < 0 {
-			c = 1
-		} else {
-			c = 0
-		}
-	}
-	for len(ans) > 1 && ans[len(ans)-1] == '0' {
-		ans = ans[:len(ans)-1]
-	}
-	if neg {
-		ans = append(ans, '-')
-	}
-	for i, j := 0, len(ans)-1; i < j; i, j = i+1, j-1 {
-		ans[i], ans[j] = ans[j], ans[i]
-	}
-	return string(ans)
-}
-```
-
-#### TypeScript
 
 ```ts
 function addStrings(num1: string, num2: string): string {
@@ -295,35 +198,6 @@ function subStrings(num1: string, num2: string): string {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn add_strings(num1: String, num2: String) -> String {
-        let mut res = vec![];
-        let s1 = num1.as_bytes();
-        let s2 = num2.as_bytes();
-        let (mut i, mut j) = (s1.len(), s2.len());
-        let mut is_over = false;
-        while i != 0 || j != 0 || is_over {
-            let mut sum = if is_over { 1 } else { 0 };
-            if i != 0 {
-                sum += (s1[i - 1] - b'0') as i32;
-                i -= 1;
-            }
-            if j != 0 {
-                sum += (s2[j - 1] - b'0') as i32;
-                j -= 1;
-            }
-            is_over = sum >= 10;
-            res.push((sum % 10).to_string());
-        }
-        res.into_iter().rev().collect()
-    }
-}
-```
-
-#### JavaScript
 
 ```js
 /**
@@ -376,6 +250,42 @@ var subStrings = function (num1, num2) {
 };
 ```
 
+
+```python
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        i, j = len(num1) - 1, len(num2) - 1
+        ans = []
+        c = 0
+        while i >= 0 or j >= 0 or c:
+            a = 0 if i < 0 else int(num1[i])
+            b = 0 if j < 0 else int(num2[j])
+            c, v = divmod(a + b + c, 10)
+            ans.append(str(v))
+            i, j = i - 1, j - 1
+        return "".join(ans[::-1])
+
+    def subStrings(self, num1: str, num2: str) -> str:
+        m, n = len(num1), len(num2)
+        neg = m < n or (m == n and num1 < num2)
+        if neg:
+            num1, num2 = num2, num1
+        i, j = len(num1) - 1, len(num2) - 1
+        ans = []
+        c = 0
+        while i >= 0:
+            c = int(num1[i]) - c - (0 if j < 0 else int(num2[j]))
+            ans.append(str((c + 10) % 10))
+            c = 1 if c < 0 else 0
+            i, j = i - 1, j - 1
+        while len(ans) > 1 and ans[-1] == '0':
+            ans.pop()
+        if neg:
+            ans.append('-')
+        return ''.join(ans[::-1])
+```
+
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

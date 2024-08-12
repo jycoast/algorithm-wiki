@@ -78,11 +78,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：双指针
+## 方法一：双指针
 
 同时遍历两个字符串，用两个指针 $i$ 和 $j$ 分别指向两个字符串的当前位置，初始时 $i = j = 0$。
 
@@ -91,29 +90,8 @@ tags:
 时间复杂度 $O(\max(m, n))$，空间复杂度 $O(1)$。其中 $m$ 和 $n$ 分别是两个字符串的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def compareVersion(self, version1: str, version2: str) -> int:
-        m, n = len(version1), len(version2)
-        i = j = 0
-        while i < m or j < n:
-            a = b = 0
-            while i < m and version1[i] != '.':
-                a = a * 10 + int(version1[i])
-                i += 1
-            while j < n and version2[j] != '.':
-                b = b * 10 + int(version2[j])
-                j += 1
-            if a != b:
-                return -1 if a < b else 1
-            i, j = i + 1, j + 1
-        return 0
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -136,7 +114,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -160,34 +138,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func compareVersion(version1 string, version2 string) int {
-	m, n := len(version1), len(version2)
-	for i, j := 0, 0; i < m || j < n; i, j = i+1, j+1 {
-		var a, b int
-		for i < m && version1[i] != '.' {
-			a = a*10 + int(version1[i]-'0')
-			i++
-		}
-		for j < n && version2[j] != '.' {
-			b = b*10 + int(version2[j]-'0')
-			j++
-		}
-		if a < b {
-			return -1
-		}
-		if a > b {
-			return 1
-		}
-	}
-	return 0
-}
-```
-
-#### TypeScript
-
 ```ts
 function compareVersion(version1: string, version2: string): number {
     const v1 = version1.split('.');
@@ -205,29 +155,26 @@ function compareVersion(version1: string, version2: string): number {
 }
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    public int CompareVersion(string version1, string version2) {
-        int m = version1.Length, n = version2.Length;
-        for (int i = 0, j = 0; i < m || j < n; ++i, ++j) {
-            int a = 0, b = 0;
-            while (i < m && version1[i] != '.') {
-                a = a * 10 + (version1[i++] - '0');
-            }
-            while (j < n && version2[j] != '.') {
-                b = b * 10 + (version2[j++] - '0');
-            }
-            if (a != b) {
-                return a < b ? -1 : 1;
-            }
-        }
-        return 0;
-    }
-}
+```python
+class Solution:
+    def compareVersion(self, version1: str, version2: str) -> int:
+        m, n = len(version1), len(version2)
+        i = j = 0
+        while i < m or j < n:
+            a = b = 0
+            while i < m and version1[i] != '.':
+                a = a * 10 + int(version1[i])
+                i += 1
+            while j < n and version2[j] != '.':
+                b = b * 10 + int(version2[j])
+                j += 1
+            if a != b:
+                return -1 if a < b else 1
+            i, j = i + 1, j + 1
+        return 0
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

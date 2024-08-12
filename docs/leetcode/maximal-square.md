@@ -12,7 +12,7 @@ tags:
 
 # [221. 最大正方形](https://leetcode.cn/problems/maximal-square)
 
-## 题目描述
+
 
 <!-- description:start -->
 
@@ -54,7 +54,7 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
@@ -75,8 +75,9 @@ $$
 时间复杂度 $O(m\times n)$，空间复杂度 $O(m\times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
+
 
 ```python
 class Solution:
@@ -92,7 +93,7 @@ class Solution:
         return mx * mx
 ```
 
-#### Java
+
 
 ```java
 class Solution {
@@ -113,7 +114,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -135,7 +136,7 @@ public:
 };
 ```
 
-#### Go
+
 
 ```go
 func maximalSquare(matrix [][]byte) int {
@@ -157,7 +158,7 @@ func maximalSquare(matrix [][]byte) int {
 }
 ```
 
-#### C#
+
 
 ```cs
 public class Solution {
@@ -181,6 +182,7 @@ public class Solution {
 }
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

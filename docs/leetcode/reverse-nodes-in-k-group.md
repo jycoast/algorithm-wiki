@@ -57,53 +57,16 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：迭代
+## 方法一：迭代
 
 时间复杂度为 $O(n)$，空间复杂度为 $O(1)$，其中 $n$ 是链表的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
-        def reverseList(head):
-            pre, p = None, head
-            while p:
-                q = p.next
-                p.next = pre
-                pre = p
-                p = q
-            return pre
-
-        dummy = ListNode(next=head)
-        pre = cur = dummy
-        while cur.next:
-            for _ in range(k):
-                cur = cur.next
-                if cur is None:
-                    return dummy.next
-            t = cur.next
-            cur.next = None
-            start = pre.next
-            pre.next = reverseList(start)
-            start.next = t
-            pre = start
-            cur = pre
-        return dummy.next
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -150,46 +113,6 @@ class Solution {
     }
 }
 ```
-
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func reverseKGroup(head *ListNode, k int) *ListNode {
-	var dummy *ListNode = &ListNode{}
-	p, cur := dummy, head
-	for cur != nil {
-		start := cur
-		for i := 0; i < k; i++ {
-			if cur == nil {
-				p.Next = start
-				return dummy.Next
-			}
-			cur = cur.Next
-		}
-		p.Next, p = reverse(start, cur), start
-	}
-	return dummy.Next
-}
-
-func reverse(start, end *ListNode) *ListNode {
-	var pre *ListNode = nil
-	for start != end {
-		tmp := start.Next
-		start.Next, pre = pre, start
-		start = tmp
-	}
-	return pre
-}
-```
-
-#### TypeScript
 
 ```ts
 /**
@@ -242,222 +165,54 @@ function reverse(head: ListNode, tail: ListNode) {
 }
 ```
 
-#### Rust
-
-```rust
-// Definition for singly-linked list.
-// #[derive(PartialEq, Eq, Clone, Debug)]
-// pub struct ListNode {
-//   pub val: i32,
-//   pub next: Option<Box<ListNode>>
-// }
-//
-// impl ListNode {
-//   #[inline]
-//   fn new(val: i32) -> Self {
-//     ListNode {
-//       next: None,
-//       val
-//     }
-//   }
-// }
-impl Solution {
-    pub fn reverse_k_group(head: Option<Box<ListNode>>, k: i32) -> Option<Box<ListNode>> {
-        fn reverse(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-            let mut head = head;
-            let mut pre = None;
-            while let Some(mut node) = head {
-                head = node.next.take();
-                node.next = pre.take();
-                pre = Some(node);
-            }
-            pre
-        }
-
-        let mut dummy = Some(Box::new(ListNode::new(0)));
-        let mut pre = &mut dummy;
-        let mut cur = head;
-        while cur.is_some() {
-            let mut q = &mut cur;
-            for _ in 0..k - 1 {
-                if q.is_none() {
-                    break;
-                }
-                q = &mut q.as_mut().unwrap().next;
-            }
-            if q.is_none() {
-                pre.as_mut().unwrap().next = cur;
-                return dummy.unwrap().next;
-            }
-
-            let b = q.as_mut().unwrap().next.take();
-            pre.as_mut().unwrap().next = reverse(cur);
-            while pre.is_some() && pre.as_mut().unwrap().next.is_some() {
-                pre = &mut pre.as_mut().unwrap().next;
-            }
-            cur = b;
-        }
-        dummy.unwrap().next
-    }
-}
-```
-
-#### C#
-
-```cs
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int val=0, ListNode next=null) {
- *         this.val = val;
- *         this.next = next;
- *     }
- * }
- */
-public class Solution {
-    public ListNode ReverseKGroup(ListNode head, int k) {
-        ListNode dummy = new ListNode(0, head);
-        ListNode pre = dummy, cur = dummy;
-        while (cur.next != null)
-        {
-            for (int i = 0; i < k && cur != null; ++i)
-            {
-                cur = cur.next;
-            }
-            if (cur == null)
-            {
-                return dummy.next;
-            }
-            ListNode t = cur.next;
-            cur.next = null;
-            ListNode start = pre.next;
-            pre.next = ReverseList(start);
-            start.next = t;
-            pre = start;
-            cur = pre;
-        }
-        return dummy.next;
-    }
-
-    private ListNode ReverseList(ListNode head) {
-        ListNode pre = null, p = head;
-        while (p != null)
-        {
-            ListNode q = p.next;
-            p.next = pre;
-            pre = p;
-            p = q;
-        }
-        return pre;
-    }
-}
-```
-
-#### PHP
-
-```php
+```python
 # Definition for singly-linked list.
-# class ListNode {
-#     public $val;
-#     public $next;
-#     public function __construct($val = 0, $next = null)
-#     {
-#         $this->val = $val;
-#         $this->next = $next;
-#     }
-# }
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
+        def reverseList(head):
+            pre, p = None, head
+            while p:
+                q = p.next
+                p.next = pre
+                pre = p
+                p = q
+            return pre
 
-class Solution {
-    /**
-     * @param ListNode $head
-     * @param int $k
-     * @return ListNode
-     */
-
-    function reverseKGroup($head, $k) {
-        $dummy = new ListNode(0);
-        $dummy->next = $head;
-        $prevGroupTail = $dummy;
-
-        while ($head !== null) {
-            $count = 0;
-            $groupHead = $head;
-            $groupTail = $head;
-
-            while ($count < $k && $head !== null) {
-                $head = $head->next;
-                $count++;
-            }
-            if ($count < $k) {
-                $prevGroupTail->next = $groupHead;
-                break;
-            }
-
-            $prev = null;
-            for ($i = 0; $i < $k; $i++) {
-                $next = $groupHead->next;
-                $groupHead->next = $prev;
-                $prev = $groupHead;
-                $groupHead = $next;
-            }
-            $prevGroupTail->next = $prev;
-            $prevGroupTail = $groupTail;
-        }
-
-        return $dummy->next;
-    }
-}
+        dummy = ListNode(next=head)
+        pre = cur = dummy
+        while cur.next:
+            for _ in range(k):
+                cur = cur.next
+                if cur is None:
+                    return dummy.next
+            t = cur.next
+            cur.next = None
+            start = pre.next
+            pre.next = reverseList(start)
+            start.next = t
+            pre = start
+            cur = pre
+        return dummy.next
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：递归
+## 方法二：递归
 
 时间复杂度为 $O(n)$，空间复杂度为 $O(\log _k n)$，其中 $n$ 是链表的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func reverseKGroup(head *ListNode, k int) *ListNode {
-	start, end := head, head
-	for i := 0; i < k; i++ {
-		if end == nil {
-			return head
-		}
-		end = end.Next
-	}
-	res := reverse(start, end)
-	start.Next = reverseKGroup(end, k)
-	return res
-}
-
-func reverse(start, end *ListNode) *ListNode {
-	var pre *ListNode = nil
-	for start != end {
-		tmp := start.Next
-		start.Next, pre = pre, start
-		start = tmp
-	}
-	return pre
-}
-```
-
-#### TypeScript
 
 ```ts
 /**
@@ -508,6 +263,7 @@ function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
 }
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

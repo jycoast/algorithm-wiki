@@ -68,11 +68,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：拒绝采样
+## 方法一：拒绝采样
 
 我们可以使用拒绝采样的方法实现等概率生成任意区间的随机数。拒绝采样的思路是如果生成的随机数落在我们希望的区间内，那么就返回该随机数，否则会不断生成直到生成一个落在区间内的随机数为止。
 
@@ -83,29 +82,7 @@ tags:
 期望时间复杂度为 $O(1)$，但是最坏情况下会达到无穷大的时间复杂度。空间复杂度为 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# The rand7() API is already defined for you.
-# def rand7():
-# @return a random integer in the range 1 to 7
-
-
-class Solution:
-    def rand10(self):
-        """
-        :rtype: int
-        """
-        while 1:
-            i = rand7() - 1
-            j = rand7()
-            x = i * 7 + j
-            if x <= 40:
-                return x % 10 + 1
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -127,7 +104,7 @@ class Solution extends SolBase {
 }
 ```
 
-#### C++
+
 
 ```cpp
 // The rand7() API is already defined for you.
@@ -149,23 +126,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func rand10() int {
-	for {
-		i := rand7() - 1
-		j := rand7()
-		x := i*7 + j
-		if x <= 40 {
-			return x%10 + 1
-		}
-	}
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * The rand7() API is already defined for you.
@@ -185,29 +145,26 @@ function rand10(): number {
 }
 ```
 
-#### Rust
+```python
+# The rand7() API is already defined for you.
+# def rand7():
+# @return a random integer in the range 1 to 7
 
-```rust
-/**
- * The rand7() API is already defined for you.
- * @return a random integer in the range 1 to 7
- * fn rand7() -> i32;
- */
 
-impl Solution {
-    pub fn rand10() -> i32 {
-        loop {
-            let i = rand7() - 1;
-            let j = rand7();
-            let x = i * 7 + j;
-            if x <= 40 {
-                return (x % 10) + 1;
-            }
-        }
-    }
-}
+class Solution:
+    def rand10(self):
+        """
+        :rtype: int
+        """
+        while 1:
+            i = rand7() - 1
+            j = rand7()
+            x = i * 7 + j
+            if x <= 40:
+                return x % 10 + 1
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

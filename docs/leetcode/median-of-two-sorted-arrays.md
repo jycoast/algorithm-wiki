@@ -55,11 +55,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：分治
+## 方法一：分治
 
 题目要求算法的时间复杂度为 $O(\log (m + n))$，因此不能直接遍历两个数组，而是需要使用二分查找的方法。
 
@@ -79,31 +78,8 @@ tags:
 时间复杂度 $O(\log(m + n))$，空间复杂度 $O(\log(m + n))$。其中 $m$ 和 $n$ 分别是数组 $nums1$ 和 $nums2$ 的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        def f(i: int, j: int, k: int) -> int:
-            if i >= m:
-                return nums2[j + k - 1]
-            if j >= n:
-                return nums1[i + k - 1]
-            if k == 1:
-                return min(nums1[i], nums2[j])
-            p = k // 2
-            x = nums1[i + p - 1] if i + p - 1 < m else inf
-            y = nums2[j + p - 1] if j + p - 1 < n else inf
-            return f(i + p, j, k - p) if x < y else f(i, j + p, k - p)
-
-        m, n = len(nums1), len(nums2)
-        a = f(0, 0, (m + n + 1) // 2)
-        b = f(0, 0, (m + n + 2) // 2)
-        return (a + b) / 2
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -140,7 +116,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -169,42 +145,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
-	m, n := len(nums1), len(nums2)
-	var f func(i, j, k int) int
-	f = func(i, j, k int) int {
-		if i >= m {
-			return nums2[j+k-1]
-		}
-		if j >= n {
-			return nums1[i+k-1]
-		}
-		if k == 1 {
-			return min(nums1[i], nums2[j])
-		}
-		p := k / 2
-		x, y := 1<<30, 1<<30
-		if ni := i + p - 1; ni < m {
-			x = nums1[ni]
-		}
-		if nj := j + p - 1; nj < n {
-			y = nums2[nj]
-		}
-		if x < y {
-			return f(i+p, j, k-p)
-		}
-		return f(i, j+p, k-p)
-	}
-	a, b := f(0, 0, (m+n+1)/2), f(0, 0, (m+n+2)/2)
-	return float64(a+b) / 2.0
-}
-```
-
-#### TypeScript
-
 ```ts
 function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
     const m = nums1.length;
@@ -230,124 +170,28 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
 }
 ```
 
-#### JavaScript
+```python
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        def f(i: int, j: int, k: int) -> int:
+            if i >= m:
+                return nums2[j + k - 1]
+            if j >= n:
+                return nums1[i + k - 1]
+            if k == 1:
+                return min(nums1[i], nums2[j])
+            p = k // 2
+            x = nums1[i + p - 1] if i + p - 1 < m else inf
+            y = nums2[j + p - 1] if j + p - 1 < n else inf
+            return f(i + p, j, k - p) if x < y else f(i, j + p, k - p)
 
-```js
-/**
- * @param {number[]} nums1
- * @param {number[]} nums2
- * @return {number}
- */
-var findMedianSortedArrays = function (nums1, nums2) {
-    const m = nums1.length;
-    const n = nums2.length;
-    const f = (i, j, k) => {
-        if (i >= m) {
-            return nums2[j + k - 1];
-        }
-        if (j >= n) {
-            return nums1[i + k - 1];
-        }
-        if (k == 1) {
-            return Math.min(nums1[i], nums2[j]);
-        }
-        const p = Math.floor(k / 2);
-        const x = i + p - 1 < m ? nums1[i + p - 1] : 1 << 30;
-        const y = j + p - 1 < n ? nums2[j + p - 1] : 1 << 30;
-        return x < y ? f(i + p, j, k - p) : f(i, j + p, k - p);
-    };
-    const a = f(0, 0, Math.floor((m + n + 1) / 2));
-    const b = f(0, 0, Math.floor((m + n + 2) / 2));
-    return (a + b) / 2;
-};
+        m, n = len(nums1), len(nums2)
+        a = f(0, 0, (m + n + 1) // 2)
+        b = f(0, 0, (m + n + 2) // 2)
+        return (a + b) / 2
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    private int m;
-    private int n;
-    private int[] nums1;
-    private int[] nums2;
-
-    public double FindMedianSortedArrays(int[] nums1, int[] nums2) {
-        m = nums1.Length;
-        n = nums2.Length;
-        this.nums1 = nums1;
-        this.nums2 = nums2;
-        int a = f(0, 0, (m + n + 1) / 2);
-        int b = f(0, 0, (m + n + 2) / 2);
-        return (a + b) / 2.0;
-    }
-
-    private int f(int i, int j, int k) {
-        if (i >= m) {
-            return nums2[j + k - 1];
-        }
-        if (j >= n) {
-            return nums1[i + k - 1];
-        }
-        if (k == 1) {
-            return Math.Min(nums1[i], nums2[j]);
-        }
-        int p = k / 2;
-        int x = i + p - 1 < m ? nums1[i + p - 1] : 1 << 30;
-        int y = j + p - 1 < n ? nums2[j + p - 1] : 1 << 30;
-        return x < y ? f(i + p, j, k - p) : f(i, j + p, k - p);
-    }
-}
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param int[] $nums1
-     * @param int[] $nums2
-     * @return float
-     */
-
-    function findMedianSortedArrays($nums1, $nums2) {
-        $arr = array_merge($nums1, $nums2);
-        sort($arr);
-        $cnt_arr = count($arr);
-
-        if ($cnt_arr % 2) {
-            return $arr[$cnt_arr / 2];
-        } else {
-            return ($arr[intdiv($cnt_arr, 2) - 1] + $arr[intdiv($cnt_arr, 2)]) / 2;
-        }
-    }
-}
-```
-
-#### Nim
-
-```nim
-import std/[algorithm, sequtils]
-
-proc medianOfTwoSortedArrays(nums1: seq[int], nums2: seq[int]): float =
-  var
-    fullList: seq[int] = concat(nums1, nums2)
-    value: int = fullList.len div 2
-
-  fullList.sort()
-
-  if fullList.len mod 2 == 0:
-    result = (fullList[value - 1] + fullList[value]) / 2
-  else:
-    result = fullList[value].toFloat()
-
-# Driver Code
-
-# var
-#   arrA: seq[int] = @[1, 2]
-#   arrB: seq[int] = @[3, 4, 5]
-# echo medianOfTwoSortedArrays(arrA, arrB)
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

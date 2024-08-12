@@ -47,27 +47,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：自定义排序
+## 方法一：自定义排序
 
 先转成字符串列表，再对字符串列表进行字典序降序排列。最后将列表所有字符串拼接即可。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def largestNumber(self, nums: List[int]) -> str:
-        nums = [str(v) for v in nums]
-        nums.sort(key=cmp_to_key(lambda a, b: 1 if a + b < b + a else -1))
-        return "0" if nums[0] == "0" else "".join(nums)
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -85,7 +75,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -104,83 +94,15 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func largestNumber(nums []int) string {
-	vs := make([]string, len(nums))
-	for i, v := range nums {
-		vs[i] = strconv.Itoa(v)
-	}
-	sort.Slice(vs, func(i, j int) bool {
-		return vs[i]+vs[j] > vs[j]+vs[i]
-	})
-	if vs[0] == "0" {
-		return "0"
-	}
-	return strings.Join(vs, "")
-}
+```python
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        nums = [str(v) for v in nums]
+        nums.sort(key=cmp_to_key(lambda a, b: 1 if a + b < b + a else -1))
+        return "0" if nums[0] == "0" else "".join(nums)
 ```
 
-#### C#
-
-```cs
-using System;
-using System.Globalization;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public class Comparer: IComparer<string>
-{
-    public int Compare(string left, string right)
-    {
-        return Compare(left, right, 0, 0);
-    }
-
-    private int Compare(string left, string right, int lBegin, int rBegin)
-    {
-        var len = Math.Min(left.Length - lBegin, right.Length - rBegin);
-        for (var i = 0; i < len; ++i)
-        {
-            if (left[lBegin + i] != right[rBegin + i])
-            {
-                return left[lBegin + i] < right[rBegin + i] ? -1 : 1;
-            }
-        }
-
-        if (left.Length - lBegin == right.Length - rBegin)
-        {
-            return 0;
-        }
-        if (left.Length - lBegin > right.Length - rBegin)
-        {
-            return Compare(left, right, lBegin + len, rBegin);
-        }
-        else
-        {
-            return Compare(left, right, lBegin, rBegin + len);
-        }
-    }
-}
-
-public class Solution {
-    public string LargestNumber(int[] nums) {
-        var sb = new StringBuilder();
-        var strs = nums.Select(n => n.ToString(CultureInfo.InvariantCulture)).OrderByDescending(s => s, new Comparer());
-
-        var nonZeroOccurred = false;
-        foreach (var str in strs)
-        {
-            if (!nonZeroOccurred && str == "0") continue;
-            sb.Append(str);
-            nonZeroOccurred = true;
-        }
-        return sb.Length == 0 ? "0" : sb.ToString();
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

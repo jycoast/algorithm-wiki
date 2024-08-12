@@ -57,19 +57,18 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：头插法
+## 方法一：头插法
 
 创建虚拟头节点 $dummy$，遍历链表，将每个节点依次插入 $dummy$ 的下一个节点。遍历结束，返回 $dummy.next$。
 
 时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为链表的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Java
 
 ```java
 /**
@@ -97,7 +96,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -125,31 +124,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func reverseList(head *ListNode) *ListNode {
-	dummy := &ListNode{}
-	curr := head
-	for curr != nil {
-		next := curr.Next
-		curr.Next = dummy.Next
-		dummy.Next = curr
-		curr = next
-	}
-	return dummy.Next
-}
-```
-
-#### TypeScript
 
 ```ts
 /**
@@ -179,128 +153,21 @@ function reverseList(head: ListNode | null): ListNode | null {
 }
 ```
 
-#### Rust
-
-```rust
-// Definition for singly-linked list.
-// #[derive(PartialEq, Eq, Clone, Debug)]
-// pub struct ListNode {
-//   pub val: i32,
-//   pub next: Option<Box<ListNode>>
-// }
-//
-// impl ListNode {
-//   #[inline]
-//   fn new(val: i32) -> Self {
-//     ListNode {
-//       next: None,
-//       val
-//     }
-//   }
-// }
-impl Solution {
-    pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        let mut head = head;
-        let mut pre = None;
-        while let Some(mut node) = head {
-            head = node.next.take();
-            node.next = pre.take();
-            pre = Some(node);
-        }
-        pre
-    }
-}
-```
-
-#### JavaScript
-
-```js
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
-var reverseList = function (head) {
-    let dummy = new ListNode();
-    let curr = head;
-    while (curr) {
-        let next = curr.next;
-        curr.next = dummy.next;
-        dummy.next = curr;
-        curr = next;
-    }
-    return dummy.next;
-};
-```
-
-#### C#
-
-```cs
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int val=0, ListNode next=null) {
- *         this.val = val;
- *         this.next = next;
- *     }
- * }
- */
-public class Solution {
-    public ListNode ReverseList(ListNode head) {
-        ListNode pre = null;
-        for (ListNode p = head; p != null;)
-        {
-            ListNode t = p.next;
-            p.next = pre;
-            pre = p;
-            p = t;
-        }
-        return pre;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：递归
+## 方法二：递归
 
 递归反转链表的第二个节点到尾部的所有节点，然后 $head$ 插在反转后的链表的尾部。
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为链表的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def reverseList(self, head: ListNode) -> ListNode:
-        if head is None or head.next is None:
-            return head
-        ans = self.reverseList(head.next)
-        head.next.next = head
-        head.next = None
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -326,8 +193,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 /**
  * Definition for singly-linked list.
@@ -350,29 +215,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func reverseList(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil {
-		return head
-	}
-	ans := reverseList(head.Next)
-	head.Next.Next = head
-	head.Next = nil
-	return ans
-}
-```
-
-#### TypeScript
 
 ```ts
 /**
@@ -405,43 +247,23 @@ function reverseList(head: ListNode | null): ListNode | null {
 }
 ```
 
-#### Rust
-
-```rust
-// Definition for singly-linked list.
-// #[derive(PartialEq, Eq, Clone, Debug)]
-// pub struct ListNode {
-//   pub val: i32,
-//   pub next: Option<Box<ListNode>>
-// }
-//
-// impl ListNode {
-//   #[inline]
-//   fn new(val: i32) -> Self {
-//     ListNode {
-//       next: None,
-//       val
-//     }
-//   }
-// }
-impl Solution {
-    fn rev(pre: Option<Box<ListNode>>, cur: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        match cur {
-            None => pre,
-            Some(mut node) => {
-                let next = node.next;
-                node.next = pre;
-                Self::rev(Some(node), next)
-            }
-        }
-    }
-
-    pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        Self::rev(None, head)
-    }
-}
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        if head is None or head.next is None:
+            return head
+        ans = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None
+        return ans
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

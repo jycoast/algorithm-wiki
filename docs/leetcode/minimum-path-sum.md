@@ -50,11 +50,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：动态规划
+## 方法一：动态规划
 
 我们定义 $f[i][j]$ 表示从左上角走到 $(i, j)$ 位置的最小路径和。初始时 $f[0][0] = grid[0][0]$，答案为 $f[m - 1][n - 1]$。
 
@@ -69,26 +67,8 @@ tags:
 时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def minPathSum(self, grid: List[List[int]]) -> int:
-        m, n = len(grid), len(grid[0])
-        f = [[0] * n for _ in range(m)]
-        f[0][0] = grid[0][0]
-        for i in range(1, m):
-            f[i][0] = f[i - 1][0] + grid[i][0]
-        for j in range(1, n):
-            f[0][j] = f[0][j - 1] + grid[0][j]
-        for i in range(1, m):
-            for j in range(1, n):
-                f[i][j] = min(f[i - 1][j], f[i][j - 1]) + grid[i][j]
-        return f[-1][-1]
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -112,7 +92,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -137,33 +117,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func minPathSum(grid [][]int) int {
-	m, n := len(grid), len(grid[0])
-	f := make([][]int, m)
-	for i := range f {
-		f[i] = make([]int, n)
-	}
-	f[0][0] = grid[0][0]
-	for i := 1; i < m; i++ {
-		f[i][0] = f[i-1][0] + grid[i][0]
-	}
-	for j := 1; j < n; j++ {
-		f[0][j] = f[0][j-1] + grid[0][j]
-	}
-	for i := 1; i < m; i++ {
-		for j := 1; j < n; j++ {
-			f[i][j] = min(f[i-1][j], f[i][j-1]) + grid[i][j]
-		}
-	}
-	return f[m-1][n-1]
-}
-```
-
-#### TypeScript
-
 ```ts
 function minPathSum(grid: number[][]): number {
     const m = grid.length;
@@ -187,82 +140,23 @@ function minPathSum(grid: number[][]): number {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn min_path_sum(mut grid: Vec<Vec<i32>>) -> i32 {
-        let m = grid.len();
-        let n = grid[0].len();
-        for i in 1..m {
-            grid[i][0] += grid[i - 1][0];
-        }
-        for i in 1..n {
-            grid[0][i] += grid[0][i - 1];
-        }
-        for i in 1..m {
-            for j in 1..n {
-                grid[i][j] += grid[i][j - 1].min(grid[i - 1][j]);
-            }
-        }
-        grid[m - 1][n - 1]
-    }
-}
+```python
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        f = [[0] * n for _ in range(m)]
+        f[0][0] = grid[0][0]
+        for i in range(1, m):
+            f[i][0] = f[i - 1][0] + grid[i][0]
+        for j in range(1, n):
+            f[0][j] = f[0][j - 1] + grid[0][j]
+        for i in range(1, m):
+            for j in range(1, n):
+                f[i][j] = min(f[i - 1][j], f[i][j - 1]) + grid[i][j]
+        return f[-1][-1]
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[][]} grid
- * @return {number}
- */
-var minPathSum = function (grid) {
-    const m = grid.length;
-    const n = grid[0].length;
-    const f = Array(m)
-        .fill(0)
-        .map(() => Array(n).fill(0));
-    f[0][0] = grid[0][0];
-    for (let i = 1; i < m; ++i) {
-        f[i][0] = f[i - 1][0] + grid[i][0];
-    }
-    for (let j = 1; j < n; ++j) {
-        f[0][j] = f[0][j - 1] + grid[0][j];
-    }
-    for (let i = 1; i < m; ++i) {
-        for (let j = 1; j < n; ++j) {
-            f[i][j] = Math.min(f[i - 1][j], f[i][j - 1]) + grid[i][j];
-        }
-    }
-    return f[m - 1][n - 1];
-};
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public int MinPathSum(int[][] grid) {
-        int m = grid.Length, n = grid[0].Length;
-        int[,] f = new int[m, n];
-        f[0, 0] = grid[0][0];
-        for (int i = 1; i < m; ++i) {
-            f[i, 0] = f[i - 1, 0] + grid[i][0];
-        }
-        for (int j = 1; j < n; ++j) {
-            f[0, j] = f[0, j - 1] + grid[0][j];
-        }
-        for (int i = 1; i < m; ++i) {
-            for (int j = 1; j < n; ++j) {
-                f[i, j] = Math.Min(f[i - 1, j], f[i, j - 1]) + grid[i][j];
-            }
-        }
-        return f[m - 1, n - 1];
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

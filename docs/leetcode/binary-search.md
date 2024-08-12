@@ -44,11 +44,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+## 方法一：二分查找
 
 我们定义二分查找的左边界 $l=0$，右边界 $r=n-1$。
 
@@ -62,23 +62,7 @@ tags:
 时间复杂度 $O(\log n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def search(self, nums: List[int], target: int) -> int:
-        l, r = 0, len(nums) - 1
-        while l < r:
-            mid = (l + r) >> 1
-            if nums[mid] >= target:
-                r = mid
-            else:
-                l = mid + 1
-        return l if nums[l] == target else -1
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -97,7 +81,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -117,108 +101,20 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func search(nums []int, target int) int {
-	l, r := 0, len(nums)-1
-	for l < r {
-		mid := (l + r) >> 1
-		if nums[mid] >= target {
-			r = mid
-		} else {
-			l = mid + 1
-		}
-	}
-	if nums[l] == target {
-		return l
-	}
-	return -1
-}
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        l, r = 0, len(nums) - 1
+        while l < r:
+            mid = (l + r) >> 1
+            if nums[mid] >= target:
+                r = mid
+            else:
+                l = mid + 1
+        return l if nums[l] == target else -1
 ```
 
-#### TypeScript
-
-```ts
-function search(nums: number[], target: number): number {
-    let [l, r] = [0, nums.length - 1];
-    while (l < r) {
-        const mid = (l + r) >> 1;
-        if (nums[mid] >= target) {
-            r = mid;
-        } else {
-            l = mid + 1;
-        }
-    }
-    return nums[l] === target ? l : -1;
-}
-```
-
-#### Rust
-
-```rust
-impl Solution {
-    pub fn search(nums: Vec<i32>, target: i32) -> i32 {
-        let mut l: usize = 0;
-        let mut r: usize = nums.len() - 1;
-        while l < r {
-            let mid = (l + r) >> 1;
-            if nums[mid] >= target {
-                r = mid;
-            } else {
-                l = mid + 1;
-            }
-        }
-        if nums[l] == target {
-            l as i32
-        } else {
-            -1
-        }
-    }
-}
-```
-
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number}
- */
-var search = function (nums, target) {
-    let [l, r] = [0, nums.length - 1];
-    while (l < r) {
-        const mid = (l + r) >> 1;
-        if (nums[mid] >= target) {
-            r = mid;
-        } else {
-            l = mid + 1;
-        }
-    }
-    return nums[l] === target ? l : -1;
-};
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public int Search(int[] nums, int target) {
-        int l = 0, r = nums.Length - 1;
-        while (l < r) {
-            int mid = (l + r) >> 1;
-            if (nums[mid] >= target) {
-                r = mid;
-            } else {
-                l = mid + 1;
-            }
-        }
-        return nums[l] == target ? l : -1;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

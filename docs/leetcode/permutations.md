@@ -52,11 +52,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：DFS（回溯）
+## 方法一：DFS（回溯）
 
 我们设计一个函数 $dfs(i)$ 表示已经填完了前 $i$ 个位置，现在需要填第 $i+1$ 个位置。枚举所有可能的数，如果这个数没有被填过，就填入这个数，然后继续填下一个位置，直到填完所有的位置。
 
@@ -67,40 +67,7 @@ tags:
 -   [47. 全排列 II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0047.Permutations%20II/README.md)
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def permute(self, nums: List[int]) -> List[List[int]]:
-        return list(permutations(nums))
-```
-
-#### Python3
-
-```python
-class Solution:
-    def permute(self, nums: List[int]) -> List[List[int]]:
-        def dfs(i):
-            if i == n:
-                ans.append(t[:])
-                return
-            for j in range(n):
-                if not vis[j]:
-                    vis[j] = True
-                    t[i] = nums[j]
-                    dfs(i + 1)
-                    vis[j] = False
-
-        n = len(nums)
-        vis = [False] * n
-        t = [0] * n
-        ans = []
-        dfs(0)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -134,7 +101,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -164,35 +131,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func permute(nums []int) (ans [][]int) {
-	n := len(nums)
-	t := make([]int, n)
-	vis := make([]bool, n)
-	var dfs func(int)
-	dfs = func(i int) {
-		if i == n {
-			ans = append(ans, slices.Clone(t))
-			return
-		}
-		for j, v := range nums {
-			if !vis[j] {
-				vis[j] = true
-				t[i] = v
-				dfs(i + 1)
-				vis[j] = false
-			}
-		}
-	}
-	dfs(0)
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 function permute(nums: number[]): number[][] {
     const n = nums.length;
@@ -212,93 +150,29 @@ function permute(nums: number[]): number[][] {
 }
 ```
 
-#### Rust
+```python
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def dfs(i):
+            if i == n:
+                ans.append(t[:])
+                return
+            for j in range(n):
+                if not vis[j]:
+                    vis[j] = True
+                    t[i] = nums[j]
+                    dfs(i + 1)
+                    vis[j] = False
 
-```rust
-impl Solution {
-    fn dfs(i: usize, nums: &mut Vec<i32>, res: &mut Vec<Vec<i32>>) {
-        let n = nums.len();
-        if i == n {
-            res.push(nums.clone());
-            return;
-        }
-        for j in i..n {
-            nums.swap(i, j);
-            Self::dfs(i + 1, nums, res);
-            nums.swap(i, j);
-        }
-    }
-
-    pub fn permute(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
-        let mut res = vec![];
-        Self::dfs(0, &mut nums, &mut res);
-        res
-    }
-}
+        n = len(nums)
+        vis = [False] * n
+        t = [0] * n
+        ans = []
+        dfs(0)
+        return ans
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @return {number[][]}
- */
-var permute = function (nums) {
-    const n = nums.length;
-    const ans = [];
-    const t = [];
-    const vis = new Array(n).fill(false);
-    function dfs(i) {
-        if (i >= n) {
-            ans.push([...t]);
-            return;
-        }
-        for (let j = 0; j < n; ++j) {
-            if (!vis[j]) {
-                vis[j] = true;
-                t.push(nums[j]);
-                dfs(i + 1);
-                vis[j] = false;
-                t.pop();
-            }
-        }
-    }
-    dfs(0);
-    return ans;
-};
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public IList<IList<int>> Permute(int[] nums) {
-        var ans = new List<IList<int>>();
-        var t = new List<int>();
-        var vis = new bool[nums.Length];
-        dfs(nums, 0, t, vis, ans);
-        return ans;
-    }
-
-    private void dfs(int[] nums, int i, IList<int> t, bool[] vis, IList<IList<int>> ans) {
-        if (i >= nums.Length) {
-            ans.Add(new List<int>(t));
-            return;
-        }
-        for (int j = 0; j < nums.Length; ++j) {
-            if (!vis[j]) {
-                vis[j] = true;
-                t.Add(nums[j]);
-                dfs(nums, i + 1, t, vis, ans);
-                t.RemoveAt(t.Count - 1);
-                vis[j] = false;
-            }
-        }
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

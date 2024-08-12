@@ -44,11 +44,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：一次遍历
+## 方法一：一次遍历
 
 我们用一个指针 $cur$ 来遍历链表。如果当前 $cur$ 与 $cur.next$ 对应的元素相同，我们就将 $cur$ 的 $next$ 指针指向 $cur$ 的下下个节点。否则，说明链表中 $cur$ 对应的元素是不重复的，因此可以将 $cur$ 指针移动到下一个节点。
 
@@ -57,27 +57,7 @@ tags:
 时间复杂度 $O(n)$，其中 $n$ 是链表的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        cur = head
-        while cur and cur.next:
-            if cur.val == cur.next.val:
-                cur.next = cur.next.next
-            else:
-                cur = cur.next
-        return head
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -104,8 +84,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 /**
@@ -134,122 +112,24 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func deleteDuplicates(head *ListNode) *ListNode {
-	cur := head
-	for cur != nil && cur.Next != nil {
-		if cur.Val == cur.Next.Val {
-			cur.Next = cur.Next.Next
-		} else {
-			cur = cur.Next
-		}
-	}
-	return head
-}
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        cur = head
+        while cur and cur.next:
+            if cur.val == cur.next.val:
+                cur.next = cur.next.next
+            else:
+                cur = cur.next
+        return head
 ```
 
-#### Rust
-
-```rust
-// Definition for singly-linked list.
-// #[derive(PartialEq, Eq, Clone, Debug)]
-// pub struct ListNode {
-//   pub val: i32,
-//   pub next: Option<Box<ListNode>>
-// }
-//
-// impl ListNode {
-//   #[inline]
-//   fn new(val: i32) -> Self {
-//     ListNode {
-//       next: None,
-//       val
-//     }
-//   }
-// }
-impl Solution {
-    pub fn delete_duplicates(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        let mut dummy = Some(Box::new(ListNode::new(i32::MAX)));
-        let mut p = &mut dummy;
-
-        let mut current = head;
-        while let Some(mut node) = current {
-            current = node.next.take();
-            if p.as_mut().unwrap().val != node.val {
-                p.as_mut().unwrap().next = Some(node);
-                p = &mut p.as_mut().unwrap().next;
-            }
-        }
-        dummy.unwrap().next
-    }
-}
-```
-
-#### JavaScript
-
-```js
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
-var deleteDuplicates = function (head) {
-    let cur = head;
-    while (cur && cur.next) {
-        if (cur.next.val === cur.val) {
-            cur.next = cur.next.next;
-        } else {
-            cur = cur.next;
-        }
-    }
-    return head;
-};
-```
-
-#### C#
-
-```cs
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int val=0, ListNode next=null) {
- *         this.val = val;
- *         this.next = next;
- *     }
- * }
- */
-public class Solution {
-    public ListNode DeleteDuplicates(ListNode head) {
-        ListNode cur = head;
-        while (cur != null && cur.next != null) {
-            if (cur.val == cur.next.val) {
-                cur.next = cur.next.next;
-            } else {
-                cur = cur.next;
-            }
-        }
-        return head;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

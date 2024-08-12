@@ -62,11 +62,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+## 方法一：动态规划
 
 我们定义 $f[i]$ 表示以 $nums[i]$ 结尾的最长递增子序列的长度，初始时 $f[i] = 1$，答案为 $f[i]$ 的最大值。
 
@@ -77,22 +76,7 @@ tags:
 时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-        n = len(nums)
-        f = [1] * n
-        for i in range(1, n):
-            for j in range(i):
-                if nums[j] < nums[i]:
-                    f[i] = max(f[i], f[j] + 1)
-        return max(f)
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -114,8 +98,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -134,30 +116,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func lengthOfLIS(nums []int) int {
-	n := len(nums)
-	f := make([]int, n)
-	for i := range f {
-		f[i] = 1
-	}
-	ans := 1
-	for i := 1; i < n; i++ {
-		for j := 0; j < i; j++ {
-			if nums[j] < nums[i] {
-				f[i] = max(f[i], f[j]+1)
-				ans = max(ans, f[i])
-			}
-		}
-	}
-	return ans
-}
-```
-
-#### TypeScript
-
 ```ts
 function lengthOfLIS(nums: number[]): number {
     const n = nums.length;
@@ -173,32 +131,26 @@ function lengthOfLIS(nums: number[]): number {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn length_of_lis(nums: Vec<i32>) -> i32 {
-        let n = nums.len();
-        let mut f = vec![1; n];
-        for i in 1..n {
-            for j in 0..i {
-                if nums[j] < nums[i] {
-                    f[i] = f[i].max(f[j] + 1);
-                }
-            }
-        }
-        *f.iter().max().unwrap()
-    }
-}
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
+        f = [1] * n
+        for i in range(1, n):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    f[i] = max(f[i], f[j] + 1)
+        return max(f)
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：离散化 + 树状数组
+## 方法二：离散化 + 树状数组
 
 我们将数组中的元素离散化，然后使用树状数组维护不大于某个元素的最长递增子序列的长度。
 
@@ -209,41 +161,7 @@ impl Solution {
 时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class BinaryIndexedTree:
-    def __init__(self, n: int):
-        self.n = n
-        self.c = [0] * (n + 1)
-
-    def update(self, x: int, v: int):
-        while x <= self.n:
-            self.c[x] = max(self.c[x], v)
-            x += x & -x
-
-    def query(self, x: int) -> int:
-        mx = 0
-        while x:
-            mx = max(mx, self.c[x])
-            x -= x & -x
-        return mx
-
-
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-        s = sorted(set(nums))
-        m = len(s)
-        tree = BinaryIndexedTree(m)
-        for x in nums:
-            x = bisect_left(s, x) + 1
-            t = tree.query(x - 1) + 1
-            tree.update(x, t)
-        return tree.query(m)
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -307,7 +225,7 @@ class BinaryIndexedTree {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class BinaryIndexedTree {
@@ -353,58 +271,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-type BinaryIndexedTree struct {
-	n int
-	c []int
-}
-
-func newBinaryIndexedTree(n int) *BinaryIndexedTree {
-	return &BinaryIndexedTree{n, make([]int, n+1)}
-}
-
-func (bit *BinaryIndexedTree) update(x, v int) {
-	for x <= bit.n {
-		bit.c[x] = max(bit.c[x], v)
-		x += x & -x
-	}
-}
-
-func (bit *BinaryIndexedTree) query(x int) int {
-	mx := 0
-	for x > 0 {
-		mx = max(mx, bit.c[x])
-		x -= x & -x
-	}
-	return mx
-}
-
-func lengthOfLIS(nums []int) int {
-	n := len(nums)
-	s := make([]int, n)
-	copy(s, nums)
-	sort.Ints(s)
-	m := 0
-	for i, x := range s {
-		if i == 0 || x != s[i-1] {
-			s[m] = x
-			m++
-		}
-	}
-	tree := newBinaryIndexedTree(m)
-	for _, x := range nums {
-		x = sort.SearchInts(s[:m], x) + 1
-		t := tree.query(x-1) + 1
-		tree.update(x, t)
-	}
-	return tree.query(m)
-}
-```
-
-#### TypeScript
 
 ```ts
 class BinaryIndexedTree {
@@ -460,6 +326,38 @@ function search(nums: number[], x: number): number {
 }
 ```
 
+```python
+class BinaryIndexedTree:
+    def __init__(self, n: int):
+        self.n = n
+        self.c = [0] * (n + 1)
+
+    def update(self, x: int, v: int):
+        while x <= self.n:
+            self.c[x] = max(self.c[x], v)
+            x += x & -x
+
+    def query(self, x: int) -> int:
+        mx = 0
+        while x:
+            mx = max(mx, self.c[x])
+            x -= x & -x
+        return mx
+
+
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        s = sorted(set(nums))
+        m = len(s)
+        tree = BinaryIndexedTree(m)
+        for x in nums:
+            x = bisect_left(s, x) + 1
+            t = tree.query(x - 1) + 1
+            tree.update(x, t)
+        return tree.query(m)
+```
+
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

@@ -1,4 +1,4 @@
 export default [
-  { text: '题解', link: '/leetcode/' },
+  { text: '题解', link: '/' },
 ]
 

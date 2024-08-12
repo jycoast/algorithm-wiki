@@ -73,11 +73,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：快慢指针
+## 方法一：快慢指针
 
 我们先利用快慢指针判断链表是否有环，如果有环的话，快慢指针一定会相遇，且相遇的节点一定在环中。
 
@@ -98,32 +97,7 @@ tags:
 时间复杂度 $O(n)$，其中 $n$ 是链表中节点的数目。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-
-class Solution:
-    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        fast = slow = head
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-            if slow == fast:
-                ans = head
-                while ans != slow:
-                    ans = ans.next
-                    slow = slow.next
-                return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -157,7 +131,7 @@ public class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -190,36 +164,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func detectCycle(head *ListNode) *ListNode {
-	fast, slow := head, head
-	for fast != nil && fast.Next != nil {
-		slow = slow.Next
-		fast = fast.Next.Next
-		if slow == fast {
-			ans := head
-			for ans != slow {
-				ans = ans.Next
-				slow = slow.Next
-			}
-			return ans
-		}
-	}
-	return nil
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * Definition for singly-linked list.
@@ -251,39 +195,28 @@ function detectCycle(head: ListNode | null): ListNode | null {
 }
 ```
 
-#### JavaScript
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 
-```js
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
 
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
-var detectCycle = function (head) {
-    let [slow, fast] = [head, head];
-    while (fast && fast.next) {
-        slow = slow.next;
-        fast = fast.next.next;
-        if (slow === fast) {
-            let ans = head;
-            while (ans !== slow) {
-                ans = ans.next;
-                slow = slow.next;
-            }
-            return ans;
-        }
-    }
-    return null;
-};
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        fast = slow = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                ans = head
+                while ans != slow:
+                    ans = ans.next
+                    slow = slow.next
+                return ans
 ```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

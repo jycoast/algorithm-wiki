@@ -59,11 +59,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：栈
+## 方法一：栈
 
 遍历括号字符串 $s$，遇到左括号时，压入当前的左括号；遇到右括号时，弹出栈顶元素（若栈为空，直接返回 `false`），判断是否匹配，若不匹配，直接返回 `false`。
 
@@ -76,23 +74,7 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为括号字符串 $s$ 的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def isValid(self, s: str) -> bool:
-        stk = []
-        d = {'()', '[]', '{}'}
-        for c in s:
-            if c in '({[':
-                stk.append(c)
-            elif not stk or stk.pop() + c not in d:
-                return False
-        return not stk
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -113,8 +95,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 class Solution {
@@ -138,30 +118,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func isValid(s string) bool {
-	stk := []rune{}
-	for _, c := range s {
-		if c == '(' || c == '{' || c == '[' {
-			stk = append(stk, c)
-		} else if len(stk) == 0 || !match(stk[len(stk)-1], c) {
-			return false
-		} else {
-			stk = stk[:len(stk)-1]
-		}
-	}
-	return len(stk) == 0
-}
-
-func match(l, r rune) bool {
-	return (l == '(' && r == ')') || (l == '[' && r == ']') || (l == '{' && r == '}')
-}
-```
-
-#### TypeScript
-
 ```ts
 const map = new Map([
     ['(', ')'],
@@ -182,138 +138,20 @@ function isValid(s: string): boolean {
 }
 ```
 
-#### Rust
-
-```rust
-use std::collections::HashMap;
-
-impl Solution {
-    pub fn is_valid(s: String) -> bool {
-        let mut map = HashMap::new();
-        map.insert('(', ')');
-        map.insert('[', ']');
-        map.insert('{', '}');
-        let mut stack = vec![];
-        for c in s.chars() {
-            if map.contains_key(&c) {
-                stack.push(map[&c]);
-            } else if stack.pop().unwrap_or(' ') != c {
-                return false;
-            }
-        }
-        stack.len() == 0
-    }
-}
+```python
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stk = []
+        d = {'()', '[]', '{}'}
+        for c in s:
+            if c in '({[':
+                stk.append(c)
+            elif not stk or stk.pop() + c not in d:
+                return False
+        return not stk
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {string} s
- * @return {boolean}
- */
-var isValid = function (s) {
-    let stk = [];
-    for (const c of s) {
-        if (c == '(' || c == '{' || c == '[') {
-            stk.push(c);
-        } else if (stk.length == 0 || !match(stk[stk.length - 1], c)) {
-            return false;
-        } else {
-            stk.pop();
-        }
-    }
-    return stk.length == 0;
-};
-
-function match(l, r) {
-    return (l == '(' && r == ')') || (l == '[' && r == ']') || (l == '{' && r == '}');
-}
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public bool IsValid(string s) {
-        Stack<char> stk = new Stack<char>();
-        foreach (var c in s.ToCharArray()) {
-            if (c == '(') {
-                stk.Push(')');
-            } else if (c == '[') {
-                stk.Push(']');
-            } else if (c == '{') {
-                stk.Push('}');
-            } else if (stk.Count == 0 || stk.Pop() != c) {
-                return false;
-            }
-        }
-        return stk.Count == 0;
-    }
-}
-```
-
-#### Ruby
-
-```rb
-# @param {String} s
-# @return {Boolean}
-def is_valid(s)
-  stack = ''
-  s.split('').each do |c|
-    if ['{', '[', '('].include?(c)
-      stack += c
-    else
-      if c == '}' && stack[stack.length - 1] == '{'
-
-        stack = stack.length > 1 ? stack[0..stack.length - 2] : ""
-      elsif c == ']' && stack[stack.length - 1] == '['
-        stack = stack.length > 1 ? stack[0..stack.length - 2] : ""
-      elsif c == ')' && stack[stack.length - 1] == '('
-        stack = stack.length > 1 ? stack[0..stack.length - 2] : ""
-      else
-        return false
-      end
-    end
-  end
-  stack == ''
-end
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param string $s
-     * @return boolean
-     */
-
-    function isValid($s) {
-        $stack = [];
-        $brackets = [
-            ')' => '(',
-            '}' => '{',
-            ']' => '[',
-        ];
-
-        for ($i = 0; $i < strlen($s); $i++) {
-            $char = $s[$i];
-            if (array_key_exists($char, $brackets)) {
-                if (empty($stack) || $stack[count($stack) - 1] !== $brackets[$char]) {
-                    return false;
-                }
-                array_pop($stack);
-            } else {
-                array_push($stack, $char);
-            }
-        }
-        return empty($stack);
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

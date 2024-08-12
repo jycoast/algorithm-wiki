@@ -52,11 +52,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：BFS
+## 方法一：BFS
 
 我们可以使用 BFS 的方法来解决这道题。首先将根节点入队，然后不断地进行以下操作，直到队列为空：
 
@@ -68,36 +68,7 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        ans = []
-        if root is None:
-            return ans
-        q = deque([root])
-        while q:
-            t = []
-            for _ in range(len(q)):
-                node = q.popleft()
-                t.append(node.val)
-                if node.left:
-                    q.append(node.left)
-                if node.right:
-                    q.append(node.right)
-            ans.append(t)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -142,7 +113,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -182,43 +153,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func levelOrder(root *TreeNode) (ans [][]int) {
-	if root == nil {
-		return
-	}
-	q := []*TreeNode{root}
-	for len(q) > 0 {
-		t := []int{}
-		for n := len(q); n > 0; n-- {
-			node := q[0]
-			q = q[1:]
-			t = append(t, node.Val)
-			if node.Left != nil {
-				q = append(q, node.Left)
-			}
-			if node.Right != nil {
-				q = append(q, node.Right)
-			}
-		}
-		ans = append(ans, t)
-	}
-	return
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  * Definition for a binary tree node.
@@ -255,94 +189,27 @@ function levelOrder(root: TreeNode | null): number[][] {
 }
 ```
 
-#### Rust
-
-```rust
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-//
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::cell::RefCell;
-use std::collections::VecDeque;
-use std::rc::Rc;
-impl Solution {
-    pub fn level_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
-        let mut ans = Vec::new();
-        if let Some(root_node) = root {
-            let mut q = VecDeque::new();
-            q.push_back(root_node);
-            while !q.is_empty() {
-                let mut t = Vec::new();
-                for _ in 0..q.len() {
-                    if let Some(node) = q.pop_front() {
-                        let node_ref = node.borrow();
-                        t.push(node_ref.val);
-                        if let Some(ref left) = node_ref.left {
-                            q.push_back(Rc::clone(left));
-                        }
-                        if let Some(ref right) = node_ref.right {
-                            q.push_back(Rc::clone(right));
-                        }
-                    }
-                }
-                ans.push(t);
-            }
-        }
-        ans
-    }
-}
+```python
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        ans = []
+        if root is None:
+            return ans
+        q = deque([root])
+        while q:
+            t = []
+            for _ in range(len(q)):
+                node = q.popleft()
+                t.append(node.val)
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            ans.append(t)
+        return ans
 ```
 
-#### JavaScript
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @return {number[][]}
- */
-var levelOrder = function (root) {
-    const ans = [];
-    if (!root) {
-        return ans;
-    }
-    const q = [root];
-    while (q.length) {
-        const t = [];
-        const qq = [];
-        for (const { val, left, right } of q) {
-            t.push(val);
-            left && qq.push(left);
-            right && qq.push(right);
-        }
-        ans.push(t);
-        q.splice(0, q.length, ...qq);
-    }
-    return ans;
-};
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

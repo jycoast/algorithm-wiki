@@ -44,11 +44,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：DFS + 剪枝
+## 方法一：DFS + 剪枝
 
 题目中 $n$ 的范围为 $[1, 8]$，因此我们直接通过“暴力搜索 + 剪枝”的方式通过本题。
 
@@ -62,27 +61,8 @@ tags:
 时间复杂度 $O(2^{n\times 2} \times n)$，空间复杂度 $O(n)$。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def generateParenthesis(self, n: int) -> List[str]:
-        def dfs(l, r, t):
-            if l > n or r > n or l < r:
-                return
-            if l == n and r == n:
-                ans.append(t)
-                return
-            dfs(l + 1, r, t + '(')
-            dfs(l, r + 1, t + ')')
-
-        ans = []
-        dfs(0, 0, '')
-        return ans
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -109,7 +89,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -131,29 +111,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func generateParenthesis(n int) (ans []string) {
-	var dfs func(int, int, string)
-	dfs = func(l, r int, t string) {
-		if l > n || r > n || l < r {
-			return
-		}
-		if l == n && r == n {
-			ans = append(ans, t)
-			return
-		}
-		dfs(l+1, r, t+"(")
-		dfs(l, r+1, t+")")
-	}
-	dfs(0, 0, "")
-	return ans
-}
-```
-
-#### TypeScript
-
 ```ts
 function generateParenthesis(n: number): string[] {
     function dfs(l, r, t) {
@@ -173,94 +130,31 @@ function generateParenthesis(n: number): string[] {
 }
 ```
 
-#### Rust
+```python
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        def dfs(l, r, t):
+            if l > n or r > n or l < r:
+                return
+            if l == n and r == n:
+                ans.append(t)
+                return
+            dfs(l + 1, r, t + '(')
+            dfs(l, r + 1, t + ')')
 
-```rust
-impl Solution {
-    pub fn generate_parenthesis(n: i32) -> Vec<String> {
-        let mut ans = Vec::new();
-
-        fn dfs(ans: &mut Vec<String>, l: i32, r: i32, t: String, n: i32) {
-            if l > n || r > n || l < r {
-                return;
-            }
-            if l == n && r == n {
-                ans.push(t);
-                return;
-            }
-            dfs(ans, l + 1, r, format!("{}(", t), n);
-            dfs(ans, l, r + 1, format!("{})", t), n);
-        }
-
-        dfs(&mut ans, 0, 0, String::new(), n);
-        ans
-    }
-}
+        ans = []
+        dfs(0, 0, '')
+        return ans
 ```
-
-#### JavaScript
-
-```js
-/**
- * @param {number} n
- * @return {string[]}
- */
-var generateParenthesis = function (n) {
-    function dfs(l, r, t) {
-        if (l > n || r > n || l < r) {
-            return;
-        }
-        if (l == n && r == n) {
-            ans.push(t);
-            return;
-        }
-        dfs(l + 1, r, t + '(');
-        dfs(l, r + 1, t + ')');
-    }
-    let ans = [];
-    dfs(0, 0, '');
-    return ans;
-};
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param Integer $n
-     * @return String[]
-     */
-    function generateParenthesis($n) {
-        $ans = [];
-
-        $dfs = function ($l, $r, $t) use ($n, &$ans, &$dfs) {
-            if ($l > $n || $r > $n || $l < $r) {
-                return;
-            }
-            if ($l == $n && $r == $n) {
-                $ans[] = $t;
-                return;
-            }
-            $dfs($l + 1, $r, $t . '(');
-            $dfs($l, $r + 1, $t . ')');
-        };
-
-        $dfs(0, 0, '');
-        return $ans;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:start -->
 
-### 方法二：递归
+## 方法二：递归
 
 <!-- tabs:start -->
-
-#### TypeScript
+::: code-group
 
 ```ts
 function generateParenthesis(n: number): string[] {
@@ -276,22 +170,7 @@ function generateParenthesis(n: number): string[] {
 }
 ```
 
-#### JavaScript
-
-```js
-function generateParenthesis(n) {
-    if (n === 1) return ['()'];
-
-    return [
-        ...new Set(
-            generateParenthesis(n - 1).flatMap(s =>
-                Array.from(s, (_, i) => s.slice(0, i) + '()' + s.slice(i)),
-            ),
-        ),
-    ];
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

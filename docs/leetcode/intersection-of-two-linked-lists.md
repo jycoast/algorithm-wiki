@@ -102,11 +102,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：双指针
+## 方法一：双指针
 
 我们使用两个指针 $a$, $b$ 分别指向两个链表 $headA$, $headB$。
 
@@ -117,27 +117,7 @@ tags:
 时间复杂度 $O(m+n)$，其中 $m$ 和 $n$ 分别是链表 $headA$ 和 $headB$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-
-class Solution:
-    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
-        a, b = headA, headB
-        while a != b:
-            a = a.next if a else headB
-            b = b.next if b else headA
-        return a
-```
-
-#### Java
+::: code-group
 
 ```java
 /**
@@ -163,7 +143,7 @@ public class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 /**
@@ -186,36 +166,6 @@ public:
     }
 };
 ```
-
-#### Go
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func getIntersectionNode(headA, headB *ListNode) *ListNode {
-	a, b := headA, headB
-	for a != b {
-		if a == nil {
-			a = headB
-		} else {
-			a = a.Next
-		}
-		if b == nil {
-			b = headA
-		} else {
-			b = b.Next
-		}
-	}
-	return a
-}
-```
-
-#### TypeScript
 
 ```ts
 /**
@@ -241,61 +191,24 @@ function getIntersectionNode(headA: ListNode | null, headB: ListNode | null): Li
 }
 ```
 
-#### JavaScript
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 
-```js
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
 
-/**
- * @param {ListNode} headA
- * @param {ListNode} headB
- * @return {ListNode}
- */
-var getIntersectionNode = function (headA, headB) {
-    let a = headA;
-    let b = headB;
-    while (a != b) {
-        a = a ? a.next : headB;
-        b = b ? b.next : headA;
-    }
-    return a;
-};
-```
-
-#### Swift
-
-```swift
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public var val: Int
- *     public var next: ListNode?
- *     public init(_ val: Int) {
- *         self.val = val
- *         self.next = nil
- *     }
- * }
- */
-
-class Solution {
-    func getIntersectionNode(_ headA: ListNode?, _ headB: ListNode?) -> ListNode? {
-        var a = headA
-        var b = headB
-        while a !== b {
-            a = a == nil ? headB : a?.next
-            b = b == nil ? headA : b?.next
-        }
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        a, b = headA, headB
+        while a != b:
+            a = a.next if a else headB
+            b = b.next if b else headA
         return a
-    }
-}
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

@@ -1,16 +1,23 @@
 ---
-layout: home
-
 title: Algorithm Wiki
-# titleTemplate: 使用 Vitepress 搭建组件库文档站点。
-
-hero:
-  name: Algorithm Wiki
-  text: 
-  # tagline: 算法笔记
-
-  actions:
-    - theme: brand
-      text: Get Started
-      link: /leetcode/
 ---
+
+# 题目分类
+## 数组
+
+## 链表
+|    leetcode   |      难度      |  关联题目 |
+| ------------- | :-----------: | ----: |
+|   141. 环形链表    | 简单 |  |
+
+## 哈希表
+
+## 二叉树
+
+## 双指针
+
+## 回溯法
+
+## 动态规划
+
+## 单调栈

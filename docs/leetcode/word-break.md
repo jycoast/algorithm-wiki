@@ -63,11 +63,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 动态规划
+## 方法一：哈希表 + 动态规划
 
 我们定义 $f[i]$ 表示字符串 $s$ 的前 $i$ 个字符能否拆分成 $wordDict$ 中的单词，初始时 $f[0]=true$，其余为 $false$。答案为 $f[n]$。
 
@@ -76,21 +75,8 @@ tags:
 时间复杂度 $O(n^3)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        words = set(wordDict)
-        n = len(s)
-        f = [True] + [False] * n
-        for i in range(1, n + 1):
-            f[i] = any(f[j] and s[j:i] in words for j in range(i))
-        return f[n]
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -112,7 +98,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -136,31 +122,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func wordBreak(s string, wordDict []string) bool {
-	words := map[string]bool{}
-	for _, w := range wordDict {
-		words[w] = true
-	}
-	n := len(s)
-	f := make([]bool, n+1)
-	f[0] = true
-	for i := 1; i <= n; i++ {
-		for j := 0; j < i; j++ {
-			if f[j] && words[s[j:i]] {
-				f[i] = true
-				break
-			}
-		}
-	}
-	return f[n]
-}
-```
-
-#### TypeScript
-
 ```ts
 function wordBreak(s: string, wordDict: string[]): boolean {
     const words = new Set(wordDict);
@@ -179,53 +140,24 @@ function wordBreak(s: string, wordDict: string[]): boolean {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn word_break(s: String, word_dict: Vec<String>) -> bool {
-        let words: std::collections::HashSet<String> = word_dict.into_iter().collect();
-        let mut f = vec![false; s.len() + 1];
-        f[0] = true;
-        for i in 1..=s.len() {
-            for j in 0..i {
-                f[i] |= f[j] && words.contains(&s[j..i]);
-            }
-        }
-        f[s.len()]
-    }
-}
+```python
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        words = set(wordDict)
+        n = len(s)
+        f = [True] + [False] * n
+        for i in range(1, n + 1):
+            f[i] = any(f[j] and s[j:i] in words for j in range(i))
+        return f[n]
 ```
-
-#### C#
-
-```cs
-public class Solution {
-    public bool WordBreak(string s, IList<string> wordDict) {
-        var words = new HashSet<string>(wordDict);
-        int n = s.Length;
-        var f = new bool[n + 1];
-        f[0] = true;
-        for (int i = 1; i <= n; ++i) {
-            for (int j = 0; j < i; ++j) {
-                if (f[j] && words.Contains(s.Substring(j, i - j))) {
-                    f[i] = true;
-                    break;
-                }
-            }
-        }
-        return f[n];
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：前缀树 + 动态规划
+## 方法二：前缀树 + 动态规划
 
 我们先将 $wordDict$ 中的单词存入前缀树中，然后使用动态规划求解。
 
@@ -236,47 +168,7 @@ public class Solution {
 时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Trie:
-    def __init__(self):
-        self.children: List[Trie | None] = [None] * 26
-        self.isEnd = False
-
-    def insert(self, w: str):
-        node = self
-        for c in w:
-            idx = ord(c) - ord('a')
-            if not node.children[idx]:
-                node.children[idx] = Trie()
-            node = node.children[idx]
-        node.isEnd = True
-
-
-class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        trie = Trie()
-        for w in wordDict:
-            trie.insert(w)
-        n = len(s)
-        f = [False] * (n + 1)
-        f[n] = True
-        for i in range(n - 1, -1, -1):
-            node = trie
-            for j in range(i, n):
-                idx = ord(s[j]) - ord('a')
-                if not node.children[idx]:
-                    break
-                node = node.children[idx]
-                if node.isEnd and f[j + 1]:
-                    f[i] = True
-                    break
-        return f[0]
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -324,7 +216,7 @@ class Trie {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Trie {
@@ -375,58 +267,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-type trie struct {
-	children [26]*trie
-	isEnd    bool
-}
-
-func newTrie() *trie {
-	return &trie{}
-}
-
-func (t *trie) insert(w string) {
-	node := t
-	for _, c := range w {
-		c -= 'a'
-		if node.children[c] == nil {
-			node.children[c] = newTrie()
-		}
-		node = node.children[c]
-	}
-	node.isEnd = true
-}
-
-func wordBreak(s string, wordDict []string) bool {
-	trie := newTrie()
-	for _, w := range wordDict {
-		trie.insert(w)
-	}
-	n := len(s)
-	f := make([]bool, n+1)
-	f[n] = true
-	for i := n - 1; i >= 0; i-- {
-		node := trie
-		for j := i; j < n; j++ {
-			k := s[j] - 'a'
-			if node.children[k] == nil {
-				break
-			}
-			node = node.children[k]
-			if node.isEnd && f[j+1] {
-				f[i] = true
-				break
-			}
-		}
-	}
-	return f[0]
-}
-```
-
-#### TypeScript
-
 ```ts
 function wordBreak(s: string, wordDict: string[]): boolean {
     const trie = new Trie();
@@ -476,59 +316,43 @@ class Trie {
 }
 ```
 
-#### C#
+```python
+class Trie:
+    def __init__(self):
+        self.children: List[Trie | None] = [None] * 26
+        self.isEnd = False
 
-```cs
-public class Solution {
-    public bool WordBreak(string s, IList<string> wordDict) {
-        Trie trie = new Trie();
-        foreach (string w in wordDict) {
-            trie.Insert(w);
-        }
-        int n = s.Length;
-        bool[] f = new bool[n + 1];
-        f[n] = true;
-        for (int i = n - 1; i >= 0; --i) {
-            Trie node = trie;
-            for (int j = i; j < n; ++j) {
-                int k = s[j] - 'a';
-                if (node.Children[k] == null) {
-                    break;
-                }
-                node = node.Children[k];
-                if (node.IsEnd && f[j + 1]) {
-                    f[i] = true;
-                    break;
-                }
-            }
-        }
-        return f[0];
-    }
-}
+    def insert(self, w: str):
+        node = self
+        for c in w:
+            idx = ord(c) - ord('a')
+            if not node.children[idx]:
+                node.children[idx] = Trie()
+            node = node.children[idx]
+        node.isEnd = True
 
-class Trie {
-    public Trie[] Children { get; set; }
-    public bool IsEnd { get; set; }
 
-    public Trie() {
-        Children = new Trie[26];
-        IsEnd = false;
-    }
-
-    public void Insert(string word) {
-        Trie node = this;
-        foreach (char c in word) {
-            int i = c - 'a';
-            if (node.Children[i] == null) {
-                node.Children[i] = new Trie();
-            }
-            node = node.Children[i];
-        }
-        node.IsEnd = true;
-    }
-}
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        trie = Trie()
+        for w in wordDict:
+            trie.insert(w)
+        n = len(s)
+        f = [False] * (n + 1)
+        f[n] = True
+        for i in range(n - 1, -1, -1):
+            node = trie
+            for j in range(i, n):
+                idx = ord(s[j]) - ord('a')
+                if not node.children[idx]:
+                    break
+                node = node.children[idx]
+                if node.isEnd and f[j + 1]:
+                    f[i] = True
+                    break
+        return f[0]
 ```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

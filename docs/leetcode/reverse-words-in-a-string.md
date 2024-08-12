@@ -67,38 +67,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：双指针
+## 方法一：双指针
 
 我们可以使用双指针 $i$ 和 $j$，每次找到一个单词，将其添加到结果列表中，最后将结果列表反转，再拼接成字符串即可。
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def reverseWords(self, s: str) -> str:
-        words = []
-        i, n = 0, len(s)
-        while i < n:
-            while i < n and s[i] == " ":
-                i += 1
-            if i < n:
-                j = i
-                while j < n and s[j] != " ":
-                    j += 1
-                words.append(s[i:j])
-                i = j
-        return " ".join(words[::-1])
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -125,7 +106,6 @@ class Solution {
 }
 ```
 
-#### C++
 
 ```cpp
 class Solution {
@@ -157,36 +137,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func reverseWords(s string) string {
-	words := []string{}
-	i, n := 0, len(s)
-	for i < n {
-		for i < n && s[i] == ' ' {
-			i++
-		}
-		if i < n {
-			j := i
-			t := []byte{}
-			for j < n && s[j] != ' ' {
-				t = append(t, s[j])
-				j++
-			}
-			words = append(words, string(t))
-			i = j
-		}
-	}
-	for i, j := 0, len(words)-1; i < j; i, j = i+1, j-1 {
-		words[i], words[j] = words[j], words[i]
-	}
-	return strings.Join(words, " ")
-}
-```
-
-#### TypeScript
-
 ```ts
 function reverseWords(s: string): string {
     const words: string[] = [];
@@ -209,86 +159,39 @@ function reverseWords(s: string): string {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn reverse_words(s: String) -> String {
-        let mut words = Vec::new();
-        let s: Vec<char> = s.chars().collect();
-        let mut i = 0;
-        let n = s.len();
-
-        while i < n {
-            while i < n && s[i] == ' ' {
-                i += 1;
-            }
-            if i < n {
-                let mut j = i;
-                while j < n && s[j] != ' ' {
-                    j += 1;
-                }
-                words.push(s[i..j].iter().collect::<String>());
-                i = j;
-            }
-        }
-
-        words.reverse();
-        words.join(" ")
-    }
-}
+```python
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        words = []
+        i, n = 0, len(s)
+        while i < n:
+            while i < n and s[i] == " ":
+                i += 1
+            if i < n:
+                j = i
+                while j < n and s[j] != " ":
+                    j += 1
+                words.append(s[i:j])
+                i = j
+        return " ".join(words[::-1])
 ```
 
-#### C#
-
-```cs
-public class Solution {
-    public string ReverseWords(string s) {
-        List<string> words = new List<string>();
-        int n = s.Length;
-        for (int i = 0; i < n;) {
-            while (i < n && s[i] == ' ') {
-                ++i;
-            }
-            if (i < n) {
-                System.Text.StringBuilder t = new System.Text.StringBuilder();
-                int j = i;
-                while (j < n && s[j] != ' ') {
-                    t.Append(s[j++]);
-                }
-                words.Add(t.ToString());
-                i = j;
-            }
-        }
-        words.Reverse();
-        return string.Join(" ", words);
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二：字符串分割
+## 方法二：字符串分割
 
 我们可以使用语言内置的字符串分割函数，将字符串按空格分割成单词列表，然后将列表反转，再拼接成字符串即可。
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def reverseWords(self, s: str) -> str:
-        return " ".join(reversed(s.split()))
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -300,19 +203,7 @@ class Solution {
 }
 ```
 
-#### Go
 
-```go
-func reverseWords(s string) string {
-	words := strings.Fields(s)
-	for i, j := 0, len(words)-1; i < j; i, j = i+1, j-1 {
-		words[i], words[j] = words[j], words[i]
-	}
-	return strings.Join(words, " ")
-}
-```
-
-#### TypeScript
 
 ```ts
 function reverseWords(s: string): string {
@@ -320,16 +211,13 @@ function reverseWords(s: string): string {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn reverse_words(s: String) -> String {
-        s.split_whitespace().rev().collect::<Vec<&str>>().join(" ")
-    }
-}
+```python
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        return " ".join(reversed(s.split()))
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

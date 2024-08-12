@@ -66,11 +66,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+## 方法一：动态规划
 
 我们定义 $f[i][j]$ 表示从左上角走到 $(i, j)$ 的路径数量，初始时 $f[0][0] = 1$，答案为 $f[m - 1][n - 1]$。
 
@@ -95,24 +94,8 @@ $$
 我们注意到 $f[i][j]$ 仅与 $f[i - 1][j]$ 和 $f[i][j - 1]$ 有关，因此我们优化掉第一维空间，仅保留第二维空间，得到时间复杂度 $O(m \times n)$，空间复杂度 $O(n)$ 的实现。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def uniquePaths(self, m: int, n: int) -> int:
-        f = [[0] * n for _ in range(m)]
-        f[0][0] = 1
-        for i in range(m):
-            for j in range(n):
-                if i:
-                    f[i][j] += f[i - 1][j]
-                if j:
-                    f[i][j] += f[i][j - 1]
-        return f[-1][-1]
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -133,8 +116,6 @@ class Solution {
     }
 }
 ```
-
-#### C++
 
 ```cpp
 class Solution {
@@ -157,31 +138,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func uniquePaths(m int, n int) int {
-	f := make([][]int, m)
-	for i := range f {
-		f[i] = make([]int, n)
-	}
-	f[0][0] = 1
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			if i > 0 {
-				f[i][j] += f[i-1][j]
-			}
-			if j > 0 {
-				f[i][j] += f[i][j-1]
-			}
-		}
-	}
-	return f[m-1][n-1]
-}
-```
-
-#### TypeScript
-
 ```ts
 function uniquePaths(m: number, n: number): number {
     const f: number[][] = Array(m)
@@ -202,73 +158,31 @@ function uniquePaths(m: number, n: number): number {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn unique_paths(m: i32, n: i32) -> i32 {
-        let (m, n) = (m as usize, n as usize);
-        let mut f = vec![1; n];
-        for i in 1..m {
-            for j in 1..n {
-                f[j] += f[j - 1];
-            }
-        }
-        f[n - 1]
-    }
-}
+```python
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        f = [[0] * n for _ in range(m)]
+        f[0][0] = 1
+        for i in range(m):
+            for j in range(n):
+                if i:
+                    f[i][j] += f[i - 1][j]
+                if j:
+                    f[i][j] += f[i][j - 1]
+        return f[-1][-1]
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number} m
- * @param {number} n
- * @return {number}
- */
-var uniquePaths = function (m, n) {
-    const f = Array(m)
-        .fill(0)
-        .map(() => Array(n).fill(0));
-    f[0][0] = 1;
-    for (let i = 0; i < m; ++i) {
-        for (let j = 0; j < n; ++j) {
-            if (i > 0) {
-                f[i][j] += f[i - 1][j];
-            }
-            if (j > 0) {
-                f[i][j] += f[i][j - 1];
-            }
-        }
-    }
-    return f[m - 1][n - 1];
-};
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法二
+## 方法二
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def uniquePaths(self, m: int, n: int) -> int:
-        f = [[1] * n for _ in range(m)]
-        for i in range(1, m):
-            for j in range(1, n):
-                f[i][j] = f[i - 1][j] + f[i][j - 1]
-        return f[-1][-1]
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -287,7 +201,6 @@ class Solution {
 }
 ```
 
-#### C++
 
 ```cpp
 class Solution {
@@ -304,27 +217,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func uniquePaths(m int, n int) int {
-	f := make([][]int, m)
-	for i := range f {
-		f[i] = make([]int, n)
-		for j := range f[i] {
-			f[i][j] = 1
-		}
-	}
-	for i := 1; i < m; i++ {
-		for j := 1; j < n; j++ {
-			f[i][j] = f[i-1][j] + f[i][j-1]
-		}
-	}
-	return f[m-1][n-1]
-}
-```
-
-#### TypeScript
 
 ```ts
 function uniquePaths(m: number, n: number): number {
@@ -340,50 +232,28 @@ function uniquePaths(m: number, n: number): number {
 }
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number} m
- * @param {number} n
- * @return {number}
- */
-var uniquePaths = function (m, n) {
-    const f = Array(m)
-        .fill(0)
-        .map(() => Array(n).fill(1));
-    for (let i = 1; i < m; ++i) {
-        for (let j = 1; j < n; ++j) {
-            f[i][j] = f[i - 1][j] + f[i][j - 1];
-        }
-    }
-    return f[m - 1][n - 1];
-};
+```python
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        f = [[1] * n for _ in range(m)]
+        for i in range(1, m):
+            for j in range(1, n):
+                f[i][j] = f[i - 1][j] + f[i][j - 1]
+        return f[-1][-1]
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
 
 <!-- solution:start -->
 
-### 方法三
+## 方法三
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def uniquePaths(self, m: int, n: int) -> int:
-        f = [1] * n
-        for _ in range(1, m):
-            for j in range(1, n):
-                f[j] += f[j - 1]
-        return f[-1]
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -400,8 +270,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -417,25 +285,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func uniquePaths(m int, n int) int {
-	f := make([]int, n+1)
-	for i := range f {
-		f[i] = 1
-	}
-	for i := 1; i < m; i++ {
-		for j := 1; j < n; j++ {
-			f[j] += f[j-1]
-		}
-	}
-	return f[n-1]
-}
-```
-
-#### TypeScript
-
 ```ts
 function uniquePaths(m: number, n: number): number {
     const f: number[] = Array(n).fill(1);
@@ -447,26 +296,17 @@ function uniquePaths(m: number, n: number): number {
     return f[n - 1];
 }
 ```
-
-#### JavaScript
-
-```js
-/**
- * @param {number} m
- * @param {number} n
- * @return {number}
- */
-var uniquePaths = function (m, n) {
-    const f = Array(n).fill(1);
-    for (let i = 1; i < m; ++i) {
-        for (let j = 1; j < n; ++j) {
-            f[j] += f[j - 1];
-        }
-    }
-    return f[n - 1];
-};
+```python
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        f = [1] * n
+        for _ in range(1, m):
+            for j in range(1, n):
+                f[j] += f[j - 1]
+        return f[-1]
 ```
 
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

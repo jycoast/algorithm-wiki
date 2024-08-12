@@ -62,11 +62,9 @@ tags:
 
 <!-- description:end -->
 
-## 解法
-
 <!-- solution:start -->
 
-### 方法一：哈希表
+## 方法一：哈希表
 
 我们可以使用一个哈希表 $\textit{d}$ 来存储每个元素及其对应的索引。
 
@@ -75,21 +73,8 @@ tags:
 时间复杂度 $O(n)$，空间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
 <!-- tabs:start -->
+::: code-group
 
-#### Python3
-
-```python
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        d = {}
-        for i, x in enumerate(nums):
-            y = target - x
-            if y in d:
-                return [d[y], i]
-            d[x] = i
-```
-
-#### Java
 
 ```java
 class Solution {
@@ -107,7 +92,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -126,24 +111,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func twoSum(nums []int, target int) []int {
-	d := map[int]int{}
-	for i := 0; ; i++ {
-		x := nums[i]
-		y := target - x
-		if j, ok := d[y]; ok {
-			return []int{j, i}
-		}
-		d[x] = i
-	}
-}
-```
-
-#### TypeScript
-
 ```ts
 function twoSum(nums: number[], target: number): number[] {
     const d = new Map<number, number>();
@@ -158,164 +125,17 @@ function twoSum(nums: number[], target: number): number[] {
 }
 ```
 
-#### Rust
-
-```rust
-use std::collections::HashMap;
-
-impl Solution {
-    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        let mut d = HashMap::new();
-        for (i, &x) in nums.iter().enumerate() {
-            let y = target - x;
-            if let Some(&j) = d.get(&y) {
-                return vec![j as i32, i as i32];
-            }
-            d.insert(x, i);
-        }
-        vec![]
-    }
-}
-```
-
-#### JavaScript
-
-```js
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
-var twoSum = function (nums, target) {
-    const d = new Map();
-    for (let i = 0; ; ++i) {
-        const x = nums[i];
-        const y = target - x;
-        if (d.has(y)) {
-            return [d.get(y), i];
-        }
-        d.set(x, i);
-    }
-};
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public int[] TwoSum(int[] nums, int target) {
-        var d = new Dictionary<int, int>();
-        for (int i = 0, j; ; ++i) {
-            int x = nums[i];
-            int y = target - x;
-            if (d.TryGetValue(y, out j)) {
-                return new [] {j, i};
-            }
-            if (!d.ContainsKey(x)) {
-                d.Add(x, i);
-            }
-        }
-    }
-}
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param Integer[] $nums
-     * @param Integer $target
-     * @return Integer[]
-     */
-    function twoSum($nums, $target) {
-        $d = [];
-        foreach ($nums as $i => $x) {
-            $y = $target - $x;
-            if (isset($d[$y])) {
-                return [$d[$y], $i];
-            }
-            $d[$x] = $i;
-        }
-    }
-}
-```
-
-#### Scala
-
-```scala
-import scala.collection.mutable
-
-object Solution {
-    def twoSum(nums: Array[Int], target: Int): Array[Int] = {
-        val d = mutable.Map[Int, Int]()
-        var ans: Array[Int] = Array()
-        for (i <- nums.indices if ans.isEmpty) {
-            val x = nums(i)
-            val y = target - x
-            if (d.contains(y)) {
-                ans = Array(d(y), i)
-            } else {
-                d(x) = i
-            }
-        }
-        ans
-    }
-}
-```
-
-#### Swift
-
-```swift
-class Solution {
-    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-        var d = [Int: Int]()
-        for (i, x) in nums.enumerated() {
-            let y = target - x
-            if let j = d[y] {
-                return [j, i]
-            }
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        d = {}
+        for i, x in enumerate(nums):
+            y = target - x
+            if y in d:
+                return [d[y], i]
             d[x] = i
-        }
-        return []
-    }
-}
 ```
-
-#### Ruby
-
-```rb
-# @param {Integer[]} nums
-# @param {Integer} target
-# @return {Integer[]}
-def two_sum(nums, target)
-    d = {}
-    nums.each_with_index do |x, i|
-      y = target - x
-      if d.key?(y)
-        return [d[y], i]
-      end
-      d[x] = i
-    end
-end
-```
-
-#### Nim
-
-```nim
-import std/enumerate
-import std/tables
-
-proc twoSum(nums: seq[int], target: int): seq[int] =
-  var d = initTable[int, int]()
-  for i, x in nums.pairs():
-    let y = target - x
-    if d.hasKey(y):
-      return @[d[y], i]
-    d[x] = i
-  return @[]
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

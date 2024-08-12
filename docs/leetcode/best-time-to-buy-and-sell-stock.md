@@ -51,11 +51,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+
 
 <!-- solution:start -->
 
-### 方法一：枚举 + 维护前缀最小值
+## 方法一：枚举 + 维护前缀最小值
 
 我们可以枚举数组 $nums$ 每个元素作为卖出价格，那么我们需要在前面找到一个最小值作为买入价格，这样才能使得利润最大化。
 
@@ -66,20 +66,7 @@ tags:
 时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        ans, mi = 0, inf
-        for v in prices:
-            ans = max(ans, v - mi)
-            mi = min(mi, v)
-        return ans
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -94,7 +81,7 @@ class Solution {
 }
 ```
 
-#### C++
+
 
 ```cpp
 class Solution {
@@ -110,102 +97,17 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func maxProfit(prices []int) (ans int) {
-	mi := prices[0]
-	for _, v := range prices {
-		ans = max(ans, v-mi)
-		mi = min(mi, v)
-	}
-	return
-}
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        ans, mi = 0, inf
+        for v in prices:
+            ans = max(ans, v - mi)
+            mi = min(mi, v)
+        return ans
 ```
 
-#### TypeScript
-
-```ts
-function maxProfit(prices: number[]): number {
-    let ans = 0;
-    let mi = prices[0];
-    for (const v of prices) {
-        ans = Math.max(ans, v - mi);
-        mi = Math.min(mi, v);
-    }
-    return ans;
-}
-```
-
-#### Rust
-
-```rust
-impl Solution {
-    pub fn max_profit(prices: Vec<i32>) -> i32 {
-        let mut ans = 0;
-        let mut mi = prices[0];
-        for &v in &prices {
-            ans = ans.max(v - mi);
-            mi = mi.min(v);
-        }
-        ans
-    }
-}
-```
-
-#### JavaScript
-
-```js
-/**
- * @param {number[]} prices
- * @return {number}
- */
-var maxProfit = function (prices) {
-    let ans = 0;
-    let mi = prices[0];
-    for (const v of prices) {
-        ans = Math.max(ans, v - mi);
-        mi = Math.min(mi, v);
-    }
-    return ans;
-};
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public int MaxProfit(int[] prices) {
-        int ans = 0, mi = prices[0];
-        foreach (int v in prices) {
-            ans = Math.Max(ans, v - mi);
-            mi = Math.Min(mi, v);
-        }
-        return ans;
-    }
-}
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param Integer[] $prices
-     * @return Integer
-     */
-    function maxProfit($prices) {
-        $ans = 0;
-        $mi = $prices[0];
-        foreach ($prices as $v) {
-            $ans = max($ans, $v - $mi);
-            $mi = min($mi, $v);
-        }
-        return $ans;
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->

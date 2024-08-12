@@ -50,11 +50,10 @@ tags:
 
 <!-- description:end -->
 
-## 解法
 
 <!-- solution:start -->
 
-### 方法一：原地翻转
+## 方法一：原地翻转
 
 根据题目要求，我们实际上需要将 $matrix[i][j]$ 旋转至 $matrix[j][n - i - 1]$。
 
@@ -63,22 +62,7 @@ tags:
 时间复杂度 $O(n^2)$，其中 $n$ 是矩阵的边长。空间复杂度 $O(1)$。
 
 <!-- tabs:start -->
-
-#### Python3
-
-```python
-class Solution:
-    def rotate(self, matrix: List[List[int]]) -> None:
-        n = len(matrix)
-        for i in range(n >> 1):
-            for j in range(n):
-                matrix[i][j], matrix[n - i - 1][j] = matrix[n - i - 1][j], matrix[i][j]
-        for i in range(n):
-            for j in range(i):
-                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-```
-
-#### Java
+::: code-group
 
 ```java
 class Solution {
@@ -102,8 +86,6 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
 class Solution {
 public:
@@ -123,26 +105,6 @@ public:
 };
 ```
 
-#### Go
-
-```go
-func rotate(matrix [][]int) {
-	n := len(matrix)
-	for i := 0; i < n>>1; i++ {
-		for j := 0; j < n; j++ {
-			matrix[i][j], matrix[n-i-1][j] = matrix[n-i-1][j], matrix[i][j]
-		}
-	}
-	for i := 0; i < n; i++ {
-		for j := 0; j < i; j++ {
-			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-		}
-	}
-}
-```
-
-#### TypeScript
-
 ```ts
 /**
  Do not return anything, modify matrix in-place instead.
@@ -159,71 +121,19 @@ function rotate(matrix: number[][]): void {
 }
 ```
 
-#### Rust
-
-```rust
-impl Solution {
-    pub fn rotate(matrix: &mut Vec<Vec<i32>>) {
-        let n = matrix.len();
-        for i in 0..n / 2 {
-            for j in 0..n {
-                let t = matrix[i][j];
-                matrix[i][j] = matrix[n - i - 1][j];
-                matrix[n - i - 1][j] = t;
-            }
-        }
-        for i in 0..n {
-            for j in 0..i {
-                let t = matrix[i][j];
-                matrix[i][j] = matrix[j][i];
-                matrix[j][i] = t;
-            }
-        }
-    }
-}
+```python
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        n = len(matrix)
+        for i in range(n >> 1):
+            for j in range(n):
+                matrix[i][j], matrix[n - i - 1][j] = matrix[n - i - 1][j], matrix[i][j]
+        for i in range(n):
+            for j in range(i):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 ```
 
-#### JavaScript
-
-```js
-/**
- * @param {number[][]} matrix
- * @return {void} Do not return anything, modify matrix in-place instead.
- */
-var rotate = function (matrix) {
-    matrix.reverse();
-    for (let i = 0; i < matrix.length; ++i) {
-        for (let j = 0; j < i; ++j) {
-            [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]];
-        }
-    }
-};
-```
-
-#### C#
-
-```cs
-public class Solution {
-    public void Rotate(int[][] matrix) {
-        int n = matrix.Length;
-        for (int i = 0; i < n >> 1; ++i) {
-            for (int j = 0; j < n; ++j) {
-                int t = matrix[i][j];
-                matrix[i][j] = matrix[n - i - 1][j];
-                matrix[n - i - 1][j] = t;
-            }
-        }
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < i; ++j) {
-                int t = matrix[i][j];
-                matrix[i][j] = matrix[j][i];
-                matrix[j][i] = t;
-            }
-        }
-    }
-}
-```
-
+:::
 <!-- tabs:end -->
 
 <!-- solution:end -->
