@@ -88,7 +88,7 @@ $$
 
 
 
-```python
+```python [Python]
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
         ans = f = nums[0]
@@ -100,7 +100,7 @@ class Solution:
 
 
 
-```java
+```java [Java]
 class Solution {
     public int maxSubArray(int[] nums) {
         int ans = nums[0];
@@ -115,7 +115,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
@@ -144,7 +144,7 @@ func maxSubArray(nums []int) int {
 
 
 
-```ts
+```ts [TypeScript]
 function maxSubArray(nums: number[]): number {
     let [ans, f] = [nums[0], nums[0]];
     for (let i = 1; i < nums.length; ++i) {
@@ -218,7 +218,7 @@ public class Solution {
 
 
 
-```python
+```python [Python]
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
         def crossMaxSub(nums, left, mid, right):
@@ -247,7 +247,7 @@ class Solution:
 
 
 
-```java
+```java [Java]
 class Solution {
     public int maxSubArray(int[] nums) {
         return maxSub(nums, 0, nums.length - 1);

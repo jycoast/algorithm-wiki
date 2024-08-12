@@ -63,7 +63,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int subarraySum(int[] nums, int k) {
         Map<Integer, Integer> cnt = new HashMap<>();
@@ -81,7 +81,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
@@ -97,7 +97,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function subarraySum(nums: number[], k: number): number {
     const cnt: Map<number, number> = new Map();
     cnt.set(0, 1);
@@ -111,7 +111,7 @@ function subarraySum(nums: number[], k: number): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
         cnt = Counter({0: 1})

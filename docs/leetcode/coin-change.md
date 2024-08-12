@@ -92,7 +92,7 @@ $$
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int coinChange(int[] coins, int amount) {
         final int inf = 1 << 30;
@@ -116,7 +116,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
@@ -137,7 +137,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function coinChange(coins: number[], amount: number): number {
     const m = coins.length;
     const n = amount;
@@ -167,7 +167,7 @@ function coinChange(coins: number[], amount: number): number {
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int coinChange(int[] coins, int amount) {
         final int inf = 1 << 30;
@@ -187,7 +187,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
@@ -205,7 +205,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function coinChange(coins: number[], amount: number): number {
     const n = amount;
     const f: number[] = Array(n + 1).fill(1 << 30);
@@ -219,7 +219,7 @@ function coinChange(coins: number[], amount: number): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         n = amount

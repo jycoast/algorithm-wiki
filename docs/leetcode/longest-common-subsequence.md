@@ -85,7 +85,7 @@ $$
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int longestCommonSubsequence(String text1, String text2) {
         int m = text1.length(), n = text2.length();
@@ -106,7 +106,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int longestCommonSubsequence(string text1, string text2) {
@@ -127,7 +127,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function longestCommonSubsequence(text1: string, text2: string): number {
     const m = text1.length;
     const n = text2.length;
@@ -145,7 +145,7 @@ function longestCommonSubsequence(text1: string, text2: string): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         m, n = len(text1), len(text2)

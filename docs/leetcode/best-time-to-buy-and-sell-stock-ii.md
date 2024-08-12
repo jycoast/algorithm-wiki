@@ -72,7 +72,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int maxProfit(int[] prices) {
         int ans = 0;
@@ -86,7 +86,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -99,7 +99,7 @@ public:
 
 
 
-```ts
+```ts [TypeScript]
 function maxProfit(prices: number[]): number {
     let ans = 0;
     for (let i = 1; i < prices.length; i++) {
@@ -109,7 +109,7 @@ function maxProfit(prices: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         return sum(max(0, b - a) for a, b in pairwise(prices))
@@ -146,7 +146,7 @@ $$
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int maxProfit(int[] prices) {
         int n = prices.length;
@@ -163,7 +163,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -180,7 +180,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
@@ -208,7 +208,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int maxProfit(int[] prices) {
         int n = prices.length;
@@ -225,7 +225,7 @@ class Solution {
 ```
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -242,7 +242,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         n = len(prices)

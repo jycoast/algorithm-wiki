@@ -87,7 +87,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public String minWindow(String s, String t) {
         int[] need = new int[128];
@@ -120,7 +120,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     string minWindow(string s, string t) {
@@ -152,7 +152,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function minWindow(s: string, t: string): string {
     const need: number[] = new Array(128).fill(0);
     const window: number[] = new Array(128).fill(0);
@@ -183,7 +183,7 @@ function minWindow(s: string, t: string): string {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
         need = Counter(t)

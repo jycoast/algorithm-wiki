@@ -80,7 +80,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public void nextPermutation(int[] nums) {
         int n = nums.length;
@@ -112,7 +112,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
@@ -134,7 +134,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function nextPermutation(nums: number[]): void {
     const n = nums.length;
     let i = n - 2;
@@ -155,7 +155,7 @@ function nextPermutation(nums: number[]): void {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def nextPermutation(self, nums: List[int]) -> None:
         n = len(nums)

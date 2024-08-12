@@ -85,7 +85,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     private List<List<Integer>> ans = new ArrayList<>();
     private List<Integer> t = new ArrayList<>();
@@ -117,7 +117,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
@@ -145,7 +145,7 @@ public:
 ```
 
 
-```ts
+```ts [TypeScript]
 function combinationSum(candidates: number[], target: number): number[][] {
     candidates.sort((a, b) => a - b);
     const ans: number[][] = [];
@@ -169,7 +169,7 @@ function combinationSum(candidates: number[], target: number): number[][] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         def dfs(i: int, s: int):
@@ -206,7 +206,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private List<List<Integer>> ans = new ArrayList<>();
     private List<Integer> t = new ArrayList<>();
@@ -235,7 +235,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
@@ -260,7 +260,7 @@ public:
     }
 };
 ```
-```ts
+```ts [TypeScript]
 function combinationSum(candidates: number[], target: number): number[][] {
     candidates.sort((a, b) => a - b);
     const ans: number[][] = [];
@@ -283,7 +283,7 @@ function combinationSum(candidates: number[], target: number): number[][] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         def dfs(i: int, s: int):

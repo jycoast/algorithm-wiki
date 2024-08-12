@@ -75,7 +75,7 @@ $$
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int climbStairs(int n) {
         int a = 0, b = 1;
@@ -89,7 +89,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int climbStairs(int n) {
@@ -104,7 +104,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function climbStairs(n: number): number {
     let p = 1;
     let q = 1;
@@ -115,7 +115,7 @@ function climbStairs(n: number): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def climbStairs(self, n: int) -> int:
         a, b = 0, 1
@@ -174,7 +174,7 @@ $$
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private final int[][] a = {{1, 1}, {1, 0}};
 
@@ -211,7 +211,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int climbStairs(int n) {
@@ -247,7 +247,7 @@ private:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function climbStairs(n: number): number {
     const a = [
         [1, 1],
@@ -287,7 +287,7 @@ function pow(a: number[][], n: number): number[][] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def climbStairs(self, n: int) -> int:
         def mul(a: List[List[int]], b: List[List[int]]) -> List[List[int]]:

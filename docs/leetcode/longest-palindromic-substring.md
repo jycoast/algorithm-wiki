@@ -65,7 +65,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public String longestPalindrome(String s) {
         int n = s.length();
@@ -93,7 +93,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     string longestPalindrome(string s) {
@@ -117,7 +117,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function longestPalindrome(s: string): string {
     const n = s.length;
     const f: boolean[][] = Array(n)
@@ -141,7 +141,7 @@ function longestPalindrome(s: string): string {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         n = len(s)
@@ -173,7 +173,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private String s;
     private int n;
@@ -205,7 +205,7 @@ class Solution {
 ```
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     string longestPalindrome(string s) {
@@ -231,7 +231,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         def f(l, r):

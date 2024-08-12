@@ -68,7 +68,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -114,7 +114,7 @@ class Solution {
 }
 ```
 
-```ts
+```ts [TypeScript]
 /**
  * Definition for singly-linked list.
  * class ListNode {
@@ -165,7 +165,7 @@ function reverse(head: ListNode, tail: ListNode) {
 }
 ```
 
-```python
+```python [Python]
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
@@ -214,7 +214,7 @@ class Solution:
 ::: code-group
 
 
-```ts
+```ts [TypeScript]
 /**
  * Definition for singly-linked list.
  * class ListNode {

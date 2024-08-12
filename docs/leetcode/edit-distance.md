@@ -94,7 +94,7 @@ $$
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int minDistance(String word1, String word2) {
         int m = word1.length(), n = word2.length();
@@ -117,7 +117,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int minDistance(string word1, string word2) {
@@ -141,7 +141,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function minDistance(word1: string, word2: string): number {
     const m = word1.length;
     const n = word2.length;
@@ -165,7 +165,7 @@ function minDistance(word1: string, word2: string): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
         m, n = len(word1), len(word2)

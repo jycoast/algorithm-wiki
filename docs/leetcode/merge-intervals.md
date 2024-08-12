@@ -69,7 +69,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int[][] merge(int[][] intervals) {
         Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
@@ -92,7 +92,7 @@ class Solution {
 ```
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
@@ -114,7 +114,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function merge(intervals: number[][]): number[][] {
     intervals.sort((a, b) => a[0] - b[0]);
     const ans: number[][] = [];
@@ -132,7 +132,7 @@ function merge(intervals: number[][]): number[][] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         intervals.sort()
@@ -161,7 +161,7 @@ class Solution:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int[][] merge(int[][] intervals) {
         Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
@@ -182,7 +182,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
@@ -201,7 +201,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function merge(intervals: number[][]): number[][] {
     intervals.sort((a, b) => a[0] - b[0]);
     const ans: number[][] = [intervals[0]];
@@ -216,7 +216,7 @@ function merge(intervals: number[][]): number[][] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         intervals.sort()
@@ -241,7 +241,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```ts
+```ts [TypeScript]
 function merge(intervals: number[][]): number[][] {
     intervals.sort((a, b) => a[0] - b[0]);
     const n = intervals.length;

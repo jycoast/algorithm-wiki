@@ -74,7 +74,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
         PriorityQueue<int[]> q
@@ -96,7 +96,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
@@ -118,7 +118,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         q = [(-v, i) for i, v in enumerate(nums[: k - 1])]
@@ -145,7 +145,7 @@ class Solution:
 
 单调队列常见模型：找出滑动窗口中的最大值/最小值。模板：
 
-```python
+```python [Python]
 q = deque()
 for i in range(n):
     # 判断队头是否滑出窗口
@@ -159,7 +159,7 @@ for i in range(n):
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n = nums.length;
@@ -182,7 +182,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
@@ -205,7 +205,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         q = deque()

@@ -70,7 +70,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private List<Integer> ans = new ArrayList<>();
 
@@ -91,7 +91,7 @@ class Solution {
 ```
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
@@ -109,7 +109,7 @@ public:
     }
 };
 ```
-```python
+```python [Python]
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         def dfs(root):
@@ -145,7 +145,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
@@ -167,7 +167,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
@@ -189,7 +189,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         ans, stk = [], []
@@ -204,7 +204,7 @@ class Solution:
         return ans
 ```
 
-```ts
+```ts [TypeScript]
 function inorderTraversal(root: TreeNode | null): number[] {
     const stk: TreeNode[] = [];
     const ans: number[] = [];
@@ -246,7 +246,7 @@ Morris 遍历无需使用栈，空间复杂度为 $O(1)$。核心思想是：
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
@@ -274,7 +274,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
@@ -302,7 +302,7 @@ public:
     }
 };
 ```
-```ts
+```ts [TypeScript]
 function inorderTraversal(root: TreeNode | null): number[] {
     const ans: number[] = [];
     while (root) {
@@ -328,7 +328,7 @@ function inorderTraversal(root: TreeNode | null): number[] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         ans = []

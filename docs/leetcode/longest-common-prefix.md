@@ -61,7 +61,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public String longestCommonPrefix(String[] strs) {
         int n = strs.length;
@@ -77,7 +77,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     string longestCommonPrefix(vector<string>& strs) {
@@ -94,7 +94,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function longestCommonPrefix(strs: string[]): string {
     const len = strs.reduce((r, s) => Math.min(r, s.length), Infinity);
     for (let i = len; i > 0; i--) {
@@ -107,7 +107,7 @@ function longestCommonPrefix(strs: string[]): string {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def longestCommonPrefix(self, strs: List[str]) -> str:
         for i in range(len(strs[0])):

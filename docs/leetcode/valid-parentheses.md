@@ -76,7 +76,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public boolean isValid(String s) {
         Deque<Character> stk = new ArrayDeque<>();
@@ -96,7 +96,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     bool isValid(string s) {
@@ -118,7 +118,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 const map = new Map([
     ['(', ')'],
     ['[', ']'],
@@ -138,7 +138,7 @@ function isValid(s: string): boolean {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def isValid(self, s: str) -> bool:
         stk = []

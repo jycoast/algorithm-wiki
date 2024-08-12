@@ -81,7 +81,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public String reverseWords(String s) {
         List<String> words = new ArrayList<>();
@@ -107,7 +107,7 @@ class Solution {
 ```
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     string reverseWords(string s) {
@@ -137,7 +137,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function reverseWords(s: string): string {
     const words: string[] = [];
     const n = s.length;
@@ -159,7 +159,7 @@ function reverseWords(s: string): string {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def reverseWords(self, s: str) -> str:
         words = []
@@ -193,7 +193,7 @@ class Solution:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public String reverseWords(String s) {
         List<String> words = Arrays.asList(s.trim().split("\\s+"));
@@ -205,13 +205,13 @@ class Solution {
 
 
 
-```ts
+```ts [TypeScript]
 function reverseWords(s: string): string {
     return s.trim().split(/\s+/).reverse().join(' ');
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def reverseWords(self, s: str) -> str:
         return " ".join(reversed(s.split()))

@@ -78,7 +78,7 @@ minStack.getMin();   --&gt; 返回 -2.
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class MinStack {
     private Deque<Integer> stk1 = new ArrayDeque<>();
     private Deque<Integer> stk2 = new ArrayDeque<>();
@@ -118,7 +118,7 @@ class MinStack {
 
 
 
-```cpp
+```cpp [C++]
 class MinStack {
 public:
     MinStack() {
@@ -158,7 +158,7 @@ private:
  */
 ```
 
-```ts
+```ts [TypeScript]
 class MinStack {
     stk1: number[];
     stk2: number[];
@@ -198,7 +198,7 @@ class MinStack {
 ```
 
 
-```python
+```python [Python]
 class MinStack:
     def __init__(self):
         self.stk1 = []

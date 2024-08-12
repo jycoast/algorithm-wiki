@@ -78,7 +78,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
@@ -98,7 +98,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
@@ -116,7 +116,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function lengthOfLIS(nums: number[]): number {
     const n = nums.length;
     const f: number[] = new Array(n).fill(1);
@@ -131,7 +131,7 @@ function lengthOfLIS(nums: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         n = len(nums)
@@ -163,7 +163,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int[] s = nums.clone();
@@ -227,7 +227,7 @@ class BinaryIndexedTree {
 
 
 
-```cpp
+```cpp [C++]
 class BinaryIndexedTree {
 public:
     BinaryIndexedTree(int _n)
@@ -272,7 +272,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 class BinaryIndexedTree {
     private n: number;
     private c: number[];
@@ -326,7 +326,7 @@ function search(nums: number[], x: number): number {
 }
 ```
 
-```python
+```python [Python]
 class BinaryIndexedTree:
     def __init__(self, n: int):
         self.n = n

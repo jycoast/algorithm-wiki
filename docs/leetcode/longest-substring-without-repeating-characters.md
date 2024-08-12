@@ -80,7 +80,7 @@ for (int i = 0, j = 0; i < n; ++i) {
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         boolean[] ss = new boolean[128];
@@ -98,7 +98,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
@@ -114,6 +114,35 @@ public:
         return ans;
     }
 };
+```
+
+```ts [TypeScript]
+function lengthOfLongestSubstring(s: string): number {
+    let ans = 0;
+    const ss: Set<string> = new Set();
+    for (let i = 0, j = 0; j < s.length; ++j) {
+        while (ss.has(s[j])) {
+            ss.delete(s[i++]);
+        }
+        ss.add(s[j]);
+        ans = Math.max(ans, j - i + 1);
+    }
+    return ans;
+}
+```
+
+```python [Python]
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        ss = set()
+        ans = i = 0
+        for j, c in enumerate(s):
+            while c in ss:
+                ss.remove(s[i])
+                i += 1
+            ss.add(c)
+            ans = max(ans, j - i + 1)
+        return ans
 ```
 
 :::

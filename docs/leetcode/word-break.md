@@ -78,7 +78,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
         Set<String> words = new HashSet<>(wordDict);
@@ -100,7 +100,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
@@ -122,7 +122,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function wordBreak(s: string, wordDict: string[]): boolean {
     const words = new Set(wordDict);
     const n = s.length;
@@ -140,7 +140,7 @@ function wordBreak(s: string, wordDict: string[]): boolean {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         words = set(wordDict)
@@ -170,7 +170,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
         Trie trie = new Trie();
@@ -218,7 +218,7 @@ class Trie {
 
 
 
-```cpp
+```cpp [C++]
 class Trie {
 public:
     vector<Trie*> children;
@@ -267,7 +267,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function wordBreak(s: string, wordDict: string[]): boolean {
     const trie = new Trie();
     for (const w of wordDict) {
@@ -316,7 +316,7 @@ class Trie {
 }
 ```
 
-```python
+```python [Python]
 class Trie:
     def __init__(self):
         self.children: List[Trie | None] = [None] * 26

@@ -83,7 +83,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int search(int[] nums, int target) {
         int n = nums.length;
@@ -109,7 +109,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
@@ -134,7 +134,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function search(nums: number[], target: number): number {
     const n = nums.length;
     let left = 0,
@@ -159,7 +159,7 @@ function search(nums: number[], target: number): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         n = len(nums)

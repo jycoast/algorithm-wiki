@@ -79,7 +79,7 @@ $$
 
 
 
-```python
+```python [Python]
 class Solution:
     def maximalSquare(self, matrix: List[List[str]]) -> int:
         m, n = len(matrix), len(matrix[0])
@@ -95,7 +95,7 @@ class Solution:
 
 
 
-```java
+```java [Java]
 class Solution {
     public int maximalSquare(char[][] matrix) {
         int m = matrix.length, n = matrix[0].length;
@@ -116,7 +116,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int maximalSquare(vector<vector<char>>& matrix) {

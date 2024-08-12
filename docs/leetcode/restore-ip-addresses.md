@@ -74,7 +74,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private int n;
     private String s;
@@ -110,7 +110,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<string> restoreIpAddresses(string s) {
@@ -142,7 +142,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function restoreIpAddresses(s: string): string[] {
     const n = s.length;
     const ans: string[] = [];
@@ -171,7 +171,7 @@ function restoreIpAddresses(s: string): string[] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def restoreIpAddresses(self, s: str) -> List[str]:
         def check(i: int, j: int) -> int:

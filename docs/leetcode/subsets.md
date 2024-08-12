@@ -65,7 +65,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private List<List<Integer>> ans = new ArrayList<>();
     private List<Integer> t = new ArrayList<>();
@@ -92,7 +92,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
@@ -114,7 +114,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function subsets(nums: number[]): number[][] {
     const ans: number[][] = [];
     const t: number[] = [];
@@ -133,7 +133,7 @@ function subsets(nums: number[]): number[][] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         def dfs(i: int):
@@ -169,7 +169,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
         int n = nums.length;
@@ -190,7 +190,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
@@ -210,7 +210,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function subsets(nums: number[]): number[][] {
     const n = nums.length;
     const ans: number[][] = [];
@@ -227,7 +227,7 @@ function subsets(nums: number[]): number[][] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         ans = []
@@ -250,7 +250,7 @@ class Solution:
 ::: code-group
 
 
-```ts
+```ts [TypeScript]
 function subsets(nums: number[]): number[][] {
     const res: number[][] = [[]];
     for (const x of nums) {

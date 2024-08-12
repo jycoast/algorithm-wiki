@@ -62,7 +62,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public List<Integer> spiralOrder(int[][] matrix) {
         int m = matrix.length, n = matrix[0].length;
@@ -85,7 +85,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
@@ -110,7 +110,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function spiralOrder(matrix: number[][]): number[] {
     const m = matrix.length;
     const n = matrix[0].length;
@@ -132,7 +132,7 @@ function spiralOrder(matrix: number[][]): number[] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         m, n = len(matrix), len(matrix[0])
@@ -168,7 +168,7 @@ class Solution:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public List<Integer> spiralOrder(int[][] matrix) {
         int m = matrix.length, n = matrix[0].length;
@@ -194,7 +194,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
@@ -221,7 +221,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function spiralOrder(matrix: number[][]): number[] {
     const m = matrix.length;
     const n = matrix[0].length;
@@ -247,7 +247,7 @@ function spiralOrder(matrix: number[][]): number[] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         m, n = len(matrix), len(matrix[0])
@@ -280,7 +280,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public List<Integer> spiralOrder(int[][] matrix) {
         int m = matrix.length, n = matrix[0].length;
@@ -311,7 +311,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
@@ -341,7 +341,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function spiralOrder(matrix: number[][]): number[] {
     const m = matrix.length;
     const n = matrix[0].length;
@@ -374,7 +374,7 @@ function spiralOrder(matrix: number[][]): number[] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         m, n = len(matrix), len(matrix[0])

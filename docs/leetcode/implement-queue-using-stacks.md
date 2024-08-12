@@ -96,7 +96,7 @@ myQueue.empty(); // return false
 ::: code-group
 
 
-```java
+```java [Java]
 class MyQueue {
     private Deque<Integer> stk1 = new ArrayDeque<>();
     private Deque<Integer> stk2 = new ArrayDeque<>();
@@ -134,7 +134,7 @@ class MyQueue {
 ```
 
 
-```cpp
+```cpp [C++]
 class MyQueue {
 public:
     MyQueue() {
@@ -176,7 +176,7 @@ private:
 ```
 
 
-```ts
+```ts [TypeScript]
 class MyQueue {
     stk1: number[];
     stk2: number[];
@@ -216,7 +216,7 @@ class MyQueue {
 ```
 
 
-```python
+```python [Python]
 class MyQueue:
     def __init__(self):
         self.stk1 = []

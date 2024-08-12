@@ -11,7 +11,7 @@ tags:
 
 # [21. 合并两个有序链表](https://leetcode.cn/problems/merge-two-sorted-lists)
 
-
+## 题目描述
 
 <!-- description:start -->
 
@@ -56,7 +56,7 @@ tags:
 
 <!-- solution:start -->
 
-### 方法一：递归
+## 方法一：递归
 
 我们先判断链表 $l_1$ 和 $l_2$ 是否为空，若其中一个为空，则返回另一个链表。否则，我们比较 $l_1$ 和 $l_2$ 的头节点：
 
@@ -68,31 +68,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def mergeTwoLists(
-        self, list1: Optional[ListNode], list2: Optional[ListNode]
-    ) -> Optional[ListNode]:
-        if list1 is None or list2 is None:
-            return list1 or list2
-        if list1.val <= list2.val:
-            list1.next = self.mergeTwoLists(list1.next, list2)
-            return list1
-        else:
-            list2.next = self.mergeTwoLists(list1, list2.next)
-            return list2
-```
-
-
-
-```java
+```java [Java]
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -122,9 +98,7 @@ class Solution {
 }
 ```
 
-
-
-```cpp
+```cpp [C++]
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -151,36 +125,7 @@ public:
 };
 ```
 
-
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
-	if list1 == nil {
-		return list2
-	}
-	if list2 == nil {
-		return list1
-	}
-	if list1.Val <= list2.Val {
-		list1.Next = mergeTwoLists(list1.Next, list2)
-		return list1
-	} else {
-		list2.Next = mergeTwoLists(list1, list2.Next)
-		return list2
-	}
-}
-```
-
-
-
-```ts
+```ts [TypeScript]
 /**
  * Definition for singly-linked list.
  * class ListNode {
@@ -207,145 +152,24 @@ function mergeTwoLists(list1: ListNode | null, list2: ListNode | null): ListNode
 }
 ```
 
-
-
-```rust
-// Definition for singly-linked list.
-// #[derive(PartialEq, Eq, Clone, Debug)]
-// pub struct ListNode {
-//   pub val: i32,
-//   pub next: Option<Box<ListNode>>
-// }
-//
-// impl ListNode {
-//   #[inline]
-//   fn new(val: i32) -> Self {
-//     ListNode {
-//       next: None,
-//       val
-//     }
-//   }
-// }
-impl Solution {
-    pub fn merge_two_lists(
-        list1: Option<Box<ListNode>>,
-        list2: Option<Box<ListNode>>,
-    ) -> Option<Box<ListNode>> {
-        match (list1, list2) {
-            (None, None) => None,
-            (Some(list), None) => Some(list),
-            (None, Some(list)) => Some(list),
-            (Some(mut list1), Some(mut list2)) => {
-                if list1.val < list2.val {
-                    list1.next = Self::merge_two_lists(list1.next, Some(list2));
-                    Some(list1)
-                } else {
-                    list2.next = Self::merge_two_lists(Some(list1), list2.next);
-                    Some(list2)
-                }
-            }
-        }
-    }
-}
-```
-
-Script
-
-```js
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} list1
- * @param {ListNode} list2
- * @return {ListNode}
- */
-var mergeTwoLists = function (list1, list2) {
-    if (!list1 || !list2) {
-        return list1 || list2;
-    }
-    if (list1.val <= list2.val) {
-        list1.next = mergeTwoLists(list1.next, list2);
-        return list1;
-    } else {
-        list2.next = mergeTwoLists(list1, list2.next);
-        return list2;
-    }
-};
-```
-
-
-
-```cs
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int val=0, ListNode next=null) {
- *         this.val = val;
- *         this.next = next;
- *     }
- * }
- */
-public class Solution {
-    public ListNode MergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode dummy = new ListNode();
-        ListNode cur = dummy;
-        while (list1 != null && list2 != null)
-        {
-            if (list1.val <= list2.val)
-            {
-                cur.next = list1;
-                list1 = list1.next;
-            }
-            else
-            {
-                cur.next = list2;
-                list2 = list2.next;
-            }
-            cur = cur.next;
-        }
-        cur.next = list1 == null ? list2 : list1;
-        return dummy.next;
-    }
-}
-```
-
-
-
-```rb
+```python [Python]
 # Definition for singly-linked list.
-# class ListNode
-#     attr_accessor :val, :next
-#     def initialize(val = 0, _next = nil)
-#         @val = val
-#         @next = _next
-#     end
-# end
-# @param {ListNode} list1
-# @param {ListNode} list2
-# @return {ListNode}
-def merge_two_lists(list1, list2)
-    dummy = ListNode.new()
-    cur = dummy
-    while list1 && list2
-        if list1.val <= list2.val
-            cur.next = list1
-            list1 = list1.next
-        else
-            cur.next = list2
-            list2 = list2.next
-        end
-        cur = cur.next
-    end
-    cur.next = list1 || list2
-    dummy.next
-end
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(
+        self, list1: Optional[ListNode], list2: Optional[ListNode]
+    ) -> Optional[ListNode]:
+        if list1 is None or list2 is None:
+            return list1 or list2
+        if list1.val <= list2.val:
+            list1.next = self.mergeTwoLists(list1.next, list2)
+            return list1
+        else:
+            list2.next = self.mergeTwoLists(list1, list2.next)
+            return list2
 ```
 
 :::
@@ -355,7 +179,7 @@ end
 
 <!-- solution:start -->
 
-### 方法二：迭代
+## 方法二：迭代
 
 我们也可以用迭代的方式来实现两个排序链表的合并。
 
@@ -368,35 +192,7 @@ end
 <!-- tabs:start -->
 ::: code-group
 
-
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def mergeTwoLists(
-        self, list1: Optional[ListNode], list2: Optional[ListNode]
-    ) -> Optional[ListNode]:
-        dummy = ListNode()
-        curr = dummy
-        while list1 and list2:
-            if list1.val <= list2.val:
-                curr.next = list1
-                list1 = list1.next
-            else:
-                curr.next = list2
-                list2 = list2.next
-            curr = curr.next
-        curr.next = list1 or list2
-        return dummy.next
-```
-
-
-
-```java
+```java [Java]
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -427,9 +223,7 @@ class Solution {
 }
 ```
 
-
-
-```cpp
+```cpp [C++]
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -461,41 +255,7 @@ public:
 };
 ```
 
-
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
-	dummy := &ListNode{}
-	curr := dummy
-	for list1 != nil && list2 != nil {
-		if list1.Val <= list2.Val {
-			curr.Next = list1
-			list1 = list1.Next
-		} else {
-			curr.Next = list2
-			list2 = list2.Next
-		}
-		curr = curr.Next
-	}
-	if list1 != nil {
-		curr.Next = list1
-	} else {
-		curr.Next = list2
-	}
-	return dummy.Next
-}
-```
-
-
-
-```ts
+```ts [TypeScript]
 /**
  * Definition for singly-linked list.
  * class ListNode {
@@ -526,127 +286,28 @@ function mergeTwoLists(list1: ListNode | null, list2: ListNode | null): ListNode
 }
 ```
 
-
-
-```rust
-// Definition for singly-linked list.
-// #[derive(PartialEq, Eq, Clone, Debug)]
-// pub struct ListNode {
-//   pub val: i32,
-//   pub next: Option<Box<ListNode>>
-// }
-//
-// impl ListNode {
-//   #[inline]
-//   fn new(val: i32) -> Self {
-//     ListNode {
-//       next: None,
-//       val
-//     }
-//   }
-// }
-impl Solution {
-    pub fn merge_two_lists(
-        mut list1: Option<Box<ListNode>>,
-        mut list2: Option<Box<ListNode>>,
-    ) -> Option<Box<ListNode>> {
-        let mut new_list = ListNode::new(0);
-        let mut cur = &mut new_list;
-        while list1.is_some() && list2.is_some() {
-            let (l1, l2) = (list1.as_deref_mut().unwrap(), list2.as_deref_mut().unwrap());
-            if l1.val < l2.val {
-                let next = l1.next.take();
-                cur.next = list1.take();
-                list1 = next;
-            } else {
-                let next = l2.next.take();
-                cur.next = list2.take();
-                list2 = next;
-            }
-            cur = cur.next.as_deref_mut().unwrap();
-        }
-        cur.next = list1.or(list2);
-        new_list.next
-    }
-}
-```
-
-Script
-
-```js
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} list1
- * @param {ListNode} list2
- * @return {ListNode}
- */
-var mergeTwoLists = function (list1, list2) {
-    const dummy = new ListNode();
-    let curr = dummy;
-    while (list1 && list2) {
-        if (list1.val <= list2.val) {
-            curr.next = list1;
-            list1 = list1.next;
-        } else {
-            curr.next = list2;
-            list2 = list2.next;
-        }
-        curr = curr.next;
-    }
-    curr.next = list1 || list2;
-    return dummy.next;
-};
-```
-
-
-
-```php
+```python [Python]
 # Definition for singly-linked list.
-# class ListNode {
-#     public $val;
-#     public $next;
-#     public function __construct($val = 0, $next = null)
-#     {
-#         $this->val = $val;
-#         $this->next = $next;
-#     }
-# }
-
-class Solution {
-    /**
-     * @param ListNode $list1
-     * @param ListNode $list2
-     * @return ListNode
-     */
-
-    function mergeTwoLists($list1, $list2) {
-        $dummy = new ListNode(0);
-        $current = $dummy;
-
-        while ($list1 != null && $list2 != null) {
-            if ($list1->val <= $list2->val) {
-                $current->next = $list1;
-                $list1 = $list1->next;
-            } else {
-                $current->next = $list2;
-                $list2 = $list2->next;
-            }
-            $current = $current->next;
-        }
-        if ($list1 != null) {
-            $current->next = $list1;
-        } elseif ($list2 != null) {
-            $current->next = $list2;
-        }
-        return $dummy->next;
-    }
-}
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(
+        self, list1: Optional[ListNode], list2: Optional[ListNode]
+    ) -> Optional[ListNode]:
+        dummy = ListNode()
+        curr = dummy
+        while list1 and list2:
+            if list1.val <= list2.val:
+                curr.next = list1
+                list1 = list1.next
+            else:
+                curr.next = list2
+                list2 = list2.next
+            curr = curr.next
+        curr.next = list1 or list2
+        return dummy.next
 ```
 
 :::

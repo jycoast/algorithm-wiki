@@ -64,7 +64,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int search(int[] nums, int target) {
         int l = 0, r = nums.length - 1;
@@ -83,7 +83,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
@@ -101,7 +101,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         l, r = 0, len(nums) - 1

@@ -71,7 +71,7 @@ $$
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int findLength(int[] nums1, int[] nums2) {
         int m = nums1.length;
@@ -93,7 +93,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int findLength(vector<int>& nums1, vector<int>& nums2) {
@@ -113,7 +113,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function findLength(nums1: number[], nums2: number[]): number {
     const m = nums1.length;
     const n = nums2.length;
@@ -131,7 +131,7 @@ function findLength(nums1: number[], nums2: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def findLength(self, nums1: List[int], nums2: List[int]) -> int:
         m, n = len(nums1), len(nums2)

@@ -69,7 +69,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public String multiply(String num1, String num2) {
         if ("0".equals(num1) || "0".equals(num2)) {
@@ -98,7 +98,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     string multiply(string num1, string num2) {
@@ -128,7 +128,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function multiply(num1: string, num2: string): string {
     if (num1 === '0' || num2 === '0') {
         return '0';
@@ -155,7 +155,7 @@ function multiply(num1: string, num2: string): string {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def multiply(self, num1: str, num2: str) -> str:
         if num1 == "0" or num2 == "0":

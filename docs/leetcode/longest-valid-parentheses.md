@@ -86,7 +86,7 @@ $$
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int longestValidParentheses(String s) {
         int n = s.length();
@@ -112,7 +112,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int longestValidParentheses(string s) {
@@ -136,7 +136,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function longestValidParentheses(s: string): number {
     const n = s.length;
     const f: number[] = new Array(n + 1).fill(0);
@@ -156,7 +156,7 @@ function longestValidParentheses(s: string): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
         n = len(s)
@@ -197,7 +197,7 @@ class Solution:
 ::: code-group
 
 
-```ts
+```ts [TypeScript]
 function longestValidParentheses(s: string): number {
     let max_length: number = 0;
     const stack: number[] = [-1];
@@ -220,7 +220,7 @@ function longestValidParentheses(s: string): number {
 ```
 
 
-```python
+```python [Python]
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
         stack = [-1]

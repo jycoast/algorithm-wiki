@@ -70,7 +70,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int minPathSum(int[][] grid) {
         int m = grid.length, n = grid[0].length;
@@ -94,7 +94,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int minPathSum(vector<vector<int>>& grid) {
@@ -117,7 +117,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function minPathSum(grid: number[][]): number {
     const m = grid.length;
     const n = grid[0].length;
@@ -140,7 +140,7 @@ function minPathSum(grid: number[][]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])

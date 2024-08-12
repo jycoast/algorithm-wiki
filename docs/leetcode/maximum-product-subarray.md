@@ -64,7 +64,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int maxProduct(int[] nums) {
         int f = nums[0], g = nums[0], ans = nums[0];
@@ -79,7 +79,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
@@ -95,7 +95,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function maxProduct(nums: number[]): number {
     let [f, g, ans] = [nums[0], nums[0], nums[0]];
     for (let i = 1; i < nums.length; ++i) {
@@ -108,7 +108,7 @@ function maxProduct(nums: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def maxProduct(self, nums: List[int]) -> int:
         ans = f = g = nums[0]

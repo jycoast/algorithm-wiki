@@ -81,7 +81,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int minSubArrayLen(int target, int[] nums) {
         int n = nums.length;
@@ -116,7 +116,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int minSubArrayLen(int target, vector<int>& nums) {
@@ -138,7 +138,7 @@ public:
 ```
 
 
-```ts
+```ts [TypeScript]
 function minSubArrayLen(target: number, nums: number[]): number {
     const n = nums.length;
     const s: number[] = new Array(n + 1).fill(0);
@@ -170,7 +170,7 @@ function minSubArrayLen(target: number, nums: number[]): number {
 ```
 
 
-```python
+```python [Python]
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
         n = len(nums)
@@ -205,7 +205,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int minSubArrayLen(int target, int[] nums) {
         int l = 0, n = nums.length;
@@ -223,7 +223,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int minSubArrayLen(int target, vector<int>& nums) {
@@ -242,7 +242,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function minSubArrayLen(target: number, nums: number[]): number {
     const n = nums.length;
     let [s, ans] = [0, n + 1];
@@ -257,7 +257,7 @@ function minSubArrayLen(target: number, nums: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
         l = s = 0

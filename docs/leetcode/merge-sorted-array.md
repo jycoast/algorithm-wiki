@@ -85,7 +85,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         for (int i = m - 1, j = n - 1, k = m + n - 1; j >= 0; --k) {
@@ -97,7 +97,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
@@ -108,7 +108,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 /**
  Do not return anything, modify nums1 in-place instead.
  */
@@ -119,7 +119,7 @@ function merge(nums1: number[], m: number, nums2: number[], n: number): void {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
         k = m + n - 1

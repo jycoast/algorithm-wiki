@@ -78,7 +78,7 @@ Flood fill 算法是从一个区域中提取若干个连通的点与其他相邻
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private char[][] grid;
     private int m;
@@ -116,7 +116,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int numIslands(vector<vector<char>>& grid) {
@@ -146,7 +146,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function numIslands(grid: string[][]): number {
     const m = grid.length;
     const n = grid[0].length;
@@ -173,7 +173,7 @@ function numIslands(grid: string[][]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         def dfs(i, j):
@@ -218,7 +218,7 @@ class Solution:
 -   `find(x)` 函数用于查找 $x$ 所在集合的祖宗节点
 -   `union(a, b)` 函数用于合并 $a$ 和 $b$ 所在的集合
 
-```python
+```python [Python]
 p = list(range(n))
 size = [1] * n
 
@@ -244,7 +244,7 @@ def union(a, b):
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     private char[][] grid;
     private int m;
@@ -288,7 +288,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int numIslands(vector<vector<char>>& grid) {
@@ -327,7 +327,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function numIslands(grid: string[][]): number {
     const m = grid.length;
     const n = grid[0].length;
@@ -360,7 +360,7 @@ function numIslands(grid: string[][]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         def bfs(i, j):
@@ -397,7 +397,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private int[] p;
 
@@ -442,7 +442,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int numIslands(vector<vector<char>>& grid) {
@@ -481,7 +481,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function numIslands(grid: string[][]): number {
     const m = grid.length;
     const n = grid[0].length;
@@ -521,7 +521,7 @@ function numIslands(grid: string[][]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         def find(x):

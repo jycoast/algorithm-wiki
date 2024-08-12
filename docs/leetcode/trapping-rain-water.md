@@ -64,7 +64,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int trap(int[] height) {
         int n = height.length;
@@ -87,7 +87,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int trap(vector<int>& height) {
@@ -108,7 +108,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function trap(height: number[]): number {
     const n = height.length;
     const left: number[] = new Array(n).fill(height[0]);
@@ -125,7 +125,7 @@ function trap(height: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def trap(self, height: List[int]) -> int:
         n = len(height)

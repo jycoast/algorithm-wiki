@@ -69,7 +69,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private int m;
     private int n;
@@ -106,7 +106,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int maxAreaOfIsland(vector<vector<int>>& grid) {
@@ -137,7 +137,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function maxAreaOfIsland(grid: number[][]): number {
     const m = grid.length;
     const n = grid[0].length;
@@ -166,7 +166,7 @@ function maxAreaOfIsland(grid: number[][]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
         def dfs(i: int, j: int) -> int:

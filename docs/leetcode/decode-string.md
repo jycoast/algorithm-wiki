@@ -76,7 +76,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public String decodeString(String s) {
         Deque<Integer> s1 = new ArrayDeque<>();
@@ -106,7 +106,7 @@ class Solution {
 }
 ```
 
-```ts
+```ts [TypeScript]
 function decodeString(s: string): string {
     let ans = '';
     let stack = [];
@@ -131,7 +131,7 @@ function decodeString(s: string): string {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def decodeString(self, s: str) -> str:
         s1, s2 = [], []

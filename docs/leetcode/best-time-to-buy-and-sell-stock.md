@@ -68,7 +68,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int maxProfit(int[] prices) {
         int ans = 0, mi = prices[0];
@@ -83,7 +83,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -97,7 +97,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         ans, mi = 0, inf

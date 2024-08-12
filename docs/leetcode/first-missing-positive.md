@@ -67,7 +67,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int firstMissingPositive(int[] nums) {
         int n = nums.length;
@@ -94,7 +94,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int firstMissingPositive(vector<int>& nums) {
@@ -114,7 +114,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function firstMissingPositive(nums: number[]): number {
     const n = nums.length;
     let i = 0;
@@ -132,7 +132,7 @@ function firstMissingPositive(nums: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
         def swap(i, j):

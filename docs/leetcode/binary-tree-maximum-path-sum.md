@@ -78,7 +78,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -116,7 +116,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -147,7 +147,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -170,7 +170,7 @@ class Solution:
         return ans
 ```
 
-```ts
+```ts [TypeScript]
 /**
  * Definition for a binary tree node.
  * class TreeNode {

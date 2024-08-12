@@ -77,7 +77,7 @@ tags:
 
 
 
-```java
+```java [Java]
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> m = new HashMap<>();
@@ -95,7 +95,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {

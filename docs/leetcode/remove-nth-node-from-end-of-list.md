@@ -71,7 +71,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -99,7 +99,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -129,7 +129,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 /**
  * Definition for singly-linked list.
  * class ListNode {
@@ -158,7 +158,7 @@ function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
 }
 ```
 
-```python
+```python [Python]
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):

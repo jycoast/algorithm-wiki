@@ -64,7 +64,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     private List<String> ans = new ArrayList<>();
     private int n;
@@ -91,7 +91,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<string> generateParenthesis(int n) {
@@ -111,7 +111,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function generateParenthesis(n: number): string[] {
     function dfs(l, r, t) {
         if (l > n || r > n || l < r) {
@@ -130,7 +130,7 @@ function generateParenthesis(n: number): string[] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         def dfs(l, r, t):
@@ -156,7 +156,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```ts
+```ts [TypeScript]
 function generateParenthesis(n: number): string[] {
     if (n === 1) return ['()'];
 

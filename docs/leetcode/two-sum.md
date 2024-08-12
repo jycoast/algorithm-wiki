@@ -76,7 +76,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> d = new HashMap<>();
@@ -94,7 +94,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
@@ -111,7 +111,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function twoSum(nums: number[], target: number): number[] {
     const d = new Map<number, number>();
     for (let i = 0; ; ++i) {
@@ -125,7 +125,7 @@ function twoSum(nums: number[], target: number): number[] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         d = {}

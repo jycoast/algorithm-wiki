@@ -59,7 +59,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public String largestNumber(int[] nums) {
         List<String> vs = new ArrayList<>();
@@ -77,7 +77,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     string largestNumber(vector<int>& nums) {
@@ -94,7 +94,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def largestNumber(self, nums: List[int]) -> str:
         nums = [str(v) for v in nums]

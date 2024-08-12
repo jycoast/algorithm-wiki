@@ -93,7 +93,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int compareVersion(String version1, String version2) {
         int m = version1.length(), n = version2.length();
@@ -116,7 +116,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int compareVersion(string version1, string version2) {
@@ -138,7 +138,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function compareVersion(version1: string, version2: string): number {
     const v1 = version1.split('.');
     const v2 = version2.split('.');
@@ -155,7 +155,7 @@ function compareVersion(version1: string, version2: string): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def compareVersion(self, version1: str, version2: str) -> int:
         m, n = len(version1), len(version2)

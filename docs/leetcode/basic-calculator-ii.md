@@ -79,7 +79,7 @@ tags:
 ::: code-group
 
 
-```python
+```python [Python]
 class Solution:
     def calculate(self, s: str) -> int:
         v, n = 0, len(s)
@@ -105,7 +105,7 @@ class Solution:
 
 
 
-```java
+```java [Java]
 class Solution {
     public int calculate(String s) {
         Deque<Integer> stk = new ArrayDeque<>();
@@ -140,7 +140,7 @@ class Solution {
 ```
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int calculate(string s) {

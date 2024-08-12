@@ -91,7 +91,7 @@ nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0 。
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
@@ -124,7 +124,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
@@ -158,7 +158,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         nums.sort()
@@ -186,7 +186,7 @@ class Solution:
         return ans
 ```
 
-```ts
+```ts [TypeScript]
 function threeSum(nums: number[]): number[][] {
     nums.sort((a, b) => a - b);
     const ans: number[][] = [];

@@ -81,7 +81,7 @@ tags:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     private int m;
     private int n;
@@ -118,7 +118,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
@@ -145,7 +145,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
     const m = nums1.length;
     const n = nums2.length;
@@ -170,7 +170,7 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
         def f(i: int, j: int, k: int) -> int:

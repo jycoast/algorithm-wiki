@@ -73,7 +73,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public String addStrings(String num1, String num2) {
         int i = num1.length() - 1, j = num2.length() - 1;
@@ -114,7 +114,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     string addStrings(string num1, string num2) {
@@ -157,7 +157,7 @@ public:
 ```
 
 
-```ts
+```ts [TypeScript]
 function addStrings(num1: string, num2: string): string {
     let i = num1.length - 1;
     let j = num2.length - 1;
@@ -251,7 +251,7 @@ var subStrings = function (num1, num2) {
 ```
 
 
-```python
+```python [Python]
 class Solution:
     def addStrings(self, num1: str, num2: str) -> str:
         i, j = len(num1) - 1, len(num2) - 1

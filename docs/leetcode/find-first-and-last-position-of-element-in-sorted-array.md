@@ -118,7 +118,7 @@ int search(int left, int right) {
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int[] searchRange(int[] nums, int target) {
         int l = search(nums, target);
@@ -143,7 +143,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
@@ -155,7 +155,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function searchRange(nums: number[], target: number): number[] {
     const search = (x: number): number => {
         let [left, right] = [0, nums.length];
@@ -175,7 +175,7 @@ function searchRange(nums: number[], target: number): number[] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
         l = bisect_left(nums, target)

@@ -64,7 +64,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int mySqrt(int x) {
         int l = 0, r = x;
@@ -81,7 +81,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int mySqrt(int x) {
@@ -99,7 +99,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def mySqrt(self, x: int) -> int:
         l, r = 0, x

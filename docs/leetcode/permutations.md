@@ -69,7 +69,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private List<List<Integer>> ans = new ArrayList<>();
     private List<Integer> t = new ArrayList<>();
@@ -103,7 +103,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
@@ -131,7 +131,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function permute(nums: number[]): number[][] {
     const n = nums.length;
     const res: number[][] = [];
@@ -150,7 +150,7 @@ function permute(nums: number[]): number[][] {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         def dfs(i):

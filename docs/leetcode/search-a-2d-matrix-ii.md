@@ -70,7 +70,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
         for (var row : matrix) {
@@ -86,7 +86,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
@@ -102,7 +102,7 @@ public:
 ```
 
 
-```ts
+```ts [TypeScript]
 function searchMatrix(matrix: number[][], target: number): boolean {
     const n = matrix[0].length;
     for (const row of matrix) {
@@ -124,7 +124,7 @@ function searchMatrix(matrix: number[][], target: number): boolean {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         for row in matrix:
@@ -157,7 +157,7 @@ class Solution:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
         int m = matrix.length, n = matrix[0].length;
@@ -177,7 +177,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
@@ -198,7 +198,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function searchMatrix(matrix: number[][], target: number): boolean {
     const [m, n] = [matrix.length, matrix[0].length];
     let [i, j] = [m - 1, 0];
@@ -216,7 +216,7 @@ function searchMatrix(matrix: number[][], target: number): boolean {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         m, n = len(matrix), len(matrix[0])

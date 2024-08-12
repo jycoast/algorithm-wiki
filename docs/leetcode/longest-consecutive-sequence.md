@@ -67,7 +67,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int longestConsecutive(int[] nums) {
         int n = nums.length;
@@ -91,7 +91,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
@@ -116,7 +116,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function longestConsecutive(nums: number[]): number {
     const n = nums.length;
     if (n < 2) {
@@ -139,7 +139,7 @@ function longestConsecutive(nums: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
         n = len(nums)
@@ -174,7 +174,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int longestConsecutive(int[] nums) {
         Set<Integer> s = new HashSet<>();
@@ -196,7 +196,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
@@ -216,7 +216,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function longestConsecutive(nums: number[]): number {
     const s: Set<number> = new Set(nums);
     let ans = 0;
@@ -233,7 +233,7 @@ function longestConsecutive(nums: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
         s = set(nums)

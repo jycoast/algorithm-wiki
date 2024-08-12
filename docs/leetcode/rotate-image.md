@@ -64,7 +64,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public void rotate(int[][] matrix) {
         int n = matrix.length;
@@ -86,7 +86,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
@@ -105,7 +105,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 /**
  Do not return anything, modify matrix in-place instead.
  */
@@ -121,7 +121,7 @@ function rotate(matrix: number[][]): void {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def rotate(self, matrix: List[List[int]]) -> None:
         n = len(matrix)

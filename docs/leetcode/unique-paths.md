@@ -97,7 +97,7 @@ $$
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int uniquePaths(int m, int n) {
         var f = new int[m][n];
@@ -117,7 +117,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int uniquePaths(int m, int n) {
@@ -138,7 +138,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function uniquePaths(m: number, n: number): number {
     const f: number[][] = Array(m)
         .fill(0)
@@ -158,7 +158,7 @@ function uniquePaths(m: number, n: number): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         f = [[0] * n for _ in range(m)]
@@ -184,7 +184,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int uniquePaths(int m, int n) {
         var f = new int[m][n];
@@ -202,7 +202,7 @@ class Solution {
 ```
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int uniquePaths(int m, int n) {
@@ -218,7 +218,7 @@ public:
 ```
 
 
-```ts
+```ts [TypeScript]
 function uniquePaths(m: number, n: number): number {
     const f: number[][] = Array(m)
         .fill(0)
@@ -232,7 +232,7 @@ function uniquePaths(m: number, n: number): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         f = [[1] * n for _ in range(m)]
@@ -255,7 +255,7 @@ class Solution:
 ::: code-group
 
 
-```java
+```java [Java]
 class Solution {
     public int uniquePaths(int m, int n) {
         int[] f = new int[n];
@@ -270,7 +270,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int uniquePaths(int m, int n) {
@@ -285,7 +285,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function uniquePaths(m: number, n: number): number {
     const f: number[] = Array(n).fill(1);
     for (let i = 1; i < m; ++i) {
@@ -296,7 +296,7 @@ function uniquePaths(m: number, n: number): number {
     return f[n - 1];
 }
 ```
-```python
+```python [Python]
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         f = [1] * n

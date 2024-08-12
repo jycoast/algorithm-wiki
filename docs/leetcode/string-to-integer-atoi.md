@@ -149,7 +149,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int myAtoi(String s) {
         if (s == null) return 0;
@@ -177,7 +177,7 @@ class Solution {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def myAtoi(self, s: str) -> int:
         if not s:

@@ -84,7 +84,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 /**
  * The rand7() API is already defined in the parent class SolBase.
  * public int rand7();
@@ -106,7 +106,7 @@ class Solution extends SolBase {
 
 
 
-```cpp
+```cpp [C++]
 // The rand7() API is already defined for you.
 // int rand7();
 // @return a random integer in the range 1 to 7
@@ -126,7 +126,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 /**
  * The rand7() API is already defined for you.
  * function rand7(): number {}
@@ -145,7 +145,7 @@ function rand10(): number {
 }
 ```
 
-```python
+```python [Python]
 # The rand7() API is already defined for you.
 # def rand7():
 # @return a random integer in the range 1 to 7

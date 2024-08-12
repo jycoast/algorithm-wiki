@@ -70,7 +70,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int findPeakElement(int[] nums) {
         int left = 0, right = nums.length - 1;
@@ -89,7 +89,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int findPeakElement(vector<int>& nums) {
@@ -107,7 +107,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function findPeakElement(nums: number[]): number {
     let [left, right] = [0, nums.length - 1];
     while (left < right) {
@@ -122,7 +122,7 @@ function findPeakElement(nums: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
         left, right = 0, len(nums) - 1

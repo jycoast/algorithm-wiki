@@ -71,7 +71,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int majorityElement(int[] nums) {
         int cnt = 0, m = 0;
@@ -88,7 +88,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
@@ -106,7 +106,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 function majorityElement(nums: number[]): number {
     let cnt: number = 0;
     let m: number = 0;
@@ -122,7 +122,7 @@ function majorityElement(nums: number[]): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
         cnt = m = 0

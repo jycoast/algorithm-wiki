@@ -82,7 +82,7 @@ tags:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public int calculate(String s) {
         Deque<Integer> stk = new ArrayDeque<>();
@@ -118,7 +118,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 class Solution {
 public:
     int calculate(string s) {
@@ -158,7 +158,7 @@ public:
 
 
 
-```ts
+```ts [TypeScript]
 function calculate(s: string): number {
     const stk: number[] = [];
     let sign = 1;
@@ -194,7 +194,7 @@ function calculate(s: string): number {
 }
 ```
 
-```python
+```python [Python]
 class Solution:
     def calculate(self, s: str) -> int:
         stk = []

@@ -72,7 +72,7 @@ L<sub>0</sub> → L<sub>n</sub> → L<sub>1</sub> → L<sub>n - 1</sub> → L<su
 ::: code-group
 
 
-```java
+```java [Java]
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -119,7 +119,7 @@ class Solution {
 }
 ```
 
-```cpp
+```cpp [C++]
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -168,7 +168,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 /**
  * Definition for singly-linked list.
  * class ListNode {
@@ -211,7 +211,7 @@ function reorderList(head: ListNode | null): void {
 }
 ```
 
-```python
+```python [Python]
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):

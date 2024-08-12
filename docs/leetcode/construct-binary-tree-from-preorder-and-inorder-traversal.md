@@ -79,7 +79,7 @@ tags:
 
 
 
-```java
+```java [Java]
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -123,7 +123,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -158,7 +158,7 @@ public:
 };
 ```
 
-```ts
+```ts [TypeScript]
 /**
  * Definition for a binary tree node.
  * class TreeNode {
@@ -195,7 +195,7 @@ function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
 
 
 
-```python
+```python [Python]
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -225,7 +225,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     private List<Integer> preorder;
     private Map<Integer, List<Integer>> d = new HashMap<>();
@@ -262,7 +262,7 @@ class Solution {
 
 
 
-```cpp
+```cpp [C++]
 /**
  * struct TreeNode {
  *	int val;
@@ -307,7 +307,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def getBinaryTrees(self, preOrder: List[int], inOrder: List[int]) -> List[TreeNode]:
         def dfs(i: int, j: int, n: int) -> List[TreeNode]:
