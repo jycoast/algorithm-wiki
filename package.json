@@ -1,32 +1,14 @@
 {
-  "name": "algorithm-wiki",
-  "version": "1.0.0",
-  "type": "module",
-  "main": "index.js",
-  "license": "MIT",
   "scripts": {
+    "docs:dev": "vitepress dev",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue-jsx": "^3.1.0",
-    "less": "^4.2.0",
-    "markdown-it-katex": "^2.0.3",
-    "prettier": "^3.2.5",
-    "vitepress": "^1.3.2",
-    "vitepress-theme-demoblock": "^3.0.5"
-  },
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@algolia/client-search"
-      ]
-    }
+    "vitepress": "^1.3.2"
   },
   "dependencies": {
-    "markdown-it": "^14.1.0"
+    "markdown-it": "^14.1.0",
+    "markdown-it-mathjax3": "^4.3.2"
   }
 }
