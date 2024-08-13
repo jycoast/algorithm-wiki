@@ -72,16 +72,6 @@ tags:
 
 
 ```java [Java]
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
 class Solution {
     public ListNode sortList(ListNode head) {
         if (head == null || head.next == null) {
@@ -114,19 +104,7 @@ class Solution {
 }
 ```
 
-
-
 ```cpp [C++]
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
     ListNode* sortList(ListNode* head) {
@@ -160,18 +138,6 @@ public:
 ```
 
 ```ts [TypeScript]
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
- */
-
 function sortList(head: ListNode | null): ListNode | null {
     if (head == null || head.next == null) return head;
     // 快慢指针定位中点
@@ -203,13 +169,7 @@ function sortList(head: ListNode | null): ListNode | null {
 }
 ```
 
-
 ```python [Python]
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 class Solution:
     def sortList(self, head: ListNode) -> ListNode:
         if head is None or head.next is None:

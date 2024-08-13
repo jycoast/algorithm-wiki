@@ -84,17 +84,6 @@ tags:
 
 
 ```java [Java]
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) {
- *         val = x;
- *         next = null;
- *     }
- * }
- */
 public class Solution {
     public boolean hasCycle(ListNode head) {
         Set<ListNode> s = new HashSet<>();
@@ -110,14 +99,6 @@ public class Solution {
 
 
 ```cpp [C++]
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
 class Solution {
 public:
     bool hasCycle(ListNode* head) {
@@ -134,18 +115,6 @@ public:
 ```
 
 ```ts [TypeScript]
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
- */
-
 function hasCycle(head: ListNode | null): boolean {
     const s: Set<ListNode> = new Set();
     for (; head; head = head.next) {
@@ -159,13 +128,6 @@ function hasCycle(head: ListNode | null): boolean {
 ```
 
 ```python [Python]
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         s = set()
@@ -196,17 +158,6 @@ class Solution:
 ::: code-group
 
 ```java [Java]
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) {
- *         val = x;
- *         next = null;
- *     }
- * }
- */
 public class Solution {
     public boolean hasCycle(ListNode head) {
         ListNode slow = head;
@@ -224,14 +175,6 @@ public class Solution {
 ```
 
 ```cpp [C++]
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
 class Solution {
 public:
     bool hasCycle(ListNode* head) {
@@ -250,18 +193,6 @@ public:
 ```
 
 ```ts [TypeScript]
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
- */
-
 function hasCycle(head: ListNode | null): boolean {
     let slow = head;
     let fast = head;
@@ -277,13 +208,6 @@ function hasCycle(head: ListNode | null): boolean {
 ```
 
 ```python [Python]
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-
 class Solution:
     def hasCycle(self, head: ListNode) -> bool:
         slow = fast = head

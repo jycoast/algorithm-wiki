@@ -63,16 +63,6 @@ tags:
 
 
 ```java [Java]
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
 class Solution {
     public ListNode reverseBetween(ListNode head, int left, int right) {
         if (head.next == null || left == right) {
@@ -102,16 +92,6 @@ class Solution {
 
 
 ```cpp [C++]
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
@@ -139,18 +119,6 @@ public:
 ```
 
 ```ts [TypeScript]
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
- */
-
 function reverseBetween(head: ListNode | null, left: number, right: number): ListNode | null {
     const n = right - left;
     if (n === 0) {
@@ -179,11 +147,6 @@ function reverseBetween(head: ListNode | null, left: number, right: number): Lis
 ```
 
 ```python [Python]
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 class Solution:
     def reverseBetween(
         self, head: Optional[ListNode], left: int, right: int

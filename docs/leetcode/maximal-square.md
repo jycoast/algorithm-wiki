@@ -12,7 +12,7 @@ tags:
 
 # [221. 最大正方形](https://leetcode.cn/problems/maximal-square)
 
-
+## 题目描述
 
 <!-- description:start -->
 
@@ -55,10 +55,9 @@ tags:
 <!-- description:end -->
 
 
-
 <!-- solution:start -->
 
-### 方法一：动态规划
+## 方法一：动态规划
 
 我们定义 $dp[i + 1][j + 1]$ 表示以下标 $(i, j)$ 作为正方形右下角的最大正方形边长。答案为所有 $dp[i + 1][j + 1]$ 中的最大值。
 
@@ -77,8 +76,6 @@ $$
 <!-- tabs:start -->
 ::: code-group
 
-
-
 ```python [Python]
 class Solution:
     def maximalSquare(self, matrix: List[List[str]]) -> int:
@@ -92,8 +89,6 @@ class Solution:
                     mx = max(mx, dp[i + 1][j + 1])
         return mx * mx
 ```
-
-
 
 ```java [Java]
 class Solution {
@@ -114,8 +109,6 @@ class Solution {
 }
 ```
 
-
-
 ```cpp [C++]
 class Solution {
 public:
@@ -134,52 +127,6 @@ public:
         return mx * mx;
     }
 };
-```
-
-
-
-```go
-func maximalSquare(matrix [][]byte) int {
-	m, n := len(matrix), len(matrix[0])
-	dp := make([][]int, m+1)
-	for i := 0; i <= m; i++ {
-		dp[i] = make([]int, n+1)
-	}
-	mx := 0
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			if matrix[i][j] == '1' {
-				dp[i+1][j+1] = min(min(dp[i][j+1], dp[i+1][j]), dp[i][j]) + 1
-				mx = max(mx, dp[i+1][j+1])
-			}
-		}
-	}
-	return mx * mx
-}
-```
-
-
-
-```cs
-public class Solution {
-    public int MaximalSquare(char[][] matrix) {
-        int m = matrix.Length, n = matrix[0].Length;
-        var dp = new int[m + 1, n + 1];
-        int mx = 0;
-        for (int i = 0; i < m; ++i)
-        {
-            for (int j = 0; j < n; ++j)
-            {
-                if (matrix[i][j] == '1')
-                {
-                    dp[i + 1, j + 1] = Math.Min(Math.Min(dp[i, j + 1], dp[i + 1, j]), dp[i, j]) + 1;
-                    mx = Math.Max(mx, dp[i + 1, j + 1]);
-                }
-            }
-        }
-        return mx * mx;
-    }
-}
 ```
 
 :::

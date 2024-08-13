@@ -69,16 +69,6 @@ tags:
 ::: code-group
 
 ```java [Java]
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
         ListNode dummy = new ListNode(0, head);
@@ -115,18 +105,6 @@ class Solution {
 ```
 
 ```ts [TypeScript]
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
- */
-
 function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
     let dummy = new ListNode(0, head);
     let pre = dummy;
@@ -166,11 +144,6 @@ function reverse(head: ListNode, tail: ListNode) {
 ```
 
 ```python [Python]
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 class Solution:
     def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
         def reverseList(head):
@@ -213,20 +186,7 @@ class Solution:
 <!-- tabs:start -->
 ::: code-group
 
-
 ```ts [TypeScript]
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
- */
-
 function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
     if (k === 1) {
         return head;

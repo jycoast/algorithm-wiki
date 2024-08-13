@@ -100,17 +100,6 @@ tags:
 ::: code-group
 
 ```java [Java]
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) {
- *         val = x;
- *         next = null;
- *     }
- * }
- */
 public class Solution {
     public ListNode detectCycle(ListNode head) {
         ListNode fast = head, slow = head;
@@ -131,17 +120,7 @@ public class Solution {
 }
 ```
 
-
-
 ```cpp [C++]
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
 class Solution {
 public:
     ListNode* detectCycle(ListNode* head) {
@@ -165,18 +144,6 @@ public:
 ```
 
 ```ts [TypeScript]
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
- */
-
 function detectCycle(head: ListNode | null): ListNode | null {
     let [slow, fast] = [head, head];
     while (fast && fast.next) {
@@ -196,13 +163,6 @@ function detectCycle(head: ListNode | null): ListNode | null {
 ```
 
 ```python [Python]
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-
 class Solution:
     def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
         fast = slow = head

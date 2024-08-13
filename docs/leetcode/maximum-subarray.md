@@ -12,7 +12,7 @@ tags:
 
 # [53. 最大子数组和](https://leetcode.cn/problems/maximum-subarray)
 
-
+## 题目描述
 
 <!-- description:start -->
 
@@ -63,7 +63,7 @@ tags:
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+## 方法一：动态规划
 
 我们定义 $f[i]$ 表示以元素 $nums[i]$ 为结尾的连续子数组的最大和，初始时 $f[0] = nums[0]$，那么最终我们要求的答案即为 $\max_{0 \leq i < n} f[i]$。
 
@@ -86,20 +86,6 @@ $$
 <!-- tabs:start -->
 ::: code-group
 
-
-
-```python [Python]
-class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        ans = f = nums[0]
-        for x in nums[1:]:
-            f = max(f, 0) + x
-            ans = max(ans, f)
-        return ans
-```
-
-
-
 ```java [Java]
 class Solution {
     public int maxSubArray(int[] nums) {
@@ -112,8 +98,6 @@ class Solution {
     }
 }
 ```
-
-
 
 ```cpp [C++]
 class Solution {
@@ -129,21 +113,6 @@ public:
 };
 ```
 
-
-
-```go
-func maxSubArray(nums []int) int {
-	ans, f := nums[0], nums[0]
-	for _, x := range nums[1:] {
-		f = max(f, 0) + x
-		ans = max(ans, f)
-	}
-	return ans
-}
-```
-
-
-
 ```ts [TypeScript]
 function maxSubArray(nums: number[]): number {
     let [ans, f] = [nums[0], nums[0]];
@@ -155,53 +124,14 @@ function maxSubArray(nums: number[]): number {
 }
 ```
 
-
-
-```rust
-impl Solution {
-    pub fn max_sub_array(nums: Vec<i32>) -> i32 {
-        let n = nums.len();
-        let mut ans = nums[0];
-        let mut f = nums[0];
-        for i in 1..n {
-            f = f.max(0) + nums[i];
-            ans = ans.max(f);
-        }
-        ans
-    }
-}
-```
-
-Script
-
-```js
-/**
- * @param {number[]} nums
- * @return {number}
- */
-var maxSubArray = function (nums) {
-    let [ans, f] = [nums[0], nums[0]];
-    for (let i = 1; i < nums.length; ++i) {
-        f = Math.max(f, 0) + nums[i];
-        ans = Math.max(ans, f);
-    }
-    return ans;
-};
-```
-
-
-
-```cs
-public class Solution {
-    public int MaxSubArray(int[] nums) {
-        int ans = nums[0], f = nums[0];
-        for (int i = 1; i < nums.Length; ++i) {
-            f = Math.Max(f, 0) + nums[i];
-            ans = Math.Max(ans, f);
-        }
-        return ans;
-    }
-}
+```python [Python]
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        ans = f = nums[0]
+        for x in nums[1:]:
+            f = max(f, 0) + x
+            ans = max(ans, f)
+        return ans
 ```
 
 :::
@@ -211,41 +141,10 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二
+## 方法二：分治法
 
 <!-- tabs:start -->
 ::: code-group
-
-
-
-```python [Python]
-class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        def crossMaxSub(nums, left, mid, right):
-            lsum = rsum = 0
-            lmx = rmx = -inf
-            for i in range(mid, left - 1, -1):
-                lsum += nums[i]
-                lmx = max(lmx, lsum)
-            for i in range(mid + 1, right + 1):
-                rsum += nums[i]
-                rmx = max(rmx, rsum)
-            return lmx + rmx
-
-        def maxSub(nums, left, right):
-            if left == right:
-                return nums[left]
-            mid = (left + right) >> 1
-            lsum = maxSub(nums, left, mid)
-            rsum = maxSub(nums, mid + 1, right)
-            csum = crossMaxSub(nums, left, mid, right)
-            return max(lsum, rsum, csum)
-
-        left, right = 0, len(nums) - 1
-        return maxSub(nums, left, right)
-```
-
-
 
 ```java [Java]
 class Solution {
@@ -277,6 +176,33 @@ class Solution {
         return lmx + rmx;
     }
 }
+```
+
+```python [Python]
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        def crossMaxSub(nums, left, mid, right):
+            lsum = rsum = 0
+            lmx = rmx = -inf
+            for i in range(mid, left - 1, -1):
+                lsum += nums[i]
+                lmx = max(lmx, lsum)
+            for i in range(mid + 1, right + 1):
+                rsum += nums[i]
+                rmx = max(rmx, rsum)
+            return lmx + rmx
+
+        def maxSub(nums, left, right):
+            if left == right:
+                return nums[left]
+            mid = (left + right) >> 1
+            lsum = maxSub(nums, left, mid)
+            rsum = maxSub(nums, mid + 1, right)
+            csum = crossMaxSub(nums, left, mid, right)
+            return max(lsum, rsum, csum)
+
+        left, right = 0, len(nums) - 1
+        return maxSub(nums, left, right)
 ```
 
 :::
