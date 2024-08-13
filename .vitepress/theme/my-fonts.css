@@ -1,0 +1,4 @@
+/* .vitepress/theme/custom.css */
+:root {
+    --vp-font-family-base: 'Microsoft YaHei', sans-serif;
+}
