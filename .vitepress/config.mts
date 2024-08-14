@@ -13,13 +13,13 @@ export default defineConfig({
     math: true
   },
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/mlogo.svg' }]
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }]
   ],
 
   themeConfig: {
     outlineTitle: '本页目录',
     lastUpdatedText: '上次更新',
-    logo: '/mlogo.svg',
+    logo: '/logo.svg',
     search: {
       provider: 'local',
     },
