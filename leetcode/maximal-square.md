@@ -73,22 +73,12 @@ $$
 
 时间复杂度 $O(m\times n)$，空间复杂度 $O(m\times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
+假设我们要计算 $dp[4][4]$，此时$matrix[3][3]$等于1，我们分别往上和往左进行延伸，直到碰到一个0为止，上面的长度为1，左边的长度为3，$dp[3][3]$等于1，那么本次的瓶颈在于这三者的最小值，即$min(1,1,3)$，也就是1，那么$dp[3][3]$就等于$min(1,1,3) + 1$ 。
+
+![image-20240814140347623](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240814140347623.png)
+
 <!-- tabs:start -->
 ::: code-group
-
-```python [Python]
-class Solution:
-    def maximalSquare(self, matrix: List[List[str]]) -> int:
-        m, n = len(matrix), len(matrix[0])
-        dp = [[0] * (n + 1) for _ in range(m + 1)]
-        mx = 0
-        for i in range(m):
-            for j in range(n):
-                if matrix[i][j] == '1':
-                    dp[i + 1][j + 1] = min(dp[i][j + 1], dp[i + 1][j], dp[i][j]) + 1
-                    mx = max(mx, dp[i + 1][j + 1])
-        return mx * mx
-```
 
 ```java [Java]
 class Solution {
@@ -127,6 +117,20 @@ public:
         return mx * mx;
     }
 };
+```
+
+```python [Python]
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        m, n = len(matrix), len(matrix[0])
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        mx = 0
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == '1':
+                    dp[i + 1][j + 1] = min(dp[i][j + 1], dp[i + 1][j], dp[i][j]) + 1
+                    mx = max(mx, dp[i + 1][j + 1])
+        return mx * mx
 ```
 
 :::

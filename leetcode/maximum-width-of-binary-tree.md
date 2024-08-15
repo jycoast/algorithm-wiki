@@ -38,7 +38,8 @@ tags:
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0662.Maximum%20Width%20of%20Binary%20Tree/images/maximum-width-of-binary-tree-v3.jpg" style="width: 442px; height: 422px;" />
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0662.Maximum Width of Binary Tree/images/maximum-width-of-binary-tree-v3.jpg" style="width: 442px; height: 422px;" />
+
 <pre>
 <strong>输入：</strong>root = [1,3,2,5,null,null,9,6,null,7]
 <strong>输出：</strong>7
