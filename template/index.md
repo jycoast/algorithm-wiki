@@ -1,4 +1,3 @@
-# 二分查找
 ```java
     public int binarySearch(int nums[], int target) {
         int left = 0;

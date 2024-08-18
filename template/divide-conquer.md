@@ -1,5 +1,3 @@
-# 分治算法
-
 ```java
 public void divideConquer(problem, param1, param2,...) {
        // 递归的终止条件

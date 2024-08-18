@@ -1,5 +1,3 @@
-# 单调栈
-
 ```java
 import java.util.ArrayDeque;
 import java.util.Deque;

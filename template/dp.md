@@ -1,5 +1,3 @@
-
-# 动态规划
 ```java
 public class DynamicProgramming {
     

@@ -1,4 +1,3 @@
-## 二叉树BFS
 ```java
 import java.util.LinkedList;
 import java.util.Queue;

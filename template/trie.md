@@ -1,5 +1,3 @@
-
-# 字典树
 ```java
 class TrieNode {
     TrieNode[] children;

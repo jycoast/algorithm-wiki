@@ -1,5 +1,3 @@
-# 滑动窗口
-
 ```java
 public class SlidingWindow {
     
