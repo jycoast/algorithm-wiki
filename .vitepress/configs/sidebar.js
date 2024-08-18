@@ -1,5 +1,6 @@
 export default {
   '/': getLeetCode(),
+  '/template/': getTemplate()
 }
 
 function getLeetCode() {
@@ -398,4 +399,23 @@ function getLeetCode() {
       ]
     }
   ]
+}
+
+function getTemplate() {
+    return [
+        {
+        text: '常用模板',
+        items: [
+          { text: '二分查找', link: '/template/index' },
+          { text: '二叉树DFS', link: '/template/binary-tree-dfs' },
+          { text: '二叉树BFS', link: '/template/binary-tree-bfs' },
+          { text: '回溯算法', link: '/template/back-tracking' },
+          { text: '分治算法', link: '/template/divide-conquer' },
+          { text: '动态规划', link: '/template/dp' },
+          { text: '字典树', link: '/template/trie' },
+          { text: '单调栈', link: '/template/monotonic-stack' },
+          { text: '滑动窗口', link: '/template/siding-window' },
+        ]
+      }
+    ]
 }
