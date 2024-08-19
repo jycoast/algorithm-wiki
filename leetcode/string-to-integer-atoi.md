@@ -177,6 +177,31 @@ class Solution {
 }
 ```
 
+```cpp [C++]
+class Solution {
+public:
+    int myAtoi(string s) {
+        int i = 0, sign = 1, res = 0;
+        // 跳过前导空格
+        while (i < s.size() && s[i] == ' ') i++;
+        // 处理符号
+        if (i < s.size() && (s[i] == '-' || s[i] == '+')) {
+            sign = (s[i++] == '-') ? -1 : 1;
+        }
+        // 处理数字
+        while (i < s.size() && isdigit(s[i])) {
+            int digit = s[i++] - '0';
+            // 检查溢出
+            if (res > (INT_MAX - digit) / 10) {
+                return sign == 1 ? INT_MAX : INT_MIN;
+            }
+            res = res * 10 + digit;
+        }
+        return sign * res;
+    }
+};
+```
+
 ```python [Python]
 class Solution:
     def myAtoi(self, s: str) -> int:
