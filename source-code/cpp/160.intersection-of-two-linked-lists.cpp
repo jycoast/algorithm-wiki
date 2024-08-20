@@ -1,7 +1,6 @@
 #include "node.h"
 using namespace std;
-#include <cstddef>
-#include <string>
+
 /*
  * @lc app=leetcode.cn id=160 lang=cpp
  *
