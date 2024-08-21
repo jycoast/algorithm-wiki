@@ -1,17 +1,30 @@
 ```java
-    public int binarySearch(int nums[], int target) {
-        int left = 0;
-        int right = nums.length - 1;
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            if (target < nums[mid]) {
-                right = mid - 1;
-            } else if (target > nums[mid]) {
-                left = mid + 1;
-            }else {
-                return mid;
-            }
+// 查找到的是左边界
+int search1(int left, int right) {
+    while (left < right) {
+        int mid = (left + right) >> 1;
+        if (check(mid)) {
+            right = mid;
+        } else {
+            left = mid + 1;
         }
-        return -1;
     }
+    return left;
+}
+
+// 查找到的是右边界
+int search2(int left, int right) {
+    while (left < right) {
+        int mid = (left + right + 1) >> 1;
+        if (check(mid)) {
+            left = mid;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return left;
+}
+
+boolean check(int x) {
+}
 ```

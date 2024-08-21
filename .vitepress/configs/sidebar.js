@@ -33,7 +33,7 @@ function getLeetCode() {
             link: "/leetcode/maximum-subarray"
         },
         {
-            text: "补充题4. 手撕快速排序",
+            text: "912. 排序数组",
             link: "/leetcode/sort-an-array"
         },
         {
@@ -379,10 +379,6 @@ function getLeetCode() {
         {
             text: "560. 和为K的子数组",
             link: "/leetcode/subarray-sum-equals-k"
-        },
-        {
-            text: "补充题6. 手撕堆排序",
-            link: "/leetcode/sort-an-array"
         },
         {
             text: "24. 两两交换链表中的节点",
