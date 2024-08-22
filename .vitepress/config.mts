@@ -24,16 +24,11 @@ export default defineConfig({
       provider: 'local',
     },
     
-    // nav
+    // 导航栏
     nav,
 
-    // sidebar
+    // 侧边栏
     sidebar,
-
-    // editLink: {
-    //   pattern: 'https://github.com/xinlei3166/vitepress-demo/edit/master/docs/:path',
-    //   text: '在 GitHub 上编辑此页'
-    // },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/jycoast/algorithm-wiki.git' }
@@ -41,7 +36,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2024-present jycoder'
+      copyright: 'Copyright © 2024-present jiyongchao'
     }
   }
 })

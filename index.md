@@ -6,7 +6,7 @@ title: Algorithm Wiki
 ## 数组
 |    leetcode   | 难度 |
 | :-----------: | :---: |
-| [1. 两数之和](https://leetcode.cn/problems/two-sum) | 简单 |
+| [1. 两数之和](/leetcode/two-sum.md) | 简单 |
 | [560. 和为 K 的子数组](https://leetcode.cn/problems/subarray-sum-equals-k) | 中等 |
 | [88. 合并两个有序数组](https://leetcode.cn/problems/merge-sorted-array) | 中等 |
 | [15. 三数之和](https://leetcode.cn/problems/3sum) | 中等 |

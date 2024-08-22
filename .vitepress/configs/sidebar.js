@@ -391,7 +391,11 @@ function getLeetCode() {
         {
             text: "224. 基本计算器",
             link: "/leetcode/basic-calculator"
-        }
+        },
+        {
+            text: "283. 移动零",
+            link: "/leetcode/move-zeroes"
+        },
       ]
     }
   ]
