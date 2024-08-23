@@ -218,7 +218,7 @@ function getLeetCode() {
         },
         {
             text: "剑指 Offer 22. 链表中倒数第K个节点",
-            link: "/leetcode/offer-22-lian-biao-zhong-dao-shu-di-k-ge-jie-dian"
+            link: "/leetcode/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof"
         },
         {
             text: "76. 最小覆盖子串",
