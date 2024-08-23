@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0082.Remove%20Duplicates%20from%20Sorted%20List%20II/README.md
+
 tags:
     - 链表
     - 双指针
@@ -20,14 +20,15 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0082.Remove%20Duplicates%20from%20Sorted%20List%20II/images/linkedlist1.jpg" style="height: 142px; width: 500px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823103839417.png" alt="image-20240823103839417"  />
+
 <pre>
 <strong>输入：</strong>head = [1,2,3,3,4,4,5]
 <strong>输出：</strong>[1,2,5]
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0082.Remove%20Duplicates%20from%20Sorted%20List%20II/images/linkedlist2.jpg" style="height: 164px; width: 400px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823103857591.png" alt="image-20240823103857591"  />
 <pre>
 <strong>输入：</strong>head = [1,1,1,2,3]
 <strong>输出：</strong>[2,3]

@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0092.Reverse%20Linked%20List%20II/README.md
+
 tags:
     - 链表
 ---
@@ -19,11 +19,12 @@ tags:
 <p> </p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0092.Reverse%20Linked%20List%20II/images/rev2ex2.jpg" style="width: 542px; height: 222px;" />
 <pre>
 <strong>输入：</strong>head = [1,2,3,4,5], left = 2, right = 4
 <strong>输出：</strong>[1,4,3,2,5]
 </pre>
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823103540360.png" alt="image-20240823103540360" style="zoom: 80%;" />
+
 
 <p><strong>示例 2：</strong></p>
 

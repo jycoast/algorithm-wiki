@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0199.Binary%20Tree%20Right%20Side%20View/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -23,7 +23,7 @@ tags:
 
 <p><strong>示例 1:</strong></p>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0199.Binary%20Tree%20Right%20Side%20View/images/tree.jpg" style="width: 270px; " /></p>
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110246767.png" alt="image-20240823110246767"  />
 
 <pre>
 <strong>输入:</strong> [1,2,3,null,5,null,4]

@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0221.Maximal%20Square/README.md
+
 tags:
     - 数组
     - 动态规划
@@ -21,14 +21,15 @@ tags:
 <p> </p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0221.Maximal%20Square/images/max1grid.jpg" style="width: 400px; height: 319px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823111621650.png" alt="image-20240823111621650"  />
+
 <pre>
 <strong>输入：</strong>matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
 <strong>输出：</strong>4
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0221.Maximal%20Square/images/max2grid.jpg" style="width: 165px; height: 165px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823111636014.png" alt="image-20240823111636014"  />
 <pre>
 <strong>输入：</strong>matrix = [["0","1"],["1","0"]]
 <strong>输出：</strong>1

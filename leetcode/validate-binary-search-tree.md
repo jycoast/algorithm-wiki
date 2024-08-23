@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0098.Validate%20Binary%20Search%20Tree/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -30,14 +30,15 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0098.Validate%20Binary%20Search%20Tree/images/tree1.jpg" style="width: 302px; height: 182px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110830140.png" alt="image-20240823110830140"  />
+
 <pre>
 <strong>输入：</strong>root = [2,1,3]
 <strong>输出：</strong>true
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0098.Validate%20Binary%20Search%20Tree/images/tree2.jpg" style="width: 422px; height: 292px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110845565.png" alt="image-20240823110845565" style="zoom:80%;" />
 <pre>
 <strong>输入：</strong>root = [5,1,4,null,null,3,6]
 <strong>输出：</strong>false

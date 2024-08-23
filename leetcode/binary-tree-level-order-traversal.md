@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0102.Binary%20Tree%20Level%20Order%20Traversal/README.md
+
 tags:
     - 树
     - 广度优先搜索
@@ -21,7 +21,7 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0102.Binary%20Tree%20Level%20Order%20Traversal/images/tree1.jpg" style="width: 277px; height: 302px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823105950521.png" alt="image-20240823105950521"  />
 <pre>
 <strong>输入：</strong>root = [3,9,20,null,null,15,7]
 <strong>输出：</strong>[[3],[9,20],[15,7]]

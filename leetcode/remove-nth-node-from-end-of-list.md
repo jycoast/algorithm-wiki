@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0019.Remove%20Nth%20Node%20From%20End%20of%20List/README.md
+
 tags:
     - 链表
     - 双指针
@@ -20,7 +20,8 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0019.Remove%20Nth%20Node%20From%20End%20of%20List/images/remove_ex1.jpg" style="width: 542px; height: 222px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823104158246.png" alt="image-20240823104158246"  />
+
 <pre>
 <strong>输入：</strong>head = [1,2,3,4,5], n = 2
 <strong>输出：</strong>[1,2,3,5]

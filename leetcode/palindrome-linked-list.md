@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0234.Palindrome%20Linked%20List/README.md
+
 tags:
     - 栈
     - 递归
@@ -22,14 +22,15 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0234.Palindrome%20Linked%20List/images/pal1linked-list.jpg" style="width: 422px; height: 62px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823104331812.png" alt="image-20240823104331812"  />
 <pre>
 <strong>输入：</strong>head = [1,2,2,1]
 <strong>输出：</strong>true
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0234.Palindrome%20Linked%20List/images/pal2linked-list.jpg" style="width: 182px; height: 62px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823104344516.png" alt="image-20240823104344516"  />
+
 <pre>
 <strong>输入：</strong>head = [1,2]
 <strong>输出：</strong>false

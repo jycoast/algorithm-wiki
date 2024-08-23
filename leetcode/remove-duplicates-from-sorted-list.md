@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0083.Remove%20Duplicates%20from%20Sorted%20List/README.md
+
 tags:
     - 链表
 ---
@@ -19,14 +19,15 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0083.Remove%20Duplicates%20from%20Sorted%20List/images/list1.jpg" style="height: 160px; width: 200px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823103110082.png" alt="image-20240823103110082"  />
 <pre>
 <strong>输入：</strong>head = [1,1,2]
 <strong>输出：</strong>[1,2]
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0083.Remove%20Duplicates%20from%20Sorted%20List/images/list2.jpg" style="height: 123px; width: 300px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823103122645.png" alt="image-20240823103122645"  />
+
 <pre>
 <strong>输入：</strong>head = [1,1,2,3,3]
 <strong>输出：</strong>[1,2,3]

@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0094.Binary%20Tree%20Inorder%20Traversal/README.md
+
 tags:
     - 栈
     - 树
@@ -22,7 +22,7 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0094.Binary%20Tree%20Inorder%20Traversal/images/inorder_1.jpg" style="height: 200px; width: 125px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823105304708.png" alt="image-20240823105304708" style="zoom:80%;" />
 <pre>
 <strong>输入：</strong>root = [1,null,2,3]
 <strong>输出：</strong>[1,3,2]

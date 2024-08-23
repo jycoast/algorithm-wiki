@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0113.Path%20Sum%20II/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -26,14 +26,15 @@ tags:
 <p> </p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0113.Path%20Sum%20II/images/pathsumii1.jpg" style="width: 500px; height: 356px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823105129310.png" alt="image-20240823105129310" style="zoom: 80%;" />
+
 <pre>
 <strong>输入：</strong>root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
 <strong>输出：</strong>[[5,4,11,2],[5,8,4,5]]
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0113.Path%20Sum%20II/images/pathsum2.jpg" style="width: 212px; height: 181px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823105143253.png" alt="image-20240823105143253"  />
 <pre>
 <strong>输入：</strong>root = [1,2,3], targetSum = 5
 <strong>输出：</strong>[]

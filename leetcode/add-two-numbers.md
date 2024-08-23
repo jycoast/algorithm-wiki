@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0002.Add%20Two%20Numbers/README.md
+
 tags:
     - 递归
     - 链表
@@ -25,7 +25,8 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong class="example">示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0002.Add%20Two%20Numbers/images/addtwonumber1.jpg" style="width: 483px; height: 342px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823101925768.png" alt="image-20240823101925768"  />
+
 <pre>
 <strong>输入：</strong>l1 = [2,4,3], l2 = [5,6,4]
 <strong>输出：</strong>[7,0,8]
@@ -55,8 +56,8 @@ tags:
 	<li><code>0 &lt;= Node.val &lt;= 9</code></li>
 	<li>题目数据保证列表表示的数字不含前导零</li>
 </ul>
-
 <!-- description:end -->
+
 <!-- solution:start -->
 
 ## 方法一：模拟

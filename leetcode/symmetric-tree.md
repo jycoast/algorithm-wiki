@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0101.Symmetric%20Tree/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -22,14 +22,15 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0101.Symmetric%20Tree/images/1698026966-JDYPDU-image.png" style="width: 354px; height: 291px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823105400499.png" alt="image-20240823105400499"  />
+
 <pre>
 <strong>输入：</strong>root = [1,2,2,3,4,4,3]
 <strong>输出：</strong>true
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0101.Symmetric%20Tree/images/1698027008-nPFLbM-image.png" style="width: 308px; height: 258px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823105815263.png" alt="image-20240823105815263" style="zoom:80%;" />
 <pre>
 <strong>输入：</strong>root = [1,2,2,null,3,null,3]
 <strong>输出：</strong>false

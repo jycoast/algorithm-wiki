@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0142.Linked%20List%20Cycle%20II/README.md
+
 tags:
     - 哈希表
     - 链表
@@ -29,7 +29,7 @@ tags:
 
 <p><strong>示例 1：</strong></p>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0142.Linked%20List%20Cycle%20II/images/circularlinkedlist.png" /></p>
+![image-20240823102631508](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823102631508.png)
 
 <pre>
 <strong>输入：</strong>head = [3,2,0,-4], pos = 1
@@ -39,7 +39,7 @@ tags:
 
 <p><strong>示例&nbsp;2：</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0142.Linked%20List%20Cycle%20II/images/circularlinkedlist_test2.png" /></p>
+![image-20240823102644356](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823102644356.png)
 
 <pre>
 <strong>输入：</strong>head = [1,2], pos = 0
@@ -49,7 +49,7 @@ tags:
 
 <p><strong>示例 3：</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0142.Linked%20List%20Cycle%20II/images/circularlinkedlist_test3.png" /></p>
+![image-20240823102657695](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823102657695.png)
 
 <pre>
 <strong>输入：</strong>head = [1], pos = -1
@@ -88,7 +88,7 @@ tags:
 
 我们不妨假设链表头节点到环入口的距离为 $x$，环入口到相遇节点的距离为 $y$，相遇节点到环入口的距离为 $z$，那么慢指针走过的距离为 $x + y$，快指针走过的距离为 $x + y + k \times (y + z)$，其中 $k$ 是快指针在环中绕了 $k$ 圈。
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0142.Linked%20List%20Cycle%20II/images/linked-list-cycle-ii.png" /></p>
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823111145195.png" alt="image-20240823111145195"  />
 
 由于快指针速度是慢指针的 $2$ 倍，因此有 $2 \times (x + y) = x + y + k \times (y + z)$，可以推出 $x + y = k \times (y + z)$，即 $x = (k - 1) \times (y + z) + z$。
 

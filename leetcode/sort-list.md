@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0148.Sort%20List/README.md
+
 tags:
     - 链表
     - 双指针
@@ -26,14 +26,16 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0148.Sort%20List/images/sort_list_1.jpg" style="width: 450px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823104010134.png" alt="image-20240823104010134"  />
+
 <pre>
 <b>输入：</b>head = [4,2,1,3]
 <b>输出：</b>[1,2,3,4]
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0148.Sort%20List/images/sort_list_2.jpg" style="width: 550px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823104027024.png" alt="image-20240823104027024"  />
+
 <pre>
 <b>输入：</b>head = [-1,5,3,4,0]
 <b>输出：</b>[-1,0,3,4,5]

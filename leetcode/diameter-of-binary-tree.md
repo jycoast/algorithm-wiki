@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0543.Diameter%20of%20Binary%20Tree/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -25,7 +25,7 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong class="example">示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0543.Diameter%20of%20Binary%20Tree/images/diamtree.jpg" style="width: 292px; height: 302px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110530525.png" alt="image-20240823110530525"  />
 <pre>
 <strong>输入：</strong>root = [1,2,3,4,5]
 <strong>输出：</strong>3

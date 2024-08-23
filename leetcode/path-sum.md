@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0112.Path%20Sum/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -24,7 +24,8 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0112.Path%20Sum/images/pathsum1.jpg" style="width: 500px; height: 356px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823105040156.png" alt="image-20240823105040156" style="zoom:80%;" />
+
 <pre>
 <strong>输入：</strong>root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
 <strong>输出：</strong>true
@@ -32,7 +33,7 @@ tags:
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0112.Path%20Sum/images/pathsum2.jpg" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823105054341.png" alt="image-20240823105054341"  />
 <pre>
 <strong>输入：</strong>root = [1,2,3], targetSum = 5
 <strong>输出：</strong>false

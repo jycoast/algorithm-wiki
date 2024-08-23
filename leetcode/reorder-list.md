@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0143.Reorder%20List/README.md
+
 tags:
     - 栈
     - 递归
@@ -34,7 +34,7 @@ L<sub>0</sub> → L<sub>n</sub> → L<sub>1</sub> → L<sub>n - 1</sub> → L<su
 
 <p><strong>示例 1：</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0143.Reorder%20List/images/1626420311-PkUiGI-image.png" style="width: 240px; " /></p>
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823102438951.png" alt="image-20240823102438951" style="zoom:125%;" />
 
 <pre>
 <strong>输入：</strong>head = [1,2,3,4]
@@ -42,7 +42,7 @@ L<sub>0</sub> → L<sub>n</sub> → L<sub>1</sub> → L<sub>n - 1</sub> → L<su
 
 <p><strong>示例 2：</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0143.Reorder%20List/images/1626420320-YUiulT-image.png" style="width: 320px; " /></p>
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823102417597.png" alt="image-20240823102417597" style="zoom:125%;" />
 
 <pre>
 <strong>输入：</strong>head = [1,2,3,4,5]

@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0024.Swap%20Nodes%20in%20Pairs/README.md
+
 tags:
     - 递归
     - 链表
@@ -20,7 +20,8 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0024.Swap%20Nodes%20in%20Pairs/images/swap_ex1.jpg" style="width: 422px; height: 222px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823104256208.png" alt="image-20240823104256208"  />
+
 <pre>
 <strong>输入：</strong>head = [1,2,3,4]
 <strong>输出：</strong>[2,1,4,3]

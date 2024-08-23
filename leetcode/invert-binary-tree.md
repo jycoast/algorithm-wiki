@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0226.Invert%20Binary%20Tree/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -23,7 +23,7 @@ tags:
 
 <p><strong>示例 1：</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0226.Invert%20Binary%20Tree/images/invert1-tree.jpg" style="height: 165px; width: 500px;" /></p>
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110742279.png" alt="image-20240823110742279"  />
 
 <pre>
 <strong>输入：</strong>root = [4,2,7,1,3,6,9]
@@ -32,7 +32,7 @@ tags:
 
 <p><strong>示例 2：</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0226.Invert%20Binary%20Tree/images/invert2-tree.jpg" style="width: 500px; height: 120px;" /></p>
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110803139.png" alt="image-20240823110803139"  />
 
 <pre>
 <strong>输入：</strong>root = [2,1,3]

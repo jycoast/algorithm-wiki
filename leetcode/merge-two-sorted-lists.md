@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0021.Merge%20Two%20Sorted%20Lists/README.md
+
 tags:
     - 递归
     - 链表
@@ -20,7 +20,7 @@ tags:
 <p> </p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0021.Merge%20Two%20Sorted%20Lists/images/merge_ex1.jpg" style="width: 662px; height: 302px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823103009784.png" alt="image-20240823103009784" style="zoom:80%;" />
 <pre>
 <strong>输入：</strong>l1 = [1,2,4], l2 = [1,3,4]
 <strong>输出：</strong>[1,1,2,3,4,4]

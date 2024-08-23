@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0104.Maximum%20Depth%20of%20Binary%20Tree/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -25,7 +25,7 @@ tags:
 
 <p><strong>示例 1：</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0104.Maximum%20Depth%20of%20Binary%20Tree/images/tmp-tree.jpg" style="width: 400px; height: 277px;" /></p>
+![image-20240823105915372](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823105915372.png)
 
 <p>&nbsp;</p>
 

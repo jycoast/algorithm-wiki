@@ -97,6 +97,8 @@ title: Algorithm Wiki
 | [662. 二叉树最大宽度](/leetcode/maximum-width-of-binary-tree.md) | 中等 |
 |      [226. 翻转二叉树](/leetcode/invert-binary-tree.md)      | 简单 |
 | [98. 验证二叉搜索树](/leetcode/validate-binary-search-tree.md) | 中等 |
+|         [113. 路径总和 II](/leetcode/path-sum-ii.md)         | 中等 |
+|            [112. 路径总和](/leetcode/path-sum.md)            | 简单 |
 
 
 
@@ -116,23 +118,21 @@ title: Algorithm Wiki
 
 |                           leetcode                           | 难度 |
 | :----------------------------------------------------------: | :--: |
-|  [70. 爬楼梯](/leetcode/climbing-stairs.md)  | 简单 |
+|          [70. 爬楼梯](/leetcode/climbing-stairs.md)          | 简单 |
 | [121. 买卖股票的最佳时机](/leetcode/best-time-to-buy-and-sell-stock.md) | 简单 |
 | [5. 最长回文子串](/leetcode/longest-palindromic-substring.md) | 中等 |
-| [113. 路径总和 II](/leetcode/path-sum-ii.md) | 中等 |
-|    [112. 路径总和](/leetcode/path-sum.md)    | 简单 |
 | [718. 最长重复子数组](/leetcode/maximum-length-of-repeated-subarray.md) | 中等 |
 | [122. 买卖股票的最佳时机 II](/leetcode/best-time-to-buy-and-sell-stock-ii.md) | 中等 |
-|   [139. 单词拆分](/leetcode/word-break.md)   | 中等 |
-|  [322. 零钱兑换](/leetcode/coin-change.md)   | 中等 |
+|           [139. 单词拆分](/leetcode/word-break.md)           | 中等 |
+|          [322. 零钱兑换](/leetcode/coin-change.md)           | 中等 |
 | [300. 最长递增子序列](/leetcode/longest-increasing-subsequence.md) | 中等 |
 | [1143. 最长公共子序列](/leetcode/longest-common-subsequence.md) | 中等 |
-|  [72. 编辑距离](/leetcode/edit-distance.md)  | 中等 |
-| [53. 最大子数组和](/leetcode/maximum-subarray.md) | 中等 |
-| [42. 接雨水](/leetcode/trapping-rain-water.md) | 困难 |
-| [64. 最小路径和](/leetcode/minimum-path-sum.md) | 中等 |
-| [221. 最大正方形](/leetcode/maximal-square.md) | 中等 |
-|  [62. 不同路径](/leetcode/unique-paths.md)   | 中等 |
+|          [72. 编辑距离](/leetcode/edit-distance.md)          | 中等 |
+|      [53. 最大子数组和](/leetcode/maximum-subarray.md)       | 中等 |
+|        [42. 接雨水](/leetcode/trapping-rain-water.md)        | 困难 |
+|       [64. 最小路径和](/leetcode/minimum-path-sum.md)        | 中等 |
+|        [221. 最大正方形](/leetcode/maximal-square.md)        | 中等 |
+|          [62. 不同路径](/leetcode/unique-paths.md)           | 中等 |
 | [152. 乘积最大子数组](/leetcode/maximum-product-subarray.md) | 中等 |
 
 ## 图论

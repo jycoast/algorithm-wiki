@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0062.Unique%20Paths/README.md
+
 tags:
     - 数学
     - 动态规划
@@ -25,7 +25,8 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0062.Unique%20Paths/images/1697422740-adxmsI-image.png" style="width: 400px; height: 183px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823104943196.png" alt="image-20240823104943196"  />
+
 <pre>
 <strong>输入：</strong>m = 3, n = 7
 <strong>输出：</strong>28</pre>

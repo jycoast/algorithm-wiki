@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0129.Sum%20Root%20to%20Leaf%20Numbers/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -33,7 +33,8 @@ tags:
 <p> </p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0129.Sum%20Root%20to%20Leaf%20Numbers/images/num1tree.jpg" style="width: 212px; height: 182px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110356036.png" alt="image-20240823110356036"  />
+
 <pre>
 <strong>输入：</strong>root = [1,2,3]
 <strong>输出：</strong>25
@@ -43,7 +44,7 @@ tags:
 因此，数字总和 = 12 + 13 = <code>25</code></pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0129.Sum%20Root%20to%20Leaf%20Numbers/images/num2tree.jpg" style="width: 292px; height: 302px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110411567.png" alt="image-20240823110411567"  />
 <pre>
 <strong>输入：</strong>root = [4,9,0,5,1]
 <strong>输出：</strong>1026

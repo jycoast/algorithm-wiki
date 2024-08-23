@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0064.Minimum%20Path%20Sum/README.md
+
 tags:
     - 数组
     - 动态规划
@@ -23,7 +23,7 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong class="example">示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0064.Minimum%20Path%20Sum/images/minpath.jpg" style="width: 242px; height: 242px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823111550638.png" alt="image-20240823111550638"  />
 <pre>
 <strong>输入：</strong>grid = [[1,3,1],[1,5,1],[4,2,1]]
 <strong>输出：</strong>7

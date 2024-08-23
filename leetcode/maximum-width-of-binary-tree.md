@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0662.Maximum%20Width%20of%20Binary%20Tree/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -30,7 +30,8 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0662.Maximum%20Width%20of%20Binary%20Tree/images/width1-tree.jpg" style="width: 359px; height: 302px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110611719.png" alt="image-20240823110611719" style="zoom:80%;" />
+
 <pre>
 <strong>输入：</strong>root = [1,3,2,5,3,null,9]
 <strong>输出：</strong>4
@@ -38,7 +39,7 @@ tags:
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0662.Maximum Width of Binary Tree/images/maximum-width-of-binary-tree-v3.jpg" style="width: 442px; height: 422px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110629658.png" alt="image-20240823110629658" style="zoom:80%;" />
 
 <pre>
 <strong>输入：</strong>root = [1,3,2,5,null,null,9,6,null,7]
@@ -47,7 +48,7 @@ tags:
 </pre>
 
 <p><strong>示例 3：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0662.Maximum%20Width%20of%20Binary%20Tree/images/width3-tree.jpg" style="width: 289px; height: 299px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110644208.png" alt="image-20240823110644208" style="zoom:80%;" />
 <pre>
 <strong>输入：</strong>root = [1,3,2,5]
 <strong>输出：</strong>2

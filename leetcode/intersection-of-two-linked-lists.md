@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0160.Intersection%20of%20Two%20Linked%20Lists/README.md
+
 tags:
     - 哈希表
     - 链表
@@ -20,7 +20,7 @@ tags:
 
 <p>图示两个链表在节点 <code>c1</code> 开始相交<strong>：</strong></p>
 
-<p><a href="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0160.Intersection%20of%20Two%20Linked%20Lists/images/160_statement.png" target="_blank"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0160.Intersection%20of%20Two%20Linked%20Lists/images/160_statement.png" style="height:130px; width:400px" /></a></p>
+![image-20240823102823099](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823102823099.png)
 
 <p>题目数据 <strong>保证</strong> 整个链式结构中不存在环。</p>
 
@@ -44,7 +44,7 @@ tags:
 
 <p><strong>示例 1：</strong></p>
 
-<p><a href="https://assets.leetcode.com/uploads/2018/12/13/160_example_1.png" target="_blank"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0160.Intersection%20of%20Two%20Linked%20Lists/images/160_example_1_1.png" style="height:130px; width:400px" /></a></p>
+![image-20240823102845071](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823102845071.png)
 
 <pre>
 <strong>输入：</strong>intersectVal = 8, listA = [4,1,8,4,5], listB = [5,6,1,8,4,5], skipA = 2, skipB = 3
@@ -59,7 +59,7 @@ tags:
 
 <p><strong>示例&nbsp;2：</strong></p>
 
-<p><a href="https://assets.leetcode.com/uploads/2018/12/13/160_example_2.png" target="_blank"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0160.Intersection%20of%20Two%20Linked%20Lists/images/160_example_2.png" style="height:136px; width:350px" /></a></p>
+![image-20240823102906415](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823102906415.png)
 
 <pre>
 <strong>输入：</strong>intersectVal&nbsp;= 2, listA = [1,9,1,2,4], listB = [3,2,4], skipA = 3, skipB = 1
@@ -71,7 +71,7 @@ tags:
 
 <p><strong>示例&nbsp;3：</strong></p>
 
-<p><a href="https://assets.leetcode.com/uploads/2018/12/13/160_example_3.png" target="_blank"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0160.Intersection%20of%20Two%20Linked%20Lists/images/160_example_3.png" style="height:126px; width:200px" /></a></p>
+![image-20240823102926504](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823102926504.png)
 
 <pre>
 <strong>输入：</strong>intersectVal = 0, listA = [2,6,4], listB = [1,5], skipA = 3, skipB = 2

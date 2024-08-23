@@ -1,7 +1,7 @@
 ---
 comments: true
 difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0110.Balanced%20Binary%20Tree/README.md
+
 tags:
     - 树
     - 深度优先搜索
@@ -21,14 +21,16 @@ tags:
 <p>&nbsp;</p>
 
 <p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0110.Balanced%20Binary%20Tree/images/balance_1.jpg" style="width: 342px; height: 221px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110443846.png" alt="image-20240823110443846"  />
+
 <pre>
 <strong>输入：</strong>root = [3,9,20,null,null,15,7]
 <strong>输出：</strong>true
 </pre>
 
 <p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0110.Balanced%20Binary%20Tree/images/balance_2.jpg" style="width: 452px; height: 301px;" />
+<img src="https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240823110500151.png" alt="image-20240823110500151"  />
+
 <pre>
 <strong>输入：</strong>root = [1,2,2,3,3,null,null,4,4]
 <strong>输出：</strong>false
