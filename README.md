@@ -11,7 +11,7 @@
 地址：：https://algorithm-wiki.pages.dev
 
 # 推荐站点
-hell算法：https://www.hello-algo.com/
+hello算法：https://www.hello-algo.com/
 
 代码随想录：https://programmercarl.com/
 

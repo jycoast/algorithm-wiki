@@ -1,4 +1,3 @@
-using namespace std;
 
 /*
  * @lc app=leetcode.cn id=5 lang=java
@@ -9,7 +8,7 @@ using namespace std;
 // @lc code=start
 class Solution {
     public String longestPalindrome(String s) {
-        
+        return s;
     }
 }
 // @lc code=end
