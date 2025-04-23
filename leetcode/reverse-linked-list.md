@@ -57,14 +57,72 @@ tags:
 
 <!-- description:end -->
 
-
 <!-- solution:start -->
 
-## 方法一：头插法
+## 方法一：双指针
+
+只需要改变链表的next指针的指向，直接将链表反转即可，图示如下：
+
+![img](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/206.%25E7%25BF%25BB%25E8%25BD%25AC%25E9%2593%25BE%25E8%25A1%25A8.gif)
+
+::: code-group
+
+```java [Java]
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        head = prev;
+        return head;
+    }
+}
+```
+
+```ts [TypeScript]
+class Solution {
+    reverseList(head: ListNode | null): ListNode | null {
+        if (head === null) {
+            return head;
+        }
+
+        let prev: ListNode | null = null;
+        let curr: ListNode | null = head;
+        while (curr !== null) {
+            const next: ListNode | null = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return prev;
+    }
+}
+```
+
+
+
+:::
+
+## 方法二：头插法
 
 创建虚拟头节点 $dummy$，遍历链表，将每个节点依次插入 $dummy$ 的下一个节点。遍历结束，返回 $dummy.next$。
 
 时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为链表的长度。
+
+图示如下：
+
+![image-20250423175922571](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20250423175922571.png)
 
 <!-- tabs:start -->
 ::: code-group
@@ -85,8 +143,6 @@ class Solution {
     }
 }
 ```
-
-
 
 ```cpp [C++]
 class Solution {
@@ -128,7 +184,7 @@ function reverseList(head: ListNode | null): ListNode | null {
 
 <!-- solution:start -->
 
-## 方法二：递归
+## 方法三：递归
 
 递归反转链表的第二个节点到尾部的所有节点，然后 $head$ 插在反转后的链表的尾部。
 
@@ -196,6 +252,70 @@ class Solution:
 ```
 
 :::
+
+## 方法四：使用栈
+
+::: code-group
+
+```java [Java]
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        Stack<ListNode> stack = new Stack<>();
+        ListNode current = head;
+        while (current != null) {
+            stack.push(current);
+            current = current.next;
+        }
+        ListNode newHead = stack.pop();
+        current = newHead;
+        
+        while (!stack.isEmpty()) {
+            ListNode node = stack.pop();
+            current.next = node;
+            current = node;
+        }
+       
+        current.next = null;
+        return newHead;
+    }
+}
+```
+
+````ts [TypeScript]
+class Solution {
+    reverseList(head: ListNode | null): ListNode | null {
+        if (head === null || head.next === null) {
+            return head;
+        }
+
+        const stack: ListNode[] = [];
+        
+        let current: ListNode | null = head;
+        while (current !== null) {
+            stack.push(current);
+            current = current.next;
+        }
+        const newHead: ListNode = stack.pop()!;
+        current = newHead;
+        
+        while (stack.length > 0) {
+            const node = stack.pop()!;
+            current.next = node;
+            current = node;
+        }
+        
+        current.next = null;
+        return newHead;
+    }
+}
+````
+
+:::
+
 <!-- tabs:end -->
 
 <!-- solution:end -->
