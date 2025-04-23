@@ -61,7 +61,9 @@ tags:
 
 ## 方法一：双指针
 
-只需要改变链表的next指针的指向，直接将链表反转即可，图示如下：
+只需要改变链表的next指针的指向，直接将链表反转即可，时间复杂度 O(n)，空间复杂度 O(n)。其中 n 为链表的长度。
+
+图示如下：
 
 ![img](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/206.%25E7%25BF%25BB%25E8%25BD%25AC%25E9%2593%25BE%25E8%25A1%25A8.gif)
 
@@ -199,8 +201,11 @@ class Solution {
         if (head == null || head.next == null) {
             return head;
         }
+         // 递归调用，翻转第二个节点开始往后的链表
         ListNode ans = reverseList(head.next);
+        // 翻转头节点与第二个节点的指向
         head.next.next = head;
+        //此时的 head 节点为尾节点，next 需要指向 NULL
         head.next = null;
         return ans;
     }
