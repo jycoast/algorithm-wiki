@@ -92,8 +92,6 @@ class Solution {
 }
 ```
 
-
-
 ```cpp [C++]
 class Solution {
 public:

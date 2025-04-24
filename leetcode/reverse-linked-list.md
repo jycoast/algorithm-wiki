@@ -124,7 +124,7 @@ class Solution {
 
 图示如下：
 
-![image-20250423175922571](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20250423175922571.png)
+![image-20250424115032080](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20250424115032080.png)
 
 <!-- tabs:start -->
 ::: code-group
@@ -259,6 +259,8 @@ class Solution:
 :::
 
 ## 方法四：使用栈
+
+时间复杂度 $O(n)$，空间复杂度 $O(n)$。
 
 ::: code-group
 
