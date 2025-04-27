@@ -267,18 +267,21 @@ class Solution:
 ```java [Java]
 class Solution {
     public int findKthLargest(int[] nums, int k) {
-        Map<Integer, Integer> cnt = new HashMap<>(nums.length);
-        int m = Integer.MIN_VALUE;
-        for (int x : nums) {
-            m = Math.max(m, x);
-            cnt.merge(x, 1, Integer::sum);
+        Map<Integer, Integer> map = new HashMap<>();
+        Integer max = Integer.MIN_VALUE;
+        for (int num : nums) {
+            max = Math.max(num, max);
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
-        for (int i = m;; --i) {
-            k -= cnt.getOrDefault(i, 0);
+
+        for (int i = max; i >= Integer.MIN_VALUE; i--) {
+            k -= map.getOrDefault(i, 0);
             if (k <= 0) {
                 return i;
             }
         }
+
+        throw new IllegalStateException("not find");
     }
 }
 ```

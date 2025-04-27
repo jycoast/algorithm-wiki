@@ -86,12 +86,21 @@ tags:
 ```java [Java]
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        Set<ListNode> s = new HashSet<>();
-        for (; head != null; head = head.next) {
-            if (!s.add(head)) {
-                return true;
-            }
+        if (head == null) {
+            return false;
         }
+
+        Set<ListNode> set = new HashSet<>();
+        ListNode curr = head;
+        while (curr != null) {
+            if (set.contains(curr)) {
+                return true;
+            } else {
+                set.add(curr);
+            }
+            curr = curr.next;
+        }
+
         return false;
     }
 }
