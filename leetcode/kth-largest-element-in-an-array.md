@@ -333,6 +333,33 @@ class Solution:
 ```
 
 :::
+
+## 方法四：计数排序的优化
+
+::: code-group
+
+```java [Java]
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int offset = 10000;
+        int count[] = new int[20001]; // 最大的元素是20000，能访问的最大下标是容量-1
+        for (int num : nums) {
+            count[offset + num]++;
+        }
+        int remain = k;
+        for (int i = count.length - 1; i >= 0; i--) {
+            remain -= count[i];
+            if (remain <= 0) {
+                return i - offset;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+:::
+
 <!-- tabs:end -->
 
 <!-- solution:end -->

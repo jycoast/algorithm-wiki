@@ -186,7 +186,33 @@ function reverseList(head: ListNode | null): ListNode | null {
 
 <!-- solution:start -->
 
-## 方法三：递归
+## 方法三：从前向后递归
+
+时间复杂度 O(n)，空间复杂度 O(n)。其中 n 为链表的长度。
+
+::: code-group
+
+```java [Java]
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        return rescursion(null, head);
+    }
+
+    private ListNode rescursion(ListNode prev, ListNode curr) {
+        if (curr == null) {
+            return prev;
+        }
+        ListNode next = curr.next;
+        curr.next = prev;
+
+        return rescursion(curr, next);
+    }
+}
+```
+
+:::
+
+## 方法四：从后向前递归
 
 递归反转链表的第二个节点到尾部的所有节点，然后 $head$ 插在反转后的链表的尾部。
 
@@ -258,7 +284,7 @@ class Solution:
 
 :::
 
-## 方法四：使用栈
+## 方法五：使用栈
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。
 
