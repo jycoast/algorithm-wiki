@@ -1,4 +1,4 @@
-以[77. 组合](https://leetcode.cn/problems/combinations/)问题为例，回溯算法的模板代码如下：
+以 [77. 组合 ](https://leetcode.cn/problems/combinations/)问题为例，回溯算法的模板代码如下：
 
 ```java
 import java.util.ArrayList;

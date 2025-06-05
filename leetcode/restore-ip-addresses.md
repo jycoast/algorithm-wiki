@@ -203,4 +203,114 @@ class Solution:
 
 <!-- solution:end -->
 
+## 方法二：回溯法
+
+本题和 [131.分割回文串](https://leetcode.cn/problems/palindrome-partitioning/) 的解法类似。
+
+::: code-group
+
+```java [Java]
+class Solution {
+
+    private List<List<String>> ans = new ArrayList<>();
+
+    private List<String> path = new ArrayList<>();
+
+    public List<List<String>> partition(String s) {
+        dfs(s, 0);
+        return ans;
+    }
+
+    private void dfs(String s, int startIndex) {
+        if (startIndex >= s.length()) {
+            ans.add(new ArrayList<>(path));
+            return;
+        }
+
+        for (int i = startIndex; i < s.length(); i++) {
+            if (check(s, startIndex, i)) {
+                String str = s.substring(startIndex, i + 1);
+                path.add(str);
+                dfs(s, i + 1);
+                path.remove(path.size() - 1);
+            }
+        }
+    }
+
+    private boolean check(String s, int start, int end) {
+        while (start < end) {
+            if (s.charAt(start) != s.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+}
+```
+
+:::
+
+本题的解法：
+
+::: code-group
+
+```java [Java]
+class Solution {
+
+    private List<String> ans = new ArrayList<>();
+
+    public List<String> restoreIpAddresses(String s) {
+        dfs(s, 0, 0);
+        return ans;
+    }
+
+    private void dfs(String s, int startIndex, int pointNum) {
+        if (pointNum == 3) {
+            // 检查第四段是否合法
+            if (check(s, startIndex, s.length() - 1)) {
+                ans.add(s);
+            }
+            return;
+        }
+
+        for (int i = startIndex; i < s.length(); i++) {
+            if (!check(s, startIndex, i)) {
+                break;
+            }
+            // 在str的后⾯插⼊⼀个逗点
+            s = s.substring(0, i + 1) + "." + s.substring(i + 1);
+            pointNum++;
+            dfs(s, i + 2, pointNum);
+            pointNum--;
+            // 回溯删掉逗点
+            s = s.substring(0, i + 1) + s.substring(i + 2);
+        }
+    }
+
+    private boolean check(String s, int start, int end) {
+        if (start > end) {
+            return false;
+        }
+        if (s.charAt(start) == '0' && start != end) { // 0开头的数字不合法
+            return false;
+        }
+        int num = 0;
+        for (int i = start; i <= end; i++) {
+            if (s.charAt(i) > '9' || s.charAt(i) < '0') { // 遇到⾮数字字符不合法
+                return false;
+            }
+            num = num * 10 + (s.charAt(i) - '0');
+            if (num > 255) { // 如果⼤于255了不合法
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
+
+:::
+
 <!-- problem:end -->
