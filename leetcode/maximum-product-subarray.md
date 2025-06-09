@@ -48,10 +48,37 @@ tags:
 
 <!-- description:end -->
 
-
 <!-- solution:start -->
 
 ## 方法一：动态规划
+
+::: code-group
+
+```java [Java]
+class Solution {
+    public int maxProduct(int[] nums) {
+        int n = nums.length;
+        int ans = nums[0];
+        int[][] dp = new int[n][2];
+        dp[0][0] = nums[0];
+        dp[0][1] = nums[0];
+
+        for (int i = 1; i < n; i++) {
+            // 最大值
+            dp[i][0] = Math.max(nums[i], Math.max(dp[i - 1][0] * nums[i], dp[i - 1][1] * nums[i]));
+            // 最小值
+            dp[i][1] = Math.min(nums[i], Math.min(dp[i - 1][1] * nums[i], dp[i - 1][0] * nums[i]));
+            ans = Math.max(dp[i][0], ans);
+        }
+
+        return ans;
+    }
+}
+```
+
+:::
+
+## 方法二：动态规划优化
 
 我们定义两个变量 $f$ 和 $g$，其中 $f$ 表示以 $nums[i]$ 结尾的乘积最大子数组的乘积，而 $g$ 表示以 $nums[i]$ 结尾的乘积最小子数组的乘积。初始时 $f$ 和 $g$ 都等于 $nums[0]$。答案为所有 $f$ 中的最大值。
 
@@ -121,6 +148,7 @@ class Solution:
 ```
 
 :::
+
 <!-- tabs:end -->
 
 <!-- solution:end -->

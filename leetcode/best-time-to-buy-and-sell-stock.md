@@ -55,7 +55,31 @@ tags:
 
 <!-- solution:start -->
 
-## 方法一：枚举 + 维护前缀最小值
+## 方法一：动态规划
+
+```java [Java]
+class Solution {
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        // 第i天持有
+        dp[0][0] = -prices[0];
+        // 第i天不持有
+        dp[0][1] = 0;
+
+        for (int i = 1; i < n; i++) {
+            dp[i][0] = Math.max(dp[i - 1][0], -prices[i]);
+            dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] + prices[i]);
+        }
+
+        return dp[n - 1][1];
+    }
+}
+```
+
+
+
+## 方法二：枚举 + 维护前缀最小值
 
 我们可以枚举数组 $nums$ 每个元素作为卖出价格，那么我们需要在前面找到一个最小值作为买入价格，这样才能使得利润最大化。
 
@@ -108,6 +132,9 @@ class Solution:
 ```
 
 :::
+
+
+
 <!-- tabs:end -->
 
 <!-- solution:end -->
