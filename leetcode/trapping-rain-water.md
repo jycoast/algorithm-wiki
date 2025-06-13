@@ -55,7 +55,7 @@ tags:
 
 <!-- solution:start -->
 
-## 方法一：动态规划
+## 方法一：动态规划（双指针）
 
 我们定义 $left[i]$ 表示下标 $i$ 位置及其左边的最高柱子的高度，定义 $right[i]$ 表示下标 $i$ 位置及其右边的最高柱子的高度。那么下标 $i$ 位置能接的雨水量为 $\min(left[i], right[i]) - height[i]$。我们遍历数组，计算出 $left[i]$ 和 $right[i]$，最后答案为 $\sum_{i=0}^{n-1} \min(left[i], right[i]) - height[i]$。
 
@@ -72,20 +72,24 @@ class Solution {
         int[] right = new int[n];
         left[0] = height[0];
         right[n - 1] = height[n - 1];
-        for (int i = 1; i < n; ++i) {
-            left[i] = Math.max(left[i - 1], height[i]);
-            right[n - i - 1] = Math.max(right[n - i], height[n - i - 1]);
-        }
         int ans = 0;
-        for (int i = 0; i < n; ++i) {
-            ans += Math.min(left[i], right[i]) - height[i];
+        for (int i = 1; i < n; i++) {
+            left[i] = Math.max(left[i - 1], height[i]);
+        }
+        for (int i = n - 2; i >= 0; i--) {
+            right[i] = Math.max(right[i + 1], height[i]);
+        }
+
+        for (int i = 0; i < n; i++) {
+            int area = Math.min(right[i], left[i]) - height[i];
+            if (area > 0) {
+                ans += area;
+            }
         }
         return ans;
     }
 }
 ```
-
-
 
 ```cpp [C++]
 class Solution {
