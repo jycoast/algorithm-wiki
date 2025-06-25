@@ -64,17 +64,22 @@ tags:
 ```java [Java]
 class Solution {
     public String longestCommonPrefix(String[] strs) {
-        int n = strs.length;
-        for (int i = 0; i < strs[0].length(); ++i) {
-            for (int j = 1; j < n; ++j) {
-                if (strs[j].length() <= i || strs[j].charAt(i) != strs[0].charAt(i)) {
-                    return strs[0].substring(0, i);
-                }
+        if (strs == null || strs.length == 0) return "";
+
+        String prefix = strs[0]; // 设定第一个字符串为初始公共前缀
+
+        for (int i = 1; i < strs.length; i++) {
+            // 如果当前字符串不是以 prefix 开头，就缩短 prefix
+            while (!strs[i].startsWith(prefix)) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+                if (prefix.isEmpty()) return "";
             }
         }
-        return strs[0];
+
+        return prefix;
     }
 }
+
 ```
 
 ```cpp [C++]

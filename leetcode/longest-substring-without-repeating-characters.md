@@ -56,7 +56,7 @@ tags:
 
 <!-- solution:start -->
 
-## 方法一：双指针 + 哈希表
+## 方法一：双指针 + HashMap
 
 定义一个哈希表记录当前窗口内出现的字符，记 $i$ 和 $j$ 分别表示不重复子串的开始位置和结束位置，无重复字符子串的最大长度记为 `ans`。
 
@@ -83,16 +83,21 @@ for (int i = 0, j = 0; i < n; ++i) {
 ```java [Java]
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        boolean[] ss = new boolean[128];
-        int ans = 0;
-        for (int i = 0, j = 0; j < s.length(); ++j) {
-            char c = s.charAt(j);
-            while (ss[c]) {
-                ss[s.charAt(i++)] = false;
+        Map<Character, Integer> map = new HashMap<>();
+        int left = 0, ans = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+
+            // 如果字符 c 出现过，并且在当前窗口内
+            if (map.containsKey(c) && map.get(c) >= left) {
+                left = map.get(c) + 1;  // 把 left 移动到重复字符之后
             }
-            ss[c] = true;
-            ans = Math.max(ans, j - i + 1);
+
+            map.put(c, right);  // 更新字符 c 的最新位置
+            ans = Math.max(ans, right - left + 1);
         }
+
         return ans;
     }
 }
@@ -146,6 +151,34 @@ class Solution:
 ```
 
 :::
+
+## 方法二：双指针 + HashSet
+
+::: code-group
+
+````java [Java]
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int left = 0, ans = 0;
+        Set<Character> set = new HashSet<>();
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+            // 如果出现重复字符，就移动左边界
+            while (set.contains(c)) {
+                set.remove(s.charAt(left));
+                left++;
+            }
+            set.add(c);
+            ans = Math.max(ans, right - left + 1);
+        }
+        return ans;
+    }
+}
+````
+
+:::
+
 <!-- tabs:end -->
 
 <!-- solution:end -->

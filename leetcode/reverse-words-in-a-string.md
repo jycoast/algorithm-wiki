@@ -84,24 +84,34 @@ tags:
 ```java [Java]
 class Solution {
     public String reverseWords(String s) {
-        List<String> words = new ArrayList<>();
-        int n = s.length();
-        for (int i = 0; i < n;) {
-            while (i < n && s.charAt(i) == ' ') {
-                ++i;
-            }
-            if (i < n) {
-                StringBuilder t = new StringBuilder();
-                int j = i;
-                while (j < n && s.charAt(j) != ' ') {
-                    t.append(s.charAt(j++));
-                }
-                words.add(t.toString());
-                i = j;
-            }
+        if (s == null || s.length() == 0) {
+            return "";
         }
-        Collections.reverse(words);
-        return String.join(" ", words);
+
+        // 去除前后空格的字符串
+        s = s.trim();
+        int i = 0;
+        int n = s.length();
+        List<String> ans = new ArrayList<>();
+
+        while (i < n) {
+            // 如果是空串则跳过
+            while (s.charAt(i) == ' ') {
+                i++;
+            }
+            // 双指针找到下一个单词的位置
+            int j = i;
+            StringBuilder builder = new StringBuilder();
+            while (j < n && s.charAt(j) != ' ') {
+                builder.append(s.charAt(j));
+                j++;
+            }
+            ans.add(builder.toString());
+            i = j;
+        }
+
+        Collections.reverse(ans);
+        return String.join(" ", ans);
     }
 }
 ```
