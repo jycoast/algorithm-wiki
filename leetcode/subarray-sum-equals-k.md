@@ -66,13 +66,19 @@ tags:
 ```java [Java]
 class Solution {
     public int subarraySum(int[] nums, int k) {
-        Map<Integer, Integer> cnt = new HashMap<>();
-        cnt.put(0, 1);
-        int ans = 0, s = 0;
-        for (int x : nums) {
-            s += x;
-            ans += cnt.getOrDefault(s - k, 0);
-            cnt.merge(s, 1, Integer::sum);
+        int ans = 0, int sum = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        // 当 prefixSum[j] = k 时，prefixSum[j] - k = 0，需要哈希表中有键 0 来捕捉从开头到 j 的子数组。
+        //值 1 表示空数组（前缀和 0）出现了一次。在遍历开始前，只有空数组满足前缀和为 0，因此初始化为 1 次。
+        map.put(0, 1);
+        for (int num : nums) {
+            sum += num;
+            // 子数组 [i, j] 的和可以表示为：sum(i, j) = prefixSum[j] - prefixSum[i-1] = k
+            // 即：prefixSum[j] - k = prefixSum[i-1]
+            // 查找是否存在某个之前的 prefixSum[i-1] 等于 sum - k。如果存在，说明子数组 [i, j] 的和为 k。
+            ans += map.getOrDefault(sum - k, 0);
+            // 当前前缀和加入map
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
         return ans;
     }
