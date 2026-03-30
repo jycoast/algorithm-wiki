@@ -9,7 +9,7 @@
   </a>
 </p>
 <p align="center">
-  基于 <code>VitePress</code> 构建的开源算法知识库，系统整理高频面试题、通用模板与解题笔记。
+  基于 <code>VitePress</code> 构建的开源算法知识库，系统整理算法高频面试题、通用模板与解题笔记。
 </p>
 
 
@@ -88,13 +88,6 @@ npm run docs:preview
 |-- README.md
 ```
 
-### Content Scope
-
-当前仓库主要包含：
-
-* 高频题题解文档
-* 按专题归类的问题索引
-* 常用算法模板
 
 ### Contributing
 
