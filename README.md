@@ -46,13 +46,13 @@
 
 ### Quick Start
 
-nodejs版本 >=22
+Node.js 版本 >=20.19.0 或 >=22.12.0
 
 安装依赖：
 
 ```bash
 npm install
-````
+```
 
 启动本地开发环境：
 
