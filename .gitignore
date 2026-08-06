@@ -3,7 +3,7 @@ node_modules
 /dist
 dist
 scripts/docsearch-scraper
-.vitepress/cache
+**/.vitepress/cache
 
 # local env files
 .env.local
