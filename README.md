@@ -46,6 +46,8 @@
 
 ### Quick Start
 
+nodejs版本 >=22
+
 安装依赖：
 
 ```bash
