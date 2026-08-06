@@ -3,6 +3,8 @@
 import DefaultTheme from 'vitepress/theme-without-fonts'
 import type { Theme } from 'vitepress'
 import './global.css'
+import 'virtual:group-icons.css'
+import './custom.css'
 
 import { onMounted, watch, nextTick } from 'vue'
 import { useRoute } from 'vitepress'

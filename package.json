@@ -3,9 +3,9 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
   },
   "devDependencies": {
     "medium-zoom": "^1.1.0",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "markdown-it": "^14.1.0",
-    "markdown-it-mathjax3": "^4.3.2"
+    "markdown-it-mathjax3": "^4.3.2",
+    "vitepress-plugin-group-icons": "^1.7.6"
   }
 }

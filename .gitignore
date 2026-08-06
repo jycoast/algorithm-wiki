@@ -1,9 +1,9 @@
 .DS_Store
 node_modules
-/dist
-dist
-scripts/docsearch-scraper
-.vitepress/cache
+
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+.reasonix/
 
 # local env files
 .env.local
@@ -22,3 +22,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+reasonix.toml
