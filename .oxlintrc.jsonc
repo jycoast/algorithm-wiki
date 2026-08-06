@@ -1,0 +1,5 @@
+{
+  "ignorePatterns": [".vitepress/cache/**", ".vitepress/dist/**", "Article/**/*.md"],
+  "options": { "typeAware": true, "typeCheck": true },
+  "plugins": ["typescript", "unicorn", "import", "vue"]
+}
