@@ -414,7 +414,7 @@ function getTemplate() {
           { text: '动态规划', link: '/template/dp' },
           { text: '字典树', link: '/template/trie' },
           { text: '单调栈', link: '/template/monotonic-stack' },
-          { text: '滑动窗口', link: '/template/siding-window' },
+          { text: '滑动窗口', link: '/template/sliding-window' },
         ]
       }
     ]
