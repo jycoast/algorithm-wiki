@@ -2,9 +2,8 @@
 node_modules
 /dist
 dist
-scripts/docsearch-scraper
-**/.vitepress/cache
-
+docs/.vitepress/cache/
+docs/.vitepress/dist/
 # local env files
 .env.local
 .env.*.local
@@ -22,3 +21,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+reasonix.toml

@@ -1,0 +1,28 @@
+/* 优化代码块标题图标位置和大小 */
+.vp-code-block-title-bar {
+  padding: unset !important;
+  overflow: hidden;
+  .vp-code-block-title-text {
+    padding: unset !important;
+    line-height: unset !important;
+    font-size: 16px;
+    font-weight: bold;
+    font-style: italic;
+
+    &::before {
+      width: 1.5rem !important;
+      height: 1.5rem !important;
+      vertical-align: middle;
+    }
+  }
+}
+.vp-code-block-title [data-title]::before,
+.vp-code-group [data-title]::before {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  margin-bottom: unset !important;
+  vertical-align: middle;
+}
+.vp-code-group .tabs label {
+  line-height: 2.5rem !important;
+}
