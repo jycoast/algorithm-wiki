@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
-import nav from './configs/nav'
-import sidebar from './configs/sidebar'
+import nav from './configs/nav.mjs'
+import sidebar from './configs/sidebar.mjs'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -17,13 +17,19 @@ export default defineConfig({
   ],
 
   themeConfig: {
-    outlineTitle: '本页目录',
-    lastUpdatedText: '上次更新',
+    // 本页目录标题(VitePress 2.0 中 outlineTitle 改为 outline.label)
+    outline: {
+      label: '本页目录'
+    },
+    // 上次更新文案(VitePress 2.0 中 lastUpdatedText 改为 lastUpdated.text)
+    lastUpdated: {
+      text: '上次更新'
+    },
     logo: '/logo.svg',
     search: {
       provider: 'local',
     },
-    
+
     // 导航栏
     nav,
 
