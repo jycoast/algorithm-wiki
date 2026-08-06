@@ -5,7 +5,7 @@ import sidebar from './configs/sidebar.mjs'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Algorithm Wiki',
-  description: '',
+  description: '基于 VitePress 的开源算法知识库：系统整理算法高频面试题、通用模板与解题笔记。',
   lastUpdated: true,
   cleanUrls: true,
   base: '/',
