@@ -8,11 +8,8 @@
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
+    "markdown-it-mathjax3": "^4.3.2",
     "medium-zoom": "^1.1.0",
     "vitepress": "^2.0.0-alpha.19"
-  },
-  "dependencies": {
-    "markdown-it": "^14.1.0",
-    "markdown-it-mathjax3": "^4.3.2"
   }
 }
