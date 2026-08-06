@@ -1,4 +1,4 @@
-```java
+```cpp
 // 查找到的是左边界
 int search1(int left, int right) {
     while (left < right) {
