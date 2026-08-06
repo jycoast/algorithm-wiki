@@ -26,3 +26,36 @@
 .vp-code-group .tabs label {
   line-height: 2.5rem !important;
 }
+
+/* 为所有响应式布局变化添加平滑过渡 */
+.VPDoc .container,
+.VPDoc .content,
+.VPDoc .content-container,
+.VPDoc .aside,
+.VPSidebar,
+.VPContent {
+  transition:
+    max-width 0.3s ease-in-out,
+    width 0.3s ease-in-out,
+    padding 0.3s ease-in-out,
+    margin 0.3s ease-in-out;
+}
+
+/* 调整页面默认宽度,适配高分屏 */
+@media (min-width: 1920px) {
+  :root {
+    --vp-layout-max-width: 1920px !important;
+  }
+
+  .VPDoc:not(.has-sidebar) .container {
+    max-width: 1584px !important;
+  }
+
+  .VPDoc:not(.has-sidebar) .content {
+    max-width: 1264px !important;
+  }
+
+  .VPDoc.has-aside .content-container {
+    max-width: 1168px !important;
+  }
+}
