@@ -57,19 +57,19 @@ npm install
 启动本地开发环境：
 
 ```bash
-npm run docs:dev
+npm run dev
 ```
 
 构建静态站点：
 
 ```bash
-npm run docs:build
+npm run build
 ```
 
 本地预览构建产物：
 
 ```bash
-npm run docs:preview
+npm run preview
 ```
 
 ### Tech Stack
@@ -82,11 +82,13 @@ npm run docs:preview
 
 ```text
 .
-|-- .vitepress/      # 站点配置、导航、侧边栏与主题定制
-|-- leetcode/        # 题解内容
-|-- template/        # 常用算法模板
-|-- source-code/     # 示例实现（多语言）
-|-- index.md         # 文档首页
+|-- docs/
+|   |-- .vitepress/      # 站点配置、导航、侧边栏与主题定制
+|   |-- leetcode/        # 题解内容
+|   |-- template/        # 常用算法模板
+|   |-- public/          # 静态资源（图标等）
+|   |-- index.md         # 文档首页
+|-- source-code/         # 示例实现（多语言）
 |-- README.md
 ```
 
