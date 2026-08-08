@@ -5,6 +5,12 @@ difficulty: 简单
 tags:
     - 字典树
     - 字符串
+entry: longestCommonPrefix
+testcases:
+  - input: [["flower", "flow", "flight"]]
+    output: "fl"
+  - input: [["dog", "racecar", "car"]]
+    output: ""
 ---
 
 <script setup>

@@ -6,6 +6,14 @@ tags:
     - 哈希表
     - 字符串
     - 滑动窗口
+entry: lengthOfLongestSubstring
+testcases:
+  - input: ["abcabcbb"]
+    output: 3
+  - input: ["bbbbb"]
+    output: 1
+  - input: ["pwwkew"]
+    output: 3
 ---
 
 <script setup>

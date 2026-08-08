@@ -6,6 +6,14 @@ tags:
     - 数组
     - 分治
     - 动态规划
+entry: maxSubArray
+testcases:
+  - input: [[-2, 1, -3, 4, -1, 2, 1, -5, 4]]
+    output: 6
+  - input: [[1]]
+    output: 1
+  - input: [[5, 4, -1, 7, 8]]
+    output: 23
 ---
 
 <script setup>

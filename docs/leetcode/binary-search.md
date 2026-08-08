@@ -5,6 +5,12 @@ difficulty: 简单
 tags:
     - 数组
     - 二分查找
+entry: search
+testcases:
+  - input: [[-1, 0, 3, 5, 9, 12], 9]
+    output: 4
+  - input: [[-1, 0, 3, 5, 9, 12], 2]
+    output: -1
 ---
 
 <script setup>

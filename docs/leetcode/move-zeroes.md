@@ -5,6 +5,13 @@ difficulty: 简单
 tags:
     - 数组
     - 双指针
+entry: moveZeroes
+mode: void-first-arg
+testcases:
+  - input: [[0, 1, 0, 3, 12]]
+    output: [1, 3, 12, 0, 0]
+  - input: [[0]]
+    output: [0]
 ---
 
 <script setup>

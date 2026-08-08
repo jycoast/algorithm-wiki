@@ -158,7 +158,7 @@ async function run() {
     : '正在加载 Java 运行时（首次约 20MB，请稍候）…'
   try {
     if (lang.value === 'python') {
-      report.value = await runPython(currentCode.value, entry.value, testcases.value)
+      report.value = await runPython(currentCode.value, entry.value, testcases.value, undefined, mode.value)
     } else {
       report.value = await runJava(currentCode.value, entry.value, testcases.value, mode.value)
     }

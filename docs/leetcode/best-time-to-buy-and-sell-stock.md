@@ -5,6 +5,12 @@ difficulty: 简单
 tags:
     - 数组
     - 动态规划
+entry: maxProfit
+testcases:
+  - input: [[7, 1, 5, 3, 6, 4]]
+    output: 5
+  - input: [[7, 6, 4, 3, 1]]
+    output: 0
 ---
 
 <script setup>

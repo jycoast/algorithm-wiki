@@ -5,6 +5,12 @@ difficulty: 中等
 tags:
     - 数组
     - 二分查找
+entry: findPeakElement
+testcases:
+  - input: [[1, 2, 3, 1]]
+    output: 2
+  - input: [[1, 2, 1, 3, 5, 6, 4]]
+    output: 5
 ---
 
 <script setup>

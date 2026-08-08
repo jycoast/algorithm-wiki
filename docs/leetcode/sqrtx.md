@@ -5,6 +5,14 @@ difficulty: 简单
 tags:
     - 数学
     - 二分查找
+entry: mySqrt
+testcases:
+  - input: [4]
+    output: 2
+  - input: [8]
+    output: 2
+  - input: [1]
+    output: 1
 ---
 
 <script setup>

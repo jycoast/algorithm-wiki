@@ -12,11 +12,17 @@ import { getPyodide, type PyodideLike } from './pyodideLoader.ts'
 
 const IDENT = /^[A-Za-z_][A-Za-z0-9_]*$/
 
-function buildHarness(entry: string): string {
+function buildHarness(entry: string, mode: 'void-first-arg' | undefined): string {
   // entry 为受控标识符（前端校验过），可安全插值
+  const call =
+    mode === 'void-first-arg'
+      ? `sol.${entry}(*tc["input"])\n        __out.append({"actual": tc["input"][0]})`
+      : `__out.append({"actual": sol.${entry}(*tc["input"])})`
   return [
     'from typing import List, Dict, Optional, Tuple, Deque',
     'import json',
+    'inf = float(\'inf\')',
+    'nan = float(\'nan\')',
     '',
     'TASKS = json.loads(TASKS_JSON)',
     '',
@@ -26,7 +32,7 @@ function buildHarness(entry: string): string {
     '__out = []',
     'for tc in TASKS:',
     '    try:',
-    `        __out.append({"actual": sol.${entry}(*tc["input"])})`,
+    `        ${call}`,
     '    except Exception as e:',
     '        __out.append({"error": str(e)})',
     '__RESULT__ = json.dumps(__out, default=str)',
@@ -44,6 +50,7 @@ export async function runPython(
   entry: string,
   testcases: TestCase[],
   runtime?: PyodideLike,
+  mode?: 'void-first-arg',
 ): Promise<RunReport> {
   const total = testcases.length
   if (!IDENT.test(entry)) {
@@ -65,7 +72,7 @@ export async function runPython(
 
   let items: HarnessItem[]
   try {
-    await pyodide.runPythonAsync(buildHarness(entry))
+    await pyodide.runPythonAsync(buildHarness(entry, mode))
     const raw = pyodide.globals.get('__RESULT__')
     items = (typeof raw === 'string' ? JSON.parse(raw) : []) as HarnessItem[]
   } catch (e) {

@@ -6,6 +6,15 @@ tags:
     - 数组
     - 双指针
     - 排序
+entry: merge
+mode: void-first-arg
+testcases:
+  - input: [[1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3]
+    output: [1, 2, 2, 3, 5, 6]
+  - input: [[0], 0, [1], 1]
+    output: [1]
+  - input: [[1], 1, [0], 0]
+    output: [1]
 ---
 
 <script setup>

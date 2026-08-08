@@ -5,6 +5,15 @@ difficulty: 中等
 tags:
     - 数组
     - 双指针
+entry: nextPermutation
+mode: void-first-arg
+testcases:
+  - input: [[1, 2, 3]]
+    output: [1, 3, 2]
+  - input: [[3, 2, 1]]
+    output: [1, 2, 3]
+  - input: [[1, 1, 5]]
+    output: [1, 5, 1]
 ---
 
 <script setup>

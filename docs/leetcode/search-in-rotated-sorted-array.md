@@ -5,6 +5,14 @@ difficulty: 中等
 tags:
     - 数组
     - 二分查找
+entry: search
+testcases:
+  - input: [[4, 5, 6, 7, 0, 1, 2], 0]
+    output: 4
+  - input: [[4, 5, 6, 7, 0, 1, 2], 3]
+    output: -1
+  - input: [[1], 0]
+    output: -1
 ---
 
 <script setup>

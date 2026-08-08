@@ -44,7 +44,13 @@ function discoverProblems() {
     const content = fs.readFileSync(path.join(LEETCODE_DIR, f), 'utf8')
     const fm = parseFrontmatter(content)
     if (typeof fm.entry !== 'string' || !Array.isArray(fm.testcases) || !fm.testcases.length) continue
-    out.push({ slug, entry: fm.entry, testcases: fm.testcases, python: extractCode(content, 'python', 'Python') })
+    out.push({
+      slug,
+      entry: fm.entry,
+      testcases: fm.testcases,
+      mode: fm.mode === 'void-first-arg' ? 'void-first-arg' : undefined,
+      python: extractCode(content, 'python', 'Python'),
+    })
   }
   return out
 }
@@ -65,7 +71,7 @@ for (const p of problems) {
     failed++
     continue
   }
-  const report = await runPython(p.python, p.entry, p.testcases, pyodide)
+  const report = await runPython(p.python, p.entry, p.testcases, pyodide, p.mode)
   if (report.compileError) {
     console.error(`❌ ${p.slug} [${p.entry}]：编译/运行失败 → ${report.compileError}`)
     failed++

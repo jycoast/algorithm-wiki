@@ -6,6 +6,12 @@ tags:
     - 字符串
     - 动态规划
     - 回溯
+entry: generateParenthesis
+testcases:
+  - input: [3]
+    output: ["((()))", "(()())", "(())()", "()(())", "()()()"]
+  - input: [1]
+    output: ["()"]
 ---
 
 <script setup>
