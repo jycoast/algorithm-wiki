@@ -59,3 +59,11 @@
     max-width: 1168px !important;
   }
 }
+
+/* ===== Giscus 评论区 ===== */
+.giscus-wrap {
+  margin-top: 2.5rem;
+}
+.giscus-title {
+  font-size: 1.2rem;
+}

@@ -42,6 +42,7 @@
 - 同一问题的多解法对比与复杂度分析
 - 常见变种题与延伸问题整理
 - 二分、回溯、动态规划、滑动窗口等算法模板沉淀
+- 💬 每道题解底部评论区（基于 GitHub Discussions 的 Giscus，无需登录即可评论）
 - 基于 `VitePress` 的静态站点，支持持续迭代与良好阅读体验
 
 ### Quick Start
@@ -106,6 +107,18 @@ npm run preview
 * 标题清晰、具备可检索性
 * 题解结构统一（思路 / 复杂度 / 关键实现）
 * 优先抽象通用解法与模式
+
+### 评论区（Giscus）
+
+每道题解底部集成 [Giscus](https://giscus.app/) 评论区（基于 GitHub Discussions），访客无需登录即可评论，评论以讨论串形式沉淀在仓库中。
+
+评论功能默认关闭（未配置 ID 时不渲染），接入需完成一次配置：
+
+1. 在仓库 Settings → Features 中开启 **Discussions**，并新建分类（如 `General`）
+2. 打开 [giscus.app](https://giscus.app/)，填入仓库名 `jycoast/algorithm-wiki`，选择分类，复制生成的 **repo-id** 与 **category-id**
+3. 填入 `docs/.vitepress/theme/giscus-config.ts` 中的 `repoId` 与 `categoryId`
+
+配置完成后重新部署即可生效。跟随站点的亮/暗主题自动换肤。
 
 ### 新增题解（自动维护清单）
 
