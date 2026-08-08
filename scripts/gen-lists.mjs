@@ -30,8 +30,12 @@ const INDEX_FILE = path.join(ROOT, 'docs', 'index.md')
 
 /** 首页分类顺序（也是 index.md 的章节顺序） */
 const CATEGORY_ORDER = ['数组', '字符串', '链表', '栈与队列', '二叉树', '回溯法', '动态规划', '图论', '数学']
-/** 难度排序权重 */
-const DIFFICULTY_ORDER = { '简单': 0, '中等': 1, '困难': 2 }
+
+/** 按 Top100 热度排名排序：返回一个 slug → 排名 的排序函数，未收录（不在 order 中）的排最后 */
+function rankByTop100(order) {
+  const index = new Map(order.map((slug, i) => [slug, i]))
+  return (a, b) => (index.get(a) ?? Infinity) - (index.get(b) ?? Infinity)
+}
 
 const isInit = process.argv.includes('--init')
 const warnings = []
@@ -71,12 +75,6 @@ function parseFrontmatter(content) {
 function extractTitle(content) {
   const m = content.match(/^#\s*\[([^\]]+)\]\(/m)
   return m ? m[1] : null
-}
-
-/** 从标题取题目编号，非数字开头（如 面试题 22）返回 Infinity（排最后） */
-function problemId(title) {
-  const m = title && title.match(/^\d+/)
-  return m ? Number(m[0]) : Infinity
 }
 
 function readProblems() {
@@ -136,10 +134,12 @@ const TEMPLATE_SECTION = `function getTemplate() {
 }`
 
 function renderSidebar(data, problems) {
+  const byTop100 = rankByTop100(data.order)
   const groups = CATEGORY_ORDER
     .filter((cat) => data.categories[cat] && data.categories[cat].length)
     .map((cat, i) => {
-      const items = data.categories[cat]
+      const items = [...data.categories[cat]]
+        .sort(byTop100)
         .map((slug) => `        { text: "${problems[slug].title}", link: "/leetcode/${slug}" },`)
         .join('\n')
       return `    {
@@ -169,16 +169,16 @@ ${TEMPLATE_SECTION}
 /* ---------------- 生成 index.md ---------------- */
 
 function renderIndex(data, problems) {
+  const byTop100 = rankByTop100(data.order)
   const sections = CATEGORY_ORDER
     .filter((cat) => data.categories[cat] && data.categories[cat].length)
     .map((cat) => {
-      const rows = data.categories[cat]
+      const rows = [...data.categories[cat]]
+        .sort(byTop100)
         .map((slug) => {
           const p = problems[slug]
-          return { slug, title: p.title, difficulty: p.difficulty }
+          return `| [${p.title}](/leetcode/${slug}.md) | ${p.difficulty} |`
         })
-        .sort((a, b) => (DIFFICULTY_ORDER[a.difficulty] ?? 9) - (DIFFICULTY_ORDER[b.difficulty] ?? 9) || problemId(a.title) - problemId(b.title))
-        .map((r) => `| [${r.title}](/leetcode/${r.slug}.md) | ${r.difficulty} |`)
         .join('\n')
       return `## ${cat}
 
