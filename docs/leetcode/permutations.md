@@ -7,6 +7,36 @@ tags:
     - 回溯
 ---
 
+<script setup>
+// 方法一（DFS 回溯）可视化：nums = [1, 2, 3]
+// rows[0] 为原数组 nums，rows[1] 为当前排列 t（空位用 '' 占位），rows[2] 为已选标记 vis
+const permuteSteps = [
+  { rows: [[1, 2, 3], ['', '', ''], [0, 0, 0]], rowPointers: [{ row: 1, col: 0, label: 'i' }], note: 'nums = [1,2,3]，n=3。t 为空，vis 全为 false。调用 dfs(0) 填充第 0 个位置。' },
+  { rows: [[1, 2, 3], [1, '', ''], [1, 0, 0]], rowPointers: [{ row: 1, col: 0, label: 'i' }, { row: 0, col: 0, label: 'j' }], rowHighlight: [{ row: 2, cols: [0] }, { row: 1, cols: [0] }], note: 'dfs(0)：j=0，vis[0]=false → 选 nums[0]=1，置 vis[0]=true，放入 t[0]=1。递归 dfs(1)。' },
+  { rows: [[1, 2, 3], [1, 2, ''], [1, 1, 0]], rowPointers: [{ row: 1, col: 1, label: 'i' }, { row: 0, col: 1, label: 'j' }], rowHighlight: [{ row: 2, cols: [1] }, { row: 1, cols: [1] }], note: 'dfs(1)：j=0 的 nums[0] 已被选跳过；j=1，vis[1]=false → 选 nums[1]=2，置 vis[1]=true，放入 t[1]=2。递归 dfs(2)。' },
+  { rows: [[1, 2, 3], [1, 2, 3], [1, 1, 1]], rowPointers: [{ row: 1, col: 2, label: 'i' }, { row: 0, col: 2, label: 'j' }], rowHighlight: [{ row: 2, cols: [2] }, { row: 1, cols: [2] }], note: 'dfs(2)：j=0、1 已被选跳过；j=2，vis[2]=false → 选 nums[2]=3，置 vis[2]=true，放入 t[2]=3。递归 dfs(3)。' },
+  { rows: [[1, 2, 3], [1, 2, 3], [1, 1, 1]], rowHighlight: [{ row: 1, cols: [0, 1, 2] }], note: 'i=3 == n → 完整排列 t=[1,2,3] 加入 ans。return，开始回溯。' },
+  { rows: [[1, 2, 3], [1, 3, ''], [1, 0, 1]], rowPointers: [{ row: 1, col: 1, label: 'i' }, { row: 0, col: 2, label: 'j' }], rowHighlight: [{ row: 2, cols: [2] }, { row: 1, cols: [1] }], note: '回溯：移除 t[2]=3、vis[2]=false，dfs(2) 结束返回；再移除 t[1]=2、vis[1]=false。回到 dfs(1) 循环，j=2，vis[2]=false → 选 nums[2]=3，t[1]=3。递归 dfs(2)。' },
+  { rows: [[1, 2, 3], [1, 3, 2], [1, 1, 1]], rowPointers: [{ row: 1, col: 2, label: 'i' }, { row: 0, col: 1, label: 'j' }], rowHighlight: [{ row: 2, cols: [1] }, { row: 1, cols: [2] }], note: 'dfs(2)：j=1，vis[1]=false → 选 nums[1]=2，置 vis[1]=true，放入 t[2]=2。递归 dfs(3)。' },
+  { rows: [[1, 2, 3], [1, 3, 2], [1, 1, 1]], rowHighlight: [{ row: 1, cols: [0, 1, 2] }], note: 'i=3 == n → 完整排列 t=[1,3,2] 加入 ans。return。' },
+  { rows: [[1, 2, 3], [2, '', ''], [0, 1, 0]], rowPointers: [{ row: 1, col: 0, label: 'i' }, { row: 0, col: 1, label: 'j' }], rowHighlight: [{ row: 2, cols: [1] }, { row: 1, cols: [0] }], note: '回溯：移除 t[2]=2、t[1]=3、t[0]=1 及对应 vis。回到 dfs(0) 循环，j=1，vis[1]=false → 选 nums[1]=2，t[0]=2。递归 dfs(1)。' },
+  { rows: [[1, 2, 3], [2, 1, ''], [1, 1, 0]], rowPointers: [{ row: 1, col: 1, label: 'i' }, { row: 0, col: 0, label: 'j' }], rowHighlight: [{ row: 2, cols: [0] }, { row: 1, cols: [1] }], note: 'dfs(1)：j=0，vis[0]=false → 选 nums[0]=1，置 vis[0]=true，放入 t[1]=1。递归 dfs(2)。' },
+  { rows: [[1, 2, 3], [2, 1, 3], [1, 1, 1]], rowPointers: [{ row: 1, col: 2, label: 'i' }, { row: 0, col: 2, label: 'j' }], rowHighlight: [{ row: 2, cols: [2] }, { row: 1, cols: [2] }], note: 'dfs(2)：j=2，vis[2]=false → 选 nums[2]=3，置 vis[2]=true，放入 t[2]=3。递归 dfs(3)。' },
+  { rows: [[1, 2, 3], [2, 1, 3], [1, 1, 1]], rowHighlight: [{ row: 1, cols: [0, 1, 2] }], note: 'i=3 == n → 完整排列 t=[2,1,3] 加入 ans。return。' },
+  { rows: [[1, 2, 3], [2, 3, ''], [0, 1, 1]], rowPointers: [{ row: 1, col: 1, label: 'i' }, { row: 0, col: 2, label: 'j' }], rowHighlight: [{ row: 2, cols: [2] }, { row: 1, cols: [1] }], note: '回溯：移除 t[2]=3、vis[2]=false，dfs(2) 返回；再移除 t[1]=1、vis[0]=false。回到 dfs(1) 循环，j=2，vis[2]=false → 选 nums[2]=3，t[1]=3。递归 dfs(2)。' },
+  { rows: [[1, 2, 3], [2, 3, 1], [1, 1, 1]], rowPointers: [{ row: 1, col: 2, label: 'i' }, { row: 0, col: 0, label: 'j' }], rowHighlight: [{ row: 2, cols: [0] }, { row: 1, cols: [2] }], note: 'dfs(2)：j=0，vis[0]=false → 选 nums[0]=1，置 vis[0]=true，放入 t[2]=1。递归 dfs(3)。' },
+  { rows: [[1, 2, 3], [2, 3, 1], [1, 1, 1]], rowHighlight: [{ row: 1, cols: [0, 1, 2] }], note: 'i=3 == n → 完整排列 t=[2,3,1] 加入 ans。return。' },
+  { rows: [[1, 2, 3], [3, '', ''], [0, 0, 1]], rowPointers: [{ row: 1, col: 0, label: 'i' }, { row: 0, col: 2, label: 'j' }], rowHighlight: [{ row: 2, cols: [2] }, { row: 1, cols: [0] }], note: '回溯：移除 t[2]=1、t[1]=3、t[0]=2 及对应 vis。回到 dfs(0) 循环，j=2，vis[2]=false → 选 nums[2]=3，t[0]=3。递归 dfs(1)。' },
+  { rows: [[1, 2, 3], [3, 1, ''], [1, 0, 1]], rowPointers: [{ row: 1, col: 1, label: 'i' }, { row: 0, col: 0, label: 'j' }], rowHighlight: [{ row: 2, cols: [0] }, { row: 1, cols: [1] }], note: 'dfs(1)：j=0，vis[0]=false → 选 nums[0]=1，置 vis[0]=true，放入 t[1]=1。递归 dfs(2)。' },
+  { rows: [[1, 2, 3], [3, 1, 2], [1, 1, 1]], rowPointers: [{ row: 1, col: 2, label: 'i' }, { row: 0, col: 1, label: 'j' }], rowHighlight: [{ row: 2, cols: [1] }, { row: 1, cols: [2] }], note: 'dfs(2)：j=1，vis[1]=false → 选 nums[1]=2，置 vis[1]=true，放入 t[2]=2。递归 dfs(3)。' },
+  { rows: [[1, 2, 3], [3, 1, 2], [1, 1, 1]], rowHighlight: [{ row: 1, cols: [0, 1, 2] }], note: 'i=3 == n → 完整排列 t=[3,1,2] 加入 ans。return。' },
+  { rows: [[1, 2, 3], [3, 2, ''], [0, 1, 1]], rowPointers: [{ row: 1, col: 1, label: 'i' }, { row: 0, col: 1, label: 'j' }], rowHighlight: [{ row: 2, cols: [1] }, { row: 1, cols: [1] }], note: '回溯：移除 t[2]=2、vis[1]=false，dfs(2) 返回；再移除 t[1]=1、vis[0]=false。回到 dfs(1) 循环，j=1，vis[1]=false → 选 nums[1]=2，t[1]=2。递归 dfs(2)。' },
+  { rows: [[1, 2, 3], [3, 2, 1], [1, 1, 1]], rowPointers: [{ row: 1, col: 2, label: 'i' }, { row: 0, col: 0, label: 'j' }], rowHighlight: [{ row: 2, cols: [0] }, { row: 1, cols: [2] }], note: 'dfs(2)：j=0，vis[0]=false → 选 nums[0]=1，置 vis[0]=true，放入 t[2]=1。递归 dfs(3)。' },
+  { rows: [[1, 2, 3], [3, 2, 1], [1, 1, 1]], rowHighlight: [{ row: 1, cols: [0, 1, 2] }], note: 'i=3 == n → 完整排列 t=[3,2,1] 加入 ans。return。' },
+  { rows: [[1, 2, 3], ['', '', ''], [0, 0, 0]], note: '回溯：移除 t[2]=1、t[1]=2、t[0]=3 及对应 vis。全部回溯完成 → ans = [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]] ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [46. 全排列](https://leetcode.cn/problems/permutations)
@@ -66,6 +96,15 @@ tags:
 
 -   [47. 全排列 II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0047.Permutations%20II/README.md)
 
+### 可视化演示
+
+> 以 `nums = [1, 2, 3]` 为例，演示 DFS 回溯：上方为原数组 `nums`，中间为当前排列 `t`（空位为空白），下方为已选标记 `vis`。`i` 指向待填充位置，`j` 指向候选元素，黄色高亮表示刚选中的元素/位置。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="permuteSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

@@ -8,6 +8,80 @@ tags:
     - 模拟
 ---
 
+<script setup>
+// 方法一（双指针）可视化：num1 = "456", num2 = "77" → "533"
+// rows 模式：第 0 行 num1、第 1 行 num2、第 2 行 ans（累加结果，低位在前）
+const addStringsSteps = [
+    {
+        rows: [
+            ['4', '5', '6'],
+            ['7', '7'],
+            [],
+        ],
+        rowPointers: [
+            { row: 0, col: 2, label: 'i' },
+            { row: 1, col: 1, label: 'j' },
+        ],
+        note: '初始化：i = num1.length - 1 = 2 指向 "6"，j = num2.length - 1 = 1 指向 "7"，进位 c = 0，ans 为空。',
+    },
+    {
+        rows: [
+            ['4', '5', '6'],
+            ['7', '7'],
+            ['3'],
+        ],
+        rowPointers: [
+            { row: 0, col: 2, label: 'i' },
+            { row: 1, col: 1, label: 'j' },
+        ],
+        rowHighlight: [
+            { row: 0, cols: [2] },
+            { row: 1, cols: [1] },
+            { row: 2, cols: [0] },
+        ],
+        note: '取 a = num1[2] = 6，b = num2[1] = 7：c += a + b = 0 + 6 + 7 = 13；个位 c % 10 = 3 写入 ans，进位 c = 13 / 10 = 1。i、j 前移。',
+    },
+    {
+        rows: [
+            ['4', '5', '6'],
+            ['7', '7'],
+            ['3', '3'],
+        ],
+        rowPointers: [
+            { row: 0, col: 1, label: 'i' },
+            { row: 1, col: 0, label: 'j' },
+        ],
+        rowHighlight: [
+            { row: 0, cols: [1] },
+            { row: 1, cols: [0] },
+            { row: 2, cols: [1] },
+        ],
+        note: '取 a = num1[1] = 5，b = num2[0] = 7：c += a + b = 1 + 5 + 7 = 13；个位 3 写入 ans，进位 c = 13 / 10 = 1。i、j 前移。',
+    },
+    {
+        rows: [
+            ['4', '5', '6'],
+            ['7', '7'],
+            ['3', '3', '5'],
+        ],
+        rowPointers: [{ row: 0, col: 0, label: 'i' }],
+        rowHighlight: [
+            { row: 0, cols: [0] },
+            { row: 2, cols: [2] },
+        ],
+        note: 'j 已越界（num2 取完），b = 0；取 a = num1[0] = 4：c += a + b = 1 + 4 + 0 = 5；个位 5 写入 ans，进位 c = 0。',
+    },
+    {
+        rows: [
+            ['4', '5', '6'],
+            ['7', '7'],
+            ['5', '3', '3'],
+        ],
+        note: '循环结束（i < 0 且 j < 0 且 c = 0）。ans 反转后拼接 → "533" ✅。',
+    },
+]
+</script>
+
 <!-- problem:start -->
 
 # [415. 字符串相加](https://leetcode.cn/problems/add-strings)
@@ -70,6 +144,15 @@ tags:
 
 以下代码还实现了字符串相减，参考 `subStrings(num1, num2)` 函数。
 
+### 可视化演示
+
+> 以 `num1 = "456"`、`num2 = "77"` 为例，演示双指针从两数末尾逐位相加：第 0 行 `num1`、第 1 行 `num2`、第 2 行 `ans`（低位在前）。指针 `i`/`j` 指向当前读取位，黄色高亮为正在相加或刚写入的位置。
+
+<ArrayViz :steps="addStringsSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

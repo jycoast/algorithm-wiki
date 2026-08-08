@@ -9,6 +9,83 @@ tags:
     - 归并排序
 ---
 
+<script setup>
+// 方法一（优先队列/小根堆）可视化：lists = [[1,4,5],[1,3,4],[2,6]]
+// 每步展示小根堆 pq 中头节点的弹出与入堆，dummy/cur 拼接 result，各链表头节点逐步后移
+const mergeKSteps = [
+  { lists: [
+      { title: 'lists[0]', values: [1, 4, 5], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[1]', values: [1, 3, 4], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[2]', values: [2, 6], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'pq（堆）', values: [1, 1, 2], pointers: [{ id: 0, label: '堆顶' }] },
+      { title: 'result', values: [null], pointers: [{ id: 0, label: 'dummy' }, { id: 0, label: 'cur' }] },
+    ], note: '将所有非空链表的头节点入堆：pq = {1, 1, 2}（分别来自 lists[0]、lists[1]、lists[2]）。建虚拟头节点 dummy，cur = dummy。' },
+  { lists: [
+      { title: 'lists[0]', values: [4, 5], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[1]', values: [1, 3, 4], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[2]', values: [2, 6], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'pq（堆）', values: [1, 2, 4], pointers: [{ id: 0, label: '堆顶' }] },
+      { title: 'result', values: [null, 1], pointers: [{ id: 0, label: 'dummy' }, { id: 1, label: 'cur' }], states: [{ id: 1, state: 'done' }] },
+    ], note: '弹出堆顶 node=1（来自 lists[0]），其 next=4 入堆。cur.next = node，cur = node。堆 = {1, 2, 4}。' },
+  { lists: [
+      { title: 'lists[0]', values: [4, 5], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[1]', values: [3, 4], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[2]', values: [2, 6], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'pq（堆）', values: [2, 3, 4], pointers: [{ id: 0, label: '堆顶' }] },
+      { title: 'result', values: [null, 1, 1], pointers: [{ id: 0, label: 'dummy' }, { id: 2, label: 'cur' }], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }] },
+    ], note: '弹出堆顶 node=1（来自 lists[1]），其 next=3 入堆。cur.next = node，cur = node。堆 = {2, 3, 4}。' },
+  { lists: [
+      { title: 'lists[0]', values: [4, 5], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[1]', values: [3, 4], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[2]', values: [6], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'pq（堆）', values: [3, 4, 6], pointers: [{ id: 0, label: '堆顶' }] },
+      { title: 'result', values: [null, 1, 1, 2], pointers: [{ id: 0, label: 'dummy' }, { id: 3, label: 'cur' }], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }] },
+    ], note: '弹出堆顶 node=2（来自 lists[2]），其 next=6 入堆。cur.next = node，cur = node。堆 = {3, 4, 6}。' },
+  { lists: [
+      { title: 'lists[0]', values: [4, 5], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[1]', values: [4], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[2]', values: [6], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'pq（堆）', values: [4, 4, 6], pointers: [{ id: 0, label: '堆顶' }] },
+      { title: 'result', values: [null, 1, 1, 2, 3], pointers: [{ id: 0, label: 'dummy' }, { id: 4, label: 'cur' }], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'done' }] },
+    ], note: '弹出堆顶 node=3（来自 lists[1]），其 next=4 入堆。cur.next = node，cur = node。堆 = {4, 4, 6}。' },
+  { lists: [
+      { title: 'lists[0]', values: [5], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[1]', values: [4], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[2]', values: [6], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'pq（堆）', values: [4, 5, 6], pointers: [{ id: 0, label: '堆顶' }] },
+      { title: 'result', values: [null, 1, 1, 2, 3, 4], pointers: [{ id: 0, label: 'dummy' }, { id: 5, label: 'cur' }], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'done' }, { id: 5, state: 'done' }] },
+    ], note: '弹出堆顶 node=4（来自 lists[0]），其 next=5 入堆。cur.next = node，cur = node。堆 = {4, 5, 6}。' },
+  { lists: [
+      { title: 'lists[0]', values: [5], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'lists[1]', values: [], },
+      { title: 'lists[2]', values: [6], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'pq（堆）', values: [5, 6], pointers: [{ id: 0, label: '堆顶' }] },
+      { title: 'result', values: [null, 1, 1, 2, 3, 4, 4], pointers: [{ id: 0, label: 'dummy' }, { id: 6, label: 'cur' }], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }] },
+    ], note: '弹出堆顶 node=4（来自 lists[1]），其 next 为空不入堆，lists[1] 变空。cur.next = node，cur = node。堆 = {5, 6}。' },
+  { lists: [
+      { title: 'lists[0]', values: [], },
+      { title: 'lists[1]', values: [], },
+      { title: 'lists[2]', values: [6], pointers: [{ id: 0, label: 'head' }] },
+      { title: 'pq（堆）', values: [6], pointers: [{ id: 0, label: '堆顶' }] },
+      { title: 'result', values: [null, 1, 1, 2, 3, 4, 4, 5], pointers: [{ id: 0, label: 'dummy' }, { id: 7, label: 'cur' }], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }, { id: 7, state: 'done' }] },
+    ], note: '弹出堆顶 node=5（来自 lists[0]），其 next 为空不入堆，lists[0] 变空。cur.next = node，cur = node。堆 = {6}。' },
+  { lists: [
+      { title: 'lists[0]', values: [], },
+      { title: 'lists[1]', values: [], },
+      { title: 'lists[2]', values: [], },
+      { title: 'pq（堆）', values: [], },
+      { title: 'result', values: [null, 1, 1, 2, 3, 4, 4, 5, 6], pointers: [{ id: 0, label: 'dummy' }, { id: 8, label: 'cur' }], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }, { id: 7, state: 'done' }, { id: 8, state: 'done' }] },
+    ], note: '弹出堆顶 node=6（来自 lists[2]），其 next 为空不入堆。cur.next = node，cur = node。堆为空，循环结束。' },
+  { lists: [
+      { title: 'lists[0]', values: [], },
+      { title: 'lists[1]', values: [], },
+      { title: 'lists[2]', values: [], },
+      { title: 'pq（堆）', values: [], },
+      { title: 'result', values: [null, 1, 1, 2, 3, 4, 4, 5, 6], pointers: [{ id: 0, label: 'dummy' }], states: [{ id: 1, state: 'mark' }, { id: 2, state: 'mark' }, { id: 3, state: 'mark' }, { id: 4, state: 'mark' }, { id: 5, state: 'mark' }, { id: 6, state: 'mark' }, { id: 7, state: 'mark' }, { id: 8, state: 'mark' }] },
+    ], note: '返回 dummy.next = [1,1,2,3,4,4,5,6] ✅，K 个链表合并完成。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [23. 合并 K 个升序链表](https://leetcode.cn/problems/merge-k-sorted-lists)
@@ -72,6 +149,16 @@ tags:
 我们可以创建一个小根堆来 $pq$ 维护所有链表的头节点，每次从小根堆中取出值最小的节点，添加到结果链表的末尾，然后将该节点的下一个节点加入堆中，重复上述步骤直到堆为空。
 
 时间复杂度 $O(n \times \log k)$，空间复杂度 $O(k)$。其中 $n$ 是所有链表节点数目的总和，而 $k$ 是题目给定的链表数目。
+
+### 可视化演示
+
+> 以题目示例 `lists = [[1,4,5],[1,3,4],[2,6]]` 为例，演示小根堆合并：`pq` 维护各链表当前头节点（堆内最小值在堆顶），每步弹出堆顶接到 `result` 的 `cur` 之后，再将该节点的 `next` 入堆，直到堆空。绿色为已接入结果的节点，红色为最终结果。点击 ▶ 播放，或逐步操作。
+
+<ListViz :steps="mergeKSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 
 <!-- tabs:start -->
 ::: code-group

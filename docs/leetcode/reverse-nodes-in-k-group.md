@@ -7,6 +7,100 @@ tags:
     - 链表
 ---
 
+<script setup>
+// 方法一（迭代）可视化：head = [1,2,3,4,5]，k = 2 → [2,1,4,3,5]
+// dummy 虚拟头节点；每轮 cur 前进 k 步定位组尾，切出后用 reverseList 反转并接回
+const reverseKSteps = [
+  { lists: [
+      { title: 'dummy', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'pre' }, { id: 0, label: 'cur' }] },
+    ], note: 'k = 2。dummy = new ListNode(0, head) 建立虚拟头节点，pre = dummy，cur = dummy。' },
+  { lists: [
+      { title: 'dummy', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'pre' }, { id: 2, label: 'cur' }] },
+    ], note: 'while cur.next 非空：for 循环 k=2 次，cur 每轮前进一位：dummy → 节点1 → 节点2。cur 指向第一组末尾节点 2。' },
+  { lists: [
+      { title: 'dummy', values: [null, 1, 2], pointers: [{ id: 0, label: 'pre' }, { id: 2, label: 'cur' }, { id: 1, label: 'start' }], states: [{ id: 1, state: 'hl' }, { id: 2, state: 'hl' }] },
+      { title: 't', values: [3, 4, 5], pointers: [{ id: 0, label: 't' }] },
+    ], note: 't = cur.next = 节点 3；cur.next = null 将第一段 [1,2] 切出。start = pre.next = 节点 1。' },
+  { lists: [
+      { title: 'start', values: [1, 2], pointers: [{ id: 0, label: 'p' }], states: [{ id: 0, state: 'hl' }, { id: 1, state: 'hl' }] },
+      { title: 'pre', values: [] },
+    ], note: 'reverseList(start)：反转 [1,2]。pre = null，p = start（节点 1）。' },
+  { lists: [
+      { title: 'pre', values: [1], pointers: [{ id: 0, label: 'pre' }], states: [{ id: 0, state: 'done' }] },
+      { title: 'p', values: [2], pointers: [{ id: 0, label: 'p' }] },
+    ], note: '第 1 轮：q = p.next = 节点 2；p.next = pre（节点 1 → null）；pre = p（pre 指向节点 1）；p = q（p 指向节点 2）。' },
+  { lists: [
+      { title: 'pre', values: [2, 1], pointers: [{ id: 0, label: 'pre' }], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }] },
+      { title: 'p', values: [] },
+    ], note: '第 2 轮：q = p.next = null；p.next = pre（节点 2 → 节点 1）；pre = p（pre = [2,1]）；p = null。reverseList 返回 [2,1]。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 3, 4, 5], pointers: [{ id: 0, label: 'pre' }, { id: 2, label: 'cur' }], states: [{ id: 1, state: 'done' }] },
+    ], note: 'pre.next = reverseList(start) = 节点 2（dummy → 2 → 1）；start.next = t（节点 1 → 节点 3）。pre = start = 节点 1，cur = pre。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 3, 4, 5], pointers: [{ id: 2, label: 'pre' }, { id: 4, label: 'cur' }], states: [{ id: 1, state: 'done' }] },
+    ], note: '下一轮：cur.next 非空（节点 1 → 节点 3）。第二组：cur 前进 k=2 步：节点 1 → 节点 3 → 节点 4。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 3, 4], pointers: [{ id: 2, label: 'pre' }, { id: 4, label: 'cur' }, { id: 3, label: 'start' }], states: [{ id: 1, state: 'done' }, { id: 3, state: 'hl' }, { id: 4, state: 'hl' }] },
+      { title: 't', values: [5], pointers: [{ id: 0, label: 't' }] },
+    ], note: 't = cur.next = 节点 5；cur.next = null 切出第二段 [3,4]。start = pre.next = 节点 3。' },
+  { lists: [
+      { title: 'start', values: [3, 4], pointers: [{ id: 0, label: 'p' }], states: [{ id: 0, state: 'hl' }, { id: 1, state: 'hl' }] },
+      { title: 'pre', values: [] },
+    ], note: 'reverseList(start)：反转 [3,4]。pre = null，p = start（节点 3）。' },
+  { lists: [
+      { title: 'pre', values: [3], pointers: [{ id: 0, label: 'pre' }], states: [{ id: 0, state: 'done' }] },
+      { title: 'p', values: [4], pointers: [{ id: 0, label: 'p' }] },
+    ], note: '第 1 轮：q = p.next = 节点 4；p.next = pre（节点 3 → null）；pre = p（pre 指向节点 3）；p = q（p 指向节点 4）。' },
+  { lists: [
+      { title: 'pre', values: [4, 3], pointers: [{ id: 0, label: 'pre' }], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }] },
+      { title: 'p', values: [] },
+    ], note: '第 2 轮：q = p.next = null；p.next = pre（节点 4 → 节点 3）；pre = p（pre = [4,3]）；p = null。reverseList 返回 [4,3]。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 4, 3, 5], pointers: [{ id: 4, label: 'pre' }, { id: 4, label: 'cur' }], states: [{ id: 1, state: 'done' }, { id: 3, state: 'done' }] },
+    ], note: 'pre.next = 反转后头节点 4；start.next = t（节点 3 → 节点 5）。链表变为 ∅ → 2 → 1 → 4 → 3 → 5。pre = start = 节点 3，cur = pre。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 4, 3, 5], pointers: [{ id: 4, label: 'pre' }], states: [{ id: 1, state: 'done' }, { id: 3, state: 'done' }] },
+    ], note: '下一轮：cur.next 非空（节点 3 → 节点 5）。cur 前进 k=2 步：节点 3 → 节点 5 → null。cur == null，剩余节点不足一组，return dummy.next。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 4, 3, 5], states: [{ id: 1, state: 'mark' }, { id: 2, state: 'mark' }, { id: 3, state: 'mark' }, { id: 4, state: 'mark' }, { id: 5, state: 'mark' }] },
+    ], note: '返回 dummy.next = [2,1,4,3,5] ✅，剩余节点 5 保持原序。' },
+]
+
+// 方法二（递归）可视化：head = [1,2,3,4,5]，k = 2
+// root 记录每组前驱，pre.next = cur 先接组尾，node/next 在段内逐节点翻转
+const reverseKRecurSteps = [
+  { lists: [
+      { title: 'dummy', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'root' }] },
+    ], note: 'k = 2。dummy = new ListNode(0, head)，root = dummy 记录每组前驱。' },
+  { lists: [
+      { title: 'dummy', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'pre' }, { id: 2, label: 'cur' }] },
+    ], note: 'pre = root，cur = root。count 前进 2 步：cur → 节点 1 → 节点 2，cur 指向第一组末尾。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 3, 4, 5], pointers: [{ id: 0, label: 'pre' }, { id: 1, label: 'cur' }] },
+      { title: 'nextRoot', values: [1], pointers: [{ id: 0, label: 'nextRoot' }] },
+    ], note: 'nextRoot = pre.next = 节点 1；pre.next = cur（dummy 直接指向节点 2），节点 1 由 nextRoot 暂存。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 3, 4, 5], pointers: [{ id: 1, label: 'cur' }] },
+    ], note: 'node = nextRoot（节点 1），next = node.next（节点 2）；node.next = cur.next（节点 1 → 节点 3）。交换 next.next = node（节点 2 → 节点 1），node = 节点 2 = cur，段内反转结束。root = nextRoot = 节点 1。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 3, 4, 5], pointers: [{ id: 2, label: 'pre' }, { id: 4, label: 'cur' }] },
+    ], note: '下一组：root = 节点 1 非空。pre = root（节点 1），cur 前进 2 步：节点 1 → 节点 3 → 节点 4，cur 指向第二组末尾。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 4, 5], pointers: [{ id: 2, label: 'pre' }, { id: 3, label: 'cur' }] },
+      { title: 'nextRoot', values: [3], pointers: [{ id: 0, label: 'nextRoot' }] },
+    ], note: 'nextRoot = pre.next = 节点 3；pre.next = cur（节点 1 → 节点 4），节点 3 由 nextRoot 暂存。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 4, 3, 5], pointers: [{ id: 3, label: 'cur' }] },
+    ], note: 'node = nextRoot（节点 3），next = node.next（节点 4）；node.next = cur.next（节点 3 → 节点 5）。交换 next.next = node（节点 4 → 节点 3），node = 节点 4 = cur，段内反转结束。root = nextRoot = 节点 3。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 4, 3, 5], pointers: [{ id: 4, label: 'pre' }] },
+    ], note: '下一组：root = 节点 3 非空。pre = root（节点 3），cur 前进：节点 3 → 节点 5 → null。cur == null，剩余不足 k 个，return dummy.next。' },
+  { lists: [
+      { title: 'dummy', values: [null, 2, 1, 4, 3, 5], states: [{ id: 1, state: 'mark' }, { id: 2, state: 'mark' }, { id: 3, state: 'mark' }, { id: 4, state: 'mark' }, { id: 5, state: 'mark' }] },
+    ], note: '返回 dummy.next = [2,1,4,3,5] ✅，剩余节点 5 保持原序。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [25. K 个一组翻转链表](https://leetcode.cn/problems/reverse-nodes-in-k-group)
@@ -65,6 +159,16 @@ tags:
 ## 方法一：迭代
 
 时间复杂度为 $O(n)$，空间复杂度为 $O(1)$，其中 $n$ 是链表的长度。
+
+### 可视化演示
+
+> 以 `head = [1, 2, 3, 4, 5]`、`k = 2` 为例，演示每 k 个节点一组翻转：`dummy` 为虚拟头节点，先让 `cur` 走 k 步定位组尾，再用 `reverseList` 反转该段并接回。蓝色为当前操作节点，黄色为待反转段，绿色为已翻转节点，红色为最终结果。点击 ▶ 播放，或逐步操作。
+
+<ListViz :steps="reverseKSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 
 <!-- tabs:start -->
 ::: code-group
@@ -183,6 +287,16 @@ class Solution:
 ## 方法二：递归
 
 时间复杂度为 $O(n)$，空间复杂度为 $O(\log _k n)$，其中 $n$ 是链表的长度。
+
+### 可视化演示
+
+> 以 `head = [1, 2, 3, 4, 5]`、`k = 2` 为例，演示递归解法逐组处理：`root` 记录每组前驱，`pre.next = cur` 先将组尾接到前驱，再在段内用 `node`/`next` 逐节点翻转。蓝色为当前操作节点，绿色为已翻转节点，红色为最终结果。点击 ▶ 播放，或逐步操作。
+
+<ListViz :steps="reverseKRecurSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 
 <!-- tabs:start -->
 ::: code-group

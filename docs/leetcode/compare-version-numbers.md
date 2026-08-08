@@ -7,6 +7,57 @@ tags:
     - 字符串
 ---
 
+<script setup>
+// 方法一（双指针）可视化：version1 = "1.2"，version2 = "1.10"
+// 指针 i / j 分别遍历两个版本号字符串，逐段解析修订号 a / b 并比较
+const compareVersionSteps = [
+  {
+    rows: [['1', '.', '2'], ['1', '.', '1', '0']],
+    rowPointers: [
+      { row: 0, col: 0, label: 'i' },
+      { row: 1, col: 0, label: 'j' },
+    ],
+    note: 'version1 = "1.2"，version2 = "1.10"。初始化指针 i = j = 0，逐段比较修订号。',
+  },
+  {
+    rows: [['1', '.', '2'], ['1', '.', '1', '0']],
+    rowPointers: [{ row: 0, col: 1, label: 'i' }],
+    rowHighlight: [{ row: 0, cols: [0] }],
+    note: '解析 version1 第 1 段修订号：\'1\' → a = 0×10 + 1 = 1，i 前进到 \'.\' 处停下。',
+  },
+  {
+    rows: [['1', '.', '2'], ['1', '.', '1', '0']],
+    rowPointers: [{ row: 1, col: 1, label: 'j' }],
+    rowHighlight: [{ row: 1, cols: [0] }],
+    note: '解析 version2 第 1 段修订号：\'1\' → b = 0×10 + 1 = 1，j 前进到 \'.\' 处停下。',
+  },
+  {
+    rows: [['1', '.', '2'], ['1', '.', '1', '0']],
+    rowPointers: [
+      { row: 0, col: 2, label: 'i' },
+      { row: 1, col: 2, label: 'j' },
+    ],
+    note: 'a = 1，b = 1，第一段相等。for 循环 ++i、++j，指针后移，继续比较下一段。',
+  },
+  {
+    rows: [['1', '.', '2'], ['1', '.', '1', '0']],
+    rowPointers: [{ row: 0, col: 2, label: 'i' }],
+    rowHighlight: [{ row: 0, cols: [2] }],
+    note: '解析 version1 第 2 段修订号：\'2\' → a = 0×10 + 2 = 2，i 越过字符串末尾（i = 3 = m）。',
+  },
+  {
+    rows: [['1', '.', '2'], ['1', '.', '1', '0']],
+    rowPointers: [{ row: 1, col: 3, label: 'j' }],
+    rowHighlight: [{ row: 1, cols: [2, 3] }],
+    note: '解析 version2 第 2 段修订号：\'1\' → b = 1，\'0\' → b = 1×10 + 0 = 10，j 越过末尾（j = 4 = n）。',
+  },
+  {
+    rows: [['1', '.', '2'], ['1', '.', '1', '0']],
+    note: 'a = 2 < b = 10，version1 < version2，返回 -1 ✅。',
+  },
+]
+</script>
+
 <!-- problem:start -->
 
 # [165. 比较版本号](https://leetcode.cn/problems/compare-version-numbers)
@@ -89,6 +140,15 @@ tags:
 
 时间复杂度 $O(\max(m, n))$，空间复杂度 $O(1)$。其中 $m$ 和 $n$ 分别是两个字符串的长度。
 
+### 可视化演示
+
+> 以 `version1 = "1.2"`、`version2 = "1.10"` 为例，演示双指针逐段取出修订号 `a`/`b` 并比较。第一行为 `version1`、第二行为 `version2`，黄色高亮为当前解析的修订号字符，指针 `i`/`j` 为两个字符串的当前位置。
+
+<ArrayViz :steps="compareVersionSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

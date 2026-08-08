@@ -9,6 +9,110 @@ tags:
     - 字符串
 ---
 
+<script setup>
+// 方法一（栈）可视化：s = "1-(2+3)"，期望结果 -4
+// 行 0 为表达式 s（指针 i 指向当前字符），行 1 为栈 stk，行 2 为 [ans, sign]（变量名与代码一致）
+const calcSteps = [
+  {
+    rows: [['1', '-', '(', '2', '+', '3', ')'], [], [0, 1]],
+    rowPointers: [
+      { row: 0, col: 0, label: 'i' },
+      { row: 2, col: 0, label: 'ans' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    note: 's = "1-(2+3)"。初始化：ans = 0，sign = 1（默认正号），栈 stk 为空。i 从 0 开始扫描表达式。',
+  },
+  {
+    rows: [['1', '-', '(', '2', '+', '3', ')'], [], [1, 1]],
+    rowPointers: [
+      { row: 0, col: 0, label: 'i' },
+      { row: 2, col: 0, label: 'ans' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [0] }],
+    note: '读到数字 \'1\' → 循环读入连续数字得 x = 1；ans += sign×x = 0 + 1×1 = 1。',
+  },
+  {
+    rows: [['1', '-', '(', '2', '+', '3', ')'], [], [1, -1]],
+    rowPointers: [
+      { row: 0, col: 1, label: 'i' },
+      { row: 2, col: 0, label: 'ans' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [1] }],
+    note: '遇到 \'-\' → sign 置为 -1，表示下一个数字要作减法。',
+  },
+  {
+    rows: [['1', '-', '(', '2', '+', '3', ')'], [1, -1], [0, 1]],
+    rowPointers: [
+      { row: 0, col: 2, label: 'i' },
+      { row: 1, col: 1, label: '栈顶' },
+      { row: 2, col: 0, label: 'ans' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [2] }, { row: 1, cols: [0, 1] }],
+    note: '遇到 \'(\' → 把括号前的 ans = 1 和 sign = -1 依次压入栈 stk；随后 ans 清零、sign 重置为 1，开始计算括号内的子表达式。',
+  },
+  {
+    rows: [['1', '-', '(', '2', '+', '3', ')'], [1, -1], [2, 1]],
+    rowPointers: [
+      { row: 0, col: 3, label: 'i' },
+      { row: 2, col: 0, label: 'ans' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [3] }],
+    note: '读到数字 \'2\' → x = 2；ans += sign×x = 0 + 1×2 = 2。',
+  },
+  {
+    rows: [['1', '-', '(', '2', '+', '3', ')'], [1, -1], [2, 1]],
+    rowPointers: [
+      { row: 0, col: 4, label: 'i' },
+      { row: 2, col: 0, label: 'ans' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [4] }],
+    note: '遇到 \'+\' → sign 置为 1，括号内的下一个数字用加法。',
+  },
+  {
+    rows: [['1', '-', '(', '2', '+', '3', ')'], [1, -1], [5, 1]],
+    rowPointers: [
+      { row: 0, col: 5, label: 'i' },
+      { row: 2, col: 0, label: 'ans' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [5] }],
+    note: '读到数字 \'3\' → x = 3；ans += sign×x = 2 + 1×3 = 5。括号内子式 2+3 得 5。',
+  },
+  {
+    rows: [['1', '-', '(', '2', '+', '3', ')'], [1, -1], [5, 1]],
+    rowPointers: [
+      { row: 0, col: 6, label: 'i' },
+      { row: 1, col: 1, label: '栈顶' },
+      { row: 2, col: 0, label: 'ans' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [6] }, { row: 1, cols: [0, 1] }],
+    note: '遇到 \')\' → 弹出栈顶的 sign = -1 和括号前的结果 1（即 stk.pop() × ans + stk.pop()）。',
+  },
+  {
+    rows: [['1', '-', '(', '2', '+', '3', ')'], [], [-4, 1]],
+    rowPointers: [
+      { row: 2, col: 0, label: 'ans' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    note: '计算 ans = sign×括号内结果 + 括号前结果 = (-1)×5 + 1 = -4。括号已闭合，栈变回空。',
+  },
+  {
+    rows: [['1', '-', '(', '2', '+', '3', ')'], [], [-4, 1]],
+    rowPointers: [
+      { row: 2, col: 0, label: 'ans' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    note: '遍历结束，返回 ans = -4，即 1-(2+3) = -4 ✅。',
+  },
+]
+</script>
+
 <!-- problem:start -->
 
 # [224. 基本计算器](https://leetcode.cn/problems/basic-calculator)
@@ -79,6 +183,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
 
+### 可视化演示
+
+> 以 `s = "1-(2+3)"` 为例，逐步演示用栈 `stk` 求值：行 0 是表达式（指针 `i` 指向当前字符），行 1 是栈 `stk`（遇到 `(` 时压入括号前的 `ans` 与 `sign`），行 2 是当前的 `[ans, sign]`。黄色高亮表示当前正在处理的字符或参与计算的栈元素。
+
+<ArrayViz :steps="calcSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

@@ -7,6 +7,63 @@ tags:
     - 字符串
 ---
 
+<script setup>
+// 方法一（字符比较/纵向扫描）可视化：strs = ["flower", "flow", "flight"] → "fl"
+// rows 模式：第 0 行 strs[0]、第 1 行 strs[1]、第 2 行 strs[2]，i 为当前比较的列
+const longestCommonPrefixSteps = [
+  {
+    rows: [
+      ['f', 'l', 'o', 'w', 'e', 'r'],
+      ['f', 'l', 'o', 'w'],
+      ['f', 'l', 'i', 'g', 'h', 't'],
+    ],
+    note: 'strs = ["flower", "flow", "flight"]。以 strs[0] 为基准，纵向逐列比较各字符串的第 i 个字符（strs[j][i] 与 strs[0][i]）。',
+  },
+  {
+    rows: [
+      ['f', 'l', 'o', 'w', 'e', 'r'],
+      ['f', 'l', 'o', 'w'],
+      ['f', 'l', 'i', 'g', 'h', 't'],
+    ],
+    rowPointers: [{ row: 0, col: 0, label: 'i' }],
+    rowHighlight: [
+      { row: 0, cols: [0] },
+      { row: 1, cols: [0] },
+      { row: 2, cols: [0] },
+    ],
+    note: 'i=0：strs[1][0]="f"、strs[2][0]="f" 均等于 strs[0][0]="f"，第 0 列全部相同，继续比较下一列。',
+  },
+  {
+    rows: [
+      ['f', 'l', 'o', 'w', 'e', 'r'],
+      ['f', 'l', 'o', 'w'],
+      ['f', 'l', 'i', 'g', 'h', 't'],
+    ],
+    rowPointers: [{ row: 0, col: 1, label: 'i' }],
+    rowHighlight: [
+      { row: 0, cols: [1] },
+      { row: 1, cols: [1] },
+      { row: 2, cols: [1] },
+    ],
+    note: 'i=1：strs[1][1]="l"、strs[2][1]="l" 均等于 strs[0][1]="l"，第 1 列全部相同，继续比较下一列。',
+  },
+  {
+    rows: [
+      ['f', 'l', 'o', 'w', 'e', 'r'],
+      ['f', 'l', 'o', 'w'],
+      ['f', 'l', 'i', 'g', 'h', 't'],
+    ],
+    rowPointers: [{ row: 0, col: 2, label: 'i' }],
+    rowHighlight: [
+      { row: 0, cols: [2] },
+      { row: 1, cols: [2] },
+      { row: 2, cols: [2] },
+    ],
+    note: 'i=2：strs[1][2]="o" 与 strs[0][2]="o" 相同，但 strs[2][2]="i" ≠ "o"，出现不匹配 → 返回 strs[0].substr(0, 2) = "fl" ✅',
+  },
+]
+</script>
+
 <!-- problem:start -->
 
 # [14. 最长公共前缀](https://leetcode.cn/problems/longest-common-prefix)
@@ -58,6 +115,15 @@ tags:
 
 时间复杂度 $(n \times m)$，其中 $n$ 和 $m$ 分别为字符串数组的长度以及字符串的最小长度。空间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以 `strs = ["flower", "flow", "flight"]` 为例，演示纵向逐列比较：第 0 行 `strs[0]`、第 1 行 `strs[1]`、第 2 行 `strs[2]`，指针 `i` 指向当前比较的列，黄色高亮为该列正在比较的字符。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="longestCommonPrefixSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

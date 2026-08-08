@@ -8,6 +8,70 @@ tags:
     - 字符串
 ---
 
+<script setup>
+// 方法一（辅助栈）可视化：s = "3[a2[c]]"
+// 行 0 为输入字符串（当前字符指针 c），行 1 为数字栈 s1，行 2 为字符串栈 s2（变量名与 Java/Python 实现一致）
+const decodeStringSteps = [
+  {
+    rows: [['3', '[', 'a', '2', '[', 'c', ']', ']'], [], []],
+    rowPointers: [{ row: 0, col: 0, label: 'c' }],
+    note: 's = "3[a2[c]]"。初始化：数字栈 s1 = []、字符串栈 s2 = []，num = 0，res = ""。',
+  },
+  {
+    rows: [['3', '[', 'a', '2', '[', 'c', ']', ']'], [], []],
+    rowPointers: [{ row: 0, col: 0, label: 'c' }],
+    rowHighlight: [{ row: 0, cols: [0] }],
+    note: 'c = \'3\' 是数字 → num = 0×10 + 3 = 3。',
+  },
+  {
+    rows: [['3', '[', 'a', '2', '[', 'c', ']', ']'], [3], ['']],
+    rowPointers: [{ row: 0, col: 1, label: 'c' }],
+    rowHighlight: [{ row: 0, cols: [1] }, { row: 1, cols: [0] }],
+    note: 'c = \'[\' → 入栈：s1.push(3)、s2.push("")；重置 num = 0、res = ""。',
+  },
+  {
+    rows: [['3', '[', 'a', '2', '[', 'c', ']', ']'], [3], ['']],
+    rowPointers: [{ row: 0, col: 2, label: 'c' }],
+    rowHighlight: [{ row: 0, cols: [2] }],
+    note: 'c = \'a\' 是字母 → 拼接到 res：res = "a"。',
+  },
+  {
+    rows: [['3', '[', 'a', '2', '[', 'c', ']', ']'], [3], ['']],
+    rowPointers: [{ row: 0, col: 3, label: 'c' }],
+    rowHighlight: [{ row: 0, cols: [3] }],
+    note: 'c = \'2\' 是数字 → num = 0×10 + 2 = 2。',
+  },
+  {
+    rows: [['3', '[', 'a', '2', '[', 'c', ']', ']'], [3, 2], ['', 'a']],
+    rowPointers: [{ row: 0, col: 4, label: 'c' }],
+    rowHighlight: [{ row: 0, cols: [4] }, { row: 1, cols: [1] }, { row: 2, cols: [1] }],
+    note: 'c = \'[\' → 入栈：s1.push(2)、s2.push("a")；重置 num = 0、res = ""。',
+  },
+  {
+    rows: [['3', '[', 'a', '2', '[', 'c', ']', ']'], [3, 2], ['', 'a']],
+    rowPointers: [{ row: 0, col: 5, label: 'c' }],
+    rowHighlight: [{ row: 0, cols: [5] }],
+    note: 'c = \'c\' 是字母 → 拼接到 res：res = "c"。',
+  },
+  {
+    rows: [['3', '[', 'a', '2', '[', 'c', ']', ']'], [3], ['']],
+    rowPointers: [{ row: 0, col: 6, label: 'c' }],
+    rowHighlight: [{ row: 0, cols: [6] }, { row: 1, cols: [0] }, { row: 2, cols: [0] }],
+    note: 'c = \']\' → 弹出 s1 得次数 n = 2，res = "c" 重复 2 次得 "cc"，再拼 s2.pop() 的 "a" → res = "acc"。',
+  },
+  {
+    rows: [['3', '[', 'a', '2', '[', 'c', ']', ']'], [], []],
+    rowPointers: [{ row: 0, col: 7, label: 'c' }],
+    rowHighlight: [{ row: 0, cols: [7] }],
+    note: 'c = \']\' → 弹出 s1 得次数 n = 3，res = "acc" 重复 3 次得 "accaccacc"，再拼 s2.pop() 的 "" → res = "accaccacc"。',
+  },
+  {
+    rows: [['3', '[', 'a', '2', '[', 'c', ']', ']'], [], []],
+    note: '遍历结束，返回 res = "accaccacc" ✅。',
+  },
+]
+</script>
+
 <!-- problem:start -->
 
 # [394. 字符串解码](https://leetcode.cn/problems/decode-string)
@@ -73,6 +137,15 @@ tags:
 
 ## 方法一
 
+### 可视化演示
+
+> 以 `s = "3[a2[c]]"` 为例，演示辅助栈解码。三行从上到下依次为：输入字符串（当前字符指针 `c`）、数字栈 `s1`、字符串栈 `s2`（变量名与 Java/Python 实现一致）。黄色高亮为当前处理的字符及入栈/出栈的栈顶。
+
+<ArrayViz :steps="decodeStringSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

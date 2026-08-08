@@ -7,6 +7,145 @@ tags:
     - 字符串
 ---
 
+<script setup>
+// 方法一（双指针）可视化：s = "the sky is blue" → "blue is sky the"
+// rows 模式：第 0 行为字符串字符，第 1 行为收集到的 words 列表（逐步增长，最后反转）
+const reverseWordsTwoPointerSteps = [
+  {
+    rows: [
+      ['t', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 'b', 'l', 'u', 'e'],
+      [],
+    ],
+    rowPointers: [
+      { row: 0, col: 0, label: 'i' },
+      { row: 0, col: 0, label: 'j' },
+    ],
+    note: 's.trim() = "the sky is blue"，n=15，words=[]，i=0。开始扫描提取单词。',
+  },
+  {
+    rows: [
+      ['t', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 'b', 'l', 'u', 'e'],
+      ['the'],
+    ],
+    rowPointers: [
+      { row: 0, col: 0, label: 'i' },
+      { row: 0, col: 3, label: 'j' },
+    ],
+    rowHighlight: [
+      { row: 0, cols: [0, 1, 2] },
+      { row: 1, cols: [0] },
+    ],
+    note: 'i=0 处非空格，j 向右扫到 s[3]=" " 停下：s[0..2]="the"，words.push("the")，i=j=3。',
+  },
+  {
+    rows: [
+      ['t', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 'b', 'l', 'u', 'e'],
+      ['the', 'sky'],
+    ],
+    rowPointers: [
+      { row: 0, col: 4, label: 'i' },
+      { row: 0, col: 7, label: 'j' },
+    ],
+    rowHighlight: [
+      { row: 0, cols: [4, 5, 6] },
+      { row: 1, cols: [1] },
+    ],
+    note: 'i 跳过 s[3]=" " 到 4，j 扫到 s[7]=" " 停下：s[4..6]="sky"，words=["the","sky"]，i=j=7。',
+  },
+  {
+    rows: [
+      ['t', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 'b', 'l', 'u', 'e'],
+      ['the', 'sky', 'is'],
+    ],
+    rowPointers: [
+      { row: 0, col: 8, label: 'i' },
+      { row: 0, col: 10, label: 'j' },
+    ],
+    rowHighlight: [
+      { row: 0, cols: [8, 9] },
+      { row: 1, cols: [2] },
+    ],
+    note: 'i 跳过空格到 8，j 扫到 s[10]=" " 停下：s[8..9]="is"，words=["the","sky","is"]，i=j=10。',
+  },
+  {
+    rows: [
+      ['t', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 'b', 'l', 'u', 'e'],
+      ['the', 'sky', 'is', 'blue'],
+    ],
+    rowPointers: [
+      { row: 0, col: 11, label: 'i' },
+      { row: 0, col: 14, label: 'j' },
+    ],
+    rowHighlight: [
+      { row: 0, cols: [11, 12, 13, 14] },
+      { row: 1, cols: [3] },
+    ],
+    note: 'i 跳过空格到 11，j 一直扫到字符串末尾 s[14]="e"：s[11..14]="blue"，words 加入 "blue"，i=j=15，i<n 不成立循环结束。',
+  },
+  {
+    rows: [
+      ['t', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 'b', 'l', 'u', 'e'],
+      ['blue', 'is', 'sky', 'the'],
+    ],
+    rowHighlight: [{ row: 1, cols: [0, 1, 2, 3] }],
+    note: 'words.reverse() 反转列表 → ["blue","is","sky","the"]；String.join(" ", words) → "blue is sky the" ✅。',
+  },
+]
+
+// 方法二（字符串分割）可视化：s = "  hello world  " → "world hello"
+// rows 模式：第 0 行原始 s，第 1 行 s.trim() 结果，第 2 行分割后的 words，第 3 行反转后的 words
+const reverseWordsSplitSteps = [
+  {
+    rows: [
+      [' ', ' ', 'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', ' ', ' '],
+      [],
+      [],
+      [],
+    ],
+    note: '方法二：使用语言内置分割函数。s = "  hello world  "（含前导、尾随空格）。',
+  },
+  {
+    rows: [
+      [' ', ' ', 'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', ' ', ' '],
+      ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'],
+      [],
+      [],
+    ],
+    rowHighlight: [{ row: 1, cols: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }],
+    note: 's.trim() 去掉首尾空格 → "hello world"。',
+  },
+  {
+    rows: [
+      [' ', ' ', 'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', ' ', ' '],
+      ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'],
+      ['hello', 'world'],
+      [],
+    ],
+    rowHighlight: [{ row: 2, cols: [0, 1] }],
+    note: 'split 按空白字符分割（正则 \\s+，匹配一个或多个空格）→ words = ["hello","world"]。',
+  },
+  {
+    rows: [
+      [' ', ' ', 'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', ' ', ' '],
+      ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'],
+      ['world', 'hello'],
+      [],
+    ],
+    rowHighlight: [{ row: 2, cols: [0, 1] }],
+    note: 'Collections.reverse(words)（TS: .reverse()，Python: reversed(words)）反转列表 → ["world","hello"]。',
+  },
+  {
+    rows: [
+      [' ', ' ', 'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', ' ', ' '],
+      ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'],
+      ['world', 'hello'],
+      [],
+    ],
+    note: 'String.join(" ", words)（Python: " ".join(...)）拼接 → "world hello" ✅。',
+  },
+]
+</script>
+
 <!-- problem:start -->
 
 # [151. 反转字符串中的单词](https://leetcode.cn/problems/reverse-words-in-a-string)
@@ -77,6 +216,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
 
+### 可视化演示
+
+> 以 `s = "the sky is blue"` 为例，演示双指针提取单词并反转：第 0 行为字符串字符，第 1 行为收集到的 `words` 列表；指针 `i`/`j` 标出当前单词边界，黄色高亮为正在提取的字符或刚写入的单词。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="reverseWordsTwoPointerSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -199,6 +347,15 @@ class Solution:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
 
+### 可视化演示
+
+> 以 `s = "  hello world  "` 为例，演示内置分割解法：第 0 行为原始字符串，第 1 行为 `s.trim()` 结果，第 2 行为分割出的 `words` 列表，第 3 行为反转后的列表。黄色高亮为当前步骤产生的结果行。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="reverseWordsSplitSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 

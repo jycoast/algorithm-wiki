@@ -40,8 +40,8 @@ export interface VizRowHighlight {
   cols: number[]
 }
 export interface VizMapEntry {
-  key: number
-  value: number
+  key: number | string
+  value: number | string
 }
 export interface VizInterval {
   start: number
@@ -49,11 +49,11 @@ export interface VizInterval {
   merged?: boolean
 }
 export interface VizStep {
-  array?: number[]
+  array?: (number | string)[]
   pointers?: VizPointer[]
   highlight?: number[]
   window?: [number, number]
-  rows?: number[][]
+  rows?: (number | string)[][]
   rowPointers?: VizRowPointer[]
   rowHighlight?: VizRowHighlight[]
   map?: VizMapEntry[]
@@ -174,6 +174,12 @@ const padLeft = computed(() => {
   }
   return min < 0 ? 36 : 0
 })
+// 所有出现指针的下标（含边界：-1 表示数组之前，n 表示数组之后/开区间右界）
+const ptrCells = computed(() => {
+  const set = new Set<number>()
+  for (const p of step.value.pointers ?? []) set.add(p.index)
+  return [...set].sort((a, b) => a - b)
+})
 
 /* ---------- 多行模式 ---------- */
 
@@ -214,7 +220,7 @@ const axisTicks = computed(() => {
       <div v-if="mode === 'array'">
         <!-- 指针行 -->
         <div class="viz-ptrs">
-          <template v-for="(v, i) in step.array" :key="'p' + i">
+          <template v-for="i in ptrCells" :key="'p' + i">
             <span
               v-for="(p, pi) in pointerAt(i)"
               :key="p.label"
@@ -256,7 +262,7 @@ const axisTicks = computed(() => {
           <div class="viz-am-title">nums</div>
           <!-- 指针行 -->
           <div class="viz-ptrs">
-            <template v-for="(v, i) in step.array" :key="'p' + i">
+            <template v-for="i in ptrCells" :key="'p' + i">
               <span
                 v-for="(p, pi) in pointerAt(i)"
                 :key="p.label"

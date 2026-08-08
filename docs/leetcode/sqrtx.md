@@ -7,6 +7,18 @@ tags:
     - 二分查找
 ---
 
+<script setup>
+// 可视化演示数据：x = 8，在候选值区间 [0, 8] 上二分查找平方根
+// 指针 l/r 标出当前查找范围，highlight 标当前 mid（上取整二分）
+const sqrtSteps = [
+  { array: [0, 1, 2, 3, 4, 5, 6, 7, 8], pointers: [{ label: 'l', index: 0 }, { label: 'r', index: 8 }], note: 'x = 8，候选值为 [0, 8] 共 9 个整数。初始 l = 0，r = x = 8' },
+  { array: [0, 1, 2, 3, 4, 5, 6, 7, 8], pointers: [{ label: 'l', index: 0 }, { label: 'r', index: 8 }], highlight: [4], note: 'mid = (l+r+1)>>1 = (0+8+1)>>1 = 4。4 > 8/4 = 2 成立 → 平方根在 [l, mid-1]，令 r = mid-1 = 3' },
+  { array: [0, 1, 2, 3, 4, 5, 6, 7, 8], pointers: [{ label: 'l', index: 0 }, { label: 'r', index: 3 }], highlight: [2], note: 'mid = (0+3+1)>>1 = 2。2 > 8/2 = 4 不成立 → 平方根在 [mid, r]，令 l = mid = 2' },
+  { array: [0, 1, 2, 3, 4, 5, 6, 7, 8], pointers: [{ label: 'l', index: 2 }, { label: 'r', index: 3 }], highlight: [3], note: 'mid = (2+3+1)>>1 = 3。3 > 8/3 = 2 成立 → 令 r = mid-1 = 2' },
+  { array: [0, 1, 2, 3, 4, 5, 6, 7, 8], pointers: [{ label: 'l', index: 2 }, { label: 'r', index: 2 }], highlight: [2], note: 'l == r = 2，循环结束。返回 l = 2，即 sqrt(8) 的整数部分 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [69. x 的平方根](https://leetcode.cn/problems/sqrtx)
@@ -61,6 +73,15 @@ tags:
 
 时间复杂度 $O(\log x)$，空间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以 `x = 8` 为例，在候选值数组 `[0, 1, ..., 8]` 上演示二分查找：`l`/`r` 指针（蓝色边框）标出当前查找范围，黄色高亮为当前 `mid`，note 说明每次区间收缩。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="sqrtSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

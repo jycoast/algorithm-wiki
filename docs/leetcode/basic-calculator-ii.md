@@ -8,6 +8,83 @@ tags:
     - 字符串
 ---
 
+<script setup>
+// 方法一（栈）可视化：s = "3+2*2"，期望结果 7
+// 行 0 为表达式 s（指针 i 指向当前字符），行 1 为栈 stk，行 2 为 [v, sign]（变量名与代码一致）
+const calcIiSteps = [
+  {
+    rows: [['3', '+', '2', '*', '2'], [], [0, '+']],
+    rowPointers: [
+      { row: 0, col: 0, label: 'i' },
+      { row: 2, col: 0, label: 'v' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    note: 's = "3+2*2"。初始化：sign = \'+\'（第一个数字前视为加号），v = 0，栈 stk 为空。i 从 0 开始扫描。',
+  },
+  {
+    rows: [['3', '+', '2', '*', '2'], [], [3, '+']],
+    rowPointers: [
+      { row: 0, col: 0, label: 'i' },
+      { row: 2, col: 0, label: 'v' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [0] }],
+    note: '读到数字 \'3\' → v = v×10 + 3 = 3。当前位不是运算符，先不处理，等遇到运算符或末尾时再按 sign 结算。',
+  },
+  {
+    rows: [['3', '+', '2', '*', '2'], [3], [0, '+']],
+    rowPointers: [
+      { row: 0, col: 1, label: 'i' },
+      { row: 1, col: 0, label: '栈顶' },
+      { row: 2, col: 0, label: 'v' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [1] }, { row: 1, cols: [0] }],
+    note: '遇到运算符 \'+\' → 之前 sign 是 \'+\'：把 v = 3 压入栈 stk = [3]。重置 v = 0，sign 更新为 \'+\'。',
+  },
+  {
+    rows: [['3', '+', '2', '*', '2'], [3], [2, '+']],
+    rowPointers: [
+      { row: 0, col: 2, label: 'i' },
+      { row: 2, col: 0, label: 'v' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [2] }],
+    note: '读到数字 \'2\' → v = v×10 + 2 = 2。',
+  },
+  {
+    rows: [['3', '+', '2', '*', '2'], [3, 2], [0, '*']],
+    rowPointers: [
+      { row: 0, col: 3, label: 'i' },
+      { row: 1, col: 1, label: '栈顶' },
+      { row: 2, col: 0, label: 'v' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [3] }, { row: 1, cols: [1] }],
+    note: '遇到运算符 \'*\' → 之前 sign 是 \'+\'：把 v = 2 压入栈 stk = [3, 2]。重置 v = 0，sign 更新为 \'*\'。',
+  },
+  {
+    rows: [['3', '+', '2', '*', '2'], [3, 4], [0, '*']],
+    rowPointers: [
+      { row: 0, col: 4, label: 'i' },
+      { row: 1, col: 1, label: '栈顶' },
+      { row: 2, col: 0, label: 'v' },
+      { row: 2, col: 1, label: 'sign' },
+    ],
+    rowHighlight: [{ row: 0, cols: [4] }, { row: 1, cols: [1] }],
+    note: '读到数字 \'2\' → v = 2。i 已是最后一个字符 → 按 sign = \'*\' 结算：弹出栈顶 2，2×v(2) = 4，把结果压回栈，stk = [3, 4]。',
+  },
+  {
+    rows: [['3', '+', '2', '*', '2'], [3, 4], [7]],
+    rowPointers: [
+      { row: 2, col: 0, label: 'ans' },
+    ],
+    rowHighlight: [{ row: 1, cols: [0, 1] }],
+    note: '遍历结束，将栈中所有元素求和：ans = 3 + 4 = 7 ✅。',
+  },
+]
+</script>
+
 <!-- problem:start -->
 
 # [227. 基本计算器 II](https://leetcode.cn/problems/basic-calculator-ii)
@@ -75,6 +152,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
 
+### 可视化演示
+
+> 以 `s = "3+2*2"` 为例，逐步演示用栈 `stk` 做不含括号的四则运算：行 0 是表达式（指针 `i` 指向当前字符），行 1 是栈 `stk`，行 2 是当前数字 `v` 与待生效的运算符 `sign`。黄色高亮表示当前处理的字符或参与计算的栈元素；乘除会先弹出栈顶结算再压回。
+
+<ArrayViz :steps="calcIiSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

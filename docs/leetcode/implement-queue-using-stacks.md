@@ -8,6 +8,20 @@ tags:
     - 队列
 ---
 
+<script setup>
+// 方法一（双栈）可视化：push(1) → push(2) → peek() → pop() → empty()
+// 上行 stk1 用于入队（队尾），下行 stk2 用于出队（队首），栈顶在行尾
+const queueSteps = [
+  { rows: [[], []], note: '初始化 MyQueue：stk1 用于入队（队尾），stk2 用于出队（队首），两栈均为空。' },
+  { rows: [[1], []], rowPointers: [{ row: 0, col: 0, label: '栈顶' }], rowHighlight: [{ row: 0, cols: [0] }], note: 'push(1)：直接把 1 压入 stk1。stk1=[1]，队尾为 1。' },
+  { rows: [[1, 2], []], rowPointers: [{ row: 0, col: 1, label: '栈顶' }], rowHighlight: [{ row: 0, cols: [1] }], note: 'push(2)：直接把 2 压入 stk1。stk1=[1, 2]，队尾为 2，队首是底部的 1。' },
+  { rows: [[], [2, 1]], rowPointers: [{ row: 1, col: 1, label: '栈顶' }], rowHighlight: [{ row: 1, cols: [1] }], note: 'peek()：stk2 为空，先执行 move()——把 stk1 全部弹出（2、1）并压入 stk2 → stk2=[2, 1]，栈顶 1 即队首。' },
+  { rows: [[], [2, 1]], rowPointers: [{ row: 1, col: 1, label: '栈顶' }], note: 'peek()：stk2 非空，直接返回栈顶 1（队首元素），两栈不变。' },
+  { rows: [[], [2]], rowPointers: [{ row: 1, col: 0, label: '栈顶' }], rowHighlight: [{ row: 1, cols: [0] }], note: 'pop()：stk2 非空，弹出栈顶 1 并返回。stk2=[2]。' },
+  { rows: [[], [2]], rowPointers: [{ row: 1, col: 0, label: '栈顶' }], note: 'empty()：stk1 为空但 stk2 非空 → 队列非空，返回 false ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [232. 用栈实现队列](https://leetcode.cn/problems/implement-queue-using-stacks)
@@ -92,6 +106,15 @@ myQueue.empty(); // return false
 
 判断队列是否为空时，只要判断两个栈是否都为空即可。时间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以操作序列 `push(1) → push(2) → peek() → pop() → empty()` 为例：上行 `stk1` 用于入队（队尾），下行 `stk2` 用于出队（队首），黄色高亮为本次操作涉及的元素，`栈顶` 指针标出栈顶；出队/peek 前若 `stk2` 为空，先执行 `move()` 把 `stk1` 全部倒入 `stk2`，再取 `stk2` 栈顶即队首。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="queueSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

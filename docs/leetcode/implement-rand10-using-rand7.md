@@ -9,6 +9,54 @@ tags:
     - 随机化
 ---
 
+<script setup>
+// 方法一（拒绝采样）可视化：一次实际调用，第一次 x=42 被拒绝，第二次 x=5 被接受
+// 每行是一次采样尝试：[i = rand7()-1, j = rand7(), x = i*7+j, 判定结果]（变量名与代码一致）
+const rand10Steps = [
+  {
+    rows: [[5, 7, 42, '?']],
+    rowPointers: [
+      { row: 0, col: 0, label: 'i' },
+      { row: 0, col: 1, label: 'j' },
+      { row: 0, col: 2, label: 'x' },
+    ],
+    rowHighlight: [{ row: 0, cols: [2] }],
+    note: '第一次采样：rand7() = 6 → i = 6-1 = 5；rand7() = 7 → j = 7；x = i×7 + j = 5×7+7 = 42。',
+  },
+  {
+    rows: [[5, 7, 42, '拒绝']],
+    rowPointers: [
+      { row: 0, col: 0, label: 'i' },
+      { row: 0, col: 1, label: 'j' },
+      { row: 0, col: 2, label: 'x' },
+    ],
+    rowHighlight: [{ row: 0, cols: [2] }],
+    note: 'x = 42 > 40，落在拒绝区间 [41, 49] → 不返回，进入 while(true) 重新采样。',
+  },
+  {
+    rows: [[5, 7, 42, '拒绝'], [0, 5, 5, '?']],
+    rowPointers: [
+      { row: 1, col: 0, label: 'i' },
+      { row: 1, col: 1, label: 'j' },
+      { row: 1, col: 2, label: 'x' },
+    ],
+    rowHighlight: [{ row: 1, cols: [2] }],
+    note: '第二次采样：rand7() = 1 → i = 1-1 = 0；rand7() = 5 → j = 5；x = i×7 + j = 0×7+5 = 5。',
+  },
+  {
+    rows: [[5, 7, 42, '拒绝'], [0, 5, 5, '接受']],
+    rowPointers: [
+      { row: 1, col: 0, label: 'i' },
+      { row: 1, col: 1, label: 'j' },
+      { row: 1, col: 2, label: 'x' },
+      { row: 1, col: 3, label: '结果' },
+    ],
+    rowHighlight: [{ row: 1, cols: [2, 3] }],
+    note: 'x = 5 ≤ 40，落在接受区间 [1, 40] → 返回 x % 10 + 1 = 5 % 10 + 1 = 6。所以 rand10() 返回 6 ✅。',
+  },
+]
+</script>
+
 <!-- problem:start -->
 
 # [470. 用 Rand7() 实现 Rand10()](https://leetcode.cn/problems/implement-rand10-using-rand7)
@@ -81,6 +129,15 @@ tags:
 
 期望时间复杂度为 $O(1)$，但是最坏情况下会达到无穷大的时间复杂度。空间复杂度为 $O(1)$。
 
+### 可视化演示
+
+> 以一次实际调用为例，演示拒绝采样：每行是一次采样尝试，依次列出 `i = rand7()-1`、`j = rand7()`、`x = i*7+j` 与判定结果。`x ∈ [1,40]` 接受并返回 `x%10+1`，`x ∈ [41,49]` 拒绝重试。黄色高亮表示当前计算的 `x` 与判定结果。
+
+<ArrayViz :steps="rand10Steps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

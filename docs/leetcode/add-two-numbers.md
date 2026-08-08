@@ -8,6 +8,38 @@ tags:
     - 数学
 ---
 
+<script setup>
+// 方法一（模拟）可视化：l1 = [2,4,3]，l2 = [5,6,4]，表示 342 + 465 = 807
+// 每步展示当前位 s 的计算与进位 carry，dummy 为虚拟头节点，cur 指向结果链表末尾
+const addTwoNumbersSteps = [
+  { lists: [
+      { title: 'l1', values: [2, 4, 3], pointers: [{ id: 0, label: 'l1' }] },
+      { title: 'l2', values: [5, 6, 4], pointers: [{ id: 0, label: 'l2' }] },
+      { title: 'result', values: [null], pointers: [{ id: 0, label: 'dummy' }, { id: 0, label: 'cur' }] },
+    ], note: '初始化：dummy = new ListNode(0)，carry = 0，cur = dummy。l1 = [2,4,3] 表示 342，l2 = [5,6,4] 表示 465。' },
+  { lists: [
+      { title: 'l1', values: [4, 3], pointers: [{ id: 0, label: 'l1' }], states: [{ id: 0, state: 'cur' }] },
+      { title: 'l2', values: [6, 4], pointers: [{ id: 0, label: 'l2' }], states: [{ id: 0, state: 'hl' }] },
+      { title: 'result', values: [null, 7], pointers: [{ id: 0, label: 'dummy' }, { id: 1, label: 'cur' }], states: [{ id: 1, state: 'done' }] },
+    ], note: '第1位：s = l1.val(2) + l2.val(5) + carry(0) = 7。carry = 7/10 = 0。cur.next = new ListNode(7)，l1、l2 后移。' },
+  { lists: [
+      { title: 'l1', values: [3], pointers: [{ id: 0, label: 'l1' }], states: [{ id: 0, state: 'cur' }] },
+      { title: 'l2', values: [4], pointers: [{ id: 0, label: 'l2' }], states: [{ id: 0, state: 'hl' }] },
+      { title: 'result', values: [null, 7, 0], pointers: [{ id: 0, label: 'dummy' }, { id: 2, label: 'cur' }], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }] },
+    ], note: '第2位：s = l1.val(4) + l2.val(6) + carry(0) = 10。carry = 10/10 = 1。cur.next = new ListNode(0)，产生进位 1。' },
+  { lists: [
+      { title: 'l1', values: [] },
+      { title: 'l2', values: [] },
+      { title: 'result', values: [null, 7, 0, 8], pointers: [{ id: 0, label: 'dummy' }, { id: 3, label: 'cur' }], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }] },
+    ], note: '第3位：s = l1.val(3) + l2.val(4) + carry(1) = 8。carry = 8/10 = 0。cur.next = new ListNode(8)，l1、l2 变为空。' },
+  { lists: [
+      { title: 'l1', values: [] },
+      { title: 'l2', values: [] },
+      { title: 'result', values: [null, 7, 0, 8], pointers: [{ id: 0, label: 'dummy' }], states: [{ id: 1, state: 'mark' }, { id: 2, state: 'mark' }, { id: 3, state: 'mark' }] },
+    ], note: '循环结束（l1、l2 为空且 carry = 0）。返回 dummy.next = [7,0,8]，即 342 + 465 = 807 ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [2. 两数相加](https://leetcode.cn/problems/add-two-numbers)
@@ -69,6 +101,16 @@ tags:
 最后我们返回答案链表的头节点即可。
 
 时间复杂度 $O(\max(m, n))$，其中 $m$ 和 $n$ 分别为两个链表的长度。我们需要遍历两个链表的全部位置，而处理每个位置只需要 $O(1)$ 的时间。忽略答案的空间消耗，空间复杂度 $O(1)$。
+
+### 可视化演示
+
+> 以 `l1 = [2, 4, 3]`、`l2 = [5, 6, 4]`（即 342 + 465）为例，演示逐位模拟加法：`dummy` 为虚拟头节点，`cur` 指向结果链表末尾，`carry` 记录进位。蓝色为当前相加的节点，黄色为被参照的节点，红色为最终结果。点击 ▶ 播放，或逐步操作。
+
+<ListViz :steps="addTwoNumbersSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 
 <!-- tabs:start -->
 ::: code-group

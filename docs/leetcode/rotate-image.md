@@ -8,6 +8,67 @@ tags:
     - 矩阵
 ---
 
+<script setup>
+// 方法一（原地翻转）可视化：matrix = [[1,2,3],[4,5,6],[7,8,9]]，n = 3
+// 旋转公式：matrix[i][j] 顺时针旋转 90° 后应位于 matrix[j][n-1-i]
+// 两步翻转：① 上下翻转（交换 matrix[i][j] 与 matrix[n-1-i][j]）② 主对角线翻转（交换 matrix[i][j] 与 matrix[j][i]）
+const rowLabels = ['0', '1', '2']
+const colLabels = ['0', '1', '2']
+const rotateSteps = [
+    {
+        grid: { values: [[1, 2, 3], [4, 5, 6], [7, 8, 9]], rowLabels, colLabels },
+        note: '初始矩阵 matrix = [[1,2,3],[4,5,6],[7,8,9]]，n = 3。旋转公式：matrix[i][j] 顺时针旋转 90° 后应位于 matrix[j][n-1-i]。采用两步翻转实现：先上下翻转（交换 matrix[i][j] 与 matrix[n-1-i][j]），再沿主对角线翻转（交换 matrix[i][j] 与 matrix[j][i]）。',
+    },
+    {
+        grid: { values: [[7, 2, 3], [4, 5, 6], [1, 8, 9]], rowLabels, colLabels },
+        gridStates: [{ r: 0, c: 0, state: 'cur' }, { r: 2, c: 0, state: 'hl' }],
+        note: '上下翻转，i=0，j=0：int t = matrix[0][0](1)；matrix[0][0] = matrix[2][0](7)；matrix[2][0] = t(1)。交换后 1 与 7 互换。',
+    },
+    {
+        grid: { values: [[7, 8, 3], [4, 5, 6], [1, 2, 9]], rowLabels, colLabels },
+        gridStates: [{ r: 0, c: 1, state: 'cur' }, { r: 2, c: 1, state: 'hl' }],
+        note: '上下翻转，i=0，j=1：int t = matrix[0][1](2)；matrix[0][1] = matrix[2][1](8)；matrix[2][1] = t(2)。交换后 2 与 8 互换。',
+    },
+    {
+        grid: { values: [[7, 8, 9], [4, 5, 6], [1, 2, 3]], rowLabels, colLabels },
+        gridStates: [{ r: 0, c: 2, state: 'cur' }, { r: 2, c: 2, state: 'hl' }],
+        note: '上下翻转，i=0，j=2：int t = matrix[0][2](3)；matrix[0][2] = matrix[2][2](9)；matrix[2][2] = t(3)。交换后 3 与 9 互换。',
+    },
+    {
+        grid: { values: [[7, 8, 9], [4, 5, 6], [1, 2, 3]], rowLabels, colLabels },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' },
+            { r: 2, c: 0, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' },
+        ],
+        note: '上下翻转完成（for i = 0; i < n >> 1; ++i，for j = 0; j < n; ++j）：第 0 行与第 2 行完全互换，得到 [[7,8,9],[4,5,6],[1,2,3]]。接下来沿主对角线翻转。',
+    },
+    {
+        grid: { values: [[7, 4, 9], [8, 5, 6], [1, 2, 3]], rowLabels, colLabels },
+        gridStates: [{ r: 1, c: 0, state: 'cur' }, { r: 0, c: 1, state: 'hl' }],
+        note: '主对角线翻转，i=1，j=0：int t = matrix[1][0](4)；matrix[1][0] = matrix[0][1](8)；matrix[0][1] = t(4)。交换后 4 与 8 互换。',
+    },
+    {
+        grid: { values: [[7, 4, 1], [8, 5, 6], [9, 2, 3]], rowLabels, colLabels },
+        gridStates: [{ r: 2, c: 0, state: 'cur' }, { r: 0, c: 2, state: 'hl' }],
+        note: '主对角线翻转，i=2，j=0：int t = matrix[2][0](1)；matrix[2][0] = matrix[0][2](9)；matrix[0][2] = t(1)。交换后 1 与 9 互换。',
+    },
+    {
+        grid: { values: [[7, 4, 1], [8, 5, 2], [9, 6, 3]], rowLabels, colLabels },
+        gridStates: [{ r: 2, c: 1, state: 'cur' }, { r: 1, c: 2, state: 'hl' }],
+        note: '主对角线翻转，i=2，j=1：int t = matrix[2][1](2)；matrix[2][1] = matrix[1][2](6)；matrix[1][2] = t(2)。交换后 2 与 6 互换。',
+    },
+    {
+        grid: { values: [[7, 4, 1], [8, 5, 2], [9, 6, 3]], rowLabels, colLabels },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' },
+            { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'done' },
+            { r: 2, c: 0, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' },
+        ],
+        note: '主对角线翻转完成（for i = 0; i < n; ++i，for j = 0; j < i; ++j）。matrix 已顺时针旋转 90°，结果为 [[7,4,1],[8,5,2],[9,6,3]] ✅',
+    },
+]
+</script>
+
 <!-- problem:start -->
 
 # [48. 旋转图像](https://leetcode.cn/problems/rotate-image)
@@ -62,6 +123,16 @@ tags:
 我们可以先对矩阵进行上下翻转，即 $matrix[i][j]$ 和 $matrix[n - i - 1][j]$ 进行交换，然后再对矩阵进行主对角线翻转，即 $matrix[i][j]$ 和 $matrix[j][i]$ 进行交换。这样就能将 $matrix[i][j]$ 旋转至 $matrix[j][n - i - 1]$ 了。
 
 时间复杂度 $O(n^2)$，其中 $n$ 是矩阵的边长。空间复杂度 $O(1)$。
+
+### 可视化演示
+
+> 以 `matrix = [[1,2,3],[4,5,6],[7,8,9]]` 为例，演示原地旋转 90° 的两步翻转法：先上下翻转（交换 `matrix[i][j]` 与 `matrix[n-1-i][j]`），再沿主对角线翻转（交换 `matrix[i][j]` 与 `matrix[j][i]`）。蓝色为当前交换的位置，黄色为参照位置，绿色为已翻转完成。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="rotateSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 
 <!-- tabs:start -->
 ::: code-group

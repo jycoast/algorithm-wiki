@@ -8,6 +8,46 @@ tags:
     - 双指针
 ---
 
+<script setup>
+// 方法一（哈希表）可视化：head = [3,2,0,-4]，pos = 1（尾节点 -4 指向下标 1 的节点 2，构成环）
+// 变量名与 Java 代码一致：curr 沿链表遍历，set 记录已访问节点
+const cycleHashSteps = [
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 0, label: 'curr' }] },
+    ], note: '初始化：`curr = head` 指向头节点 3，哈希表 `set` 为空。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 0, label: 'curr' }], states: [{ id: 0, state: 'cur' }] },
+    ], note: '`set` 中不包含节点 3，将其加入 `set`，然后 `curr = curr.next`。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 1, label: 'curr' }], states: [{ id: 0, state: 'done' }, { id: 1, state: 'cur' }] },
+    ], note: '`set` 中不包含节点 2，将其加入 `set`，然后 `curr = curr.next`。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 2, label: 'curr' }], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'cur' }] },
+    ], note: '`set` 中不包含节点 0，将其加入 `set`，然后 `curr = curr.next`。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 3, label: 'curr' }], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'cur' }] },
+    ], note: '`set` 中不包含节点 -4，将其加入 `set`，然后 `curr = curr.next`。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 1, label: 'curr' }], states: [{ id: 0, state: 'done' }, { id: 1, state: 'mark' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }] },
+    ], note: '`curr = curr.next` 沿环回到节点 2，`set` 中已包含该节点，说明存在环，返回 `true` ✅。' },
+]
+// 方法二（快慢指针）可视化：同一输入，slow 每次走 1 步，fast 每次走 2 步，最终在节点 -4 相遇
+const cycleFastSlowSteps = [
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 0, label: 'slow' }, { id: 0, label: 'fast' }] },
+    ], note: '初始化：`slow = fast = head`，慢指针每次走 1 步，快指针每次走 2 步。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 1, label: 'slow' }, { id: 2, label: 'fast' }], states: [{ id: 1, state: 'cur' }, { id: 2, state: 'hl' }] },
+    ], note: '第 1 轮：`slow = slow.next` → 节点 2，`fast = fast.next.next` → 节点 0，二者未相遇。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 2, label: 'slow' }, { id: 1, label: 'fast' }], states: [{ id: 2, state: 'cur' }, { id: 1, state: 'hl' }] },
+    ], note: '第 2 轮：slow → 节点 0，fast → 节点 2（绕环半圈），二者未相遇。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 3, label: 'slow' }, { id: 3, label: 'fast' }], states: [{ id: 3, state: 'mark' }] },
+    ], note: '第 3 轮：slow 与 fast 在节点 -4 相遇，说明链表存在环，返回 `true` ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [141. 环形链表](https://leetcode.cn/problems/linked-list-cycle)
@@ -78,6 +118,16 @@ tags:
 我们可以遍历链表，用一个哈希表 $s$ 记录每个节点。当某个节点二次出现时，则表示存在环，直接返回 `true`。否则链表遍历结束，返回 `false`。
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是链表中的节点数。
+
+### 可视化演示
+
+> 以 `head = [3, 2, 0, -4]`、`pos = 1` 为例，演示哈希表法：`curr` 沿链表遍历，将每个节点存入 `set`，若遇到已访问节点则说明有环。蓝色为当前节点，绿色为已加入 `set` 的节点，红色为重复出现的节点。点击 ▶ 播放，或逐步操作。
+
+<ListViz :steps="cycleHashSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 
 <!-- tabs:start -->
 ::: code-group
@@ -162,6 +212,16 @@ class Solution:
 快指针每次走两步，慢指针每次走一步，不断循环。当快慢指针相遇时，说明链表存在环。如果循环结束依然没有相遇，说明链表不存在环。
 
 时间复杂度 $O(n)$，其中 $n$ 是链表中的节点数。空间复杂度 $O(1)$。
+
+### 可视化演示
+
+> 以 `head = [3, 2, 0, -4]`、`pos = 1` 为例，演示快慢指针法：`slow` 每次走 1 步，`fast` 每次走 2 步，若二者相遇则说明有环。蓝色为 `slow` 当前节点，黄色为 `fast` 当前节点，红色为相遇节点。点击 ▶ 播放，或逐步操作。
+
+<ListViz :steps="cycleFastSlowSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 
 <!-- tabs:start -->
 ::: code-group

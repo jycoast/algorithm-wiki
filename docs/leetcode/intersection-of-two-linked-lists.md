@@ -8,6 +8,57 @@ tags:
     - 双指针
 ---
 
+<script setup>
+// 方法一（双指针）可视化：headA = [4,1,8,4,5]，headB = [5,6,1,8,4,5]，在值为 8 的节点相交
+// 每步展示 a/b 指针分别遍历 headA/headB，走到末尾后跳转到另一条链表头，最终在公共节点相遇
+const getIntersectionNodeSteps = [
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5], pointers: [{ id: 0, label: 'a' }], states: [{ id: 0, state: 'cur' }] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], pointers: [{ id: 0, label: 'b' }], states: [{ id: 0, state: 'hl' }] },
+    ], note: '初始化 a = headA，b = headB。两链表在值为 8 的节点相交（headA 下标 2，headB 下标 3）。' },
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5], pointers: [{ id: 1, label: 'a' }], states: [{ id: 1, state: 'cur' }] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], pointers: [{ id: 1, label: 'b' }], states: [{ id: 1, state: 'hl' }] },
+    ], note: 'a ≠ b，继续。a → headA[1] = 1，b → headB[1] = 6。' },
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5], pointers: [{ id: 2, label: 'a' }], states: [{ id: 2, state: 'cur' }] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], pointers: [{ id: 2, label: 'b' }], states: [{ id: 2, state: 'hl' }] },
+    ], note: 'a → headA[2] = 8，b → headB[2] = 1。' },
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5], pointers: [{ id: 3, label: 'a' }], states: [{ id: 3, state: 'cur' }] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], pointers: [{ id: 3, label: 'b' }], states: [{ id: 3, state: 'hl' }] },
+    ], note: 'a → headA[3] = 4，b → headB[3] = 8（b 已到公共节点，但 a 尚未到达）。' },
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5], pointers: [{ id: 4, label: 'a' }], states: [{ id: 4, state: 'cur' }] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], pointers: [{ id: 4, label: 'b' }], states: [{ id: 4, state: 'hl' }] },
+    ], note: 'a → headA[4] = 5，b → headB[4] = 4。' },
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], pointers: [{ id: 5, label: 'b' }], states: [{ id: 5, state: 'hl' }] },
+    ], note: 'a 遍历完 headA 变为 null，b → headB[5] = 5。下一次循环 a 将跳转到 headB。' },
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], pointers: [{ id: 0, label: 'a' }], states: [{ id: 0, state: 'cur' }] },
+    ], note: 'a 为 null 时跳转到 headB，指向 headB[0] = 5；b 遍历完 headB 变为 null。' },
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5], pointers: [{ id: 0, label: 'b' }], states: [{ id: 0, state: 'hl' }] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], pointers: [{ id: 1, label: 'a' }], states: [{ id: 1, state: 'cur' }] },
+    ], note: 'b 为 null 时跳转到 headA，指向 headA[0] = 4；a → headB[1] = 6。' },
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5], pointers: [{ id: 1, label: 'b' }], states: [{ id: 1, state: 'hl' }] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], pointers: [{ id: 2, label: 'a' }], states: [{ id: 2, state: 'cur' }] },
+    ], note: 'a → headB[2] = 1，b → headA[1] = 1。两指针值相同但指向不同节点，继续。' },
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5], pointers: [{ id: 2, label: 'b' }], states: [{ id: 2, state: 'hl' }] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], pointers: [{ id: 3, label: 'a' }], states: [{ id: 3, state: 'cur' }] },
+    ], note: 'a → headB[3] = 8，b → headA[2] = 8。a == b，两指针相遇于公共节点，循环结束。' },
+  { lists: [
+      { title: 'headA', values: [4, 1, 8, 4, 5], states: [{ id: 2, state: 'mark' }, { id: 3, state: 'mark' }, { id: 4, state: 'mark' }] },
+      { title: 'headB', values: [5, 6, 1, 8, 4, 5], states: [{ id: 3, state: 'mark' }, { id: 4, state: 'mark' }, { id: 5, state: 'mark' }] },
+    ], note: '返回相交节点 8 ✅。两链表在值为 8 的节点（headA 下标 2，headB 下标 3）开始相交，公共部分为 [8, 4, 5]。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [160. 相交链表](https://leetcode.cn/problems/intersection-of-two-linked-lists)
@@ -115,6 +166,16 @@ tags:
 若两指针相遇，所指向的结点就是第一个公共节点。若没相遇，说明两链表无公共节点，此时两个指针都指向 `null`，返回其中一个即可。
 
 时间复杂度 $O(m+n)$，其中 $m$ 和 $n$ 分别是链表 $headA$ 和 $headB$ 的长度。空间复杂度 $O(1)$。
+
+### 可视化演示
+
+> 以示例 1 的 `headA = [4, 1, 8, 4, 5]`、`headB = [5, 6, 1, 8, 4, 5]` 为例，演示双指针相交判定：指针 `a`、`b` 各自遍历两条链表，走到末尾后跳到另一条链表头，最终在公共节点相遇。蓝色为指针 `a` 指向，黄色为指针 `b` 指向，红色为相交节点。点击 ▶ 播放，或逐步操作。
+
+<ListViz :steps="getIntersectionNodeSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 
 <!-- tabs:start -->
 ::: code-group

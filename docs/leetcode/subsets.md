@@ -8,6 +8,50 @@ tags:
     - 回溯
 ---
 
+<script setup>
+// 方法一（DFS 回溯）可视化：nums=[1,2,3]
+// rows 三行：row0=nums，row1=t（当前路径），row2=ans（结果集合）
+const subsets1Steps = [
+  { rows: [[1, 2, 3], [], []], rowPointers: [{ row: 0, col: 0, label: 'i' }], note: 'nums=[1,2,3]。调用 dfs(0)。每次进入 dfs(i)：若 i==n 把 t 加入 ans；否则先"不选 nums[i]"递归 dfs(i+1)，再"选 nums[i]"递归 dfs(i+1)，递归后从 t 移除该元素（回溯）。' },
+  { rows: [[1, 2, 3], [], []], rowPointers: [{ row: 0, col: 1, label: 'i' }], note: '不选 nums[0]=1：递归 dfs(1)，指针移到 i=1，t 不变。' },
+  { rows: [[1, 2, 3], [], []], rowPointers: [{ row: 0, col: 2, label: 'i' }], note: '不选 nums[1]=2：递归 dfs(2)，指针移到 i=2，t 不变。' },
+  { rows: [[1, 2, 3], [], ['[]']], rowPointers: [{ row: 0, col: 2, label: 'i' }], rowHighlight: [{ row: 2, cols: [0] }], note: '不选 nums[2]=3：递归 dfs(3)，i==n==3，把 t=[] 加入 ans。ans=[[]]。' },
+  { rows: [[1, 2, 3], [3], ['[]', '[3]']], rowPointers: [{ row: 0, col: 2, label: 'i' }], rowHighlight: [{ row: 1, cols: [0] }, { row: 2, cols: [1] }], note: '回到 dfs(2)：选 nums[2]=3，t=[3]，递归 dfs(3)：记录 [3]。ans=[[],[3]]。' },
+  { rows: [[1, 2, 3], [], ['[]', '[3]']], note: '回溯：t.remove 撤销 3 → t=[]，dfs(2) 完成。' },
+  { rows: [[1, 2, 3], [2], ['[]', '[3]']], rowPointers: [{ row: 0, col: 1, label: 'i' }], rowHighlight: [{ row: 1, cols: [0] }], note: '回到 dfs(1)：选 nums[1]=2，t=[2]，递归 dfs(2)。' },
+  { rows: [[1, 2, 3], [2], ['[]', '[3]', '[2]']], rowPointers: [{ row: 0, col: 2, label: 'i' }], rowHighlight: [{ row: 2, cols: [2] }], note: 'dfs(2)：不选 3，递归 dfs(3)：记录 [2]。ans=[[],[3],[2]]。' },
+  { rows: [[1, 2, 3], [2, 3], ['[]', '[3]', '[2]', '[2,3]']], rowPointers: [{ row: 0, col: 2, label: 'i' }], rowHighlight: [{ row: 1, cols: [1] }, { row: 2, cols: [3] }], note: 'dfs(2)：选 3，t=[2,3]，递归 dfs(3)：记录 [2,3]。ans=[[],[3],[2],[2,3]]。' },
+  { rows: [[1, 2, 3], [], ['[]', '[3]', '[2]', '[2,3]']], note: '回溯：撤销 3 → t=[2]，再撤销 2 → t=[]，dfs(1) 的"不选"分支完成。' },
+  { rows: [[1, 2, 3], [1], ['[]', '[3]', '[2]', '[2,3]']], rowPointers: [{ row: 0, col: 0, label: 'i' }], rowHighlight: [{ row: 1, cols: [0] }], note: '回到 dfs(0)：选 nums[0]=1，t=[1]，递归 dfs(1)。' },
+  { rows: [[1, 2, 3], [1], ['[]', '[3]', '[2]', '[2,3]', '[1]']], rowPointers: [{ row: 0, col: 1, label: 'i' }], rowHighlight: [{ row: 2, cols: [4] }], note: 'dfs(1)：不选 2，递归 dfs(2)：不选 3，dfs(3) 记录 [1]。ans 增加 [1]。' },
+  { rows: [[1, 2, 3], [1, 3], ['[]', '[3]', '[2]', '[2,3]', '[1]', '[1,3]']], rowPointers: [{ row: 0, col: 2, label: 'i' }], rowHighlight: [{ row: 1, cols: [1] }, { row: 2, cols: [5] }], note: 'dfs(2)：选 3，t=[1,3]，记录 [1,3]。ans 增加 [1,3]。' },
+  { rows: [[1, 2, 3], [1], ['[]', '[3]', '[2]', '[2,3]', '[1]', '[1,3]']], note: '回溯：撤销 3 → t=[1]，dfs(1) 的"不选"分支完成。' },
+  { rows: [[1, 2, 3], [1, 2], ['[]', '[3]', '[2]', '[2,3]', '[1]', '[1,3]', '[1,2]']], rowPointers: [{ row: 0, col: 1, label: 'i' }], rowHighlight: [{ row: 1, cols: [1] }, { row: 2, cols: [6] }], note: 'dfs(1)：选 nums[1]=2，t=[1,2]，递归 dfs(2)：不选 3，记录 [1,2]。' },
+  { rows: [[1, 2, 3], [1, 2, 3], ['[]', '[3]', '[2]', '[2,3]', '[1]', '[1,3]', '[1,2]', '[1,2,3]']], rowPointers: [{ row: 0, col: 2, label: 'i' }], rowHighlight: [{ row: 1, cols: [2] }, { row: 2, cols: [7] }], note: 'dfs(2)：选 3，t=[1,2,3]，记录 [1,2,3]。共 8 个子集。' },
+  { rows: [[1, 2, 3], [], ['[]', '[3]', '[2]', '[2,3]', '[1]', '[1,3]', '[1,2]', '[1,2,3]']], note: '回溯：撤销 3 → t=[1,2]，撤销 2 → t=[1]，撤销 1 → t=[]。全部子集生成完毕 ✅。' },
+]
+
+// 方法二（二进制枚举）可视化：nums=[1,2,3]，mask 从 0 到 2^n-1
+const subsets2Steps = [
+  { rows: [[1, 2, 3], [], ['[]']], rowHighlight: [{ row: 2, cols: [0] }], note: 'mask=0（二进制 000）：所有位为 0，不选任何元素 → t=[]，加入 ans。ans=[[]]。' },
+  { rows: [[1, 2, 3], [1], ['[]', '[1]']], rowHighlight: [{ row: 0, cols: [0] }, { row: 1, cols: [0] }, { row: 2, cols: [1] }], note: 'mask=1（001）：第 0 位为 1 → 选 nums[0]=1，t=[1]，加入 ans。' },
+  { rows: [[1, 2, 3], [2], ['[]', '[1]', '[2]']], rowHighlight: [{ row: 0, cols: [1] }, { row: 1, cols: [0] }, { row: 2, cols: [2] }], note: 'mask=2（010）：第 1 位为 1 → 选 nums[1]=2，t=[2]，加入 ans。' },
+  { rows: [[1, 2, 3], [1, 2], ['[]', '[1]', '[2]', '[1,2]']], rowHighlight: [{ row: 0, cols: [0, 1] }, { row: 1, cols: [0, 1] }, { row: 2, cols: [3] }], note: 'mask=3（011）：第 0、1 位为 1 → 选 1、2，t=[1,2]，加入 ans。' },
+  { rows: [[1, 2, 3], [3], ['[]', '[1]', '[2]', '[1,2]', '[3]']], rowHighlight: [{ row: 0, cols: [2] }, { row: 1, cols: [0] }, { row: 2, cols: [4] }], note: 'mask=4（100）：第 2 位为 1 → 选 nums[2]=3，t=[3]，加入 ans。' },
+  { rows: [[1, 2, 3], [1, 3], ['[]', '[1]', '[2]', '[1,2]', '[3]', '[1,3]']], rowHighlight: [{ row: 0, cols: [0, 2] }, { row: 1, cols: [0, 1] }, { row: 2, cols: [5] }], note: 'mask=5（101）：第 0、2 位为 1 → 选 1、3，t=[1,3]，加入 ans。' },
+  { rows: [[1, 2, 3], [2, 3], ['[]', '[1]', '[2]', '[1,2]', '[3]', '[1,3]', '[2,3]']], rowHighlight: [{ row: 0, cols: [1, 2] }, { row: 1, cols: [0, 1] }, { row: 2, cols: [6] }], note: 'mask=6（110）：第 1、2 位为 1 → 选 2、3，t=[2,3]，加入 ans。' },
+  { rows: [[1, 2, 3], [1, 2, 3], ['[]', '[1]', '[2]', '[1,2]', '[3]', '[1,3]', '[2,3]', '[1,2,3]']], rowHighlight: [{ row: 0, cols: [0, 1, 2] }, { row: 1, cols: [0, 1, 2] }, { row: 2, cols: [7] }], note: 'mask=7（111）：所有位为 1 → 选 1、2、3，t=[1,2,3]，加入 ans。共 8 个子集 ✅。' },
+]
+
+// 方法三（迭代扩展）可视化：nums=[1,2,3]
+const subsets3Steps = [
+  { rows: [[1, 2, 3], ['[]']], rowPointers: [{ row: 0, col: 0, label: 'x' }], note: 'res=[[]] 初始化。遍历 nums 中的每个元素 x，把 res 中每个已有子集追加 x 生成新子集。' },
+  { rows: [[1, 2, 3], ['[]', '[1]']], rowPointers: [{ row: 0, col: 0, label: 'x' }], rowHighlight: [{ row: 1, cols: [1] }], note: 'x=1：res 中 [[]] 追加 1 → 新增 [1]。res=[[],[1]]。' },
+  { rows: [[1, 2, 3], ['[]', '[1]', '[2]', '[1,2]']], rowPointers: [{ row: 0, col: 1, label: 'x' }], rowHighlight: [{ row: 1, cols: [2, 3] }], note: 'x=2：res 中 [] 和 [1] 分别追加 2 → 新增 [2]、[1,2]。res 变为 4 个。' },
+  { rows: [[1, 2, 3], ['[]', '[1]', '[2]', '[1,2]', '[3]', '[1,3]', '[2,3]', '[1,2,3]']], rowPointers: [{ row: 0, col: 2, label: 'x' }], rowHighlight: [{ row: 1, cols: [4, 5, 6, 7] }], note: 'x=3：res 中 4 个子集分别追加 3 → 新增 [3]、[1,3]、[2,3]、[1,2,3]。共 8 个子集 ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [78. 子集](https://leetcode.cn/problems/subsets)
@@ -62,6 +106,15 @@ tags:
 
 时间复杂度 $O(n\times 2^n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。一共有 $2^n$ 个子集，每个子集需要 $O(n)$ 的时间来构造。
 
+### 可视化演示
+
+> 以 `nums = [1, 2, 3]` 为例，用三行分别展示数组 `nums`、当前路径 `t`、结果集合 `ans`。指针 `i` 指向当前决策的下标；黄色高亮表示刚加入 `t` 的元素或新写入 `ans` 的子集。
+
+<ArrayViz :steps="subsets1Steps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -166,6 +219,15 @@ class Solution:
 
 时间复杂度 $O(n\times 2^n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。一共有 $2^n$ 个子集，每个子集需要 $O(n)$ 的时间来构造。
 
+### 可视化演示
+
+> 以 `nums = [1, 2, 3]` 为例，用三行展示 `nums`、当前枚举出的子集 `t`、结果集合 `ans`。第一行黄色高亮表示 `mask` 中对应位为 1、被选中的元素。
+
+<ArrayViz :steps="subsets2Steps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -246,6 +308,15 @@ class Solution:
 
 ## 方法三
 
+### 可视化演示
+
+> 以 `nums = [1, 2, 3]` 为例，用两行展示 `nums` 与不断增长的 `res`：每次取一个元素 `x`，把 `res` 中已有的每个子集追加 `x` 生成新子集（黄色高亮为本次新增）。
+
+<ArrayViz :steps="subsets3Steps" />
+
+<div class="viz-jump"><a href="#code-3">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-3"></a>
 <!-- tabs:start -->
 ::: code-group
 

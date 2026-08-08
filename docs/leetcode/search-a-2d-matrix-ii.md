@@ -9,6 +9,154 @@ tags:
     - 矩阵
 ---
 
+<script setup>
+// 方法一（逐行二分查找）可视化：matrix 5×5，target = 5
+// 对每一行做二分查找（left/right/mid），找第一个 >= target 的元素并判断是否等于 target
+const M1 = [
+    [1, 4, 7, 11, 15],
+    [2, 5, 8, 12, 19],
+    [3, 6, 9, 16, 22],
+    [10, 13, 14, 17, 24],
+    [18, 21, 23, 26, 30],
+]
+const rowLabels = ['0', '1', '2', '3', '4']
+const colLabels = ['0', '1', '2', '3', '4']
+const grid1 = { values: M1, rowLabels, colLabels }
+// 第 r 行 c0..c1 列标记为 state；rowRangeEx 跳过 mid 所在列 c（避免与 cur 重叠）
+const rowRange = (r, c0, c1, state) => {
+    const s = []
+    for (let c = c0; c <= c1; c++) s.push({ r, c, state })
+    return s
+}
+const rowRangeEx = (r, c0, c1, exC, state) => {
+    const s = []
+    for (let c = c0; c <= c1; c++) if (c !== exC) s.push({ r, c, state })
+    return s
+}
+const rowAll = (r, state) => rowRange(r, 0, 4, state)
+const binarySearchSteps = [
+    {
+        grid: grid1,
+        note: '目标 target = 5。方法一：依次对每一行做二分查找，找到第一个 ≥ target 的元素，再判断它是否等于 target。从第 0 行开始。',
+    },
+    {
+        grid: grid1,
+        gridStates: rowAll(0, 'hl'),
+        note: '第 0 行 [1,4,7,11,15]：left = 0，right = n = 5，开始二分查找。',
+    },
+    {
+        grid: grid1,
+        gridStates: [...rowRangeEx(0, 0, 4, 2, 'hl'), { r: 0, c: 2, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 2, text: '7' }],
+        gridPointers: [{ r: 0, c: 2, label: 'mid' }],
+        note: 'mid = (0+5)>>1 = 2，matrix[0][2] = 7 ≥ target = 5，目标在左半部分，right = 2。',
+    },
+    {
+        grid: grid1,
+        gridStates: [...rowRangeEx(0, 0, 1, 1, 'hl'), { r: 0, c: 1, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 1, text: '4' }],
+        gridPointers: [{ r: 0, c: 1, label: 'mid' }],
+        note: 'mid = (0+2)>>1 = 1，matrix[0][1] = 4 < 5，目标在右半部分，left = mid + 1 = 2。',
+    },
+    {
+        grid: grid1,
+        gridStates: rowAll(0, 'done'),
+        note: 'left = 2 与 right = 2 相等，循环结束。left ≠ n（5）且 matrix[0][2] = 7 ≠ 5，第 0 行未找到，标记为已排除，继续搜索下一行。',
+    },
+    {
+        grid: grid1,
+        gridStates: [...rowAll(0, 'done'), ...rowAll(1, 'hl')],
+        note: '第 1 行 [2,5,8,12,19]：left = 0，right = n = 5，开始二分查找。',
+    },
+    {
+        grid: grid1,
+        gridStates: [...rowAll(0, 'done'), ...rowRangeEx(1, 0, 4, 2, 'hl'), { r: 1, c: 2, state: 'cur' }],
+        gridTexts: [{ r: 1, c: 2, text: '8' }],
+        gridPointers: [{ r: 1, c: 2, label: 'mid' }],
+        note: 'mid = (0+5)>>1 = 2，matrix[1][2] = 8 ≥ 5，right = 2。',
+    },
+    {
+        grid: grid1,
+        gridStates: [...rowAll(0, 'done'), ...rowRangeEx(1, 0, 1, 1, 'hl'), { r: 1, c: 1, state: 'cur' }],
+        gridTexts: [{ r: 1, c: 1, text: '5' }],
+        gridPointers: [{ r: 1, c: 1, label: 'mid' }],
+        note: 'mid = (0+2)>>1 = 1，matrix[1][1] = 5 ≥ 5，right = 1。',
+    },
+    {
+        grid: grid1,
+        gridStates: [...rowAll(0, 'done'), { r: 1, c: 0, state: 'cur' }],
+        gridTexts: [{ r: 1, c: 0, text: '2' }],
+        gridPointers: [{ r: 1, c: 0, label: 'mid' }],
+        note: 'mid = (0+1)>>1 = 0，matrix[1][0] = 2 < 5，left = mid + 1 = 1。',
+    },
+    {
+        grid: grid1,
+        gridStates: [...rowAll(0, 'done'), { r: 1, c: 1, state: 'mark' }],
+        gridTexts: [{ r: 1, c: 1, text: '5' }],
+        gridPointers: [{ r: 1, c: 1, label: 'mid' }],
+        note: 'left = 1 与 right = 1 相等，循环结束。left ≠ n（5）且 matrix[1][1] = 5 == target，找到目标，返回 true ✅。',
+    },
+]
+
+// 方法二（左下角 Z 字搜索）可视化：从 (m-1, 0) 出发，target = 5
+const M2 = M1
+const grid2 = { values: M2, rowLabels, colLabels }
+// 将 r0..r1 行、c0..c1 列全部标记为 state
+const block = (state, r0, r1, c0, c1) => {
+    const s = []
+    for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) s.push({ r, c, state })
+    return s
+}
+// 当前比较位置：i,j 指针 + cur 状态（gridTexts 保留格子数值以承载指针）
+const curAt = (r, c) => ({
+    gridStates: [{ r, c, state: 'cur' }],
+    gridTexts: [{ r, c, text: String(M2[r][c]) }],
+    gridPointers: [{ r, c, label: 'i,j' }],
+})
+const zSteps = [
+    {
+        grid: grid2,
+        ...curAt(4, 0),
+        note: '目标 target = 5。方法二：从左下角出发，i = m - 1 = 4，j = 0。当前 matrix[4][0] = 18，与 target 比较。',
+    },
+    {
+        grid: grid2,
+        gridStates: [...curAt(3, 0).gridStates, ...block('done', 4, 4, 0, 4)],
+        gridTexts: curAt(3, 0).gridTexts,
+        gridPointers: curAt(3, 0).gridPointers,
+        note: 'matrix[4][0] = 18 > 5：第 4 行从左到右递增、均大于 5，排除整行（绿色），i 上移 --i → i = 3。现比较 matrix[3][0] = 10。',
+    },
+    {
+        grid: grid2,
+        gridStates: [...curAt(2, 0).gridStates, ...block('done', 3, 4, 0, 4)],
+        gridTexts: curAt(2, 0).gridTexts,
+        gridPointers: curAt(2, 0).gridPointers,
+        note: 'matrix[3][0] = 10 > 5：排除第 3 行（绿色），i 上移 --i → i = 2。现比较 matrix[2][0] = 3。',
+    },
+    {
+        grid: grid2,
+        gridStates: [...curAt(2, 1).gridStates, ...block('done', 3, 4, 0, 4), ...block('done', 0, 2, 0, 0)],
+        gridTexts: curAt(2, 1).gridTexts,
+        gridPointers: curAt(2, 1).gridPointers,
+        note: 'matrix[2][0] = 3 < 5：第 0 列从上到下递增、均小于 5，排除第 0 列剩余部分（第 0~2 行，绿色），j 右移 ++j → j = 1。现比较 matrix[2][1] = 6。',
+    },
+    {
+        grid: grid2,
+        gridStates: [...curAt(1, 1).gridStates, ...block('done', 3, 4, 0, 4), ...block('done', 0, 2, 0, 0), ...block('done', 2, 2, 1, 4)],
+        gridTexts: curAt(1, 1).gridTexts,
+        gridPointers: curAt(1, 1).gridPointers,
+        note: 'matrix[2][1] = 6 > 5：排除第 2 行第 1~4 列（绿色），i 上移 --i → i = 1。现比较 matrix[1][1] = 5。',
+    },
+    {
+        grid: grid2,
+        gridStates: [...block('done', 3, 4, 0, 4), ...block('done', 0, 2, 0, 0), ...block('done', 2, 2, 1, 4), { r: 1, c: 1, state: 'mark' }],
+        gridTexts: [{ r: 1, c: 1, text: '5' }],
+        gridPointers: [{ r: 1, c: 1, label: 'i,j' }],
+        note: 'matrix[1][1] = 5 == target = 5，找到目标，返回 true ✅。绿色为已排除的行/列区域，剩余搜索区域已收缩到目标格子。',
+    },
+]
+</script>
+
 <!-- problem:start -->
 
 # [240. 搜索二维矩阵 II](https://leetcode.cn/problems/search-a-2d-matrix-ii)
@@ -67,6 +215,16 @@ tags:
 如果所有行都搜索完了，都没有找到目标值，说明目标值不存在，返回 `false`。
 
 时间复杂度 $O(m \times \log n)$，其中 $m$ 和 $n$ 分别为矩阵的行数和列数。空间复杂度 $O(1)$。
+
+### 可视化演示
+
+> 以 5×5 矩阵、`target = 5` 为例，演示方法一「逐行二分查找」：黄色为当前查找区间，蓝色为正在比较的 `mid` 元素，绿色为已排除的行，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="binarySearchSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 
 <!-- tabs:start -->
 ::: code-group
@@ -153,6 +311,16 @@ class Solution:
 若搜索结束依然找不到 `target`，返回 `false`。
 
 时间复杂度 $O(m + n)$，其中 $m$ 和 $n$ 分别为矩阵的行数和列数。空间复杂度 $O(1)$。
+
+### 可视化演示
+
+> 以 5×5 矩阵、`target = 5` 为例，演示方法二「左下角 Z 字搜索」：蓝色为当前比较节点 `matrix[i][j]`，绿色为已排除的行/列区域，红色为答案。每次比较后按大小关系决定向上移动 `--i` 还是向右移动 `++j`。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="zSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 
 <!-- tabs:start -->
 ::: code-group

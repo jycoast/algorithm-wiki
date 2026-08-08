@@ -7,6 +7,21 @@ tags:
     - 哈希表
 ---
 
+<script setup>
+// 方法一（原地交换）可视化：nums = [3,4,-1,1]，n=4
+const firstMissingPositiveSteps = [
+  { array: [3, 4, -1, 1], pointers: [{ label: 'i', index: 0 }], note: 'nums = [3,4,-1,1]，n=4。目标：把每个数 x 放到下标 x-1。i=0，当前 nums[0]=3' },
+  { array: [3, 4, -1, 1], pointers: [{ label: 'i', index: 0 }], highlight: [0, 2], note: 'nums[0]=3 在 [1,n] 内，应放下标 2；nums[2]=-1 ≠ 3 → 交换 nums[0] 与 nums[2]' },
+  { array: [-1, 4, 3, 1], pointers: [{ label: 'i', index: 0 }], note: '交换后 [-1,4,3,1]。nums[0]=-1 不在 [1,n]，无需处理 → i++' },
+  { array: [-1, 4, 3, 1], pointers: [{ label: 'i', index: 1 }], highlight: [1, 3], note: 'i=1，nums[1]=4 在 [1,n] 内，应放下标 3；nums[3]=1 ≠ 4 → 交换 nums[1] 与 nums[3]' },
+  { array: [-1, 1, 3, 4], pointers: [{ label: 'i', index: 1 }], highlight: [0, 1], note: '交换后 [-1,1,3,4]。nums[1]=1 应放下标 0；nums[0]=-1 ≠ 1 → 交换 nums[1] 与 nums[0]' },
+  { array: [1, -1, 3, 4], pointers: [{ label: 'i', index: 1 }], note: '交换后 [1,-1,3,4]。nums[1]=-1 不在 [1,n]，无需处理 → i++' },
+  { array: [1, -1, 3, 4], pointers: [{ label: 'i', index: 2 }], note: 'i=2，nums[2]=3 应放下标 2，自身已就位（nums[2]==nums[nums[2]-1]）→ i++' },
+  { array: [1, -1, 3, 4], pointers: [{ label: 'i', index: 3 }], note: 'i=3，nums[3]=4 应放下标 3，自身已就位 → i++，第一遍结束' },
+  { array: [1, -1, 3, 4], pointers: [{ label: 'i', index: 1 }], highlight: [1], note: '第二遍扫描：i=0 时 i+1=1==nums[0] ✓；i=1 时 i+1=2 ≠ nums[1]=-1 → 返回缺失的第一个正数 2 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [41. 缺失的第一个正数](https://leetcode.cn/problems/first-missing-positive)
@@ -64,6 +79,15 @@ tags:
 
 时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以 `nums = [3, 4, -1, 1]` 为例，演示原地交换：指针 `i` 逐个检查，把落在 `[1, n]` 内的数 `x` 交换到下标 `x - 1`；黄色为正在交换的两个位置。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="firstMissingPositiveSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

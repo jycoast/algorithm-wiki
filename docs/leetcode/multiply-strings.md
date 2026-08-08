@@ -8,6 +8,200 @@ tags:
     - 模拟
 ---
 
+<script setup>
+// 方法一（数学乘法模拟）可视化：num1 = "123", num2 = "456" → "56088"
+// rows 模式：第 0 行 num1、第 1 行 num2、第 2 行 arr（乘积每位累加，长度 m+n）
+const multiplySteps = [
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 0, 0, 0, 0, 0],
+        ],
+        rowPointers: [
+            { row: 0, col: 2, label: 'i' },
+            { row: 1, col: 2, label: 'j' },
+        ],
+        note: 'num1 = "123"，num2 = "456"，乘积最多 m + n = 6 位，申请 arr = [0,0,0,0,0,0]。i = 2、j = 2 从两数最低位开始逐位相乘。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 0, 0, 0, 0, 18],
+        ],
+        rowPointers: [
+            { row: 0, col: 2, label: 'i' },
+            { row: 1, col: 2, label: 'j' },
+        ],
+        rowHighlight: [{ row: 2, cols: [5] }],
+        note: 'a = num1[2] = 3，b = num2[2] = 6：arr[2 + 2 + 1 = 5] += 3 × 6 = 18 → arr[5] = 18。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 0, 0, 0, 15, 18],
+        ],
+        rowPointers: [
+            { row: 0, col: 2, label: 'i' },
+            { row: 1, col: 1, label: 'j' },
+        ],
+        rowHighlight: [{ row: 2, cols: [4] }],
+        note: 'a = 3，b = num2[1] = 5：arr[2 + 1 + 1 = 4] += 3 × 5 = 15 → arr[4] = 15。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 0, 0, 12, 15, 18],
+        ],
+        rowPointers: [
+            { row: 0, col: 2, label: 'i' },
+            { row: 1, col: 0, label: 'j' },
+        ],
+        rowHighlight: [{ row: 2, cols: [3] }],
+        note: 'a = 3，b = num2[0] = 4：arr[2 + 0 + 1 = 3] += 3 × 4 = 12 → arr[3] = 12。j 遍历完，i 前移到 1。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 0, 0, 12, 27, 18],
+        ],
+        rowPointers: [
+            { row: 0, col: 1, label: 'i' },
+            { row: 1, col: 2, label: 'j' },
+        ],
+        rowHighlight: [{ row: 2, cols: [4] }],
+        note: 'a = num1[1] = 2，b = 6：arr[1 + 2 + 1 = 4] += 2 × 6 = 12 → arr[4] = 15 + 12 = 27。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 0, 0, 22, 27, 18],
+        ],
+        rowPointers: [
+            { row: 0, col: 1, label: 'i' },
+            { row: 1, col: 1, label: 'j' },
+        ],
+        rowHighlight: [{ row: 2, cols: [3] }],
+        note: 'a = 2，b = 5：arr[1 + 1 + 1 = 3] += 2 × 5 = 10 → arr[3] = 12 + 10 = 22。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 0, 8, 22, 27, 18],
+        ],
+        rowPointers: [
+            { row: 0, col: 1, label: 'i' },
+            { row: 1, col: 0, label: 'j' },
+        ],
+        rowHighlight: [{ row: 2, cols: [2] }],
+        note: 'a = 2，b = 4：arr[1 + 0 + 1 = 2] += 2 × 4 = 8 → arr[2] = 8。j 遍历完，i 前移到 0。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 0, 8, 28, 27, 18],
+        ],
+        rowPointers: [
+            { row: 0, col: 0, label: 'i' },
+            { row: 1, col: 2, label: 'j' },
+        ],
+        rowHighlight: [{ row: 2, cols: [3] }],
+        note: 'a = num1[0] = 1，b = 6：arr[0 + 2 + 1 = 3] += 1 × 6 = 6 → arr[3] = 22 + 6 = 28。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 0, 13, 28, 27, 18],
+        ],
+        rowPointers: [
+            { row: 0, col: 0, label: 'i' },
+            { row: 1, col: 1, label: 'j' },
+        ],
+        rowHighlight: [{ row: 2, cols: [2] }],
+        note: 'a = 1，b = 5：arr[0 + 1 + 1 = 2] += 1 × 5 = 5 → arr[2] = 8 + 5 = 13。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 4, 13, 28, 27, 18],
+        ],
+        rowPointers: [
+            { row: 0, col: 0, label: 'i' },
+            { row: 1, col: 0, label: 'j' },
+        ],
+        rowHighlight: [{ row: 2, cols: [1] }],
+        note: 'a = 1，b = 4：arr[0 + 0 + 1 = 1] += 1 × 4 = 4 → arr[1] = 4。相乘完成：arr = [0,4,13,28,27,18]。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 4, 13, 28, 28, 8],
+        ],
+        rowPointers: [{ row: 2, col: 5, label: 'i' }],
+        rowHighlight: [{ row: 2, cols: [4, 5] }],
+        note: '处理进位：i = 5，arr[4] += arr[5] / 10 = 18 / 10 = 1 → 28；arr[5] = arr[5] % 10 = 8。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 4, 13, 30, 8, 8],
+        ],
+        rowPointers: [{ row: 2, col: 4, label: 'i' }],
+        rowHighlight: [{ row: 2, cols: [3, 4] }],
+        note: 'i = 4，arr[3] += arr[4] / 10 = 28 / 10 = 2 → 30；arr[4] = 28 % 10 = 8。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 4, 16, 0, 8, 8],
+        ],
+        rowPointers: [{ row: 2, col: 3, label: 'i' }],
+        rowHighlight: [{ row: 2, cols: [2, 3] }],
+        note: 'i = 3，arr[2] += arr[3] / 10 = 30 / 10 = 3 → 16；arr[3] = 30 % 10 = 0。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 5, 6, 0, 8, 8],
+        ],
+        rowPointers: [{ row: 2, col: 2, label: 'i' }],
+        rowHighlight: [{ row: 2, cols: [1, 2] }],
+        note: 'i = 2，arr[1] += arr[2] / 10 = 16 / 10 = 1 → 5；arr[2] = 16 % 10 = 6。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 5, 6, 0, 8, 8],
+        ],
+        rowPointers: [{ row: 2, col: 1, label: 'i' }],
+        rowHighlight: [{ row: 2, cols: [0, 1] }],
+        note: 'i = 1，arr[0] += arr[1] / 10 = 5 / 10 = 0 → 0；arr[1] = 5 % 10 = 5。进位处理完成：arr = [0,5,6,0,8,8]。',
+    },
+    {
+        rows: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            [0, 5, 6, 0, 8, 8],
+        ],
+        note: 'arr[0] = 0（最高位无进位），i 从 1 开始拼接 → "56088" ✅。',
+    },
+]
+</script>
+
 <!-- problem:start -->
 
 # [43. 字符串相乘](https://leetcode.cn/problems/multiply-strings)
@@ -66,6 +260,15 @@ tags:
 
 时间复杂度 $O(m \times n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为 $num1$ 和 $num2$ 的长度。
 
+### 可视化演示
+
+> 以 `num1 = "123"`、`num2 = "456"` 为例，演示数学乘法模拟：第 0 行 `num1`、第 1 行 `num2`、第 2 行 `arr`（乘积累加，长度 m+n）。指针 `i`/`j` 指向当前相乘的位，黄色高亮为 `arr[i+j+1]` 被更新或进位处理的两位。
+
+<ArrayViz :steps="multiplySteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

@@ -6,6 +6,43 @@ tags:
     - 链表
 ---
 
+<script setup>
+// 方法一（模拟）可视化：head = [1,2,3,4,5]，left = 2，right = 4
+// pre 走到第 left-1 个节点后，循环将 cur 依次反接到 pre 之前，最后重新接入链表
+const reverseBetweenSteps = [
+  { lists: [
+      { title: '链表', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'dummy' }, { id: 0, label: 'pre' }] },
+    ], note: 'head = [1,2,3,4,5]，left = 2，right = 4。创建虚拟头节点 dummy，pre = dummy。' },
+  { lists: [
+      { title: '链表', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'dummy' }, { id: 1, label: 'pre' }, { id: 1, label: 'p' }, { id: 2, label: 'q' }, { id: 2, label: 'cur' }], states: [{ id: 2, state: 'hl' }] },
+    ], note: 'pre 向后移动 left-1 = 1 步到节点 1。p = pre（节点 1），q = pre.next = 节点 2，cur = q。' },
+  { lists: [
+      { title: '链表', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'dummy' }, { id: 1, label: 'p' }, { id: 2, label: 'cur' }, { id: 3, label: 't' }], states: [{ id: 2, state: 'cur' }, { id: 3, state: 'hl' }] },
+    ], note: '第 1 次循环：t = cur.next = 节点 3，准备将节点 2 拆出并反接。' },
+  { lists: [
+      { title: '链表', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'dummy' }, { id: 1, label: 'p' }, { id: 2, label: 'pre' }, { id: 3, label: 'cur' }], states: [{ id: 2, state: 'done' }] },
+    ], note: '执行 cur.next = pre（2→1），pre = cur（指向 2），cur = t（指向 3）。节点 2 已反转。' },
+  { lists: [
+      { title: '链表', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'dummy' }, { id: 1, label: 'p' }, { id: 2, label: 'pre' }, { id: 3, label: 'cur' }, { id: 4, label: 't' }], states: [{ id: 2, state: 'done' }, { id: 3, state: 'cur' }, { id: 4, state: 'hl' }] },
+    ], note: '第 2 次循环：t = cur.next = 节点 4，准备将节点 3 反接到 pre 之前。' },
+  { lists: [
+      { title: '链表', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'dummy' }, { id: 1, label: 'p' }, { id: 3, label: 'pre' }, { id: 4, label: 'cur' }], states: [{ id: 2, state: 'done' }, { id: 3, state: 'done' }] },
+    ], note: '执行 cur.next = pre（3→2），pre = cur（指向 3），cur = t（指向 4）。节点 3 已反转，反转段为 3→2→1。' },
+  { lists: [
+      { title: '链表', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'dummy' }, { id: 1, label: 'p' }, { id: 3, label: 'pre' }, { id: 4, label: 'cur' }, { id: 5, label: 't' }], states: [{ id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'cur' }, { id: 5, state: 'hl' }] },
+    ], note: '第 3 次循环：t = cur.next = 节点 5，准备将节点 4 反接到 pre 之前。' },
+  { lists: [
+      { title: '链表', values: [null, 1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'dummy' }, { id: 1, label: 'p' }, { id: 4, label: 'pre' }, { id: 5, label: 'cur' }], states: [{ id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'done' }] },
+    ], note: '执行 cur.next = pre（4→3），pre = cur（指向 4），cur = t（指向 5）。节点 4 已反转，反转段为 4→3→2→1。' },
+  { lists: [
+      { title: '链表', values: [null, 1, 4, 3, 2, 5], pointers: [{ id: 0, label: 'dummy' }, { id: 1, label: 'p' }, { id: 2, label: 'pre' }, { id: 4, label: 'q' }, { id: 5, label: 'cur' }], states: [{ id: 2, state: 'mark' }, { id: 3, state: 'mark' }, { id: 4, state: 'mark' }] },
+    ], note: '循环结束。p.next = pre（1→4）、q.next = cur（2→5），反转段 [4,3,2] 被重新接入，链表变为 1→4→3→2→5。' },
+  { lists: [
+      { title: '链表', values: [null, 1, 4, 3, 2, 5], pointers: [{ id: 0, label: 'dummy' }], states: [{ id: 1, state: 'done' }, { id: 2, state: 'mark' }, { id: 3, state: 'mark' }, { id: 4, state: 'mark' }, { id: 5, state: 'done' }] },
+    ], note: '返回 dummy.next = [1,4,3,2,5] ✅，第 2 到第 4 个节点反转完成。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [92. 反转链表 II](https://leetcode.cn/problems/reverse-linked-list-ii)
@@ -58,6 +95,16 @@ tags:
 定义一个虚拟头结点 `dummy`，指向链表的头结点 `head`，然后定义一个指针 `pre` 指向 `dummy`，从虚拟头结点开始遍历链表，遍历到第 `left` 个结点时，将 `pre` 指向该结点，然后从该结点开始遍历 `right - left + 1` 次，将遍历到的结点依次插入到 `pre` 的后面，最后返回 `dummy.next` 即可。
 
 时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为链表的长度。
+
+### 可视化演示
+
+> 以 `head = [1, 2, 3, 4, 5]`、`left = 2`、`right = 4` 为例，演示区间反转：`pre` 从虚拟头节点走到第 `left-1` 个节点，循环将 `cur` 依次反接到 `pre` 之前。蓝色为当前待反接节点，黄色为 `t`（后继节点），绿色为已完成反转的节点，红色为反转区间。点击 ▶ 播放，或逐步操作。
+
+<ListViz :steps="reverseBetweenSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 
 <!-- tabs:start -->
 ::: code-group

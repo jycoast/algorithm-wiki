@@ -8,6 +8,33 @@ tags:
     - 滑动窗口
 ---
 
+<script setup>
+// 方法一（双指针 + HashMap）可视化：s = "pwwkew" → 3（最长无重复子串 "wke"）
+// array + window：left/right 指针夹出滑动窗口，绿色区域为窗口，黄色为当前字符 c
+const lssMapSteps = [
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 0 }], window: [0, 0], note: '初始：left=0，ans=0，map 为空。right 从 0 开始遍历 s="pwwkew"。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 0 }], highlight: [0], window: [0, 0], note: 'right=0，c=s[0]="p"。map 中无 "p"，写入 map["p"]=0。窗口 "p" 无重复，ans=max(0, 0-0+1)=1。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 1 }], highlight: [1], window: [0, 1], note: 'right=1，c="w"。map 中无 "w"，写入 map["w"]=1。窗口 "pw" 无重复，ans=max(1, 1-0+1)=2。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 2 }, { label: 'right', index: 2 }], highlight: [2], window: [2, 2], note: 'right=2，c="w"，map["w"]=1 >= left(0)：窗口内重复 → left=map["w"]+1=2，更新 map["w"]=2。窗口 "w" 长度 1，ans=max(2, 1)=2。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 2 }, { label: 'right', index: 3 }], highlight: [3], window: [2, 3], note: 'right=3，c="k"。map 中无 "k"，写入 map["k"]=3。窗口 "wk" 无重复，ans=max(2, 3-2+1)=2。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 2 }, { label: 'right', index: 4 }], highlight: [4], window: [2, 4], note: 'right=4，c="e"。map 中无 "e"，写入 map["e"]=4。窗口 "wke" 无重复，ans=max(2, 4-2+1)=3。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 3 }, { label: 'right', index: 5 }], highlight: [5], window: [3, 5], note: 'right=5，c="w"，map["w"]=2 >= left(2)：窗口内重复 → left=map["w"]+1=3，更新 map["w"]=5。窗口 "kew" 长度 3，ans=max(3, 3)=3。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], note: '遍历结束，返回 ans=3 ✅（最长无重复子串为 "wke"）。' },
+]
+
+// 方法二（双指针 + HashSet）可视化：s = "pwwkew" → 3
+const lssSetSteps = [
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 0 }], window: [0, 0], note: '初始：left=0，ans=0，set 为空。right 从 0 开始遍历 s="pwwkew"。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 0 }], highlight: [0], window: [0, 0], note: 'right=0，c="p"。set 中无 "p"，加入 set。窗口 "p" 无重复，ans=max(0, 0-0+1)=1。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 1 }], highlight: [1], window: [0, 1], note: 'right=1，c="w"。set 中无 "w"，加入 set。窗口 "pw" 无重复，ans=max(1, 1-0+1)=2。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 2 }, { label: 'right', index: 2 }], highlight: [2], window: [2, 2], note: 'right=2，c="w"，set 中有 "w"：先移除 s[left=0]="p"（left=1），set 中仍有 "w"，再移除 s[1]="w"（left=2）。加入 "w"，窗口 "w" 长度 1，ans=max(2, 1)=2。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 2 }, { label: 'right', index: 3 }], highlight: [3], window: [2, 3], note: 'right=3，c="k"。set 中无 "k"，加入 set。窗口 "wk" 无重复，ans=max(2, 3-2+1)=2。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 2 }, { label: 'right', index: 4 }], highlight: [4], window: [2, 4], note: 'right=4，c="e"。set 中无 "e"，加入 set。窗口 "wke" 无重复，ans=max(2, 4-2+1)=3。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], pointers: [{ label: 'left', index: 3 }, { label: 'right', index: 5 }], highlight: [5], window: [3, 5], note: 'right=5，c="w"，set 中有 "w"：移除 s[left=2]="w"（left=3）。加入 "w"，窗口 "kew" 长度 3，ans=max(3, 3)=3。' },
+  { array: ['p', 'w', 'w', 'k', 'e', 'w'], note: '遍历结束，返回 ans=3 ✅（最长无重复子串为 "wke"）。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [3. 无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters)
@@ -79,6 +106,15 @@ for (int i = 0, j = 0; i < n; ++i) {
 }
 ```
 
+### 可视化演示
+
+> 以 `s = "pwwkew"` 为例，演示滑动窗口：`left`/`right` 双指针夹出无重复子串窗口，绿色区域为当前窗口，黄色为正在处理的字符 `c`。`map` 记录每个字符最近一次出现的下标。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="lssMapSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -153,9 +189,20 @@ class Solution:
 ```
 
 :::
+<!-- tabs:end -->
 
 ## 方法二：双指针 + HashSet
 
+### 可视化演示
+
+> 以 `s = "pwwkew"` 为例，演示滑动窗口：`left`/`right` 双指针夹出无重复子串窗口，绿色区域为当前窗口，黄色为正在处理的字符 `c`。`set` 记录窗口内已出现的字符。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="lssSetSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
+<!-- tabs:start -->
 ::: code-group
 
 ````java [Java]

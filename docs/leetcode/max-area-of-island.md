@@ -10,6 +10,89 @@ tags:
     - 矩阵
 ---
 
+<script setup>
+// 方法一（DFS）可视化：3×3 网格，整片陆地连成一个岛屿，面积为 7
+// grid: 1=陆地，0=水；dfs 返回该格所在岛屿面积，每次访问陆地格面积累加；格内 vN 为全局访问顺序
+const maxAreaDfsSteps = [
+    {
+        grid: { values: [[1, 1, 0], [1, 1, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'cur' }],
+        note: "初始网格（1=陆地，0=水）。外层循环从 (0,0) 调用 dfs(0,0)：grid[0][0]==1，进入搜索。",
+    },
+    {
+        grid: { values: [[0, 1, 0], [1, 1, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }],
+        note: "dfs(0,0)（访问序 v1）：当前格为陆地，初始面积 ans=1，将 grid[0][0] 置 0（标记已访问）。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [1, 1, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }],
+        note: "dfs(0,0) 向右递归 dfs(0,1)（访问序 v2）：该格为陆地，面积 ans=1，置 0。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 1, text: 'v3' }],
+        note: "dfs(0,1) 向下递归 dfs(1,1)（访问序 v3）：该格为陆地，面积 ans=1，置 0。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [1, 0, 0], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 1, text: 'v3' }, { r: 1, c: 2, text: 'v4' }],
+        note: "dfs(1,1) 向右递归 dfs(1,2)（访问序 v4）：该格为陆地，面积 ans=1，置 0。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [1, 0, 0], [0, 1, 0]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 2, c: 2, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 1, text: 'v3' }, { r: 1, c: 2, text: 'v4' }, { r: 2, c: 2, text: 'v5' }],
+        note: "dfs(1,2) 向下递归 dfs(2,2)（访问序 v5）：该格为陆地，面积 ans=1，置 0。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [1, 0, 0], [0, 0, 0]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 2, c: 1, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 1, text: 'v3' }, { r: 1, c: 2, text: 'v4' }, { r: 2, c: 2, text: 'v5' }, { r: 2, c: 1, text: 'v6' }],
+        note: "dfs(2,2) 向左递归 dfs(2,1)（访问序 v6）：该格为陆地，面积 ans=1，置 0。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [1, 0, 0], [0, 0, 0]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' },
+            { r: 1, c: 2, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 2, c: 1, state: 'done' },
+        ],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 1, text: 'v3' }, { r: 1, c: 2, text: 'v4' }, { r: 2, c: 2, text: 'v5' }, { r: 2, c: 1, text: 'v6' }],
+        note: "dfs(2,1) 四个邻居均非陆地，返回面积 1。回溯累加：dfs(2,2) = 1+1 = 2，dfs(1,2) = 1+2 = 3。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 0], [0, 0, 0]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' },
+            { r: 1, c: 2, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 1, c: 0, state: 'cur' },
+        ],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 1, text: 'v3' }, { r: 1, c: 2, text: 'v4' }, { r: 2, c: 2, text: 'v5' }, { r: 2, c: 1, text: 'v6' }, { r: 1, c: 0, text: 'v7' }],
+        note: "回到 dfs(1,1)：继续检查左邻 grid[1][0]==1，递归 dfs(1,0)（访问序 v7），置 0。dfs(1,0) 邻居均非陆地，返回 1，故 dfs(1,1) = 1+0+3+0+1 = 5。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 0], [0, 0, 0]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' },
+            { r: 1, c: 2, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' },
+        ],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 1, text: 'v3' }, { r: 1, c: 2, text: 'v4' }, { r: 2, c: 2, text: 'v5' }, { r: 2, c: 1, text: 'v6' }, { r: 1, c: 0, text: 'v7' }],
+        note: "继续回溯：dfs(0,1) = 1 + dfs(1,1) = 1+5 = 6；dfs(0,0) = 1 + dfs(0,1) + dfs(1,0) = 1+6+0 = 7。外层得到 ans = max(0, 7) = 7。",
+    },
+    {
+        grid: { values: [[1, 1, 0], [1, 1, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' },
+            { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' },
+        ],
+        note: "外层循环继续扫描剩余格子：均已被置 0，dfs 返回 0，ans 保持 7。最大岛屿面积为 7 ✅（整片陆地连成一个岛屿）。",
+    },
+]
+</script>
+
 <!-- problem:start -->
 
 # [695. 岛屿的最大面积](https://leetcode.cn/problems/max-area-of-island)
@@ -65,6 +148,16 @@ tags:
 我们可以遍历每一个格子 $(i, j)$，从每个格子开始进行深度优先搜索，如果搜索到的格子是陆地，就将当前格子标记为已访问，并且继续搜索上、下、左、右四个方向的格子。搜索结束后，计算标记的陆地的数量，即为岛屿的面积。我们找出最大的岛屿面积即为答案。
 
 时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是二维数组的行数和列数。
+
+### 可视化演示
+
+> 以 `grid = [[1,1,0],[1,1,1],[0,1,1]]` 为例，演示 DFS 计算岛屿最大面积：`dfs(i,j)` 返回该格所在岛屿的面积，每访问一个陆地格子面积累加 1，`ans = max(ans, dfs(i,j))` 记录最大面积。蓝色为当前递归格，绿色为已访问，格内 `vN` 为全局访问顺序。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="maxAreaDfsSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 
 <!-- tabs:start -->
 ::: code-group

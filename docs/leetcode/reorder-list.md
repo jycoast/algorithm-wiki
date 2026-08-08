@@ -9,6 +9,53 @@ tags:
     - 双指针
 ---
 
+<script setup>
+// 方法一（快慢指针 + 反转 + 合并）可视化：head = [1,2,3,4,5] → [1,5,2,4,3]
+// 阶段一：fast/slow 快慢指针找中点；阶段二：cur/pre/t 反转右半部分；阶段三：cur/pre 合并左右两半
+const reorderSteps = [
+  { lists: [
+      { title: 'head', values: [1, 2, 3, 4, 5], pointers: [{ id: 0, label: 'fast' }, { id: 0, label: 'slow' }] },
+    ], note: '初始化：fast = slow = head，都指向节点 1。' },
+  { lists: [
+      { title: 'head', values: [1, 2, 3, 4, 5], pointers: [{ id: 2, label: 'fast' }, { id: 1, label: 'slow' }] },
+    ], note: 'fast.next 与 fast.next.next 均非空：slow 前进一步到节点 2，fast 前进两步到节点 3。' },
+  { lists: [
+      { title: 'head', values: [1, 2, 3, 4, 5], pointers: [{ id: 4, label: 'fast' }, { id: 2, label: 'slow' }] },
+    ], note: '再次循环：slow 前进到节点 3，fast 前进到节点 5。' },
+  { lists: [
+      { title: 'head', values: [1, 2, 3], pointers: [{ id: 2, label: 'slow' }], states: [{ id: 2, state: 'mark' }] },
+      { title: 'cur', values: [4, 5], pointers: [{ id: 0, label: 'cur' }] },
+    ], note: 'fast.next 为 null 退出循环，slow 指向中点节点 3。cur = slow.next 指向节点 4，slow.next = null 将链表分成左右两半。' },
+  { lists: [
+      { title: 'cur', values: [4, 5], pointers: [{ id: 0, label: 'cur' }, { id: 1, label: 't' }] },
+      { title: 'pre', values: [] },
+    ], note: '反转右半部分：pre = null。cur 指向节点 4，t = cur.next = 节点 5。' },
+  { lists: [
+      { title: 'pre', values: [4], pointers: [{ id: 0, label: 'pre' }], states: [{ id: 0, state: 'done' }] },
+      { title: 'cur', values: [5], pointers: [{ id: 0, label: 'cur' }] },
+    ], note: 'cur.next = pre（节点 4 → null），pre = cur（pre 指向节点 4），cur = t（cur 指向节点 5）。' },
+  { lists: [
+      { title: 'pre', values: [5, 4], pointers: [{ id: 0, label: 'pre' }], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }] },
+      { title: 'cur', values: [] },
+    ], note: 't = cur.next = null；cur.next = pre（节点 5 → 节点 4），pre = cur（pre = [5,4]），cur = null。右半部分反转完成。' },
+  { lists: [
+      { title: 'head', values: [1, 2, 3], pointers: [{ id: 0, label: 'cur' }] },
+      { title: 'pre', values: [5, 4], pointers: [{ id: 0, label: 'pre' }] },
+    ], note: 'cur = head 重新指向左半部分头节点 1，pre 指向反转后右半部分头节点 5，开始合并左右两半。' },
+  { lists: [
+      { title: 'head', values: [1, 5, 2, 3], pointers: [{ id: 2, label: 'cur' }], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }] },
+      { title: 'pre', values: [4], pointers: [{ id: 0, label: 'pre' }] },
+    ], note: '第一轮：t = pre.next = 节点 4；pre.next = cur.next（节点 5 → 节点 2）；cur.next = pre（节点 1 → 节点 5）；cur = pre.next（节点 2），pre = t（节点 4）。' },
+  { lists: [
+      { title: 'head', values: [1, 5, 2, 4, 3], pointers: [{ id: 4, label: 'cur' }], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }] },
+      { title: 'pre', values: [] },
+    ], note: '第二轮：t = pre.next = null；pre.next = cur.next（节点 4 → 节点 3）；cur.next = pre（节点 2 → 节点 4）；cur = pre.next（节点 3），pre = null。循环结束。' },
+  { lists: [
+      { title: 'head', values: [1, 5, 2, 4, 3], states: [{ id: 0, state: 'mark' }, { id: 1, state: 'mark' }, { id: 2, state: 'mark' }, { id: 3, state: 'mark' }, { id: 4, state: 'mark' }] },
+    ], note: '链表重排完成：1 → 5 → 2 → 4 → 3 ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [143. 重排链表](https://leetcode.cn/problems/reorder-list)
@@ -67,6 +114,16 @@ L<sub>0</sub> → L<sub>n</sub> → L<sub>1</sub> → L<sub>n - 1</sub> → L<su
 我们先用快慢指针找到链表的中点，然后将链表的后半部分反转，最后将左右两个链表合并。
 
 时间复杂度 $O(n)$，其中 $n$ 是链表的长度。空间复杂度 $O(1)$。
+
+### 可视化演示
+
+> 以 `head = [1, 2, 3, 4, 5]` 为例，演示「快慢指针找中点 → 反转右半部分 → 合并左右两半」三步。蓝色为当前操作节点，黄色为参照节点，绿色为已处理节点，红色为目标/结果。点击 ▶ 播放，或逐步操作。
+
+<ListViz :steps="reorderSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 
 <!-- tabs:start -->
 ::: code-group

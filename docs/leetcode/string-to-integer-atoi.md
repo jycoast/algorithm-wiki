@@ -6,6 +6,53 @@ tags:
     - 字符串
 ---
 
+<script setup>
+// 方法一（遍历字符串）可视化：s = " -042" → -42
+// array 模式：展示字符串逐字符解析，指针 i 为当前读取位置
+const myAtoiSteps = [
+    {
+        array: [' ', '-', '0', '4', '2'],
+        pointers: [{ label: 'i', index: 0 }],
+        note: 's = " -042"。i = 0。算法先跳过前导空格，再判断符号，最后逐位解析数字并做溢出检查。',
+    },
+    {
+        array: [' ', '-', '0', '4', '2'],
+        pointers: [{ label: 'i', index: 1 }],
+        highlight: [1],
+        note: 's[0] 是空格，i 前进到 1；s[1] = "-" 不是空格，跳过空格结束（若字符串全为空格，i 会到达 n 并返回 0）。',
+    },
+    {
+        array: [' ', '-', '0', '4', '2'],
+        pointers: [{ label: 'i', index: 1 }],
+        highlight: [1],
+        note: '判断符号：s[1] == "-"，sign = -1；若为 "+" 则 sign = 1。读取符号后 i 自增到 2。',
+    },
+    {
+        array: [' ', '-', '0', '4', '2'],
+        pointers: [{ label: 'i', index: 2 }],
+        highlight: [2],
+        note: 's[2] = "0" 是数字，c = 0。溢出检查：res = 0 ≤ flag = 214748364 → res = 0 × 10 + 0 = 0（前导零不改变结果）。i 前进到 3。',
+    },
+    {
+        array: [' ', '-', '0', '4', '2'],
+        pointers: [{ label: 'i', index: 3 }],
+        highlight: [3],
+        note: 's[3] = "4"，c = 4。res = 0 ≤ flag → res = 0 × 10 + 4 = 4。i 前进到 4。',
+    },
+    {
+        array: [' ', '-', '0', '4', '2'],
+        pointers: [{ label: 'i', index: 4 }],
+        highlight: [4],
+        note: 's[4] = "2"，c = 2。res = 4 ≤ flag → res = 4 × 10 + 2 = 42。i 前进到 5。',
+    },
+    {
+        array: [' ', '-', '0', '4', '2'],
+        pointers: [{ label: 'i', index: 5 }],
+        note: 'i == n（5），循环结束。全程未触发溢出：溢出条件是 res > flag 或（res == flag 且当前数字 > 7），例如 "2147483648" 会在最后一位触发并返回 INT_MAX = 2147483647。最终返回 sign × res = -1 × 42 = -42 ✅。',
+    },
+]
+</script>
+
 <!-- problem:start -->
 
 # [8. 字符串转换整数 (atoi)](https://leetcode.cn/problems/string-to-integer-atoi)
@@ -146,6 +193,15 @@ tags:
 
 同[面试题 67. 把字符串转换成整数](https://github.com/doocs/leetcode/blob/main/lcof/面试题67.%20把字符串转换成整数/README.md)。
 
+### 可视化演示
+
+> 以 `s = " -042"` 为例，演示逐字符解析：数组每个元素是一个字符，指针 `i` 为当前读取位置，黄色高亮为正在处理的字符。重点展示跳过前导空格、符号 `sign` 判断、前导零处理与溢出判断。
+
+<ArrayViz :steps="myAtoiSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

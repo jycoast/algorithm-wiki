@@ -7,6 +7,19 @@ tags:
     - 字符串
 ---
 
+<script setup>
+// 方法一（栈）可视化：s = "([])"，演示左括号入栈、右括号弹栈匹配
+// 上行 = 被遍历的括号序列 s，下行 = 栈 stk 内容（栈顶在行尾）
+const validParenthesesSteps = [
+  { rows: [['(', '[', ']', ')'], []], rowPointers: [{ row: 0, col: 0, label: 'c' }], note: '初始：指针 c 指向 s[0]="("，栈 stk 为空，开始遍历。' },
+  { rows: [['(', '[', ']', ')'], ['(']], rowPointers: [{ row: 0, col: 0, label: 'c' }, { row: 1, col: 0, label: '栈顶' }], rowHighlight: [{ row: 0, cols: [0] }, { row: 1, cols: [0] }], note: 'c="(" 是左括号 → push 入栈。stk=["("]，栈顶为 "("。' },
+  { rows: [['(', '[', ']', ')'], ['(', '[']], rowPointers: [{ row: 0, col: 1, label: 'c' }, { row: 1, col: 1, label: '栈顶' }], rowHighlight: [{ row: 0, cols: [1] }, { row: 1, cols: [1] }], note: 'c="[" 是左括号 → push 入栈。stk=["(", "["]，栈顶为 "["。' },
+  { rows: [['(', '[', ']', ')'], ['(']], rowPointers: [{ row: 0, col: 2, label: 'c' }, { row: 1, col: 0, label: '栈顶' }], rowHighlight: [{ row: 0, cols: [2] }, { row: 1, cols: [0] }], note: 'c="]" 是右括号 → pop 栈顶 "[" 并匹配成功（"[" 与 "]" 配对）。stk=["("]。' },
+  { rows: [['(', '[', ']', ')'], []], rowPointers: [{ row: 0, col: 3, label: 'c' }], rowHighlight: [{ row: 0, cols: [3] }], note: 'c=")" 是右括号 → pop 栈顶 "(" 并匹配成功（"(" 与 ")" 配对）。stk=[]。' },
+  { rows: [['(', '[', ']', ')'], []], note: '遍历结束，栈 stk 为空 → 所有括号都正确闭合，返回 true ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [20. 有效的括号](https://leetcode.cn/problems/valid-parentheses)
@@ -73,6 +86,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为括号字符串 $s$ 的长度。
 
+### 可视化演示
+
+> 以 `s = "([])"` 为例：上方是被遍历的括号序列（指针 `c` 依次扫描），下方是栈 `stk` 内容（`栈顶` 指针标出栈顶），黄色高亮为当前字符与栈顶元素；遇左括号入栈，遇右括号弹栈匹配。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="validParenthesesSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

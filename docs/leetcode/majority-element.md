@@ -10,6 +10,17 @@ tags:
     - 排序
 ---
 
+<script setup>
+// 方法一（摩尔投票法）可视化：nums = [3,2,3]，n=3
+const majorityElementSteps = [
+  { array: [3, 2, 3], pointers: [{ label: 'x', index: 0 }], note: 'nums = [3,2,3]。初始化候选 m=0，计数器 cnt=0。准备遍历第一个元素 x = nums[0] = 3' },
+  { array: [3, 2, 3], pointers: [{ label: 'x', index: 0 }], highlight: [0], note: 'x=3，cnt==0 → 令候选 m=3，cnt=1' },
+  { array: [3, 2, 3], pointers: [{ label: 'x', index: 1 }], highlight: [1], note: 'x=2，cnt=1≠0，m(3)≠x(2) → cnt=1-1=0' },
+  { array: [3, 2, 3], pointers: [{ label: 'x', index: 2 }], highlight: [2], note: 'x=3，cnt==0 → 令候选 m=3，cnt=1' },
+  { array: [3, 2, 3], note: '遍历结束，候选 m=3。3 在 [3,2,3] 中出现 2 次，大于 n/2=1 → 返回多数元素 3 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [169. 多数元素](https://leetcode.cn/problems/majority-element)
@@ -68,6 +79,15 @@ tags:
 
 时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以 `nums = [3, 2, 3]` 为例，演示摩尔投票：指针 `x` 标当前元素，黄色为正在处理的元素；`m` 为候选多数元素，`cnt` 为计数器。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="majorityElementSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

@@ -8,6 +8,31 @@ tags:
     - 双指针
 ---
 
+<script setup>
+// 方法一（快慢指针）可视化：head = [3,2,0,-4]，pos = 1（尾节点 -4 指向下标 1 的节点 2，构成环）
+// 变量名与代码一致：阶段一 fast/slow 找相遇点（节点 -4），阶段二 ans 与 slow 同步走找环入口（节点 2）
+const detectCycleSteps = [
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 0, label: 'fast' }, { id: 0, label: 'slow' }] },
+    ], note: '阶段一：`fast = slow = head`，先移动快慢指针寻找相遇点。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 2, label: 'fast' }, { id: 1, label: 'slow' }], states: [{ id: 2, state: 'cur' }, { id: 1, state: 'hl' }] },
+    ], note: '第 1 轮：`slow = slow.next` → 节点 2，`fast = fast.next.next` → 节点 0，二者未相遇。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 1, label: 'fast' }, { id: 2, label: 'slow' }], states: [{ id: 1, state: 'cur' }, { id: 2, state: 'hl' }] },
+    ], note: '第 2 轮：slow → 节点 0，fast → 节点 2（绕环半圈），二者未相遇。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 3, label: 'fast' }, { id: 3, label: 'slow' }], states: [{ id: 3, state: 'cur' }] },
+    ], note: '第 3 轮：slow 与 fast 在节点 -4 相遇，确认链表存在环。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 3, label: 'slow' }, { id: 0, label: 'ans' }], states: [{ id: 3, state: 'done' }] },
+    ], note: '阶段二：令 `ans = head`，ans 与 slow 同步每次走一步，直到二者相遇，相遇节点即环入口。' },
+  { lists: [
+      { title: 'head', values: [3, 2, 0, -4], cycleTo: 1, pointers: [{ id: 1, label: 'slow' }, { id: 1, label: 'ans' }], states: [{ id: 1, state: 'mark' }, { id: 3, state: 'done' }] },
+    ], note: 'ans 与 slow 均走到节点 2，二者相遇，该节点即环入口（下标 1），返回 `ans` ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [142. 环形链表 II](https://leetcode.cn/problems/linked-list-cycle-ii)
@@ -95,6 +120,16 @@ tags:
 也即是说，如果我们定义一个答案指针 $ans$ 指向链表头部，然后 $ans$ 和慢指针一起向前走，那么它们一定会在环入口相遇。
 
 时间复杂度 $O(n)$，其中 $n$ 是链表中节点的数目。空间复杂度 $O(1)$。
+
+### 可视化演示
+
+> 以 `head = [3, 2, 0, -4]`、`pos = 1` 为例，演示快慢指针找环入口：阶段一 `fast`/`slow` 移动找相遇点，阶段二 `ans` 与 `slow` 同步走，相遇节点即环入口。蓝色为 `fast`/`ans` 当前节点，黄色为 `slow` 当前节点，绿色为已确认的相遇节点，红色为环入口结果。点击 ▶ 播放，或逐步操作。
+
+<ListViz :steps="detectCycleSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 
 <!-- tabs:start -->
 ::: code-group

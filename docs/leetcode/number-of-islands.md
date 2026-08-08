@@ -10,6 +10,216 @@ tags:
     - 矩阵
 ---
 
+<script setup>
+// 方法一（Flood fill / DFS）可视化：3×3 网格，2 个岛屿
+// grid: 1=陆地，0=水；DFS 每访问一格即置 '0'；格内 vN 为全局访问顺序，dfs 指针指向当前递归栈顶
+const islandDfsSteps = [
+    {
+        grid: { values: [[1, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'cur' }],
+        note: "初始网格（1=陆地，0=水）。外层循环从 (0,0) 扫描，遇到 grid[0][0]=='1'，岛屿数 ans 从 0 记为 1，调用 dfs(0,0)。",
+    },
+    {
+        grid: { values: [[0, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }],
+        gridPointers: [{ r: 0, c: 0, label: 'dfs' }],
+        note: "dfs(0,0)（访问序 v1）：先将 grid[0][0] 置 '0'（标记已访问）。按 dirs=[-1,0,1,0,-1]（上右下左）依次检查邻居。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }],
+        gridPointers: [{ r: 0, c: 1, label: 'dfs' }],
+        note: "dfs(0,0) 检查右邻 grid[0][1]=='1'，递归 dfs(0,1)（访问序 v2），将 grid[0][1] 置 '0'。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }],
+        note: "dfs(0,1)：四个邻居（上越界、grid[0][2]=0、grid[1][1]=0、grid[0][0]=0）均非陆地，回溯到 dfs(0,0)。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }],
+        gridPointers: [{ r: 1, c: 0, label: 'dfs' }],
+        note: "dfs(0,0) 继续检查下邻 grid[1][0]=='1'，递归 dfs(1,0)（访问序 v3），将 grid[1][0] 置 '0'。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }],
+        note: "dfs(1,0)：邻居（grid[0][0]、grid[1][1] 为 0，其余越界）均非陆地，回溯。第 1 个岛屿（左上 3 格）遍历完成，dfs(0,0) 返回。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 2, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }, { r: 1, c: 2, text: 'v4' }],
+        gridPointers: [{ r: 1, c: 2, label: 'dfs' }],
+        note: "继续外层扫描，跳过已置 '0' 的格子。扫描到 grid[1][2]=='1'，岛屿数 ans 增至 2，调用 dfs(1,2)（访问序 v4）。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 0], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 2, c: 2, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }, { r: 1, c: 2, text: 'v4' }, { r: 2, c: 2, text: 'v5' }],
+        gridPointers: [{ r: 2, c: 2, label: 'dfs' }],
+        note: "dfs(1,2)（访问序 v4）检查下邻 grid[2][2]=='1'，递归 dfs(2,2)（访问序 v5），将 grid[2][2] 置 '0'。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 0], [0, 1, 0]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 2, c: 1, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }, { r: 1, c: 2, text: 'v4' }, { r: 2, c: 2, text: 'v5' }, { r: 2, c: 1, text: 'v6' }],
+        gridPointers: [{ r: 2, c: 1, label: 'dfs' }],
+        note: "dfs(2,2) 检查左邻 grid[2][1]=='1'，递归 dfs(2,1)（访问序 v6），将 grid[2][1] 置 '0'。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 0], [0, 0, 0]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' },
+            { r: 1, c: 2, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 2, c: 1, state: 'done' },
+        ],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }, { r: 1, c: 2, text: 'v4' }, { r: 2, c: 2, text: 'v5' }, { r: 2, c: 1, text: 'v6' }],
+        note: "dfs(2,1)：邻居均非陆地，回溯。第 2 个岛屿（右下 3 格）遍历完成。",
+    },
+    {
+        grid: { values: [[1, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' },
+            { r: 1, c: 2, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' },
+        ],
+        note: "外层扫描结束。共有 2 个岛屿：左上 {(0,0),(0,1),(1,0)} 与右下 {(1,2),(2,1),(2,2)}，返回 ans=2 ✅。",
+    },
+]
+// 方法二（BFS）可视化：3×3 网格，2 个岛屿
+// q 为队列，p 指向当前出队元素；格内 vN 为全局访问顺序
+const islandBfsSteps = [
+    {
+        grid: { values: [[1, 1, 0], [1, 1, 0], [0, 0, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'cur' }],
+        note: "初始网格（1=陆地，0=水）。外层扫描到 grid[0][0]=='1'，岛屿数 ans 记为 1，调用 bfs(0,0)。",
+    },
+    {
+        grid: { values: [[0, 1, 0], [1, 1, 0], [0, 0, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }],
+        gridPointers: [{ r: 0, c: 0, label: 'q' }],
+        note: "bfs(0,0)：将 grid[0][0] 置 '0' 并加入队列 q=[[0,0]]，作为本岛屿的起点（图中 q 指向队内起点）。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 1, 0], [0, 0, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'cur' }, { r: 1, c: 0, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }],
+        gridPointers: [{ r: 0, c: 0, label: 'p' }],
+        note: "出队 q 头部 (0,0)（访问序 v1，p 指向当前出队元素）。检查四邻：grid[0][1] 与 grid[1][0] 为陆地，置 '0' 并入队，q=[[0,1],[1,0]]。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 0], [0, 0, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }, { r: 1, c: 1, text: 'v4' }],
+        gridPointers: [{ r: 0, c: 1, label: 'p' }],
+        note: "出队 (0,1)（访问序 v2）。其下邻 grid[1][1] 为陆地，置 '0' 并入队，q=[[1,0],[1,1]]。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 0], [0, 0, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }, { r: 1, c: 1, text: 'v4' }],
+        gridPointers: [{ r: 1, c: 0, label: 'p' }],
+        note: "出队 (1,0)（访问序 v3）。四个邻居均已访问或越界，无新入队，q=[[1,1]]。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 0], [0, 0, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }, { r: 1, c: 1, text: 'v4' }],
+        gridPointers: [{ r: 1, c: 1, label: 'p' }],
+        note: "出队 (1,1)（访问序 v4）。邻居均非陆地，q 变空。第 1 个岛屿（左上 2×2）遍历完成。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 0], [0, 0, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 2, c: 2, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }, { r: 1, c: 1, text: 'v4' }, { r: 2, c: 2, text: 'v5' }],
+        note: "继续外层扫描，跳过已访问格子。扫描到 grid[2][2]=='1'，岛屿数 ans 增至 2，调用 bfs(2,2)（访问序 v5）。",
+    },
+    {
+        grid: { values: [[0, 0, 0], [0, 0, 0], [0, 0, 0]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }],
+        gridTexts: [{ r: 0, c: 0, text: 'v1' }, { r: 0, c: 1, text: 'v2' }, { r: 1, c: 0, text: 'v3' }, { r: 1, c: 1, text: 'v4' }, { r: 2, c: 2, text: 'v5' }],
+        gridPointers: [{ r: 2, c: 2, label: 'p' }],
+        note: "bfs(2,2)（访问序 v5）：置 grid[2][2]='0' 并入队后出队，四个邻居均非陆地，q 变空。第 2 个岛屿只有 1 格。",
+    },
+    {
+        grid: { values: [[1, 1, 0], [1, 1, 0], [0, 0, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' },
+            { r: 2, c: 2, state: 'done' },
+        ],
+        note: "扫描结束。共 2 个岛屿：左上 2×2 连通块 {(0,0),(0,1),(1,0),(1,1)} 与右下单格 {(2,2)}，返回 ans=2 ✅。",
+    },
+]
+// 方法三（并查集）可视化：3×3 网格，2 个岛屿
+// 格内数字为该格所属集合的根编号；dirs=[1,0,1] 只检查「下方」「右方」邻居
+const islandUnionSteps = [
+    {
+        grid: { values: [[1, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'cur' }],
+        note: "并查集初始化：p[i]=i，每个陆地格子自成一个集合。为每个格子编号 id=i*3+j（如 (0,1)→1、(1,2)→5）。扫描时只检查「下方」与「右方」邻居（dirs=[1,0,1]），避免重复合并。从 (0,0) 开始。",
+    },
+    {
+        grid: { values: [[1, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'cur' }, { r: 1, c: 0, state: 'hl' }],
+        gridTexts: [{ r: 0, c: 0, text: '0' }, { r: 0, c: 1, text: '1' }, { r: 1, c: 0, text: '0' }, { r: 1, c: 2, text: '5' }, { r: 2, c: 1, text: '7' }, { r: 2, c: 2, text: '8' }],
+        note: "处理 (0,0)：下方 grid[1][0]=='1'，合并 union(3, 0)：p[find(3)]=find(0)，即 p[3]=0。(1,0) 的根更新为 0（与 (0,0) 同属一个集合）。",
+    },
+    {
+        grid: { values: [[1, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'hl' }, { r: 1, c: 0, state: 'done' }],
+        gridTexts: [{ r: 0, c: 0, text: '0' }, { r: 0, c: 1, text: '0' }, { r: 1, c: 0, text: '0' }, { r: 1, c: 2, text: '5' }, { r: 2, c: 1, text: '7' }, { r: 2, c: 2, text: '8' }],
+        note: "继续处理 (0,0) 的右邻 grid[0][1]=='1'，union(1, 0)：p[find(1)]=find(0)，即 p[1]=0。左上 3 格 (0,0),(0,1),(1,0) 同属根 0。",
+    },
+    {
+        grid: { values: [[1, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'cur' }],
+        gridTexts: [{ r: 0, c: 0, text: '0' }, { r: 0, c: 1, text: '0' }, { r: 1, c: 0, text: '0' }, { r: 1, c: 2, text: '5' }, { r: 2, c: 1, text: '7' }, { r: 2, c: 2, text: '8' }],
+        note: "处理 (0,1) 与 (1,0)：其下方/右方邻居 grid[1][1]=0、grid[0][2]=0、grid[2][0]=0 均非陆地，无需合并。",
+    },
+    {
+        grid: { values: [[1, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' },
+            { r: 1, c: 2, state: 'cur' }, { r: 2, c: 2, state: 'hl' },
+        ],
+        gridTexts: [{ r: 0, c: 0, text: '0' }, { r: 0, c: 1, text: '0' }, { r: 1, c: 0, text: '0' }, { r: 1, c: 2, text: '5' }, { r: 2, c: 1, text: '7' }, { r: 2, c: 2, text: '5' }],
+        note: "处理 (1,2)：下方 grid[2][2]=='1'，union(8, 5)：p[find(8)]=find(5)，即 p[8]=5。(2,2) 并入根 5。",
+    },
+    {
+        grid: { values: [[1, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 2, state: 'done' },
+            { r: 2, c: 1, state: 'cur' }, { r: 2, c: 2, state: 'hl' },
+        ],
+        gridTexts: [{ r: 0, c: 0, text: '0' }, { r: 0, c: 1, text: '0' }, { r: 1, c: 0, text: '0' }, { r: 1, c: 2, text: '7' }, { r: 2, c: 1, text: '7' }, { r: 2, c: 2, text: '7' }],
+        note: "处理 (2,1)：右方 grid[2][2]=='1'，union(8, 7)：find(8)=5（经路径压缩），故 p[5]=find(7)=7。右下 3 格 (1,2),(2,1),(2,2) 同属根 7。",
+    },
+    {
+        grid: { values: [[1, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'mark' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 2, state: 'done' },
+            { r: 2, c: 1, state: 'mark' }, { r: 2, c: 2, state: 'done' },
+        ],
+        gridTexts: [{ r: 0, c: 0, text: '0' }, { r: 0, c: 1, text: '0' }, { r: 1, c: 0, text: '0' }, { r: 1, c: 2, text: '7' }, { r: 2, c: 1, text: '7' }, { r: 2, c: 2, text: '7' }],
+        note: "统计阶段：遍历陆地格子，统计满足 find(id)==id 的根。find(0)=0 → (0,0) 是根，ans 计 1；(0,1)、(1,0) 根为 0；(1,2)、(2,2) 根为 7；find(7)=7 → (2,1) 是根，ans 计 2。故 ans=2。",
+    },
+    {
+        grid: { values: [[1, 1, 0], [1, 0, 1], [0, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+        gridStates: [
+            { r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 0, state: 'done' },
+            { r: 1, c: 2, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' },
+        ],
+        note: "最终答案：网格中岛屿数量为 2，即并查集中根节点的个数 ✅。",
+    },
+]
+</script>
+
 <!-- problem:start -->
 
 # [200. 岛屿数量](https://leetcode.cn/problems/number-of-islands)
@@ -74,6 +284,16 @@ Flood fill 算法是从一个区域中提取若干个连通的点与其他相邻
 最简单的实现方法是采用 DFS 的递归方法，也可以采用 BFS 的迭代来实现。
 
 时间复杂度 $O(m\times n)$，空间复杂度 $O(m\times n)$。其中 $m$ 和 $n$ 分别为网格的行数和列数。
+
+### 可视化演示
+
+> 以 `grid = [[1,1,0],[1,0,1],[0,1,1]]` 为例，演示 DFS（深度优先搜索）Flood fill 遍历：遇到陆地 `1` 即递归访问并置 `0`。蓝色为当前递归格，绿色为已访问，格内 `vN` 为全局访问顺序，`dfs` 指针指向当前递归栈顶。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="islandDfsSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 
 <!-- tabs:start -->
 ::: code-group
@@ -201,44 +421,23 @@ class Solution:
 
 <!-- solution:start -->
 
-## 方法二：并查集
+## 方法二：广度优先搜索
 
-并查集是一种树形的数据结构，顾名思义，它用于处理一些不交集的**合并**及**查询**问题。 它支持两种操作：
+我们也可以用广度优先搜索（BFS）来遍历岛屿。
 
-1. 查找（Find）：确定某个元素处于哪个子集，单次操作时间复杂度 $O(\alpha(n))$
-1. 合并（Union）：将两个子集合并成一个集合，单次操作时间复杂度 $O(\alpha(n))$
+遍历整个网格，当遇到一个值为 `1` 的格子时，说明发现了一个新的岛屿，答案加 `1`。然后用队列 `q` 进行广度优先搜索：先将当前格子置为 `0`（标记为已访问）并入队，再从队首出队一个格子，检查其上、下、左、右四个方向（`dirs` 数组）的邻居，若为 `1` 则同样置 `0` 并入队。直到队列为空，这一整片岛屿的所有格子就都被标记为已访问。
 
-其中 $\alpha$ 为阿克曼函数的反函数，其增长极其缓慢，也就是说其单次操作的平均运行时间可以认为是一个很小的常数。
+时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别为网格的行数和列数。每个格子至多入队、出队一次。空间复杂度 $O(m \times n)$，队列最坏情况下容纳整个岛屿。
 
-以下是并查集的常用模板，需要熟练掌握。其中：
+### 可视化演示
 
--   `n` 表示节点数
--   `p` 存储每个点的父节点，初始时每个点的父节点都是自己
--   `size` 只有当节点是祖宗节点时才有意义，表示祖宗节点所在集合中，点的数量
--   `find(x)` 函数用于查找 $x$ 所在集合的祖宗节点
--   `union(a, b)` 函数用于合并 $a$ 和 $b$ 所在的集合
+> 以 `grid = [[1,1,0],[1,1,0],[0,0,1]]` 为例，演示 BFS（广度优先搜索）遍历岛屿：`q` 为队列，`p` 指向当前出队的元素，蓝色为当前处理，绿色为已访问，格内 `vN` 为全局访问顺序。点击 ▶ 播放，或逐步操作。
 
-```python [Python]
-p = list(range(n))
-size = [1] * n
+<DpViz :steps="islandBfsSteps" />
 
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
 
-def find(x):
-    if p[x] != x:
-        # 路径压缩
-        p[x] = find(p[x])
-    return p[x]
-
-
-def union(a, b):
-    pa, pb = find(a), find(b)
-    if pa == pb:
-        return
-    p[pa] = pb
-    size[pb] += size[pa]
-```
-
-时间复杂度 $O(m\times n\times \alpha(m\times n))$。其中 $m$ 和 $n$ 分别为网格的行数和列数。
+<a id="code-2"></a>
 
 <!-- tabs:start -->
 ::: code-group
@@ -393,6 +592,16 @@ class Solution:
 <!-- solution:start -->
 
 ## 方法三
+
+### 可视化演示
+
+> 以 `grid = [[1,1,0],[1,0,1],[0,1,1]]` 为例，演示并查集合并过程：格内数字为该格所属集合的根编号（`id = i*3+j`），蓝色为当前处理，黄色为被合并的邻居，绿色为已合并，红色为集合根节点（用于统计答案）。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="islandUnionSteps" />
+
+<div class="viz-jump"><a href="#code-3">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-3"></a>
 
 <!-- tabs:start -->
 ::: code-group

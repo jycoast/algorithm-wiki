@@ -7,6 +7,21 @@ tags:
     - 设计
 ---
 
+<script setup>
+// 方法一（双栈）可视化：push(-2) → push(0) → push(-3) → getMin() → pop() → top() → getMin()
+// 上行 stk1 存数据，下行 stk2 存各时刻最小值（底部哨兵 ∞，栈顶在行尾）
+const minStackSteps = [
+  { rows: [[], ['∞']], note: '初始化 MinStack：stk1 存数据、stk2 存最小值。stk2 底部压入哨兵 ∞（极大值），保证 getMin 始终有值。' },
+  { rows: [[-2], ['∞', -2]], rowPointers: [{ row: 0, col: 0, label: '栈顶' }, { row: 1, col: 1, label: '栈顶' }], rowHighlight: [{ row: 0, cols: [0] }, { row: 1, cols: [1] }], note: 'push(-2)：stk1 压入 -2；stk2 压入 min(-2, ∞) = -2。当前最小值 -2。' },
+  { rows: [[-2, 0], ['∞', -2, -2]], rowPointers: [{ row: 0, col: 1, label: '栈顶' }, { row: 1, col: 2, label: '栈顶' }], rowHighlight: [{ row: 0, cols: [1] }, { row: 1, cols: [2] }], note: 'push(0)：stk1 压入 0；stk2 压入 min(0, -2) = -2。最小值仍为 -2。' },
+  { rows: [[-2, 0, -3], ['∞', -2, -2, -3]], rowPointers: [{ row: 0, col: 2, label: '栈顶' }, { row: 1, col: 3, label: '栈顶' }], rowHighlight: [{ row: 0, cols: [2] }, { row: 1, cols: [3] }], note: 'push(-3)：stk1 压入 -3；stk2 压入 min(-3, -2) = -3。最小值更新为 -3。' },
+  { rows: [[-2, 0, -3], ['∞', -2, -2, -3]], rowPointers: [{ row: 0, col: 2, label: '栈顶' }, { row: 1, col: 3, label: '栈顶' }], note: 'getMin()：直接返回 stk2 栈顶 -3，两栈均不变。' },
+  { rows: [[-2, 0], ['∞', -2, -2]], rowPointers: [{ row: 0, col: 1, label: '栈顶' }, { row: 1, col: 2, label: '栈顶' }], rowHighlight: [{ row: 0, cols: [1] }, { row: 1, cols: [2] }], note: 'pop()：stk1 弹出栈顶 -3，stk2 同步弹出栈顶 -3，两栈保持同步。' },
+  { rows: [[-2, 0], ['∞', -2, -2]], rowPointers: [{ row: 0, col: 1, label: '栈顶' }, { row: 1, col: 2, label: '栈顶' }], note: 'top()：返回 stk1 栈顶 0，两栈均不变。' },
+  { rows: [[-2, 0], ['∞', -2, -2]], rowPointers: [{ row: 0, col: 1, label: '栈顶' }, { row: 1, col: 2, label: '栈顶' }], note: 'getMin()：返回 stk2 栈顶 -2，两栈均不变 ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [155. 最小栈](https://leetcode.cn/problems/min-stack)
@@ -75,6 +90,15 @@ minStack.getMin();   --&gt; 返回 -2.
 
 每个操作的时间复杂度为 $O(1)$。整体的空间复杂度为 $O(n)$，其中 $n$ 为栈中元素的个数。
 
+### 可视化演示
+
+> 以操作序列 `push(-2) → push(0) → push(-3) → getMin() → pop() → top() → getMin()` 为例：上行 `stk1` 存数据，下行 `stk2` 存各时刻最小值（底部哨兵 `∞`），黄色高亮为本次 push/pop 涉及的元素，`栈顶` 指针标出两栈栈顶。每次 push/pop 两栈同步变化。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="minStackSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 
