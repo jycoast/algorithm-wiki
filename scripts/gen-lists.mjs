@@ -7,12 +7,13 @@
  *   2. scripts/list-data.json —— Top100 热度排序 order + 分类归属 categories
  *
  * 生成输出：
- *   1. docs/.vitepress/configs/sidebar.mts   （按分类折叠的侧边栏）
+ *   1. docs/.vitepress/configs/sidebar.mts   （分类折叠侧边栏 + Top100 平铺侧边栏）
  *   2. docs/index.md                         （首页分类表格）
+ *   3. docs/top100.md                        （Top100 热度榜页面）
  *
  * 用法：
  *   node scripts/gen-lists.mjs --init   # 首次：从现有 sidebar.mts / index.md 抽取生成 list-data.json
- *   node scripts/gen-lists.mjs          # 生成两份清单 + 一致性校验
+ *   node scripts/gen-lists.mjs          # 生成全部清单 + 一致性校验
  *
  * 校验项：文件缺失、标题/难度/tags 缺失、重复 slug、未分类/未收录文件等。
  */
@@ -27,6 +28,7 @@ const LEETCODE_DIR = path.join(ROOT, 'docs', 'leetcode')
 const DATA_FILE = path.join(__dirname, 'list-data.json')
 const SIDEBAR_FILE = path.join(ROOT, 'docs', '.vitepress', 'configs', 'sidebar.mts')
 const INDEX_FILE = path.join(ROOT, 'docs', 'index.md')
+const TOP100_FILE = path.join(ROOT, 'docs', 'top100.md')
 
 /** 首页分类顺序（也是 index.md 的章节顺序） */
 const CATEGORY_ORDER = ['数组', '字符串', '链表', '栈与队列', '二叉树', '回溯法', '动态规划', '图论', '数学']
@@ -93,9 +95,10 @@ function readProblems() {
 
 function extractSidebarOrder() {
   const src = fs.readFileSync(SIDEBAR_FILE, 'utf8')
-  const slugs = []
-  for (const m of src.matchAll(/link:\s*"\/leetcode\/([^"]+)"/g)) slugs.push(m[1])
-  return slugs
+  // 优先从 getTop100() 提取（它就是 order 的有序镜像）；旧格式回退整文件
+  const m = src.match(/function getTop100\(\) \{[\s\S]*?\n\}/)
+  const block = m ? m[0] : src
+  return [...block.matchAll(/link:\s*"\/leetcode\/([^"]+)"/g)].map((x) => x[1])
 }
 
 function extractIndexCategories() {
@@ -151,14 +154,29 @@ ${items}
     }`
     })
     .join(',\n')
+  const top100Items = data.order
+    .map((slug) => `        { text: "${problems[slug].title}", link: "/leetcode/${slug}" },`)
+    .join('\n')
   return `export default {
   '/': getLeetCode(),
+  '/top100': getTop100(),
   '/template/': getTemplate()
 }
 
 function getLeetCode() {
   return [
 ${groups}
+  ]
+}
+
+function getTop100() {
+  return [
+    {
+      text: 'Top100',
+      items: [
+${top100Items}
+      ]
+    }
   ]
 }
 
@@ -194,7 +212,31 @@ title: Algorithm Wiki
 ---
 
 # 题目分类
+
+> 按分类浏览全部题目。想按热度优先刷题？前往 [Top100 热度榜](/top100)。
 ${sections}`
+}
+
+/* ---------------- 生成 top100.md ---------------- */
+
+function renderTop100(data, problems) {
+  const rows = data.order
+    .map((slug, i) => {
+      const p = problems[slug]
+      return `| ${i + 1} | [${p.title}](/leetcode/${slug}.md) | ${p.difficulty} |`
+    })
+    .join('\n')
+  return `---
+title: Top100 热度榜
+---
+
+# Top100 热度榜
+
+按 [CodeTop](https://codetop.cc/) 热度从高到低排列，优先刷高频题目。
+
+| # | 题目 | 难度 |
+| :---: | :--- | :---: |
+${rows}`
 }
 
 /* ---------------- 校验 ---------------- */
@@ -262,8 +304,10 @@ function main() {
 
   fs.writeFileSync(SIDEBAR_FILE, renderSidebar(data, problems))
   fs.writeFileSync(INDEX_FILE, renderIndex(data, problems))
+  fs.writeFileSync(TOP100_FILE, renderTop100(data, problems))
   console.log(`✅ 已生成 ${SIDEBAR_FILE}（${data.order.length} 项）`)
   console.log(`✅ 已生成 ${INDEX_FILE}（${Object.keys(data.categories).length} 个分类）`)
+  console.log(`✅ 已生成 ${TOP100_FILE}（${data.order.length} 项）`)
   if (warnings.length) console.log('⚠️  有 ' + warnings.length + ' 条警告，见上方输出')
 }
 
