@@ -5,6 +5,14 @@ difficulty: 简单
 tags:
     - 数组
     - 哈希表
+entry: twoSum
+testcases:
+  - input: [[2, 7, 11, 15], 9]
+    output: [0, 1]
+  - input: [[3, 2, 4], 6]
+    output: [1, 2]
+  - input: [[3, 3], 6]
+    output: [0, 1]
 ---
 
 <script setup>

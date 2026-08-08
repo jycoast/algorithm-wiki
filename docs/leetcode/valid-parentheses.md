@@ -5,6 +5,16 @@ difficulty: 简单
 tags:
     - 栈
     - 字符串
+entry: isValid
+testcases:
+  - input: ["()"]
+    output: true
+  - input: ["()[]{}"]
+    output: true
+  - input: ["(]"]
+    output: false
+  - input: ["([)]"]
+    output: false
 ---
 
 <script setup>

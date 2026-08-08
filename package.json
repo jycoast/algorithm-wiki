@@ -4,19 +4,26 @@
   },
   "scripts": {
     "dev": "vitepress dev docs",
-    "build": "vitepress build docs",
+    "build": "node scripts/gen-runner-data.mjs && vitepress build docs",
     "preview": "vitepress preview docs",
     "gen": "node scripts/gen-lists.mjs",
+    "gen:runner": "node scripts/gen-runner-data.mjs",
+    "smoke": "node scripts/smoke-runner.mjs",
     "validate": "node scripts/validate-viz.mjs"
   },
   "devDependencies": {
+    "js-yaml": "^5.2.3",
     "markdown-it-mathjax3": "^4.3.2",
     "medium-zoom": "^1.1.0",
     "oxfmt": "^0.62.0",
     "oxlint": "^1.77.0",
+    "pyodide": "^314.0.3",
     "vitepress": "^2.0.0-alpha.19"
   },
   "dependencies": {
+    "@codemirror/lang-java": "^6.0.2",
+    "@codemirror/lang-python": "^6.2.1",
+    "codemirror": "^6.0.2",
     "markdown-it": "^14.1.0",
     "mermaid": "^11.16.1",
     "vitepress-plugin-group-icons": "^1.7.6"

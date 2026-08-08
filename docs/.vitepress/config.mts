@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import nav from './configs/nav.mts'
 import sidebar from './configs/sidebar.mts'
 import { groupIconMdPlugin, groupIconVitePlugin } from 'vitepress-plugin-group-icons'
+import { injectRunnerPlugin } from './plugins/inject-runner.mts'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Algorithm Wiki',
@@ -13,6 +14,7 @@ export default defineConfig({
     math: true,
     config(md) {
       md.use(groupIconMdPlugin)
+      md.use(injectRunnerPlugin)
     },
   },
   head: [

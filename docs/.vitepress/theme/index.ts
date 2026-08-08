@@ -16,6 +16,7 @@ import DpViz from './components/DpViz.vue'
 import ListViz from './components/ListViz.vue'
 import Mermaid from './components/Mermaid.vue'
 import VizControls from './components/VizControls.vue'
+import CodeRunner from './components/CodeRunner.vue'
 
 export default {
   extends: DefaultTheme,
@@ -27,6 +28,7 @@ export default {
     app.component('ListViz', ListViz)
     app.component('Mermaid', Mermaid)
     app.component('VizControls', VizControls)
+    app.component('CodeRunner', CodeRunner)
   },
   Layout() {
     return h(DefaultTheme.Layout, null, {

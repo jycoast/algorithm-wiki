@@ -6,6 +6,14 @@ tags:
     - 记忆化搜索
     - 数学
     - 动态规划
+entry: climbStairs
+testcases:
+  - input: [2]
+    output: 2
+  - input: [3]
+    output: 3
+  - input: [5]
+    output: 8
 ---
 
 <script setup>
