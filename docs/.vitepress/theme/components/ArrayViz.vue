@@ -24,7 +24,8 @@
  *
  * 通用字段：note —— 当前步骤文字说明
  */
-import { ref, computed, watch, onBeforeUnmount } from 'vue'
+import { computed } from 'vue'
+import { useVizControl } from '../composables/useVizControl'
 
 export interface VizPointer {
   label: string
@@ -65,15 +66,7 @@ export interface VizStep {
 
 const props = defineProps<{ steps: VizStep[] }>()
 
-const cur = ref(0)
-const playing = ref(false)
-const speed = ref(1000)
-let timer: ReturnType<typeof setTimeout> | null = null
-
-const total = computed(() => props.steps.length)
-const step = computed(() => props.steps[cur.value] ?? props.steps[0])
-const isFirst = computed(() => cur.value === 0)
-const isLast = computed(() => cur.value >= total.value - 1)
+const { state, step } = useVizControl(props)
 
 // 模式探测（array 与 map 同时存在时，用 array-map 组合模式）
 const mode = computed<'array' | 'rows' | 'map' | 'intervals' | 'array-map'>(() => {
@@ -87,66 +80,6 @@ const mode = computed<'array' | 'rows' | 'map' | 'intervals' | 'array-map'>(() =
 const CELL_W = 52
 const CELL_GAP = 6
 const STRIDE = CELL_W + CELL_GAP
-
-function clearTimer() {
-  if (timer) {
-    clearTimeout(timer)
-    timer = null
-  }
-}
-
-function tick() {
-  if (!playing.value) return
-  if (isLast.value) {
-    playing.value = false
-    return
-  }
-  cur.value++
-  timer = setTimeout(tick, speed.value)
-}
-
-function togglePlay() {
-  if (playing.value) {
-    playing.value = false
-    clearTimer()
-  } else {
-    if (isLast.value) cur.value = 0
-    playing.value = true
-    timer = setTimeout(tick, speed.value)
-  }
-}
-
-function stepBack() {
-  if (isFirst.value) return
-  playing.value = false
-  clearTimer()
-  cur.value--
-}
-
-function stepForward() {
-  if (isLast.value) return
-  playing.value = false
-  clearTimer()
-  cur.value++
-}
-
-function reset() {
-  playing.value = false
-  clearTimer()
-  cur.value = 0
-}
-
-watch(
-  () => props.steps,
-  () => reset()
-)
-watch(speed, () => {
-  if (playing.value) {
-    clearTimer()
-    timer = setTimeout(tick, speed.value)
-  }
-})
-onBeforeUnmount(clearTimer)
 
 /* ---------- 单数组模式 ---------- */
 
@@ -399,22 +332,7 @@ const axisTicks = computed(() => {
       </div>
     </div>
 
-    <p v-if="step.note" class="viz-note">{{ step.note }}</p>
-
-    <div class="viz-controls">
-      <button class="viz-btn" :disabled="isFirst" @click="reset" title="重置">⏮</button>
-      <button class="viz-btn" :disabled="isFirst" @click="stepBack" title="上一步">◀</button>
-      <button class="viz-btn viz-play" @click="togglePlay" title="播放/暂停">
-        {{ playing ? '⏸' : '▶' }}
-      </button>
-      <button class="viz-btn" :disabled="isLast" @click="stepForward" title="下一步">▶</button>
-      <span class="viz-count">{{ cur + 1 }} / {{ total }}</span>
-      <label class="viz-speed">
-        速度
-        <input v-model.number="speed" type="range" min="300" max="2000" step="100" />
-        <b>{{ speed }}ms</b>
-      </label>
-    </div>
+    <VizControls :state="state" :note="step.note ?? ''" />
   </div>
 </template>
 
@@ -673,68 +591,5 @@ const axisTicks = computed(() => {
 }
 .dot-merged {
   background: color-mix(in srgb, var(--vp-c-green-2) 30%, transparent);
-}
-.viz-note {
-  margin: 12px 0 8px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--vp-c-text-1);
-  border-left: 3px solid var(--vp-c-brand-1);
-  padding-left: 10px;
-}
-.viz-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 8px;
-}
-.viz-btn {
-  min-width: 36px;
-  height: 32px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 6px;
-  background: var(--vp-c-bg);
-  color: var(--vp-c-text-1);
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-  transition: border-color 0.15s, color 0.15s;
-}
-.viz-btn:hover:not(:disabled) {
-  border-color: var(--vp-c-brand-1);
-  color: var(--vp-c-brand-1);
-}
-.viz-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-.viz-play {
-  background: var(--vp-c-brand-1);
-  border-color: var(--vp-c-brand-1);
-  color: #fff;
-}
-.viz-play:hover:not(:disabled) {
-  color: #fff;
-  opacity: 0.9;
-}
-.viz-count {
-  font-size: 13px;
-  color: var(--vp-c-text-2);
-  margin-left: 4px;
-  font-variant-numeric: tabular-nums;
-}
-.viz-speed {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: var(--vp-c-text-2);
-  margin-left: auto;
-}
-.viz-speed b {
-  color: var(--vp-c-text-1);
-  font-variant-numeric: tabular-nums;
-  min-width: 44px;
 }
 </style>

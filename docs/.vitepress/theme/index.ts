@@ -15,6 +15,7 @@ import TreeViz from './components/TreeViz.vue'
 import DpViz from './components/DpViz.vue'
 import ListViz from './components/ListViz.vue'
 import Mermaid from './components/Mermaid.vue'
+import VizControls from './components/VizControls.vue'
 
 export default {
   extends: DefaultTheme,
@@ -25,6 +26,7 @@ export default {
     app.component('DpViz', DpViz)
     app.component('ListViz', ListViz)
     app.component('Mermaid', Mermaid)
+    app.component('VizControls', VizControls)
   },
   Layout() {
     return h(DefaultTheme.Layout, null, {
