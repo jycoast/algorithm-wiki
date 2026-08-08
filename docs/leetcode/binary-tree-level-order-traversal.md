@@ -8,6 +8,19 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（BFS 层序）可视化：root = [3,9,20,null,null,15,7]
+// 层序下标：0=3, 1=9, 2=20, 3=null, 4=null, 5=15, 6=7
+const levelOrderSteps = [
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 0, state: 'cur' }], aux: [{ title: '队列 q', values: [3] }], note: '初始：q = [3]，root 入队。开始第一层遍历' },
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 0, state: 'done' }, { id: 1, state: 'hl' }, { id: 2, state: 'hl' }], aux: [{ title: '队列 q', values: [9, 20] }], note: '出队 3 → t = [3]。左孩子 9、右孩子 20 入队，q = [9, 20]。本层结束，ans = [[3]]' },
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 0, state: 'done' }, { id: 1, state: 'cur' }, { id: 2, state: 'done' }], aux: [{ title: '队列 q', values: [20] }], note: '第二层：出队 9 → t = [9]。9 的孩子均为 null，不入队' },
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'cur' }], aux: [{ title: '队列 q', values: [15, 7] }], note: '出队 20 → t = [9, 20]。左孩子 15、右孩子 7 入队，q = [15, 7]。本层结束，ans = [[3], [9, 20]]' },
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 5, state: 'cur' }], aux: [{ title: '队列 q', values: [7] }], note: '第三层：出队 15 → t = [15]。15 的孩子均为 null' },
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'cur' }], aux: [{ title: '队列 q', values: [] }], note: '出队 7 → t = [15, 7]。队列为空，遍历结束。ans = [[3], [9, 20], [15, 7]] ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [102. 二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal)
@@ -67,6 +80,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
 
+### 可视化演示
+
+> 以 `root = [3, 9, 20, null, null, 15, 7]` 为例，演示 BFS 层序遍历：队列 `q` 存放当前层节点，逐层出队并入队孩子节点。蓝色为当前出队节点，黄色为本层入队的节点。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="levelOrderSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

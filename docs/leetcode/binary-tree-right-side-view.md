@@ -9,6 +9,28 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（BFS）可视化：root = [1, 2, 3, null, 5, null, 4]
+// 层序下标：0=1, 1=2, 2=3, 3=null, 4=5, 5=null, 6=4
+const rightSideViewBfsSteps = [
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 0, state: 'mark' }], aux: [{ title: '队列 q', values: [1], marker: 0, markerLabel: '右' }], note: '第一层：q = [1]，取队尾（最右）节点 1 → ans = [1]。' },
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 0, state: 'done' }, { id: 1, state: 'hl' }, { id: 2, state: 'hl' }], aux: [{ title: '队列 q', values: [2, 3], marker: 1, markerLabel: '右' }], note: '出队 1，左孩子 2、右孩子 3 入队 → q = [2, 3]。' },
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 1, state: 'done' }, { id: 2, state: 'mark' }], aux: [{ title: '队列 q', values: [2, 3], marker: 1, markerLabel: '右' }], note: '第二层：取队尾（最右）节点 3 → ans = [1, 3]。' },
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 4, state: 'hl' }, { id: 6, state: 'hl' }], aux: [{ title: '队列 q', values: [5, 4], marker: 1, markerLabel: '右' }], note: '出队 2、3，左孩子 5、右孩子 4 入队 → q = [5, 4]。' },
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 4, state: 'done' }, { id: 6, state: 'mark' }], aux: [{ title: '队列 q', values: [5, 4], marker: 1, markerLabel: '右' }], note: '第三层：取队尾（最右）节点 4 → ans = [1, 3, 4]。' },
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 0, state: 'mark' }, { id: 1, state: 'done' }, { id: 2, state: 'mark' }, { id: 4, state: 'done' }, { id: 6, state: 'mark' }], aux: [{ title: '队列 q', values: [] }], note: '出队 5、4，无孩子入队，q 为空，遍历结束。右视图 = [1, 3, 4] ✅' },
+]
+// 方法二（DFS）可视化：root = [1, 2, 3, null, 5, null, 4]
+const rightSideViewDfsSteps = [
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 0, state: 'mark' }], labels: [{ id: 0, text: 'd:0' }], note: 'dfs(1, depth=0)：depth == ans.size() == 0，将 1 加入 ans → ans = [1]。' },
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 0, state: 'path' }, { id: 2, state: 'mark' }], labels: [{ id: 0, text: 'd:0' }, { id: 2, text: 'd:1' }], note: '先遍历右子树：dfs(3, depth=1)：depth == ans.size() == 1，将 3 加入 ans → ans = [1, 3]。' },
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 0, state: 'path' }, { id: 2, state: 'path' }], labels: [{ id: 0, text: 'd:0' }, { id: 2, text: 'd:1' }], note: 'dfs(3 的右孩子 null) 直接返回。' },
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 0, state: 'path' }, { id: 2, state: 'path' }, { id: 6, state: 'mark' }], labels: [{ id: 0, text: 'd:0' }, { id: 2, text: 'd:1' }, { id: 6, text: 'd:2' }], note: '再遍历 3 的左孩子：dfs(4, depth=2)：depth == ans.size() == 2，将 4 加入 ans → ans = [1, 3, 4]。' },
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 0, state: 'path' }, { id: 1, state: 'path' }, { id: 4, state: 'path' }], labels: [{ id: 0, text: 'd:0' }, { id: 1, text: 'd:1' }, { id: 4, text: 'd:2' }], note: '回溯后遍历左子树：dfs(2, depth=1)、dfs(5, depth=2) 的 depth 均小于 ans.size()=3，不再加入 ans。' },
+  { tree: [1, 2, 3, null, 5, null, 4], states: [{ id: 0, state: 'mark' }, { id: 1, state: 'done' }, { id: 2, state: 'mark' }, { id: 4, state: 'done' }, { id: 6, state: 'mark' }], labels: [{ id: 0, text: 'd:0' }, { id: 1, text: 'd:1' }, { id: 2, text: 'd:1' }, { id: 4, text: 'd:2' }, { id: 6, text: 'd:2' }], note: '每层第一个访问到的节点即最右节点。右视图 = [1, 3, 4] ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [199. 二叉树的右视图](https://leetcode.cn/problems/binary-tree-right-side-view)
@@ -65,6 +87,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树节点个数。
 
+### 可视化演示
+
+> 以 `root = [1, 2, 3, null, 5, null, 4]` 为例，演示 BFS 右视图：每层队列的队尾（最右）节点即为该层右视图节点，收入 `ans`。黄色为本层待处理节点，红色为已收入 `ans` 的最右节点，`q` 面板中的 ▼ 指向当前层最右元素。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="rightSideViewBfsSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -180,6 +211,15 @@ class Solution:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树节点个数。
 
+### 可视化演示
+
+> 以 `root = [1, 2, 3, null, 5, null, 4]` 为例，演示 DFS 右视图：先右后左遍历，每层第一个访问到的节点即为最右节点，`depth == ans.size()` 时加入 `ans`。绿色描边为当前递归路径，红色为新加入 `ans` 的节点，节点下方标注其深度。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="rightSideViewDfsSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 

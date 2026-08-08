@@ -8,6 +8,17 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（递归）可视化：root = [3,5,1,6,2,0,8,null,null,7,4]，p = 5，q = 1
+// 层序下标：0=3, 1=5, 2=1, 3=6, 4=2, 5=0, 6=8, 7=null, 8=null, 9=7, 10=4
+const lcaSteps = [
+  { tree: [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], states: [{ id: 0, state: 'cur' }], note: '从根节点 3 开始递归。root 不为空，且不等于 p=5、q=1，先递归左子树' },
+  { tree: [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], states: [{ id: 0, state: 'done' }, { id: 1, state: 'cur' }], note: '递归到左孩子 5：root == p → 返回 5（不再深入 5 的子树），left = 5' },
+  { tree: [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], states: [{ id: 0, state: 'done' }, { id: 1, state: 'mark' }, { id: 2, state: 'cur' }], note: '回到 3，再递归右子树：递归到右孩子 1：root == q → 返回 1（不再深入），right = 1' },
+  { tree: [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], states: [{ id: 0, state: 'cur' }, { id: 1, state: 'mark' }, { id: 2, state: 'mark' }], note: '回到 3：left=5 与 right=1 均非空 → p、q 分别在左右子树，当前节点 3 即最近公共祖先 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [236. 二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree)
@@ -73,6 +84,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树节点个数。
 
+### 可视化演示
+
+> 以 `root = [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]`、`p = 5`、`q = 1` 为例，演示递归求最近公共祖先：递归到左孩子 5 时命中 `p` 返回，递归到右孩子 1 时命中 `q` 返回，左右均非空则当前节点即为答案。红色为 `p`/`q` 命中节点。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="lcaSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

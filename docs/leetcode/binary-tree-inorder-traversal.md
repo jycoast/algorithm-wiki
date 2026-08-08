@@ -9,6 +9,40 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（递归）可视化：root = [1, null, 2, null, null, null, 3]
+// 层序下标：0=1, 1=null, 2=2, 3=null, 4=null, 5=null, 6=3
+const inorderRecSteps = [
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'cur' }], aux: [{ title: 'ans', values: [] }], note: '调用 dfs(root=1)：root 非空，先递归左子树 dfs(1.left)' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'cur' }], aux: [{ title: 'ans', values: [] }], note: 'dfs(1.left) 为 null，直接返回，回到节点 1' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }], aux: [{ title: 'ans', values: [1] }], note: '访问根节点：ans.add(1) → ans = [1]。随后递归右子树 dfs(1.right) → dfs(2)' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'cur' }], aux: [{ title: 'ans', values: [1] }], note: '进入 dfs(root=2)：root 非空，先递归左子树 dfs(2.left)' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'cur' }], aux: [{ title: 'ans', values: [1] }], note: 'dfs(2.left) 为 null，直接返回，回到节点 2' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'done' }], aux: [{ title: 'ans', values: [1, 2] }], note: '访问节点 2：ans.add(2) → ans = [1, 2]。随后递归右子树 dfs(2.right) → dfs(3)' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'done' }, { id: 6, state: 'cur' }], aux: [{ title: 'ans', values: [1, 2] }], note: '进入 dfs(root=3)：root 非空，先递归左子树 dfs(3.left)' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'done' }, { id: 6, state: 'cur' }], aux: [{ title: 'ans', values: [1, 2] }], note: 'dfs(3.left) 为 null，直接返回，回到节点 3' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'done' }, { id: 6, state: 'done' }], aux: [{ title: 'ans', values: [1, 2, 3] }], note: '访问节点 3：ans.add(3) → ans = [1, 2, 3]。dfs(3.right) 为 null 返回，整棵二叉树遍历完成 ✅' },
+]
+// 方法二（栈迭代）可视化：root = [1, null, 2, null, null, null, 3]
+const inorderStackSteps = [
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'hl' }], aux: [{ title: 'stk', values: [1], marker: 0, markerLabel: '栈顶' }, { title: 'ans', values: [] }], note: '初始 root 指向节点 1，非空 → stk.push(1)，stk = [1]（▼ 为栈顶）；root 指向 1 的左孩子 null' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'cur' }], aux: [{ title: 'stk', values: [] }, { title: 'ans', values: [1] }], note: 'root 为 null 且栈非空 → stk.pop() 弹出 1 并访问：ans.add(1) → ans = [1]；root 指向 1 的右孩子 2' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'hl' }], aux: [{ title: 'stk', values: [2], marker: 0, markerLabel: '栈顶' }, { title: 'ans', values: [1] }], note: 'root 指向节点 2，非空 → stk.push(2)，stk = [2]（▼ 为栈顶）；root 指向 2 的左孩子 null' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'cur' }], aux: [{ title: 'stk', values: [] }, { title: 'ans', values: [1, 2] }], note: 'root 为 null → stk.pop() 弹出 2 并访问：ans.add(2) → ans = [1, 2]；root 指向 2 的右孩子 3' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'done' }, { id: 6, state: 'hl' }], aux: [{ title: 'stk', values: [3], marker: 0, markerLabel: '栈顶' }, { title: 'ans', values: [1, 2] }], note: 'root 指向节点 3，非空 → stk.push(3)，stk = [3]（▼ 为栈顶）；root 指向 3 的左孩子 null' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'done' }, { id: 6, state: 'cur' }], aux: [{ title: 'stk', values: [] }, { title: 'ans', values: [1, 2, 3] }], note: 'root 为 null → stk.pop() 弹出 3 并访问：ans.add(3) → ans = [1, 2, 3]；root 指向 3 的右孩子 null' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'done' }, { id: 6, state: 'done' }], aux: [{ title: 'stk', values: [] }, { title: 'ans', values: [1, 2, 3] }], note: 'root 为 null 且 stk 为空 → while 循环结束，返回 ans = [1, 2, 3] ✅' },
+]
+// 方法三（Morris）可视化：root = [1, null, 2, null, null, null, 3]
+const inorderMorrisSteps = [
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'cur' }], aux: [{ title: 'ans', values: [1] }], note: 'root 指向节点 1：root.left 为 null → 直接访问 ans.add(1) → ans = [1]；root = root.right = 节点 2' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'cur' }], aux: [{ title: 'ans', values: [1, 2] }], note: 'root 指向节点 2：root.left 为 null → ans.add(2) → ans = [1, 2]；root = root.right = 节点 3' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'done' }, { id: 6, state: 'cur' }], aux: [{ title: 'ans', values: [1, 2, 3] }], note: 'root 指向节点 3：root.left 为 null → ans.add(3) → ans = [1, 2, 3]；root = root.right = null' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'done' }, { id: 6, state: 'done' }], aux: [{ title: 'ans', values: [1, 2, 3] }], note: 'root 为 null，while 循环结束，返回 ans = [1, 2, 3]。Morris 通过临时改变前驱节点的右指针指向实现 O(1) 空间，本示例各节点左子树均空，故每次直接向右走' },
+  { tree: [1, null, 2, null, null, null, 3], states: [{ id: 0, state: 'done' }, { id: 2, state: 'done' }, { id: 6, state: 'done' }], aux: [{ title: 'ans', values: [1, 2, 3] }], note: '补充：Morris 通用线索逻辑——若 root.left 非空，找 prev = root 左子树的最右节点（中序前驱）：① 若 prev.right 为空 → 令 prev.right = root 建立线索，root = root.left；② 若 prev.right == root → 说明左子树已遍历完，ans.add(root.val) 并 prev.right = null 解除线索，root = root.right。本例左子树均空，始终走“直接访问并向右”分支，未触发线索化 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [94. 二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal)
@@ -67,6 +101,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数，空间复杂度主要取决于递归调用的栈空间。
 
+### 可视化演示
+
+> 以 `root = [1, null, 2, null, null, null, 3]` 为例，演示递归中序遍历：先递归左子树，再访问根节点，最后递归右子树，访问顺序为 1 → 2 → 3。蓝色为当前访问节点，绿色为已加入结果 `ans` 的节点。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="inorderRecSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -142,6 +185,15 @@ class Solution:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数，空间复杂度主要取决于栈空间。
 
+### 可视化演示
+
+> 以 `root = [1, null, 2, null, null, null, 3]` 为例，演示栈迭代中序遍历：指针 `root` 沿左子树一路入栈，遇到 null 时弹出栈顶访问并转向右子树。黄色为入栈节点，蓝色为弹出访问节点，绿色为已处理节点。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="inorderStackSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -243,6 +295,15 @@ Morris 遍历无需使用栈，空间复杂度为 $O(1)$。核心思想是：
 
 时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 是二叉树的节点数。
 
+### 可视化演示
+
+> 以 `root = [1, null, 2, null, null, null, 3]` 为例，演示 Morris 中序遍历：左子树为空时直接访问并向右走，不借助额外栈空间（O(1)）。蓝色为当前访问节点，绿色为已处理节点。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="inorderMorrisSteps" />
+
+<div class="viz-jump"><a href="#code-3">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-3"></a>
 <!-- tabs:start -->
 ::: code-group
 

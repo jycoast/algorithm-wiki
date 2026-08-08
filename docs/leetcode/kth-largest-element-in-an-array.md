@@ -10,6 +10,38 @@ tags:
     - 堆（优先队列）
 ---
 
+<script setup>
+// 方法一（快速选择）可视化：nums = [3,2,1,5,6,4]，k = 2（第 2 大 → 排序后下标 k' = n-k = 4 的元素）
+const quickSelectSteps = [
+  { array: [3, 2, 1, 5, 6, 4], note: 'nums = [3,2,1,5,6,4]，k=2 → 找排序后下标 k=6-2=4 的元素。递归区间 [0, 5]，取 pivot x = nums[(0+5)>>1] = nums[2] = 1' },
+  { array: [3, 2, 1, 5, 6, 4], pointers: [{ label: 'i', index: 0 }, { label: 'j', index: 2 }], highlight: [0, 2], note: '双指针向中间逼近：i 找 ≥ 1 的数（i=0，nums[0]=3），j 找 ≤ 1 的数（j=2，nums[2]=1）' },
+  { array: [1, 2, 3, 5, 6, 4], pointers: [{ label: 'i', index: 1 }, { label: 'j', index: 0 }], note: 'i<j → 交换 nums[0] 与 nums[2] → [1,2,3,5,6,4]。继续移动后 i≥j 退出，j=0' },
+  { array: [1, 2, 3, 5, 6, 4], note: 'j=0 < k=4 → 第 k 大元素在右半区间，递归 quickSort(1, 5)' },
+  { array: [1, 2, 3, 5, 6, 4], pointers: [{ label: 'i', index: 3 }, { label: 'j', index: 5 }], highlight: [3, 5], note: '区间 [1,5]，pivot x = nums[(1+5)>>1] = nums[3] = 5。i=3（nums[3]=5），j=5（nums[5]=4）' },
+  { array: [1, 2, 3, 4, 6, 5], pointers: [{ label: 'i', index: 4 }, { label: 'j', index: 3 }], note: 'i<j → 交换 nums[3] 与 nums[5] → [1,2,3,4,6,5]。继续后 i≥j 退出，j=3' },
+  { array: [1, 2, 3, 4, 6, 5], note: 'j=3 < k=4 → 继续在右半区间递归 quickSort(4, 5)' },
+  { array: [1, 2, 3, 4, 5, 6], note: '区间 [4,5]，pivot x=6，交换后 [1,2,3,4,5,6]，j=4 == k → 递归 quickSort(4,4)，l==r 返回 nums[4]=5。第 2 大元素 = 5 ✅' },
+]
+
+// 方法二（小根堆）可视化：维护大小为 k=2 的小根堆，堆顶即为第 k 大
+const heapSteps = [
+  { array: [3], pointers: [{ label: '堆顶', index: 0 }], note: '遍历 x=3：堆 [3]（size=1 ≤ 2）' },
+  { array: [2, 3], pointers: [{ label: '堆顶', index: 0 }], note: '遍历 x=2：堆 [2,3]（size=2 ≤ 2）' },
+  { array: [2, 3], pointers: [{ label: '堆顶', index: 0 }], note: '遍历 x=1：加入后堆 [1,2,3]，size=3 > 2 → 弹出堆顶 1 → [2,3]' },
+  { array: [3, 5], pointers: [{ label: '堆顶', index: 0 }], note: '遍历 x=5：加入后堆 [2,3,5]，size=3 > 2 → 弹出堆顶 2 → [3,5]' },
+  { array: [5, 6], pointers: [{ label: '堆顶', index: 0 }], note: '遍历 x=6：加入后堆 [3,5,6]，size=3 > 2 → 弹出堆顶 3 → [5,6]' },
+  { array: [5, 6], pointers: [{ label: '堆顶', index: 0 }], highlight: [0], note: '遍历 x=4：加入后堆 [4,5,6]，size=3 > 2 → 弹出堆顶 4 → [5,6]' },
+  { array: [5, 6], pointers: [{ label: '堆顶', index: 0 }], note: '遍历结束，堆中保留最大的 k=2 个元素 [5,6]，堆顶 = 第 2 大元素 = 5 ✅' },
+]
+
+// 方法三（计数排序）可视化：统计每个数出现次数，从大到小累计直到 k
+const countSortSteps = [
+  { array: [3, 2, 1, 5, 6, 4], map: [{ key: 1, value: 1 }, { key: 2, value: 1 }, { key: 3, value: 1 }, { key: 4, value: 1 }, { key: 5, value: 1 }, { key: 6, value: 1 }], note: '统计每个元素出现次数：cnt = {1:1, 2:1, 3:1, 4:1, 5:1, 6:1}。k=2，从最大值 6 开始向下累计' },
+  { array: [3, 2, 1, 5, 6, 4], map: [{ key: 1, value: 1 }, { key: 2, value: 1 }, { key: 3, value: 1 }, { key: 4, value: 1 }, { key: 5, value: 1 }, { key: 6, value: 1 }], mapHighlight: [5], note: 'i=6：k -= cnt[6]=1 → k=1，仍 > 0，继续' },
+  { array: [3, 2, 1, 5, 6, 4], map: [{ key: 1, value: 1 }, { key: 2, value: 1 }, { key: 3, value: 1 }, { key: 4, value: 1 }, { key: 5, value: 1 }, { key: 6, value: 1 }], mapHighlight: [4], note: 'i=5：k -= cnt[5]=1 → k=0，k ≤ 0 → 返回 i = 5。第 2 大元素 = 5 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [215. 数组中的第K个最大元素](https://leetcode.cn/problems/kth-largest-element-in-an-array)
@@ -58,6 +90,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
+### 可视化演示
+
+> 以 `nums = [3, 2, 1, 5, 6, 4]`、`k = 2` 为例，演示快速选择的分治过程：每次选 pivot 分区，根据分区位置 `j` 决定去左半还是右半继续找。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="quickSelectSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -195,6 +236,15 @@ class Solution:
 
 时间复杂度 $O(n\log k)$，空间复杂度 $O(k)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
+### 可视化演示
+
+> 以 `nums = [3, 2, 1, 5, 6, 4]`、`k = 2` 为例，演示小根堆维护「最大的 k 个元素」：堆大小超过 k 时弹出堆顶，遍历结束后堆顶即第 k 大。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="heapSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -261,6 +311,15 @@ class Solution:
 
 时间复杂度 $O(n + m)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度，而 $m$ 为数组 $\textit{nums}$ 中元素的最大值。
 
+### 可视化演示
+
+> 以 `nums = [3, 2, 1, 5, 6, 4]`、`k = 2` 为例，演示计数排序的思路：统计每个元素出现次数后，从大到小累计计数，直到 `k` 减到 ≤ 0。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="countSortSteps" />
+
+<div class="viz-jump"><a href="#code-3">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-3"></a>
 <!-- tabs:start -->
 ::: code-group
 

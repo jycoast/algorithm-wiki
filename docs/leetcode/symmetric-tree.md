@@ -9,6 +9,19 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（递归）可视化：root = [1, 2, 2, 3, 4, 4, 3]
+// 层序下标：0=1, 1=2, 2=2, 3=3, 4=4, 5=4, 6=3
+const symmetricSteps = [
+  { tree: [1, 2, 2, 3, 4, 4, 3], states: [{ id: 0, state: 'cur' }], note: 'dfs(root, root)：从根节点 1 开始，root1 与 root2 值相等（1 == 1）。继续成对比较：root1 的左子树(下标1) vs root2 的右子树(下标2)、root1 的右子树(下标2) vs root2 的左子树(下标1)。' },
+  { tree: [1, 2, 2, 3, 4, 4, 3], states: [{ id: 0, state: 'done' }, { id: 1, state: 'hl' }, { id: 2, state: 'hl' }], note: '递归比较左右子树镜像：dfs(下标1 的 2, 下标2 的 2)。两者值相等（2 == 2），继续比较它们的对称孩子。' },
+  { tree: [1, 2, 2, 3, 4, 4, 3], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'hl' }, { id: 6, state: 'hl' }], note: '对称比较：下标1 的左孩子 3（下标3） vs 下标2 的右孩子 3（下标6）。值相等（3 == 3），且均为叶子节点，返回 true。' },
+  { tree: [1, 2, 2, 3, 4, 4, 3], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 6, state: 'done' }, { id: 4, state: 'hl' }, { id: 5, state: 'hl' }], note: '对称比较：下标1 的右孩子 4（下标4） vs 下标2 的左孩子 4（下标5）。值相等（4 == 4），且均为叶子节点，返回 true。' },
+  { tree: [1, 2, 2, 3, 4, 4, 3], states: [{ id: 0, state: 'cur' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }], note: '两个递归分支均返回 true：根节点 1 的左子树与右子树互为镜像，逐层回溯，返回 true。' },
+  { tree: [1, 2, 2, 3, 4, 4, 3], states: [{ id: 0, state: 'mark' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }], note: '所有对称成对节点（1-1、2-2、3-3、4-4）值均相等，且子树结构镜像 → 整棵树轴对称，返回 true ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [101. 对称二叉树](https://leetcode.cn/problems/symmetric-tree)
@@ -66,6 +79,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
+### 可视化演示
+
+> 以 `root = [1, 2, 2, 3, 4, 4, 3]` 为例，演示递归对称比较：`dfs(root1, root2)` 成对比较，root1 的左 vs root2 的右、root1 的右 vs root2 的左。黄色为正在比较的对称节点，绿色为已确认相等的节点，红色为最终结果。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="symmetricSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

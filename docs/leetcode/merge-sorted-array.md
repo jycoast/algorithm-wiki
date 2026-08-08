@@ -8,6 +8,20 @@ tags:
     - 排序
 ---
 
+<script setup>
+// 可视化演示数据：nums1 = [1,2,3,0,0,0] (m=3)，nums2 = [2,5,6] (n=3)
+// 双指针从后往前：i 指 nums1 末尾，j 指 nums2 末尾，k 指合并后数组末尾
+const mergeSteps = [
+  { rows: [[1, 2, 3, 0, 0, 0], [2, 5, 6]], rowPointers: [{ row: 0, col: 2, label: 'i' }, { row: 1, col: 2, label: 'j' }, { row: 0, col: 5, label: 'k' }], note: '初始：i=2（nums1 末尾），j=2（nums2 末尾），k=5（合并后末尾）。从后往前取较大者' },
+  { rows: [[1, 2, 3, 0, 0, 0], [2, 5, 6]], rowPointers: [{ row: 0, col: 2, label: 'i' }, { row: 1, col: 2, label: 'j' }, { row: 0, col: 5, label: 'k' }], rowHighlight: [{ row: 0, cols: [2] }, { row: 1, cols: [2] }], note: '比较 nums1[2]=3 与 nums2[2]=6 → 6 更大，写入 nums1[5]，j=1，k=4' },
+  { rows: [[1, 2, 3, 0, 0, 6], [2, 5, 6]], rowPointers: [{ row: 0, col: 2, label: 'i' }, { row: 1, col: 1, label: 'j' }, { row: 0, col: 4, label: 'k' }], rowHighlight: [{ row: 0, cols: [2] }, { row: 1, cols: [1] }], note: '比较 3 与 nums2[1]=5 → 5 更大，写入 nums1[4]，j=0，k=3' },
+  { rows: [[1, 2, 3, 0, 5, 6], [2, 5, 6]], rowPointers: [{ row: 0, col: 2, label: 'i' }, { row: 1, col: 0, label: 'j' }, { row: 0, col: 3, label: 'k' }], rowHighlight: [{ row: 0, cols: [2] }, { row: 1, cols: [0] }], note: '比较 3 与 nums2[0]=2 → 3 更大，写入 nums1[3]，i=1，k=2' },
+  { rows: [[1, 2, 3, 3, 5, 6], [2, 5, 6]], rowPointers: [{ row: 0, col: 1, label: 'i' }, { row: 1, col: 0, label: 'j' }, { row: 0, col: 2, label: 'k' }], rowHighlight: [{ row: 0, cols: [1] }, { row: 1, cols: [0] }], note: '比较 nums1[1]=2 与 2 → 取 nums1 的 2，写入 nums1[2]，i=0，k=1' },
+  { rows: [[1, 2, 2, 3, 5, 6], [2, 5, 6]], rowPointers: [{ row: 0, col: 0, label: 'i' }, { row: 1, col: 0, label: 'j' }, { row: 0, col: 1, label: 'k' }], rowHighlight: [{ row: 0, cols: [0] }, { row: 1, cols: [0] }], note: '比较 1 与 2 → 2 更大，写入 nums1[1]，j=-1，k=0。j<0 结束' },
+  { rows: [[1, 2, 2, 3, 5, 6], [2, 5, 6]], note: '合并完成：nums1 = [1,2,2,3,5,6] ✅（nums2 剩余元素无需处理，因前面取的是较大者）' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [88. 合并两个有序数组](https://leetcode.cn/problems/merge-sorted-array)
@@ -82,6 +96,15 @@ tags:
 
 时间复杂度 $O(m + n)$，其中 $m$ 和 $n$ 分别是两个数组的长度。空间复杂度 $O(1)$。
 
+## 可视化演示
+
+> 以 `nums1 = [1, 2, 3, 0, 0, 0]`（`m = 3`）、`nums2 = [2, 5, 6]`（`n = 3`）为例，演示从后向前的双指针合并。指针 `i` 指 `nums1` 末尾，`j` 指 `nums2` 末尾，`k` 指合并后数组末尾，每次取较大者写入 `nums1[k]`。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="mergeSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

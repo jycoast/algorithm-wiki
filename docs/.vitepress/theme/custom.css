@@ -67,3 +67,30 @@
 .giscus-title {
   font-size: 1.2rem;
 }
+
+/* ===== 锚点跳转（跳过可视化→代码）===== */
+:target {
+  scroll-margin-top: 80px; /* 避开吸顶导航栏，让锚点位置可见 */
+}
+.viz-jump {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px; /* 贴近上方组件，避免与组件之间的空隙过大 */
+  margin-bottom: 16px;
+}
+.viz-jump a {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  padding: 4px 12px;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+.viz-jump a:hover {
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+}

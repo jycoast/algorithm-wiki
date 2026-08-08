@@ -9,6 +9,19 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（递归）可视化：root = [-10, 9, 20, null, null, 15, 7]
+// 层序下标：0=-10, 1=9, 2=20, 3=null, 4=null, 5=15, 6=7
+const maxPathSteps = [
+  { tree: [-10, 9, 20, null, null, 15, 7], states: [{ id: 1, state: 'cur' }], labels: [{ id: 1, text: '返回:9', state: 'done' }], note: 'dfs(9)（下标1）为叶子节点：left = max(0, 0) = 0，right = max(0, 0) = 0。经过节点 9 的路径和为 9 + 0 + 0 = 9，ans = max(-1001, 9) = 9；dfs 返回 9 + max(0, 0) = 9。' },
+  { tree: [-10, 9, 20, null, null, 15, 7], states: [{ id: 1, state: 'done' }, { id: 5, state: 'cur' }], labels: [{ id: 1, text: '返回:9', state: 'done' }, { id: 5, text: '返回:15', state: 'done' }], note: 'dfs(15)（下标5）为叶子节点：left = 0，right = 0。经过节点 15 的路径和为 15，ans 仍为 9；dfs 返回 15。' },
+  { tree: [-10, 9, 20, null, null, 15, 7], states: [{ id: 1, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'cur' }], labels: [{ id: 1, text: '返回:9', state: 'done' }, { id: 5, text: '返回:15', state: 'done' }, { id: 6, text: '返回:7', state: 'done' }], note: 'dfs(7)（下标6）为叶子节点：left = 0，right = 0。经过节点 7 的路径和为 7，ans 仍为 9；dfs 返回 7。' },
+  { tree: [-10, 9, 20, null, null, 15, 7], states: [{ id: 1, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }, { id: 2, state: 'cur' }], labels: [{ id: 1, text: '返回:9', state: 'done' }, { id: 5, text: '返回:15', state: 'done' }, { id: 6, text: '返回:7', state: 'done' }, { id: 2, text: 'l:15 r:7', state: 'done' }], note: 'dfs(20)（下标2）：left = max(0, 15) = 15，right = max(0, 7) = 7。经过节点 20 的路径和为 20 + 15 + 7 = 42，ans = max(9, 42) = 42；dfs 返回 20 + max(15, 7) = 35。' },
+  { tree: [-10, 9, 20, null, null, 15, 7], states: [{ id: 1, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }, { id: 2, state: 'done' }, { id: 0, state: 'cur' }], labels: [{ id: 1, text: '返回:9', state: 'done' }, { id: 5, text: '返回:15', state: 'done' }, { id: 6, text: '返回:7', state: 'done' }, { id: 2, text: 'l:15 r:7', state: 'done' }, { id: 0, text: 'l:9 r:35', state: 'done' }], note: '节点 9 已完成，跳过。dfs(-10)（下标0）：left = max(0, 9) = 9，right = max(0, 35) = 35。经过根节点的路径和为 -10 + 9 + 35 = 34 < 42，ans 不变；dfs 返回 -10 + max(9, 35) = 25。' },
+  { tree: [-10, 9, 20, null, null, 15, 7], states: [{ id: 5, state: 'path' }, { id: 2, state: 'path' }, { id: 6, state: 'path' }], labels: [{ id: 5, text: '返回:15', state: 'path' }, { id: 2, text: 'l:15 r:7', state: 'path' }, { id: 6, text: '返回:7', state: 'path' }], note: '最终 ans = 42 ✅。最优路径为 15 → 20 → 7（下标 5、2、6），路径和 = 15 + 20 + 7 = 42。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [124. 二叉树中的最大路径和](https://leetcode.cn/problems/binary-tree-maximum-path-sum)
@@ -76,6 +89,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
+### 可视化演示
+
+> 以 `root = [-10, 9, 20, null, null, 15, 7]` 为例，演示自底向上的递归 `dfs`：叶子节点返回自身值；非叶子节点先取 `left = max(0, dfs(root.left))`、`right = max(0, dfs(root.right))`，经过该节点的完整路径和为 `root.val + left + right`，用它更新全局答案 `ans`，并返回 `root.val + max(left, right)`。蓝色为正在计算的节点，绿色为已完成，节点下方标签为 `left/right` 或返回值，最后绿色描边为最优路径。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="maxPathSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

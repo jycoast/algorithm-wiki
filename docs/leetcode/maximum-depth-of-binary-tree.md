@@ -9,6 +9,19 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（递归）可视化：root = [3, 9, 20, null, null, 15, 7]
+// 层序下标：0=3, 1=9, 2=20, 3=null, 4=null, 5=15, 6=7
+const maxDepthSteps = [
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 1, state: 'cur' }], labels: [{ id: 1, text: 'd:1', state: 'done' }], note: '递归到左孩子 9（下标1，叶子）：l = maxDepth(null) = 0，r = 0，深度 = 1 + max(0, 0) = 1' },
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 1, state: 'done' }, { id: 5, state: 'cur' }], labels: [{ id: 1, text: 'd:1', state: 'done' }, { id: 5, text: 'd:1', state: 'done' }], note: '递归到右子树节点 15（下标5，叶子）：l = 0，r = 0，深度 = 1' },
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 1, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'cur' }], labels: [{ id: 1, text: 'd:1', state: 'done' }, { id: 5, text: 'd:1', state: 'done' }, { id: 6, text: 'd:1', state: 'done' }], note: '递归到节点 7（下标6，叶子）：l = 0，r = 0，深度 = 1' },
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 1, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }, { id: 2, state: 'cur' }], labels: [{ id: 1, text: 'd:1', state: 'done' }, { id: 5, text: 'd:1', state: 'done' }, { id: 6, text: 'd:1', state: 'done' }, { id: 2, text: 'd:2', state: 'done' }], note: '节点 20（下标2）：l = maxDepth(15) = 1，r = maxDepth(7) = 1，深度 = 1 + max(1, 1) = 2' },
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }, { id: 0, state: 'cur' }], labels: [{ id: 0, text: 'd:3', state: 'done' }, { id: 1, text: 'd:1', state: 'done' }, { id: 2, text: 'd:2', state: 'done' }, { id: 5, text: 'd:1', state: 'done' }, { id: 6, text: 'd:1', state: 'done' }], note: '根 3（下标0）：l = maxDepth(9) = 1，r = maxDepth(20) = 2，深度 = 1 + max(1, 2) = 3' },
+  { tree: [3, 9, 20, null, null, 15, 7], states: [{ id: 0, state: 'mark' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }], labels: [{ id: 0, text: 'd:3', state: 'mark' }], note: '最大深度 = 根节点深度 = 3 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [104. 二叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-binary-tree)
@@ -60,6 +73,15 @@ tags:
 
 时间复杂度 $O(n)$，其中 $n$ 是二叉树的节点数。每个节点在递归中只被遍历一次。
 
+### 可视化演示
+
+> 以 `root = [3, 9, 20, null, null, 15, 7]` 为例，演示递归求二叉树最大深度：自底向上计算每个节点的深度，节点下方标注 `d` 表示该子树的最大深度。蓝色为当前计算节点，红色标注最终结果。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="maxDepthSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

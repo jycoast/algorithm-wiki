@@ -7,6 +7,263 @@ tags:
     - 动态规划
 ---
 
+<script setup>
+// 方法一（动态规划）可视化：text1 = "abcde"，text2 = "ace"
+// f[i][j] 表示 text1 前 i 个字符与 text2 前 j 个字符的最长公共子序列长度
+// 行标题 = text1 字符（a/b/c/d/e），列标题 = text2 字符（a/c/e）
+// 边界：f[0][*] = f[*][0] = 0（空串与任意前缀的 LCS 长度为 0）
+const lcsSteps = [
+  {
+    grid: {
+      values: [
+        [0, 0, 0, 0],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+      ],
+      rowLabels: ['', 'a', 'b', 'c', 'd', 'e'],
+      colLabels: ['', 'a', 'c', 'e'],
+    },
+    gridStates: [
+      { r: 0, c: 0, state: 'done' },
+      { r: 0, c: 1, state: 'done' },
+      { r: 0, c: 2, state: 'done' },
+      { r: 0, c: 3, state: 'done' },
+      { r: 1, c: 0, state: 'done' },
+      { r: 2, c: 0, state: 'done' },
+      { r: 3, c: 0, state: 'done' },
+      { r: 4, c: 0, state: 'done' },
+      { r: 5, c: 0, state: 'done' },
+    ],
+    note: '边界初始化：f[0][*] = f[*][0] = 0。第 0 行表示 text2 为空串，第 0 列表示 text1 为空串，空串与任意字符串的最长公共子序列长度均为 0。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 0, 0],
+        [0, 1, 1, 1],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+      ],
+      rowLabels: ['', 'a', 'b', 'c', 'd', 'e'],
+      colLabels: ['', 'a', 'c', 'e'],
+    },
+    gridStates: [
+      { r: 0, c: 0, state: 'done' },
+      { r: 0, c: 1, state: 'done' },
+      { r: 0, c: 2, state: 'done' },
+      { r: 0, c: 3, state: 'done' },
+      { r: 1, c: 0, state: 'done' },
+      { r: 2, c: 0, state: 'done' },
+      { r: 3, c: 0, state: 'done' },
+      { r: 4, c: 0, state: 'done' },
+      { r: 5, c: 0, state: 'done' },
+      { r: 1, c: 1, state: 'cur' },
+      { r: 1, c: 2, state: 'cur' },
+      { r: 1, c: 3, state: 'cur' },
+    ],
+    note: 'i=1（字符 a）：text1[0]="a" == text2[0]="a"，f[1][1] = f[0][0]+1 = 1；text1[0]="a" ≠ text2[1]="c"，f[1][2] = max(f[0][2], f[1][1]) = 1；text1[0]="a" ≠ text2[2]="e"，f[1][3] = max(f[0][3], f[1][2]) = 1。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 0, 0],
+        [0, 1, 1, 1],
+        [0, 1, 1, 1],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+      ],
+      rowLabels: ['', 'a', 'b', 'c', 'd', 'e'],
+      colLabels: ['', 'a', 'c', 'e'],
+    },
+    gridStates: [
+      { r: 0, c: 0, state: 'done' },
+      { r: 0, c: 1, state: 'done' },
+      { r: 0, c: 2, state: 'done' },
+      { r: 0, c: 3, state: 'done' },
+      { r: 1, c: 0, state: 'done' },
+      { r: 2, c: 0, state: 'done' },
+      { r: 3, c: 0, state: 'done' },
+      { r: 4, c: 0, state: 'done' },
+      { r: 5, c: 0, state: 'done' },
+      { r: 1, c: 1, state: 'done' },
+      { r: 1, c: 2, state: 'done' },
+      { r: 1, c: 3, state: 'done' },
+      { r: 2, c: 1, state: 'cur' },
+      { r: 2, c: 2, state: 'cur' },
+      { r: 2, c: 3, state: 'cur' },
+    ],
+    note: 'i=2（字符 b）：text1[1]="b" 与 text2 的字符均不匹配。f[2][1] = max(f[1][1], f[2][0]) = 1；f[2][2] = max(f[1][2], f[2][1]) = 1；f[2][3] = max(f[1][3], f[2][2]) = 1。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 0, 0],
+        [0, 1, 1, 1],
+        [0, 1, 1, 1],
+        [0, 1, 2, 2],
+        [0, null, null, null],
+        [0, null, null, null],
+      ],
+      rowLabels: ['', 'a', 'b', 'c', 'd', 'e'],
+      colLabels: ['', 'a', 'c', 'e'],
+    },
+    gridStates: [
+      { r: 0, c: 0, state: 'done' },
+      { r: 0, c: 1, state: 'done' },
+      { r: 0, c: 2, state: 'done' },
+      { r: 0, c: 3, state: 'done' },
+      { r: 1, c: 0, state: 'done' },
+      { r: 2, c: 0, state: 'done' },
+      { r: 3, c: 0, state: 'done' },
+      { r: 4, c: 0, state: 'done' },
+      { r: 5, c: 0, state: 'done' },
+      { r: 1, c: 1, state: 'done' },
+      { r: 1, c: 2, state: 'done' },
+      { r: 1, c: 3, state: 'done' },
+      { r: 2, c: 1, state: 'done' },
+      { r: 2, c: 2, state: 'done' },
+      { r: 2, c: 3, state: 'done' },
+      { r: 3, c: 1, state: 'cur' },
+      { r: 3, c: 2, state: 'cur' },
+      { r: 3, c: 3, state: 'cur' },
+    ],
+    note: 'i=3（字符 c）：text1[2]="c" ≠ text2[0]="a"，f[3][1] = max(f[2][1], f[3][0]) = 1；text1[2]="c" == text2[1]="c"，f[3][2] = f[2][1]+1 = 2；text1[2]="c" ≠ text2[2]="e"，f[3][3] = max(f[2][3], f[3][2]) = 2。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 0, 0],
+        [0, 1, 1, 1],
+        [0, 1, 1, 1],
+        [0, 1, 2, 2],
+        [0, 1, 2, 2],
+        [0, null, null, null],
+      ],
+      rowLabels: ['', 'a', 'b', 'c', 'd', 'e'],
+      colLabels: ['', 'a', 'c', 'e'],
+    },
+    gridStates: [
+      { r: 0, c: 0, state: 'done' },
+      { r: 0, c: 1, state: 'done' },
+      { r: 0, c: 2, state: 'done' },
+      { r: 0, c: 3, state: 'done' },
+      { r: 1, c: 0, state: 'done' },
+      { r: 2, c: 0, state: 'done' },
+      { r: 3, c: 0, state: 'done' },
+      { r: 4, c: 0, state: 'done' },
+      { r: 5, c: 0, state: 'done' },
+      { r: 1, c: 1, state: 'done' },
+      { r: 1, c: 2, state: 'done' },
+      { r: 1, c: 3, state: 'done' },
+      { r: 2, c: 1, state: 'done' },
+      { r: 2, c: 2, state: 'done' },
+      { r: 2, c: 3, state: 'done' },
+      { r: 3, c: 1, state: 'done' },
+      { r: 3, c: 2, state: 'done' },
+      { r: 3, c: 3, state: 'done' },
+      { r: 4, c: 1, state: 'cur' },
+      { r: 4, c: 2, state: 'cur' },
+      { r: 4, c: 3, state: 'cur' },
+    ],
+    note: 'i=4（字符 d）：text1[3]="d" 与 text2 的字符均不匹配。f[4][1] = max(f[3][1], f[4][0]) = 1；f[4][2] = max(f[3][2], f[4][1]) = 2；f[4][3] = max(f[3][3], f[4][2]) = 2。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 0, 0],
+        [0, 1, 1, 1],
+        [0, 1, 1, 1],
+        [0, 1, 2, 2],
+        [0, 1, 2, 2],
+        [0, 1, 2, 3],
+      ],
+      rowLabels: ['', 'a', 'b', 'c', 'd', 'e'],
+      colLabels: ['', 'a', 'c', 'e'],
+    },
+    gridStates: [
+      { r: 0, c: 0, state: 'done' },
+      { r: 0, c: 1, state: 'done' },
+      { r: 0, c: 2, state: 'done' },
+      { r: 0, c: 3, state: 'done' },
+      { r: 1, c: 0, state: 'done' },
+      { r: 2, c: 0, state: 'done' },
+      { r: 3, c: 0, state: 'done' },
+      { r: 4, c: 0, state: 'done' },
+      { r: 5, c: 0, state: 'done' },
+      { r: 1, c: 1, state: 'done' },
+      { r: 1, c: 2, state: 'done' },
+      { r: 1, c: 3, state: 'done' },
+      { r: 2, c: 1, state: 'done' },
+      { r: 2, c: 2, state: 'done' },
+      { r: 2, c: 3, state: 'done' },
+      { r: 3, c: 1, state: 'done' },
+      { r: 3, c: 2, state: 'done' },
+      { r: 3, c: 3, state: 'done' },
+      { r: 4, c: 1, state: 'done' },
+      { r: 4, c: 2, state: 'done' },
+      { r: 4, c: 3, state: 'done' },
+      { r: 5, c: 1, state: 'cur' },
+      { r: 5, c: 2, state: 'cur' },
+      { r: 5, c: 3, state: 'mark' },
+    ],
+    note: 'i=5（字符 e）：text1[4]="e" ≠ text2[0]="a"，f[5][1] = max(f[4][1], f[5][0]) = 1；text1[4]="e" ≠ text2[1]="c"，f[5][2] = max(f[4][2], f[5][1]) = 2；text1[4]="e" == text2[2]="e"，f[5][3] = f[4][2]+1 = 3。答案格子 f[5][3] 已求出！',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 0, 0],
+        [0, 1, 1, 1],
+        [0, 1, 1, 1],
+        [0, 1, 2, 2],
+        [0, 1, 2, 2],
+        [0, 1, 2, 3],
+      ],
+      rowLabels: ['', 'a', 'b', 'c', 'd', 'e'],
+      colLabels: ['', 'a', 'c', 'e'],
+    },
+    gridStates: [
+      { r: 0, c: 0, state: 'done' },
+      { r: 0, c: 1, state: 'done' },
+      { r: 0, c: 2, state: 'done' },
+      { r: 0, c: 3, state: 'done' },
+      { r: 1, c: 0, state: 'done' },
+      { r: 2, c: 0, state: 'done' },
+      { r: 3, c: 0, state: 'done' },
+      { r: 4, c: 0, state: 'done' },
+      { r: 5, c: 0, state: 'done' },
+      { r: 1, c: 1, state: 'done' },
+      { r: 1, c: 2, state: 'done' },
+      { r: 1, c: 3, state: 'done' },
+      { r: 2, c: 1, state: 'done' },
+      { r: 2, c: 2, state: 'done' },
+      { r: 2, c: 3, state: 'done' },
+      { r: 3, c: 1, state: 'done' },
+      { r: 3, c: 2, state: 'done' },
+      { r: 3, c: 3, state: 'done' },
+      { r: 4, c: 1, state: 'done' },
+      { r: 4, c: 2, state: 'done' },
+      { r: 4, c: 3, state: 'done' },
+      { r: 5, c: 1, state: 'done' },
+      { r: 5, c: 2, state: 'done' },
+      { r: 5, c: 3, state: 'mark' },
+    ],
+    gridTexts: [
+      { r: 5, c: 3, text: '3', state: 'mark' },
+      { r: 4, c: 2, text: '2', state: 'path' },
+      { r: 3, c: 1, text: '1', state: 'path' },
+      { r: 2, c: 0, text: '0', state: 'path' },
+    ],
+    note: '结论：答案 f[5][3] = 3，最长公共子序列为 "ace" ✅。红色为答案格子，绿色描边为沿对角线 3→2→1→0 的回溯路径，LCS 长度从右下角向左上递减。',
+  },
+]
+</script>
+
 <!-- problem:start -->
 
 # [1143. 最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence)
@@ -81,6 +338,15 @@ $$
 
 时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为 $text1$ 和 $text2$ 的长度。
 
+### 可视化演示
+
+> 以 `text1 = "abcde"`、`text2 = "ace"` 为例，演示动态规划填表：`f[i][j]` 为 `text1` 前 `i` 个与 `text2` 前 `j` 个字符的最长公共子序列长度。字符相等取左上 +1，否则取左/上最大值。行标题为 `text1` 字符，列标题为 `text2` 字符。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="lcsSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

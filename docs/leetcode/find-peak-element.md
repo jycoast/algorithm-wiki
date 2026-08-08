@@ -7,6 +7,16 @@ tags:
     - 二分查找
 ---
 
+<script setup>
+// 可视化演示数据：nums = [1,2,3,1]，峰值在索引 2（值为 3）
+const findPeakSteps = [
+  { array: [1, 2, 3, 1], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 3 }], note: '初始：left = 0，right = n - 1 = 3' },
+  { array: [1, 2, 3, 1], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 3 }], highlight: [1, 2], note: 'mid = 1，比较 nums[1]=2 与 nums[2]=3。nums[mid] 不更大，峰值在右侧，left = mid + 1 = 2' },
+  { array: [1, 2, 3, 1], pointers: [{ label: 'left', index: 2 }, { label: 'right', index: 3 }], highlight: [2, 3], note: 'mid = 2，比较 nums[2]=3 与 nums[3]=1。nums[mid] 更大，峰值在左侧，right = mid = 2' },
+  { array: [1, 2, 3, 1], pointers: [{ label: 'left', index: 2 }, { label: 'right', index: 2 }], highlight: [2], note: 'left == right = 2，nums[2] = 3 是峰值（大于左右邻居），返回 2 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [162. 寻找峰值](https://leetcode.cn/problems/find-peak-element)
@@ -67,6 +77,15 @@ tags:
 
 时间复杂度 $O(\log n)$，其中 $n$ 是数组 $nums$ 的长度。每一步二分查找可以将搜索区间减少一半，因此时间复杂度为 $O(\log n)$。空间复杂度 $O(1)$。
 
+## 可视化演示
+
+> 以 `nums = [1, 2, 3, 1]` 为例，演示二分查找峰值的指针收缩过程。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="findPeakSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

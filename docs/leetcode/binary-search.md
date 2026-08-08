@@ -7,6 +7,20 @@ tags:
     - 二分查找
 ---
 
+<script setup>
+// 可视化演示数据：nums = [-1,0,3,5,9,12]，target = 9，返回下标 4
+const binarySearchSteps = [
+  { array: [-1, 0, 3, 5, 9, 12], pointers: [{ label: 'l', index: 0 }, { label: 'r', index: 5 }], note: '初始：l = 0，r = n - 1 = 5' },
+  { array: [-1, 0, 3, 5, 9, 12], pointers: [{ label: 'l', index: 0 }, { label: 'r', index: 5 }], highlight: [2], note: 'mid = (l + r) / 2 = 2，nums[2] = 3' },
+  { array: [-1, 0, 3, 5, 9, 12], pointers: [{ label: 'l', index: 3 }, { label: 'r', index: 5 }], note: 'nums[2] = 3 < target = 9，目标在右半，l = mid + 1 = 3' },
+  { array: [-1, 0, 3, 5, 9, 12], pointers: [{ label: 'l', index: 3 }, { label: 'r', index: 5 }], highlight: [4], note: 'mid = (l + r) / 2 = 4，nums[4] = 9' },
+  { array: [-1, 0, 3, 5, 9, 12], pointers: [{ label: 'l', index: 3 }, { label: 'r', index: 4 }], note: 'nums[4] = 9 ≥ target，r = mid = 4' },
+  { array: [-1, 0, 3, 5, 9, 12], pointers: [{ label: 'l', index: 3 }, { label: 'r', index: 4 }], highlight: [3], note: 'mid = (l + r) / 2 = 3，nums[3] = 5' },
+  { array: [-1, 0, 3, 5, 9, 12], pointers: [{ label: 'l', index: 4 }, { label: 'r', index: 4 }], note: 'nums[3] = 5 < target，l = mid + 1 = 4' },
+  { array: [-1, 0, 3, 5, 9, 12], pointers: [{ label: 'l', index: 4 }, { label: 'r', index: 4 }], highlight: [4], note: 'l == r 循环结束，nums[4] = 9 == target，返回下标 4 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [704. 二分查找](https://leetcode.cn/problems/binary-search)
@@ -61,6 +75,15 @@ tags:
 
 时间复杂度 $O(\log n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
+## 可视化演示
+
+> 以 `nums = [-1, 0, 3, 5, 9, 12]`、`target = 9` 为例，演示二分查找的指针收缩过程。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="binarySearchSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

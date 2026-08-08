@@ -9,6 +9,23 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（DFS 回溯）可视化：root = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1]，targetSum = 22
+// 层序下标：0=5, 1=4, 2=8, 3=11, 4=null, 5=13, 6=4, 7=7, 8=2, 9=null, 10=null, 11=5, 12=1
+const pathSumSteps = [
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], states: [{ id: 0, state: 'path' }], labels: [{ id: 0, text: 's:17' }], aux: [{ title: '路径 t', values: [5] }, { title: '结果 ans', values: [] }], note: 'dfs(5, 22)：s = 22 - 5 = 17，t = [5]。s 从 targetSum 递减。' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'path' }], labels: [{ id: 0, text: 's:17' }, { id: 1, text: 's:13' }], aux: [{ title: '路径 t', values: [5, 4] }, { title: '结果 ans', values: [] }], note: 'dfs(4, 17)：s = 17 - 4 = 13，t = [5, 4]。' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'path' }, { id: 3, state: 'path' }], labels: [{ id: 0, text: 's:17' }, { id: 1, text: 's:13' }, { id: 3, text: 's:2' }], aux: [{ title: '路径 t', values: [5, 4, 11] }, { title: '结果 ans', values: [] }], note: 'dfs(11, 13)：s = 13 - 11 = 2，t = [5, 4, 11]。11 非叶子，继续向左。' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'path' }, { id: 3, state: 'path' }, { id: 7, state: 'cur' }], labels: [{ id: 3, text: 's:2' }, { id: 7, text: 's:-5' }], aux: [{ title: '路径 t', values: [5, 4, 11, 7] }, { title: '结果 ans', values: [] }], note: 'dfs(7, 2)：s = 2 - 7 = -5。叶子 7 但 s ≠ 0，不加入 ans，回溯移除 7。' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'path' }, { id: 3, state: 'path' }, { id: 7, state: 'done' }, { id: 8, state: 'mark' }], labels: [{ id: 3, text: 's:2' }, { id: 8, text: 's:0' }], aux: [{ title: '路径 t', values: [5, 4, 11, 2] }, { title: '结果 ans', values: [5, 4, 11, 2] }], note: 'dfs(2, 2)：s = 2 - 2 = 0。叶子 2 且 s == 0 → 命中！ans = [[5, 4, 11, 2]]（红色）。' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'done' }, { id: 2, state: 'path' }, { id: 3, state: 'done' }, { id: 7, state: 'done' }, { id: 8, state: 'mark' }], labels: [{ id: 0, text: 's:17' }, { id: 2, text: 's:9' }], aux: [{ title: '路径 t', values: [5, 8] }, { title: '结果 ans', values: [5, 4, 11, 2] }], note: '回溯移除 2、11、4，t = [5]；从根 5 转向右子树：dfs(8, 17)：s = 17 - 8 = 9，t = [5, 8]。' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], states: [{ id: 0, state: 'path' }, { id: 2, state: 'path' }, { id: 5, state: 'cur' }, { id: 8, state: 'mark' }], labels: [{ id: 2, text: 's:9' }, { id: 5, text: 's:-4' }], aux: [{ title: '路径 t', values: [5, 8, 13] }, { title: '结果 ans', values: [5, 4, 11, 2] }], note: 'dfs(13, 9)：s = 9 - 13 = -4。叶子 13 但 s ≠ 0，回溯移除 13。' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], states: [{ id: 0, state: 'path' }, { id: 2, state: 'path' }, { id: 5, state: 'done' }, { id: 6, state: 'path' }, { id: 8, state: 'mark' }], labels: [{ id: 2, text: 's:9' }, { id: 6, text: 's:5' }], aux: [{ title: '路径 t', values: [5, 8, 4] }, { title: '结果 ans', values: [5, 4, 11, 2] }], note: 'dfs(4, 9)：s = 9 - 4 = 5，t = [5, 8, 4]。' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], states: [{ id: 0, state: 'path' }, { id: 2, state: 'path' }, { id: 5, state: 'done' }, { id: 6, state: 'path' }, { id: 8, state: 'mark' }, { id: 11, state: 'mark' }], labels: [{ id: 6, text: 's:5' }, { id: 11, text: 's:0' }], aux: [{ title: '路径 t', values: [5, 8, 4, 5] }, { title: '结果 ans', values: [5, 4, 11, 2, null, 5, 8, 4, 5] }], note: 'dfs(5, 5)：s = 5 - 5 = 0。叶子 5 且 s == 0 → 命中！ans = [[5, 4, 11, 2], [5, 8, 4, 5]]（红色）。' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }, { id: 7, state: 'done' }, { id: 8, state: 'mark' }, { id: 11, state: 'mark' }], aux: [{ title: '路径 t', values: [] }, { title: '结果 ans', values: [5, 4, 11, 2, null, 5, 8, 4, 5] }], note: '全部回溯完毕。命中两条路径 [5, 4, 11, 2] 与 [5, 8, 4, 5]，返回 ans ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [113. 路径总和 II](https://leetcode.cn/problems/path-sum-ii)
@@ -71,6 +88,15 @@ tags:
 
 时间复杂度 $O(n^2)$，其中 $n$ 是二叉树的节点数。空间复杂度 $O(n)$。
 
+### 可视化演示
+
+> 以 `root = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1]`、`targetSum = 22` 为例，演示 DFS 回溯寻找路径和为 22 的根到叶子路径：`s` 从 targetSum 递减，`t` 记录当前路径。绿色描边为当前路径节点，红色为命中路径的叶子节点，节点下方 `s:` 标签为剩余和。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="pathSumSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

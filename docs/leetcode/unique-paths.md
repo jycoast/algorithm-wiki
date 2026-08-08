@@ -8,6 +8,102 @@ tags:
     - 组合数学
 ---
 
+<script setup>
+// 方法一（二维动态规划）可视化：m = 3, n = 3
+// f[i][j] 表示从左上角走到 (i, j) 的路径数，f[0][j] = 1, f[i][0] = 1
+// f[i][j] = f[i - 1][j] + f[i][j - 1]
+const uniquePathsSteps = [
+  {
+    grid: { values: [[1, null, null], [null, null, null], [null, null, null]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'cur' }],
+    note: '起点：f[0][0] = 1（机器人从左上角出发，自身即一条路径）。',
+  },
+  {
+    grid: { values: [[1, 1, 1], [null, null, null], [null, null, null]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'cur' }, { r: 0, c: 2, state: 'cur' }],
+    note: '第 0 行：只能向右走，均只有 1 条路径。f[0][1] = f[0][0] = 1，f[0][2] = f[0][1] = 1。',
+  },
+  {
+    grid: { values: [[1, 1, 1], [1, null, null], [1, null, null]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'cur' }, { r: 2, c: 0, state: 'cur' }],
+    note: '第 0 列：只能向下走，均只有 1 条路径。f[1][0] = f[0][0] = 1，f[2][0] = f[1][0] = 1。',
+  },
+  {
+    grid: { values: [[1, 1, 1], [1, 2, null], [1, null, null]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'hl' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'hl' }, { r: 1, c: 1, state: 'cur' }, { r: 2, c: 0, state: 'done' }],
+    note: 'f[1][1]：可从上方或左方到达，f[1][1] = f[0][1] + f[1][0] = 1 + 1 = 2。',
+  },
+  {
+    grid: { values: [[1, 1, 1], [1, 2, 3], [1, 3, null]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'hl' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'hl' }, { r: 1, c: 2, state: 'cur' }, { r: 2, c: 0, state: 'hl' }, { r: 2, c: 1, state: 'cur' }],
+    note: 'f[1][2] = f[0][2] + f[1][1] = 1 + 2 = 3；f[2][1] = f[1][1] + f[2][0] = 2 + 1 = 3。',
+  },
+  {
+    grid: { values: [[1, 1, 1], [1, 2, 3], [1, 3, 6]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'hl' }, { r: 2, c: 0, state: 'done' }, { r: 2, c: 1, state: 'hl' }, { r: 2, c: 2, state: 'mark' }],
+    note: 'f[2][2] = f[1][2] + f[2][1] = 3 + 3 = 6。答案 f[2][2] = 6 ✅。',
+  },
+]
+// 方法二（全 1 初始化后递推）可视化：m = 3, n = 3
+// 先 fill f[*][*] = 1，再 for i=1.., for j=1..: f[i][j] = f[i-1][j] + f[i][j-1]
+const uniquePathsFillSteps = [
+  {
+    grid: { values: [[1, 1, 1], [1, 1, 1], [1, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 2, c: 0, state: 'done' }],
+    note: '初始化：f 全部填 1。第 0 行与第 0 列为边界值（只能向右/向下，各只有 1 条路径）；内部格子先占位为 1，随后逐格递推覆盖。',
+  },
+  {
+    grid: { values: [[1, 1, 1], [1, 2, 1], [1, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'hl' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'hl' }, { r: 1, c: 1, state: 'cur' }, { r: 2, c: 0, state: 'done' }],
+    note: 'i=1, j=1：f[1][1] = f[0][1] + f[1][0] = 1 + 1 = 2。',
+  },
+  {
+    grid: { values: [[1, 1, 1], [1, 2, 3], [1, 1, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'hl' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'cur' }, { r: 2, c: 0, state: 'done' }],
+    note: 'i=1, j=2：f[1][2] = f[0][2] + f[1][1] = 1 + 2 = 3。',
+  },
+  {
+    grid: { values: [[1, 1, 1], [1, 2, 3], [1, 3, 1]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'hl' }, { r: 1, c: 2, state: 'done' }, { r: 2, c: 0, state: 'hl' }, { r: 2, c: 1, state: 'cur' }],
+    note: 'i=2, j=1：f[2][1] = f[1][1] + f[2][0] = 2 + 1 = 3。',
+  },
+  {
+    grid: { values: [[1, 1, 1], [1, 2, 3], [1, 3, 6]], rowLabels: ['0', '1', '2'], colLabels: ['0', '1', '2'] },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'hl' }, { r: 2, c: 0, state: 'done' }, { r: 2, c: 1, state: 'hl' }, { r: 2, c: 2, state: 'mark' }],
+    note: 'i=2, j=2：f[2][2] = f[1][2] + f[2][1] = 3 + 3 = 6。答案 f[2][2] = 6 ✅。',
+  },
+]
+// 方法三（一维空间优化）可视化：m = 3, n = 3
+// f[j] 滚动数组，初始 f = [1,1,1]，每行 f[j] += f[j-1]
+const uniquePaths1dSteps = [
+  {
+    dp: [1, 1, 1],
+    dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }],
+    note: '初始化：f = [1, 1, 1]，对应第 0 行各格路径数（只能向右，均为 1）。',
+  },
+  {
+    dp: [1, 2, 1],
+    dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'cur' }, { i: 2, state: 'done' }],
+    note: '第 1 行，j=1：f[1] += f[0]，即 1 + 1 = 2。',
+  },
+  {
+    dp: [1, 2, 3],
+    dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'cur' }],
+    note: '第 1 行，j=2：f[2] += f[1]，即 1 + 2 = 3。第 1 行完成：f = [1, 2, 3]。',
+  },
+  {
+    dp: [1, 3, 3],
+    dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'cur' }, { i: 2, state: 'done' }],
+    note: '第 2 行，j=1：f[1] += f[0]，即 2 + 1 = 3。',
+  },
+  {
+    dp: [1, 3, 6],
+    dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'mark' }],
+    note: '第 2 行，j=2：f[2] += f[1]，即 3 + 3 = 6。答案 f[2] = 6 ✅（与二维表 f[2][2] 一致）。',
+  },
+]
+</script>
+
 <!-- problem:start -->
 
 # [62. 不同路径](https://leetcode.cn/problems/unique-paths)
@@ -94,6 +190,15 @@ $$
 
 我们注意到 $f[i][j]$ 仅与 $f[i - 1][j]$ 和 $f[i][j - 1]$ 有关，因此我们优化掉第一维空间，仅保留第二维空间，得到时间复杂度 $O(m \times n)$，空间复杂度 $O(n)$ 的实现。
 
+### 可视化演示
+
+> 以 `m = 3`、`n = 3` 为例，演示动态规划：`f[i][j] = f[i-1][j] + f[i][j-1]`（只能向下/向右）。蓝色为当前计算，绿色为已完成，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="uniquePathsSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -182,6 +287,15 @@ class Solution:
 
 ## 方法二
 
+### 可视化演示
+
+> 以 `m = 3`、`n = 3` 为例，演示动态规划：初始化 `f[i][j] = 1`，再递推 `f[i][j] = f[i-1][j] + f[i][j-1]`。蓝色为当前计算，绿色为已完成，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="uniquePathsFillSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -252,6 +366,15 @@ class Solution:
 
 ## 方法三
 
+### 可视化演示
+
+> 以 `m = 3`、`n = 3` 为例，演示一维空间优化的滚动数组：`f[j] += f[j-1]`。蓝色为当前计算，绿色为已完成，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="uniquePaths1dSteps" />
+
+<div class="viz-jump"><a href="#code-3">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-3"></a>
 <!-- tabs:start -->
 ::: code-group
 

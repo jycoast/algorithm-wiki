@@ -9,6 +9,18 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（递归中序）可视化：root = [2, 1, 3]
+// 层序下标：0=2, 1=1, 2=3
+const validateBstSteps = [
+  { tree: [2, 1, 3], states: [{ id: 0, state: 'cur' }], aux: [{ title: 'prev', values: [null] }, { title: '中序', values: [] }], note: '递归中序遍历开始：当前节点 root = 2，prev 初始为 null。先递归遍历左子树。' },
+  { tree: [2, 1, 3], states: [{ id: 0, state: 'path' }, { id: 1, state: 'cur' }], labels: [{ id: 1, text: '①' }], aux: [{ title: 'prev', values: [1] }, { title: '中序', values: [1] }], note: '递归进入左子树，当前节点 1。1 无左孩子，比较 prev(null) < 1 成立 → 访问 1，prev = 1。' },
+  { tree: [2, 1, 3], states: [{ id: 0, state: 'cur' }, { id: 1, state: 'done' }], labels: [{ id: 1, text: '①' }], aux: [{ title: 'prev', values: [2] }, { title: '中序', values: [1, 2] }], note: '左子树 1 访问完毕。返回根 2，比较 prev=1 < 2 成立 → 访问 2，prev = 2。' },
+  { tree: [2, 1, 3], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'cur' }], labels: [{ id: 1, text: '①' }, { id: 0, text: '②' }], aux: [{ title: 'prev', values: [3] }, { title: '中序', values: [1, 2, 3] }], note: '递归右子树，当前节点 3。3 无左孩子，比较 prev=2 < 3 成立 → 访问 3，prev = 3。' },
+  { tree: [2, 1, 3], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }], labels: [{ id: 1, text: '①' }, { id: 0, text: '②' }, { id: 2, text: '③' }], aux: [{ title: 'prev', values: [3] }, { title: '中序', values: [1, 2, 3] }], note: '整棵中序序列 [1, 2, 3] 严格升序 → 是有效的二叉搜索树，返回 true ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [98. 验证二叉搜索树](https://leetcode.cn/problems/validate-binary-search-tree)
@@ -68,6 +80,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
 
+### 可视化演示
+
+> 以 `root = [2, 1, 3]` 为例，演示递归中序遍历判断 BST：`prev` 保存上一个访问节点，每访问一个节点都要求 `prev < 当前值`，最后中序序列严格升序即为有效 BST。蓝色为当前节点，绿色描边为递归路径上的节点，绿色实心为已处理节点。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="validateBstSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

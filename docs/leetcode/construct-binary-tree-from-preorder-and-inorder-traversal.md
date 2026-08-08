@@ -10,6 +10,93 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（哈希表 + 递归）可视化：preorder = [3, 9, 20, 15, 7]，inorder = [9, 3, 15, 20, 7]
+// 层序下标：0=3, 1=9, 2=20, 3=null, 4=null, 5=15, 6=7
+const buildTreeSteps = [
+  {
+    tree: [null, null, null, null, null, null, null],
+    aux: [
+      { title: 'preorder', values: [3, 9, 20, 15, 7], marker: 0, markerLabel: 'i' },
+      { title: 'inorder', values: [9, 3, 15, 20, 7], marker: 0, markerLabel: 'j' },
+    ],
+    note: '建立哈希表 d = {9:0, 3:1, 15:2, 20:3, 7:4}（inorder 值 → 下标）。调用 dfs(0, 0, 5)：preorder 起点 i=0，inorder 起点 j=0，共 n=5 个节点。',
+  },
+  {
+    tree: [3, null, null, null, null, null, null],
+    states: [{ id: 0, state: 'cur' }],
+    aux: [
+      { title: 'preorder', values: [3, 9, 20, 15, 7], marker: 0, markerLabel: 'i' },
+      { title: 'inorder', values: [9, 3, 15, 20, 7], marker: 1, markerLabel: 'k' },
+    ],
+    note: 'dfs(0, 0, 5)：取出 v = preorder[i] = preorder[0] = 3 作为根节点。由 d 得 k = d[v] = d[3] = 1，即 3 在中序中的位置。左子树节点数 k-j = 1，右子树节点数 n-1-(k-j) = 3。',
+  },
+  {
+    tree: [3, null, null, null, null, null, null],
+    states: [{ id: 0, state: 'done' }],
+    aux: [
+      { title: 'preorder', values: [3, 9, 20, 15, 7], marker: 1, markerLabel: 'i' },
+      { title: 'inorder', values: [9, 3, 15, 20, 7], marker: 1, markerLabel: 'k' },
+    ],
+    note: '根 3 构造完成。递归构造左子树 l = dfs(i+1, j, k-j) = dfs(1, 0, 1)，对应中序区间 inorder[0..0] = [9]。',
+  },
+  {
+    tree: [3, 9, null, null, null, null, null],
+    states: [{ id: 0, state: 'done' }, { id: 1, state: 'cur' }],
+    aux: [
+      { title: 'preorder', values: [3, 9, 20, 15, 7], marker: 1, markerLabel: 'i' },
+      { title: 'inorder', values: [9, 3, 15, 20, 7], marker: 0, markerLabel: 'k' },
+    ],
+    note: 'dfs(1, 0, 1)：取出 v = preorder[1] = 9 作为左子树根。k = d[v] = d[9] = 0。左子树节点数 k-j = 0，右子树节点数 n-1-(k-j) = 0，9 是叶子。',
+  },
+  {
+    tree: [3, 9, null, null, null, null, null],
+    states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }],
+    aux: [
+      { title: 'preorder', values: [3, 9, 20, 15, 7], marker: 2, markerLabel: 'i' },
+      { title: 'inorder', values: [9, 3, 15, 20, 7], marker: 2, markerLabel: 'j' },
+    ],
+    note: '9 的子树节点数均为 0，返回，左子树构造完成。回到根 3，递归构造右子树 r = dfs(i+1+k-j, k+1, n-1-(k-j)) = dfs(2, 2, 3)，对应中序区间 inorder[2..4] = [15, 20, 7]。',
+  },
+  {
+    tree: [3, 9, 20, null, null, null, null],
+    states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'cur' }],
+    aux: [
+      { title: 'preorder', values: [3, 9, 20, 15, 7], marker: 2, markerLabel: 'i' },
+      { title: 'inorder', values: [9, 3, 15, 20, 7], marker: 3, markerLabel: 'k' },
+    ],
+    note: 'dfs(2, 2, 3)：取出 v = preorder[2] = 20 作为右子树根。k = d[v] = d[20] = 3。左子树节点数 k-j = 1（inorder[2..2] = [15]），右子树节点数 n-1-(k-j) = 1（inorder[4..4] = [7]）。',
+  },
+  {
+    tree: [3, 9, 20, null, null, 15, null],
+    states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 5, state: 'cur' }],
+    aux: [
+      { title: 'preorder', values: [3, 9, 20, 15, 7], marker: 3, markerLabel: 'i' },
+      { title: 'inorder', values: [9, 3, 15, 20, 7], marker: 2, markerLabel: 'k' },
+    ],
+    note: '递归构造 20 的左子树 l = dfs(i+1, j, k-j) = dfs(3, 2, 1)：取出 v = preorder[3] = 15，k = d[15] = 2。左右子树节点数均为 0，15 是叶子（层序下标 5）。',
+  },
+  {
+    tree: [3, 9, 20, null, null, 15, 7],
+    states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'cur' }],
+    aux: [
+      { title: 'preorder', values: [3, 9, 20, 15, 7], marker: 4, markerLabel: 'i' },
+      { title: 'inorder', values: [9, 3, 15, 20, 7], marker: 4, markerLabel: 'k' },
+    ],
+    note: '递归构造 20 的右子树 r = dfs(i+1+k-j, k+1, n-1-(k-j)) = dfs(4, 4, 1)：取出 v = preorder[4] = 7，k = d[7] = 4。左右子树节点数均为 0，7 是叶子（层序下标 6）。',
+  },
+  {
+    tree: [3, 9, 20, null, null, 15, 7],
+    states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 5, state: 'done' }, { id: 6, state: 'done' }],
+    aux: [
+      { title: 'preorder', values: [3, 9, 20, 15, 7] },
+      { title: 'inorder', values: [9, 3, 15, 20, 7] },
+    ],
+    note: '所有子树节点数 n≤0，递归全部返回，二叉树构造完成 ✅。最终树为 [3, 9, 20, null, null, 15, 7]。',
+  },
+]
+</script>
+
 <!-- problem:start -->
 
 # [105. 从前序与中序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal)
@@ -73,6 +160,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树节点个数。
 
+### 可视化演示
+
+> 以 `preorder = [3, 9, 20, 15, 7]`、`inorder = [9, 3, 15, 20, 7]` 为例，演示"哈希表 + 递归"构造二叉树：每次取 `preorder` 中 `i` 处的节点 `v` 作为根，通过哈希表 `d` 找到 `v` 在中序中的位置 `k`，从而划分左右子树区间并递归。蓝色为当前构造的根节点 `v`，绿色为已构造完成的节点。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="buildTreeSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 

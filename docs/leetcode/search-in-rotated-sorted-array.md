@@ -7,6 +7,20 @@ tags:
     - 二分查找
 ---
 
+<script setup>
+// 可视化演示数据：nums = [4,5,6,7,0,1,2]，target = 0，返回下标 4
+const rotatedSearchSteps = [
+  { array: [4, 5, 6, 7, 0, 1, 2], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 6 }], note: '初始：left = 0，right = n - 1 = 6' },
+  { array: [4, 5, 6, 7, 0, 1, 2], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 6 }], highlight: [3], note: 'mid = 3，nums[3] = 7。nums[0]=4 ≤ 7，左半 [4,5,6,7] 有序' },
+  { array: [4, 5, 6, 7, 0, 1, 2], pointers: [{ label: 'left', index: 4 }, { label: 'right', index: 6 }], note: 'target=0 不在有序左半 [4,7] 内，left = mid + 1 = 4' },
+  { array: [4, 5, 6, 7, 0, 1, 2], pointers: [{ label: 'left', index: 4 }, { label: 'right', index: 6 }], highlight: [5], note: 'mid = 5，nums[5] = 1。nums[0]=4 > 1，右半 [0,1,2] 有序' },
+  { array: [4, 5, 6, 7, 0, 1, 2], pointers: [{ label: 'left', index: 4 }, { label: 'right', index: 5 }], note: 'target=0 不在有序右半 (1,2] 内，right = mid = 5' },
+  { array: [4, 5, 6, 7, 0, 1, 2], pointers: [{ label: 'left', index: 4 }, { label: 'right', index: 5 }], highlight: [4], note: 'mid = 4，nums[4] = 0。nums[0]=4 > 0，右半 [0] 有序' },
+  { array: [4, 5, 6, 7, 0, 1, 2], pointers: [{ label: 'left', index: 4 }, { label: 'right', index: 4 }], note: 'nums[4]=0 < target 不成立，right = mid = 4，left == right 终止' },
+  { array: [4, 5, 6, 7, 0, 1, 2], pointers: [{ label: 'left', index: 4 }, { label: 'right', index: 4 }], highlight: [4], note: 'nums[4] = 0 == target，返回下标 4 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array)
@@ -79,6 +93,15 @@ tags:
 
 时间复杂度 $O(\log n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
 
+## 可视化演示
+
+> 以 `nums = [4, 5, 6, 7, 0, 1, 2]`、`target = 0` 为例，演示旋转数组二分查找的收缩过程。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="rotatedSearchSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

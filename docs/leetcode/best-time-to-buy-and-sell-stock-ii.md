@@ -8,6 +8,114 @@ tags:
     - 动态规划
 ---
 
+<script setup>
+// 方法一（贪心）可视化：prices = [7, 1, 5, 3, 6, 4]，ans += max(0, prices[i] - prices[i-1])，答案 7
+const greedySteps = [
+  { array: [7, 1, 5, 3, 6, 4], pointers: [{ label: 'i', index: 1 }], highlight: [0, 1], note: 'i=1：prices[1]-prices[0]=1-7=-6 < 0，不上涨，不加利润。ans=0。' },
+  { array: [7, 1, 5, 3, 6, 4], pointers: [{ label: 'i', index: 2 }], highlight: [1, 2], note: 'i=2：prices[2]-prices[1]=5-1=4 > 0，上涨获利，ans=0+4=4。' },
+  { array: [7, 1, 5, 3, 6, 4], pointers: [{ label: 'i', index: 3 }], highlight: [2, 3], note: 'i=3：prices[3]-prices[2]=3-5=-2 < 0，不上涨，不加利润。ans=4。' },
+  { array: [7, 1, 5, 3, 6, 4], pointers: [{ label: 'i', index: 4 }], highlight: [3, 4], note: 'i=4：prices[4]-prices[3]=6-3=3 > 0，上涨获利，ans=4+3=7。' },
+  { array: [7, 1, 5, 3, 6, 4], pointers: [{ label: 'i', index: 5 }], highlight: [4, 5], note: 'i=5：prices[5]-prices[4]=4-6=-2 < 0，不上涨，不加利润。ans=7。' },
+  { array: [7, 1, 5, 3, 6, 4], highlight: [1, 2, 3, 4], note: '结论：ans=7 ✅。两段上涨 1→5（+4）与 3→6（+3），总利润 4+3=7。' },
+]
+// 方法二（二维动态规划）可视化：f[i][0]=持股利润（买入为负成本），f[i][1]=空仓利润，答案 f[5][1]=7
+const dp2Steps = [
+  {
+    grid: {
+      values: [
+        [0, null, null, null, null, null],
+        [-7, null, null, null, null, null],
+      ],
+      rowLabels: ['f[i][1] 空仓', 'f[i][0] 持股'],
+      colLabels: ['0', '1', '2', '3', '4', '5'],
+    },
+    gridStates: [{ r: 0, c: 0, state: 'cur' }, { r: 1, c: 0, state: 'cur' }],
+    note: 'i=0：初始化。f[0][1]=0（第 0 天空仓，最大利润 0）；f[0][0]=-prices[0]=-7（第 0 天持股，花费 7 买入，利润 -7）。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, null, null, null, null],
+        [-7, -1, null, null, null, null],
+      ],
+      rowLabels: ['f[i][1] 空仓', 'f[i][0] 持股'],
+      colLabels: ['0', '1', '2', '3', '4', '5'],
+    },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 0, c: 1, state: 'cur' }, { r: 1, c: 1, state: 'cur' }],
+    note: 'i=1：f[1][0]=max(f[0][0], f[0][1]-prices[1])=max(-7, 0-1)=-1（持股）；f[1][1]=max(f[0][1], f[0][0]+prices[1])=max(0, -7+1)=0（空仓）。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 4, null, null, null],
+        [-7, -1, -1, null, null, null],
+      ],
+      rowLabels: ['f[i][1] 空仓', 'f[i][0] 持股'],
+      colLabels: ['0', '1', '2', '3', '4', '5'],
+    },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 0, c: 2, state: 'cur' }, { r: 1, c: 2, state: 'cur' }],
+    note: 'i=2：f[2][0]=max(f[1][0], f[1][1]-prices[2])=max(-1, 0-5)=-1（持股）；f[2][1]=max(f[1][1], f[1][0]+prices[2])=max(0, -1+5)=4（空仓）。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 4, 4, null, null],
+        [-7, -1, -1, 1, null, null],
+      ],
+      rowLabels: ['f[i][1] 空仓', 'f[i][0] 持股'],
+      colLabels: ['0', '1', '2', '3', '4', '5'],
+    },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 0, c: 3, state: 'cur' }, { r: 1, c: 3, state: 'cur' }],
+    note: 'i=3：f[3][0]=max(f[2][0], f[2][1]-prices[3])=max(-1, 4-3)=1（持股）；f[3][1]=max(f[2][1], f[2][0]+prices[3])=max(4, -1+3)=4（空仓）。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 4, 4, 7, null],
+        [-7, -1, -1, 1, 1, null],
+      ],
+      rowLabels: ['f[i][1] 空仓', 'f[i][0] 持股'],
+      colLabels: ['0', '1', '2', '3', '4', '5'],
+    },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 1, c: 3, state: 'done' }, { r: 0, c: 4, state: 'cur' }, { r: 1, c: 4, state: 'cur' }],
+    note: 'i=4：f[4][0]=max(f[3][0], f[3][1]-prices[4])=max(1, 4-6)=1（持股）；f[4][1]=max(f[3][1], f[3][0]+prices[4])=max(4, 1+6)=7（空仓）。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 4, 4, 7, 7],
+        [-7, -1, -1, 1, 1, 3],
+      ],
+      rowLabels: ['f[i][1] 空仓', 'f[i][0] 持股'],
+      colLabels: ['0', '1', '2', '3', '4', '5'],
+    },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 1, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }, { r: 1, c: 4, state: 'done' }, { r: 0, c: 5, state: 'cur' }, { r: 1, c: 5, state: 'cur' }],
+    note: 'i=5：f[5][0]=max(f[4][0], f[4][1]-prices[5])=max(1, 7-4)=3（持股）；f[5][1]=max(f[4][1], f[4][0]+prices[5])=max(7, 1+4)=7（空仓）。',
+  },
+  {
+    grid: {
+      values: [
+        [0, 0, 4, 4, 7, 7],
+        [-7, -1, -1, 1, 1, 3],
+      ],
+      rowLabels: ['f[i][1] 空仓', 'f[i][0] 持股'],
+      colLabels: ['0', '1', '2', '3', '4', '5'],
+    },
+    gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 1, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }, { r: 1, c: 4, state: 'done' }, { r: 0, c: 5, state: 'mark' }, { r: 1, c: 5, state: 'done' }],
+    note: '结论：f[5][1]=7 ✅（第 5 天空仓的最大利润），即最大总利润为 7。',
+  },
+]
+// 方法三（空间优化滚动变量）可视化：f/g 两个长度 2 的数组滚动，g 计算第 i 天新状态后赋给 f，返回 f[1]=7
+const rollSteps = [
+  { dp: [0, null, null, null, null, null], dpStates: [{ i: 0, state: 'cur' }], pointers: [{ i: 0, label: 'i' }], aux: [{ title: 'g', values: [-7, null, null, null, null, null], states: [{ i: 0, state: 'cur' }] }, { title: 'prices', values: [7, 1, 5, 3, 6, 4] }], note: 'i=0：初始化 f=[-prices[0], 0]=[-7, 0]。主行 f 显示空仓利润 f[1]=0，辅助行 g 显示持股利润 g[0]=-7。' },
+  { dp: [0, 0, null, null, null, null], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'cur' }], pointers: [{ i: 1, label: 'i' }], aux: [{ title: 'g', values: [-7, -1, null, null, null, null], states: [{ i: 0, state: 'done' }, { i: 1, state: 'cur' }] }, { title: 'prices', values: [7, 1, 5, 3, 6, 4] }], note: 'i=1：g[0]=max(f[0], f[1]-prices[1])=max(-7, 0-1)=-1（持股）；g[1]=max(f[1], f[0]+prices[1])=max(0, -7+1)=0（空仓）。f=g → f=[-1, 0]。' },
+  { dp: [0, 0, 4, null, null, null], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'cur' }], pointers: [{ i: 2, label: 'i' }], aux: [{ title: 'g', values: [-7, -1, -1, null, null, null], states: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'cur' }] }, { title: 'prices', values: [7, 1, 5, 3, 6, 4] }], note: 'i=2：g[0]=max(-1, 0-5)=-1；g[1]=max(0, -1+5)=4。f=g → f=[-1, 4]。' },
+  { dp: [0, 0, 4, 4, null, null], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'cur' }], pointers: [{ i: 3, label: 'i' }], aux: [{ title: 'g', values: [-7, -1, -1, 1, null, null], states: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'cur' }] }, { title: 'prices', values: [7, 1, 5, 3, 6, 4] }], note: 'i=3：g[0]=max(-1, 4-3)=1；g[1]=max(4, -1+3)=4。f=g → f=[1, 4]。' },
+  { dp: [0, 0, 4, 4, 7, null], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'done' }, { i: 4, state: 'cur' }], pointers: [{ i: 4, label: 'i' }], aux: [{ title: 'g', values: [-7, -1, -1, 1, 1, null], states: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'done' }, { i: 4, state: 'cur' }] }, { title: 'prices', values: [7, 1, 5, 3, 6, 4] }], note: 'i=4：g[0]=max(1, 4-6)=1；g[1]=max(4, 1+6)=7。f=g → f=[1, 7]。' },
+  { dp: [0, 0, 4, 4, 7, 7], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'done' }, { i: 4, state: 'done' }, { i: 5, state: 'mark' }], pointers: [{ i: 5, label: 'i' }], aux: [{ title: 'g', values: [-7, -1, -1, 1, 1, 3], states: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'done' }, { i: 4, state: 'done' }, { i: 5, state: 'done' }] }, { title: 'prices', values: [7, 1, 5, 3, 6, 4] }], note: 'i=5：g[0]=max(1, 7-4)=3；g[1]=max(7, 1+4)=7。f=g → f=[3, 7]。遍历结束，返回 f[1]=7 ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [122. 买卖股票的最佳时机 II](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii)
@@ -69,6 +177,15 @@ tags:
 
 时间复杂度 $O(n)$，其中 $n$ 为数组 `prices` 的长度。空间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以 `prices = [7, 1, 5, 3, 6, 4]` 为例，演示贪心策略：`ans += max(0, prices[i] - prices[i-1])`，只在上涨日卖出获利，把相邻正差值累加。黄色为高亮：前几步是当前比较的两个价格，最后一步是两段上升段。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="greedySteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -143,6 +260,15 @@ $$
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `prices` 的长度。
 
+### 可视化演示
+
+> 以 `prices = [7, 1, 5, 3, 6, 4]` 为例，演示二维动态规划：`f[i][0]` 为第 i 天结束仍持股的最大利润（买入记负成本），`f[i][1]` 为第 i 天结束空仓的最大利润。蓝色为当前计算，绿色为已完成，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="dp2Steps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -205,6 +331,15 @@ class Solution:
 
 时间复杂度 $O(n)$，其中 $n$ 为数组 `prices` 的长度。空间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以 `prices = [7, 1, 5, 3, 6, 4]` 为例，演示空间优化：用 `f`、`g` 两个长度 2 的数组滚动维护状态，`g` 存第 i 天的新状态，计算后赋给 `f`。主行 `f` 显示空仓利润（答案），辅助行 `g` 显示持股利润。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="rollSteps" />
+
+<div class="viz-jump"><a href="#code-3">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-3"></a>
 <!-- tabs:start -->
 ::: code-group
 

@@ -9,6 +9,35 @@ tags:
     - 滑动窗口
 ---
 
+<script setup>
+// 方法一（前缀和 + 二分）可视化：nums = [2,3,1,2,4,3]，target = 7
+// 前缀和 s = [0,2,5,6,8,12,15]，对每个 i 二分找 s[j] ≥ s[i]+7
+const prefixSteps = [
+  { array: [0, 2, 5, 6, 8, 12, 15], pointers: [{ label: 'i', index: 0 }], note: '前缀和 s = [0,2,5,6,8,12,15]。i=0，二分找 s[j] ≥ 0+7=7' },
+  { array: [0, 2, 5, 6, 8, 12, 15], pointers: [{ label: 'i', index: 0 }], highlight: [4], note: 's[4]=8 ≥ 7 → j=4，子数组长度 j-i = 4，ans = 4' },
+  { array: [0, 2, 5, 6, 8, 12, 15], pointers: [{ label: 'i', index: 1 }], highlight: [4], note: 'i=1，s[1]=2，二分找 ≥ 2+7=9 → j=4，长度 3，ans = min(4,3) = 3' },
+  { array: [0, 2, 5, 6, 8, 12, 15], pointers: [{ label: 'i', index: 2 }], highlight: [4], note: 'i=2，s[2]=5，二分找 ≥ 5+7=12 → j=5，长度 3，ans 保持 3' },
+  { array: [0, 2, 5, 6, 8, 12, 15], pointers: [{ label: 'i', index: 3 }], highlight: [5], note: 'i=3，s[3]=6，二分找 ≥ 6+7=13 → j=5，长度 2，ans = min(3,2) = 2' },
+  { array: [0, 2, 5, 6, 8, 12, 15], pointers: [{ label: 'i', index: 4 }], highlight: [5], note: 'i=4，s[4]=8，二分找 ≥ 15 → j=6，长度 2，ans 保持 2' },
+  { array: [0, 2, 5, 6, 8, 12, 15], note: '后续 i 均无更优解。最终 ans = 2 ✅' },
+]
+
+// 方法二（双指针滑动窗口）可视化：nums = [2,3,1,2,4,3]，target = 7
+const slidingSteps = [
+  { array: [2, 3, 1, 2, 4, 3], pointers: [{ label: 'l', index: 0 }, { label: 'r', index: 0 }], window: [0, 0], note: '初始：l=0，r=0，窗口和 s=2 < 7，右移 r' },
+  { array: [2, 3, 1, 2, 4, 3], pointers: [{ label: 'l', index: 0 }, { label: 'r', index: 1 }], window: [0, 1], note: 'r=1，s=2+3=5 < 7，右移 r' },
+  { array: [2, 3, 1, 2, 4, 3], pointers: [{ label: 'l', index: 0 }, { label: 'r', index: 2 }], window: [0, 2], note: 'r=2，s=5+1=6 < 7，右移 r' },
+  { array: [2, 3, 1, 2, 4, 3], pointers: [{ label: 'l', index: 0 }, { label: 'r', index: 3 }], window: [0, 3], note: 'r=3，s=6+2=8 ≥ 7！窗口长度 4，ans=4。缩小窗口：s -= nums[0]=2，l 右移' },
+  { array: [2, 3, 1, 2, 4, 3], pointers: [{ label: 'l', index: 1 }, { label: 'r', index: 3 }], window: [1, 3], note: '窗口 [1,3] 和=6 < 7，退出循环，右移 r' },
+  { array: [2, 3, 1, 2, 4, 3], pointers: [{ label: 'l', index: 1 }, { label: 'r', index: 4 }], window: [1, 4], note: 'r=4，s=6+4=10 ≥ 7，长度 4，ans 保持 4。缩小：s -= 3，l 右移' },
+  { array: [2, 3, 1, 2, 4, 3], pointers: [{ label: 'l', index: 2 }, { label: 'r', index: 4 }], window: [2, 4], note: '窗口 [2,4] 和=7 ≥ 7，长度 3，ans = min(4,3) = 3。缩小：s -= 1，l 右移' },
+  { array: [2, 3, 1, 2, 4, 3], pointers: [{ label: 'l', index: 3 }, { label: 'r', index: 4 }], window: [3, 4], note: '窗口 [3,4] 和=6 < 7，退出，右移 r' },
+  { array: [2, 3, 1, 2, 4, 3], pointers: [{ label: 'l', index: 3 }, { label: 'r', index: 5 }], window: [3, 5], note: 'r=5，s=6+3=9 ≥ 7，长度 3，ans 保持 3。缩小：s -= 2，l 右移' },
+  { array: [2, 3, 1, 2, 4, 3], pointers: [{ label: 'l', index: 4 }, { label: 'r', index: 5 }], window: [4, 5], note: '窗口 [4,5] 和=7 ≥ 7，长度 2，ans = min(3,2) = 2。缩小后 s<7' },
+  { array: [2, 3, 1, 2, 4, 3], note: '遍历结束，最小窗口 [4,3] 长度为 2 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [209. 长度最小的子数组](https://leetcode.cn/problems/minimum-size-subarray-sum)
@@ -77,6 +106,15 @@ tags:
 
 时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
 
+### 可视化演示
+
+> 以 `target = 7`、`nums = [2, 3, 1, 2, 4, 3]` 为例，演示「前缀和 + 二分查找」过程。前缀和 `s = [0,2,5,6,8,12,15]`，`i` 遍历前缀和，二分找到第一个 `s[j] ≥ s[i] + target` 的位置，更新 `ans = min(ans, j - i)`。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="prefixSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -202,6 +240,15 @@ class Solution:
 
 时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以 `target = 7`、`nums = [2, 3, 1, 2, 4, 3]` 为例，演示双指针 `l`/`r` 维护滑动窗口的过程。绿色区域为当前窗口 `[l, r]`，窗口和 `s ≥ target` 时收缩左边界。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="slidingSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 

@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "markdown-it": "^14.1.0",
+    "mermaid": "^11.16.1",
     "vitepress-plugin-group-icons": "^1.7.6"
   }
 }

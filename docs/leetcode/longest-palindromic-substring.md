@@ -8,6 +8,29 @@ tags:
     - 动态规划
 ---
 
+<script setup>
+// 方法一（动态规划）可视化：s = "babad"，n = 5
+// f[i][j] 表示 s[i..j] 是否为回文（1 = true，0 = false），null 为尚未计算的格子
+const longestPalSteps = [
+  { grid: { values: [[1, null, null, null, null], [null, 1, null, null, null], [null, null, 1, null, null], [null, null, null, 1, null], [null, null, null, null, 1]], rowLabels: ['b', 'a', 'b', 'a', 'd'], colLabels: ['b', 'a', 'b', 'a', 'd'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 4, c: 4, state: 'done' }], note: '初始化对角线：f[i][i] = true，单个字符都是回文。' },
+  { grid: { values: [[1, null, null, null, null], [null, 1, null, null, null], [null, null, 1, null, null], [null, null, null, 1, 0], [null, null, null, null, 1]], rowLabels: ['b', 'a', 'b', 'a', 'd'], colLabels: ['b', 'a', 'b', 'a', 'd'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 4, c: 4, state: 'done' }, { r: 3, c: 4, state: 'cur' }], note: 'i=3：s[3]="a" ≠ s[4]="d"，f[3][4] = false。' },
+  { grid: { values: [[1, null, null, null, null], [null, 1, null, null, null], [null, null, 1, 0, 0], [null, null, null, 1, 0], [null, null, null, null, 1]], rowLabels: ['b', 'a', 'b', 'a', 'd'], colLabels: ['b', 'a', 'b', 'a', 'd'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 4, c: 4, state: 'done' }, { r: 3, c: 4, state: 'done' }, { r: 2, c: 3, state: 'cur' }, { r: 2, c: 4, state: 'cur' }], note: 'i=2：s[2]="b" vs s[3]="a" 不等 → f[2][3]=false；s[2]="b" vs s[4]="d" 不等 → f[2][4]=false。' },
+  { grid: { values: [[1, null, null, null, null], [null, 1, 0, 1, null], [null, null, 1, 0, 0], [null, null, null, 1, 0], [null, null, null, null, 1]], rowLabels: ['b', 'a', 'b', 'a', 'd'], colLabels: ['b', 'a', 'b', 'a', 'd'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 4, c: 4, state: 'done' }, { r: 3, c: 4, state: 'done' }, { r: 2, c: 3, state: 'done' }, { r: 2, c: 4, state: 'done' }, { r: 1, c: 2, state: 'cur' }, { r: 1, c: 3, state: 'mark' }], note: 'i=1：s[1]="a" vs s[2]="b" 不等 → f[1][2]=false；s[1]="a" == s[3]="a" → f[1][3] = f[2][2] = true，子串 "aba" 是回文，更新 mx=3, k=1。' },
+  { grid: { values: [[1, 0, null, null, null], [null, 1, 0, 1, 0], [null, null, 1, 0, 0], [null, null, null, 1, 0], [null, null, null, null, 1]], rowLabels: ['b', 'a', 'b', 'a', 'd'], colLabels: ['b', 'a', 'b', 'a', 'd'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 4, c: 4, state: 'done' }, { r: 3, c: 4, state: 'done' }, { r: 2, c: 3, state: 'done' }, { r: 2, c: 4, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 1, c: 3, state: 'mark' }, { r: 1, c: 4, state: 'cur' }, { r: 0, c: 1, state: 'cur' }], note: 'i=1 继续：j=4，s[1]="a" vs s[4]="d" 不等 → false；i=0：j=1，s[0]="b" vs s[1]="a" 不等 → false。' },
+  { grid: { values: [[1, 0, 1, 0, 0], [null, 1, 0, 1, 0], [null, null, 1, 0, 0], [null, null, null, 1, 0], [null, null, null, null, 1]], rowLabels: ['b', 'a', 'b', 'a', 'd'], colLabels: ['b', 'a', 'b', 'a', 'd'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 4, c: 4, state: 'done' }, { r: 3, c: 4, state: 'done' }, { r: 2, c: 3, state: 'done' }, { r: 2, c: 4, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 1, c: 3, state: 'mark' }, { r: 1, c: 4, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'hl' }, { r: 0, c: 3, state: 'cur' }, { r: 0, c: 4, state: 'cur' }], note: 'i=0：s[0]="b" == s[2]="b" → f[0][2] = f[1][1] = true，子串 "bab" 长度 3，但 mx=3 不更新（3<3 不成立，k 保持 1）；j=3 "b" vs "a" → false；j=4 "b" vs "d" → false。' },
+  { grid: { values: [[1, 0, 1, 0, 0], [null, 1, 0, 1, 0], [null, null, 1, 0, 0], [null, null, null, 1, 0], [null, null, null, null, 1]], rowLabels: ['b', 'a', 'b', 'a', 'd'], colLabels: ['b', 'a', 'b', 'a', 'd'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 4, c: 4, state: 'done' }, { r: 3, c: 4, state: 'done' }, { r: 2, c: 3, state: 'done' }, { r: 2, c: 4, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 1, c: 3, state: 'mark' }, { r: 1, c: 4, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }], gridTexts: [{ r: 1, c: 3, text: 'aba', state: 'mark' }], note: '填表完成。k=1, mx=3，答案 s.substring(1, 4) = "aba"，长度 3 ✅。' },
+]
+
+// 方法二（枚举中心点扩散）可视化：s = "babad"
+// l/r 指针从中心 i=2 向两边扩散，绿色窗口 [1, 3] 为最长回文 "aba"
+const expandSteps = [
+  { array: ['b', 'a', 'b', 'a', 'd'], pointers: [{ label: 'l', index: 2 }, { label: 'r', index: 2 }], note: '中心 i=2（字符 "b"）：奇数中心 f(2,2) 从自己开始，l=2, r=2。' },
+  { array: ['b', 'a', 'b', 'a', 'd'], pointers: [{ label: 'l', index: 1 }, { label: 'r', index: 3 }], highlight: [1, 2, 3], note: 'f(2,2) 扩散：s[1]="a" == s[3]="a" → l=1, r=3，回文 "aba" 长度 3。' },
+  { array: ['b', 'a', 'b', 'a', 'd'], pointers: [{ label: 'l', index: 0 }, { label: 'r', index: 4 }], highlight: [0, 1, 2, 3, 4], note: '继续扩散：s[0]="b" vs s[4]="d" 不等，停止。长度 = r-l-1 = 4-0-1 = 3（区间 [1,3]）。偶数中心 f(2,3)="b" vs "a" 不等 → 0。t = max(3, 0) = 3。' },
+  { array: ['b', 'a', 'b', 'a', 'd'], window: [1, 3], note: '更新 mx=3，start = 2 - ((3-1)>>1) = 1。答案 s.substring(1, 4) = "aba" ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [5. 最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring)
@@ -62,6 +85,15 @@ tags:
 
 时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是字符串 $s$ 的长度。
 
+### 可视化演示
+
+> 以 `s = "babad"` 为例，演示动态规划填表：`f[i][j]` 表示 `s[i..j]` 是否为回文（`1` 为 true，`0` 为 false）。初始对角线全为 `1`，从 `i = n - 2` 到 `0` 枚举 `j`，当 `s[i] == s[j]` 时 `f[i][j] = f[i + 1][j - 1]`。蓝色为当前计算，绿色为已完成，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="longestPalSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -170,6 +202,15 @@ class Solution:
 
 时间复杂度 $O(n^2)$，空间复杂度 $O(1)$。其中 $n$ 是字符串 $s$ 的长度。
 
+### 可视化演示
+
+> 以 `s = "babad"` 为例，演示枚举中心点向两边扩散：固定中心 `i=2`（字符 "b"），`l`/`r` 指针从中心向两端移动比较，黄色为当前扩散范围，绿色窗口为最终答案 `[1, 3] = "aba"`。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="expandSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 

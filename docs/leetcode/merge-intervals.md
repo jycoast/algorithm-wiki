@@ -7,6 +7,18 @@ tags:
     - 排序
 ---
 
+<script setup>
+// 可视化演示数据：intervals = [[1,3],[2,6],[8,10],[15,18]]
+// 排序 + 一次遍历：ed 维护当前合并区间的右端点，重叠则取 max，不重叠则输出
+const mergeIntervalSteps = [
+  { intervals: [{ start: 1, end: 3 }, { start: 2, end: 6 }, { start: 8, end: 10 }, { start: 15, end: 18 }], note: '按左端点升序排序。取第一个区间作为当前合并区间：st=1，ed=3' },
+  { intervals: [{ start: 1, end: 3 }, { start: 2, end: 6 }, { start: 8, end: 10 }, { start: 15, end: 18 }], intervalHighlight: [0, 1], note: '处理 [2,6]：ed=3 ≥ s=2，两区间重叠 → ed = max(3,6) = 6（当前合并区间变为 [1,6]）' },
+  { intervals: [{ start: 1, end: 6, merged: true }, { start: 8, end: 10 }, { start: 15, end: 18 }], intervalHighlight: [1], note: '处理 [8,10]：ed=6 < s=8，不重叠 → 输出合并结果 [1,6]，开始新区间 [8,10]' },
+  { intervals: [{ start: 1, end: 6, merged: true }, { start: 8, end: 10 }, { start: 15, end: 18 }], intervalHighlight: [2], note: '处理 [15,18]：ed=10 < s=15，不重叠 → 输出 [8,10]，开始新区间 [15,18]' },
+  { intervals: [{ start: 1, end: 6, merged: true }, { start: 8, end: 10, merged: true }, { start: 15, end: 18, merged: true }], note: '遍历结束，输出最后一个区间 [15,18]。最终结果 [[1,6],[8,10],[15,18]] ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [56. 合并区间](https://leetcode.cn/problems/merge-intervals)
@@ -65,6 +77,15 @@ tags:
 
 时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为区间个数。
 
+### 可视化演示
+
+> 以 `intervals = [[1,3],[2,6],[8,10],[15,18]]` 为例，演示「排序 + 一次遍历」合并区间。绿色为已合并输出的区间。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="mergeIntervalSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

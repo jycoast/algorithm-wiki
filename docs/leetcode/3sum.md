@@ -8,6 +8,21 @@ tags:
     - 排序
 ---
 
+<script setup>
+// 可视化演示数据：nums = [-1,0,1,2,-1,-4] 排序后为 [-4,-1,-1,0,1,2]
+// 排序 + 双指针：i 枚举第一个元素，j/k 左右夹逼
+const threeSumSteps = [
+  { array: [-4, -1, -1, 0, 1, 2], pointers: [{ label: 'i', index: 0 }, { label: 'j', index: 1 }, { label: 'k', index: 5 }], note: '排序后 [-4,-1,-1,0,1,2]。i=0（nums[0]=-4），j=1，k=5。三数和 x = -4+(-1)+2 = -3 < 0 → j 右移' },
+  { array: [-4, -1, -1, 0, 1, 2], pointers: [{ label: 'i', index: 0 }, { label: 'j', index: 2 }, { label: 'k', index: 5 }], note: 'i=0，j=2，k=5：x = -4+(-1)+2 = -3 < 0 → j 右移' },
+  { array: [-4, -1, -1, 0, 1, 2], pointers: [{ label: 'i', index: 0 }, { label: 'j', index: 3 }, { label: 'k', index: 5 }], note: 'i=0，j=3，k=5：x = -4+0+2 = -2 < 0 → j 右移' },
+  { array: [-4, -1, -1, 0, 1, 2], pointers: [{ label: 'i', index: 0 }, { label: 'j', index: 4 }, { label: 'k', index: 5 }], note: 'i=0，j=4，k=5：x = -4+1+2 = -1 < 0 → j 右移至 5，j=k 退出。i=0 无结果' },
+  { array: [-4, -1, -1, 0, 1, 2], pointers: [{ label: 'i', index: 1 }, { label: 'j', index: 2 }, { label: 'k', index: 5 }], highlight: [1, 2, 5], note: 'i=1（nums[1]=-1 ≠ nums[0]），j=2，k=5：x = -1+(-1)+2 = 0 → 命中 [-1,-1,2]！j=3，k=4' },
+  { array: [-4, -1, -1, 0, 1, 2], pointers: [{ label: 'i', index: 1 }, { label: 'j', index: 3 }, { label: 'k', index: 4 }], highlight: [1, 3, 4], note: 'i=1，j=3，k=4：x = -1+0+1 = 0 → 命中 [-1,0,1]！j=4，k=3，j≥k 退出' },
+  { array: [-4, -1, -1, 0, 1, 2], pointers: [{ label: 'i', index: 2 }], note: 'i=2：nums[2]=-1 == nums[1]，重复 → 跳过' },
+  { array: [-4, -1, -1, 0, 1, 2], pointers: [{ label: 'i', index: 3 }, { label: 'j', index: 4 }, { label: 'k', index: 5 }], note: 'i=3（nums[3]=0），j=4，k=5：x = 0+1+2 = 3 > 0 → k 左移至 4，j≥k 退出。最终答案 [[-1,-1,2],[-1,0,1]] ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [15. 三数之和](https://leetcode.cn/problems/3sum)
@@ -88,6 +103,15 @@ nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0 。
 
 时间复杂度 $O(n^2)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组的长度。
 
+## 可视化演示
+
+> 以 `nums = [-1, 0, 1, 2, -1, -4]` 为例（排序后为 `[-4, -1, -1, 0, 1, 2]`），演示排序 + 双指针 `i`/`j`/`k` 夹逼找三数之和为 0 的过程。黄色高亮为命中的三元组。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="threeSumSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

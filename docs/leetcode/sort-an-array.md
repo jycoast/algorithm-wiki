@@ -13,6 +13,39 @@ tags:
     - 归并排序
 ---
 
+<script setup>
+// 方法一（快速排序）可视化：nums = [5,2,3,1]
+// 双指针 i/j 夹逼，pivot x 取中点
+const quickSortSteps = [
+  { array: [5, 2, 3, 1], note: 'nums = [5,2,3,1]，区间 [0,3]，取 pivot x = nums[(0+3)>>1] = nums[1] = 2' },
+  { array: [5, 2, 3, 1], pointers: [{ label: 'i', index: 0 }, { label: 'j', index: 3 }], highlight: [0, 3], note: 'i 找 < 2 停于 nums[0]=5，j 找 > 2 停于 nums[3]=1。i<j → 交换 → [1,2,3,5]' },
+  { array: [1, 2, 3, 5], pointers: [{ label: 'i', index: 1 }, { label: 'j', index: 1 }], note: 'i 推进至 nums[1]=2（≥2 停），j 缩至 nums[1]，i≥j 退出。分区点 j=1' },
+  { array: [1, 2, 3, 5], highlight: [0, 1], note: '递归左半 [0,1]：[1,2]，pivot = nums[0] = 1，一次分区后已有序' },
+  { array: [1, 2, 3, 5], highlight: [2, 3], note: '递归右半 [2,3]：[3,5]，pivot = nums[2] = 3，一次分区后已有序' },
+  { array: [1, 2, 3, 5], note: '全部区间排序完成 → [1,2,3,5] ✅' },
+]
+
+// 方法二（堆排序）可视化：nums = [5,2,3,1]，大根堆 + 不断把堆顶沉到末尾
+const heapSortSteps = [
+  { array: [5, 2, 3, 1], note: 'nums = [5,2,3,1]。建堆：从最后一个非叶节点 i = n/2-1 = 1 开始自下而上 heapify' },
+  { array: [5, 2, 3, 1], note: 'heapify(4,1)：nums[3]=1 不大于 nums[1]=2；heapify(4,0)：左右子节点均 ≤ 5。大根堆建成：[5,2,3,1]' },
+  { array: [5, 2, 3, 1], pointers: [{ label: '堆顶', index: 0 }], highlight: [0, 3], note: '交换堆顶与末尾：swap(nums[0], nums[3]) → [1,2,3,5]，末尾 5 已就位' },
+  { array: [3, 2, 1, 5], pointers: [{ label: '堆顶', index: 0 }], note: '对前 3 个元素下沉：heapify(3,0)，5 换成 3 后向下调整 → [3,2,1,5]' },
+  { array: [3, 2, 1, 5], pointers: [{ label: '堆顶', index: 0 }], highlight: [0, 2], note: '交换 nums[0] 与 nums[2] → [1,2,3,5]，末尾 3 就位' },
+  { array: [2, 1, 3, 5], pointers: [{ label: '堆顶', index: 0 }], note: '下沉 heapify(2,0)：3 换成 2 后调整 → [2,1,3,5]' },
+  { array: [1, 2, 3, 5], pointers: [{ label: '堆顶', index: 0 }], highlight: [0, 1], note: '交换 nums[0] 与 nums[1] → [1,2,3,5]，全部就位 ✅' },
+]
+
+// 方法三（归并排序）可视化：nums = [5,2,3,1]，先拆分后两两合并
+const mergeSortSteps = [
+  { array: [5, 2, 3, 1], note: 'nums = [5,2,3,1]。递归拆分：mid=(0+3)>>1=1 → 左半 [0,1]、右半 [2,3]' },
+  { array: [2, 5, 3, 1], highlight: [0, 1], note: '合并左半 [5] 与 [2]：5≤2? 否，先取 2 再取 5 → [2,5]，写回 nums[0..1] → [2,5,3,1]' },
+  { array: [2, 5, 1, 3], highlight: [2, 3], note: '合并右半 [3] 与 [1]：3≤1? 否，先取 1 再取 3 → [1,3]，写回 nums[2..3] → [2,5,1,3]' },
+  { array: [2, 5, 1, 3], pointers: [{ label: 'i', index: 0 }, { label: 'j', index: 2 }], highlight: [0, 3], note: '合并 [2,5] 与 [1,3]：i=0,j=2。2≤1? 否 → 取 1；2≤3? 是 → 取 2；5≤3? 否 → 取 3；剩 5 → tmp=[1,2,3,5]' },
+  { array: [1, 2, 3, 5], note: 'tmp 写回 nums[0..3] → [1,2,3,5]。排序完成 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [912. 排序数组](https://leetcode.cn/problems/sort-an-array)
@@ -64,6 +97,15 @@ tags:
 
 时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组长度。
 
+### 可视化演示
+
+> 以 `nums = [5, 2, 3, 1]` 为例，演示快速排序：取中点 `pivot`，双指针 `i`/`j` 夹逼分区，再递归左右两侧。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="quickSortSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -185,6 +227,19 @@ class Solution:
 <!-- solution:start -->
 ## 方法二：堆排序
 
+先将数组构建成一个大根堆，然后不断将堆顶元素（最大值）与末尾元素交换并缩小堆的大小，即可得到升序序列。
+
+时间复杂度 $O(n \times \log n)$，空间复杂度 $O(1)$。其中 $n$ 为数组长度。
+
+### 可视化演示
+
+> 以 `nums = [5, 2, 3, 1]` 为例，演示堆排序：先建大根堆，再反复把堆顶与末尾交换并下沉调整。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="heapSortSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -243,6 +298,15 @@ class Solution {
 
 归并排序是一种稳定的排序算法，时间复杂度为 $O(n \times \log n)$，空间复杂度为 $O(n)$。其中 $n$ 为数组长度。
 
+### 可视化演示
+
+> 以 `nums = [5, 2, 3, 1]` 为例，演示归并排序：递归拆分到单元素后，用指针 `i`/`j` 逐个比较、两两有序合并。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="mergeSortSteps" />
+
+<div class="viz-jump"><a href="#code-3">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-3"></a>
 <!-- tabs:start -->
 ::: code-group
 

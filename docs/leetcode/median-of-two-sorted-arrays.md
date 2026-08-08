@@ -8,6 +8,17 @@ tags:
     - 分治
 ---
 
+<script setup>
+// 方法一（分治）可视化：nums1 = [1,3]，nums2 = [2]，m+n=3 → 中位数是第 2 小的数
+// f(i, j, k) 在两数组区间中找第 k 小；p = k/2，比较两数组中第 p 个元素决定排除哪边
+const medianSteps = [
+  { rows: [[1, 3], [2]], rowPointers: [{ row: 0, col: 0, label: 'i' }, { row: 1, col: 0, label: 'j' }], note: 'nums1 = [1,3]，nums2 = [2]。m+n=3 为奇数 → 中位数是第 (3+1)/2 = 2 小的数。调用 f(0, 0, 2)' },
+  { rows: [[1, 3], [2]], rowPointers: [{ row: 0, col: 0, label: 'i' }, { row: 1, col: 0, label: 'j' }], rowHighlight: [{ row: 0, cols: [0] }, { row: 1, cols: [0] }], note: 'k=2，p=k/2=1。比较两数组各自第 p=1 个元素：x=nums1[0]=1，y=nums2[0]=2。x < y → 排除 nums1 前 1 个，递归 f(1, 0, 1)' },
+  { rows: [[1, 3], [2]], rowPointers: [{ row: 0, col: 1, label: 'i' }, { row: 1, col: 0, label: 'j' }], rowHighlight: [{ row: 0, cols: [1] }, { row: 1, cols: [0] }], note: 'k=1 → 返回 min(nums1[1]=3, nums2[0]=2) = 2' },
+  { rows: [[1, 3], [2]], note: '第 2 小 = 2。m+n 为奇数 → 中位数 = 2 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [4. 寻找两个正序数组的中位数](https://leetcode.cn/problems/median-of-two-sorted-arrays)
@@ -77,6 +88,15 @@ tags:
 
 时间复杂度 $O(\log(m + n))$，空间复杂度 $O(\log(m + n))$。其中 $m$ 和 $n$ 分别是数组 $nums1$ 和 $nums2$ 的长度。
 
+## 可视化演示
+
+> 以 `nums1 = [1, 3]`、`nums2 = [2]` 为例，演示分治求第 `k` 小：每次比较两个数组的 `k/2` 位置元素，排除较小那侧的 `k/2` 个元素，逐步缩小搜索范围。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="medianSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

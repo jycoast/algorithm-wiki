@@ -8,6 +8,20 @@ tags:
     - 前缀和
 ---
 
+<script setup>
+// 可视化演示数据：nums = [1,1,1]，k = 2，答案为 2
+// 哈希表 cnt：key 存前缀和 s，value 存该前缀和出现次数。初始 cnt[0]=1
+const subarraySumSteps = [
+  { array: [1, 1, 1], pointers: [{ label: 'i', index: 0 }], map: [{ key: 0, value: 1 }], note: '初始：哈希表 cnt[0]=1（空前缀和出现 1 次），s=0，i 从头遍历' },
+  { array: [1, 1, 1], pointers: [{ label: 'i', index: 0 }], map: [{ key: 0, value: 1 }], highlight: [0], note: 'i=0，s += 1 → s=1。查 cnt[s-k]=cnt[-1]，不存在 → ans 不增' },
+  { array: [1, 1, 1], pointers: [{ label: 'i', index: 0 }], map: [{ key: 0, value: 1 }, { key: 1, value: 1 }], note: '将 cnt[1] 记为 1，继续' },
+  { array: [1, 1, 1], pointers: [{ label: 'i', index: 1 }], map: [{ key: 0, value: 1 }, { key: 1, value: 1 }], highlight: [1], note: 'i=1，s += 1 → s=2。查 cnt[s-k]=cnt[0]=1 → ans += 1（子数组 [0,1] 和为 2）' },
+  { array: [1, 1, 1], pointers: [{ label: 'i', index: 1 }], map: [{ key: 0, value: 1 }, { key: 1, value: 1 }, { key: 2, value: 1 }], note: '将 cnt[2] 记为 1，继续' },
+  { array: [1, 1, 1], pointers: [{ label: 'i', index: 2 }], map: [{ key: 0, value: 1 }, { key: 1, value: 1 }, { key: 2, value: 1 }], highlight: [2], note: 'i=2，s += 1 → s=3。查 cnt[s-k]=cnt[1]=1 → ans += 1（子数组 [1,2] 和为 2）' },
+  { array: [1, 1, 1], pointers: [{ label: 'i', index: 2 }], map: [{ key: 0, value: 1 }, { key: 1, value: 1 }, { key: 2, value: 1 }, { key: 3, value: 1 }], note: '遍历结束：ans = 2，返回 2 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [560. 和为 K 的子数组](https://leetcode.cn/problems/subarray-sum-equals-k)
@@ -60,6 +74,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
+## 可视化演示
+
+> 以 `nums = [1, 1, 1]`、`k = 2` 为例，演示前缀和 + 哈希表计数子数组的过程。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="subarraySumSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

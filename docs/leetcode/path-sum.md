@@ -9,6 +9,20 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（递归）可视化：root = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1]，targetSum = 22
+// 层序下标：0=5, 1=4, 2=8, 3=11, 4=null, 5=13, 6=4, 7=7, 8=2, 9=null, 10=null, 11=null, 12=1
+const hasPathSumSteps = [
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1], states: [{ id: 0, state: 'cur' }], labels: [{ id: 0, text: 's:17' }], note: '从根节点 5 开始 dfs(root, 22)：s = 22 - 5 = 17。5 不是叶子，先递归左子树' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'cur' }], labels: [{ id: 0, text: 's:17' }, { id: 1, text: 's:13' }], note: '递归到左孩子 4：s = 17 - 4 = 13。4 不是叶子，继续递归左子树' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'path' }, { id: 3, state: 'cur' }], labels: [{ id: 0, text: 's:17' }, { id: 1, text: 's:13' }, { id: 3, text: 's:2' }], note: '递归到 4 的左孩子 11：s = 13 - 11 = 2。11 不是叶子，先递归左孩子 7' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'path' }, { id: 3, state: 'path' }, { id: 7, state: 'cur' }], labels: [{ id: 0, text: 's:17' }, { id: 1, text: 's:13' }, { id: 3, text: 's:2' }, { id: 7, text: 's:-5' }], note: '递归到 11 的左孩子 7（叶子）：s = 2 - 7 = -5 ≠ 0，此路不通，返回 false' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'path' }, { id: 3, state: 'path' }, { id: 7, state: 'done' }], labels: [{ id: 0, text: 's:17' }, { id: 1, text: 's:13' }, { id: 3, text: 's:2' }, { id: 7, text: 's:-5' }], note: '7 判断完毕（叶子但 s ≠ 0），标为已处理。回溯到 11，改走右孩子 2' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'path' }, { id: 3, state: 'path' }, { id: 7, state: 'done' }, { id: 8, state: 'cur' }], labels: [{ id: 0, text: 's:17' }, { id: 1, text: 's:13' }, { id: 3, text: 's:2' }, { id: 8, text: 's:0' }], note: '递归到 11 的右孩子 2（叶子）：s = 2 - 2 = 0。叶子且 s = 0 → 返回 true ✅' },
+  { tree: [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1], states: [{ id: 0, state: 'path' }, { id: 1, state: 'path' }, { id: 3, state: 'path' }, { id: 8, state: 'mark' }], labels: [{ id: 0, text: 's:17' }, { id: 1, text: 's:13' }, { id: 3, text: 's:2' }, { id: 8, text: 's:0' }], note: '命中！路径 5 → 4 → 11 → 2 之和 = 5 + 4 + 11 + 2 = 22 ✅。true 沿调用栈逐层返回，最终 hasPathSum 返回 true' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [112. 路径总和](https://leetcode.cn/problems/path-sum)
@@ -72,6 +86,15 @@ tags:
 
 时间复杂度 $O(n)$，其中 $n$ 是二叉树的节点数。对每个节点访问一次。
 
+### 可视化演示
+
+> 以 `root = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1]`、`targetSum = 22` 为例，演示递归求路径总和：`s` 从 `22` 递减（Java 语义），节点下方标注剩余值 `s`。绿色描边为当前递归路径，红色为命中的叶子节点。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="hasPathSumSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

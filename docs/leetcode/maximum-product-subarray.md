@@ -7,6 +7,30 @@ tags:
     - 动态规划
 ---
 
+<script setup>
+// 方法一（二维动态规划）可视化：nums = [2, 3, -2, 4]
+// dp[i][0] 表示以 nums[i] 结尾的最大乘积，dp[i][1] 表示最小乘积
+// dp[i][0] = max(nums[i], dp[i-1][0] * nums[i], dp[i-1][1] * nums[i])
+// dp[i][1] = min(nums[i], dp[i-1][0] * nums[i], dp[i-1][1] * nums[i])
+const maxProductSteps = [
+  { grid: { values: [[2, null, null, null], [2, null, null, null]], rowLabels: ['dp[i][0] 最大积', 'dp[i][1] 最小积'], colLabels: ['0', '1', '2', '3'] }, gridStates: [{ r: 0, c: 0, state: 'cur' }, { r: 1, c: 0, state: 'cur' }], note: '初始化 i=0：dp[0][0] = dp[0][1] = nums[0] = 2，ans = 2。同时维护最大积与最小积，是因为负数乘负数会反转大小。' },
+  { grid: { values: [[2, 6, null, null], [2, 3, null, null]], rowLabels: ['dp[i][0] 最大积', 'dp[i][1] 最小积'], colLabels: ['0', '1', '2', '3'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 0, c: 1, state: 'cur' }, { r: 1, c: 1, state: 'cur' }], note: 'i=1，nums[1]=3：dp[1][0] = max(3, 2×3, 2×3) = 6；dp[1][1] = min(3, 6, 6) = 3。ans = max(2, 6) = 6。' },
+  { grid: { values: [[2, 6, -2, null], [2, 3, -12, null]], rowLabels: ['dp[i][0] 最大积', 'dp[i][1] 最小积'], colLabels: ['0', '1', '2', '3'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 0, c: 2, state: 'cur' }, { r: 1, c: 2, state: 'cur' }], note: 'i=2，nums[2]=-2：dp[2][0] = max(-2, 6×(-2), 3×(-2)) = -2；dp[2][1] = min(-2, -12, -6) = -12。关键：必须维护最小积 dp[2][1]=-12，因为负×负得正，最小积乘负数可能反转为最大值。ans 仍为 6。' },
+  { grid: { values: [[2, 6, -2, 4], [2, 3, -12, -48]], rowLabels: ['dp[i][0] 最大积', 'dp[i][1] 最小积'], colLabels: ['0', '1', '2', '3'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 0, c: 3, state: 'cur' }, { r: 1, c: 3, state: 'cur' }], note: 'i=3，nums[3]=4：dp[3][0] = max(4, (-2)×4, (-12)×4) = 4；dp[3][1] = min(4, -8, -48) = -48。ans = max(6, 4) = 6。' },
+  { grid: { values: [[2, 6, -2, 4], [2, 3, -12, -48]], rowLabels: ['dp[i][0] 最大积', 'dp[i][1] 最小积'], colLabels: ['0', '1', '2', '3'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 0, c: 1, state: 'mark' }, { r: 1, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 1, c: 3, state: 'done' }], note: '遍历结束：ans = 6，对应 dp[1][0] = 6，即子数组 [2, 3] 的乘积最大（红色标注）✅。' },
+]
+// 方法二（滚动变量 f/g）可视化：nums = [2, 3, -2, 4]
+// f 为以 nums[i] 结尾的最大乘积，g 为最小乘积；ff/gg 为上一轮旧值
+// f = max(nums[i], ff * nums[i], gg * nums[i]); g = min(nums[i], ff * nums[i], gg * nums[i])
+const rollSteps = [
+  { dp: [2, null, null, null], dpStates: [{ i: 0, state: 'cur' }], pointers: [{ i: 0, label: 'i' }], aux: [{ title: 'g', values: [2, null, null, null] }, { title: 'nums', values: [2, 3, -2, 4] }], note: '初始化 i=0：f = g = ans = nums[0] = 2。f 为最大乘积，g 为最小乘积。' },
+  { dp: [2, 6, null, null], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'cur' }], pointers: [{ i: 1, label: 'i' }], aux: [{ title: 'g', values: [2, 3, null, null] }, { title: 'nums', values: [2, 3, -2, 4] }], note: 'i=1，nums[1]=3：旧值 ff=2, gg=2 → f = max(3, 2×3, 2×3) = 6；g = min(3, 6, 6) = 3。ans = max(2, 6) = 6。' },
+  { dp: [2, 6, -2, null], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'cur' }], pointers: [{ i: 2, label: 'i' }], aux: [{ title: 'g', values: [2, 3, -12, null] }, { title: 'nums', values: [2, 3, -2, 4] }], note: 'i=2，nums[2]=-2：旧值 ff=6, gg=3 → f = max(-2, 6×(-2), 3×(-2)) = -2；g = min(-2, -12, -6) = -12。维护最小积 g 正是为了应对负数：负×负得正，-12 之后乘负数可能反转。ans 仍为 6。' },
+  { dp: [2, 6, -2, 4], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'cur' }], pointers: [{ i: 3, label: 'i' }], aux: [{ title: 'g', values: [2, 3, -12, -48] }, { title: 'nums', values: [2, 3, -2, 4] }], note: 'i=3，nums[3]=4：旧值 ff=-2, gg=-12 → f = max(4, (-2)×4, (-12)×4) = 4；g = min(4, -8, -48) = -48。ans = max(6, 4) = 6。' },
+  { dp: [2, 6, -2, 4], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'mark' }, { i: 2, state: 'done' }, { i: 3, state: 'done' }], aux: [{ title: 'g', values: [2, 3, -12, -48] }, { title: 'nums', values: [2, 3, -2, 4] }], note: '遍历结束：ans = 6，对应 f[1] = 6，即子数组 [2, 3] 的乘积最大（红色标注）✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [152. 乘积最大子数组](https://leetcode.cn/problems/maximum-product-subarray)
@@ -52,6 +76,15 @@ tags:
 
 ## 方法一：动态规划
 
+### 可视化演示
+
+> 以 `nums = [2, 3, -2, 4]` 为例，演示动态规划：同时维护以 `nums[i]` 结尾的最大乘积与最小乘积（因为负数乘负数会反转大小）。蓝色为当前计算，绿色为已完成，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="maxProductSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 ::: code-group
 
 ```java [Java]
@@ -88,6 +121,15 @@ class Solution {
 
 时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。我们只需要遍历数组一次即可求得答案。空间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以 `nums = [2, 3, -2, 4]` 为例，演示滚动变量优化：`f` 为最大乘积、`g` 为最小乘积，每次用旧值 `ff`、`gg` 推出新 `f`、`g`（因为负数乘负数会反转大小）。蓝色为当前计算，绿色为已完成，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="rollSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 

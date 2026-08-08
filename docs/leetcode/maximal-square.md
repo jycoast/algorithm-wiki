@@ -8,6 +8,30 @@ tags:
     - 矩阵
 ---
 
+<script setup>
+// 方法一（动态规划）可视化：matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]（4 行 × 5 列）
+// dp[i+1][j+1] 表示以 matrix[i][j] 为右下角的最大正方形边长，dp 为 5 行 × 6 列（第 0 行、第 0 列为 0 边界）
+// 当 matrix[i][j]=='1'：dp[i+1][j+1] = min(dp[i][j], dp[i][j+1], dp[i+1][j]) + 1
+const maximalSquareSteps = [
+  // 1. 第 0 行边界全 0
+  { grid: { values: [[0, 0, 0, 0, 0, 0], [0, null, null, null, null, null], [0, null, null, null, null, null], [0, null, null, null, null, null], [0, null, null, null, null, null]], rowLabels: ['0', '1', '2', '3', '4'], colLabels: ['0', '1', '2', '3', '4', '5'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }, { r: 0, c: 5, state: 'done' }], note: '初始化：dp 为 5 行 × 6 列表格，`dp[i+1][j+1]` 对应 `matrix[i][j]`。第 0 行全部置 0（dp 边界）。' },
+  // 2. 第 0 列边界全 0
+  { grid: { values: [[0, 0, 0, 0, 0, 0], [0, null, null, null, null, null], [0, null, null, null, null, null], [0, null, null, null, null, null], [0, null, null, null, null, null]], rowLabels: ['0', '1', '2', '3', '4'], colLabels: ['0', '1', '2', '3', '4', '5'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }, { r: 0, c: 5, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 2, c: 0, state: 'done' }, { r: 3, c: 0, state: 'done' }, { r: 4, c: 0, state: 'done' }], note: '第 0 列全部置 0。边界初始化完成，后续状态转移无需再判断越界。' },
+  // 3. i=0 行（matrix 行 0）
+  { grid: { values: [[0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 0], [0, null, null, null, null, null], [0, null, null, null, null, null], [0, null, null, null, null, null]], rowLabels: ['0', '1', '2', '3', '4'], colLabels: ['0', '1', '2', '3', '4', '5'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }, { r: 0, c: 5, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 2, c: 0, state: 'done' }, { r: 3, c: 0, state: 'done' }, { r: 4, c: 0, state: 'done' }, { r: 1, c: 1, state: 'cur' }, { r: 1, c: 2, state: 'cur' }, { r: 1, c: 3, state: 'cur' }, { r: 1, c: 4, state: 'cur' }, { r: 1, c: 5, state: 'cur' }], note: 'i=0 行（matrix 第 0 行）：dp[1][1]=min(dp[0][0]=0, dp[0][1]=0, dp[1][0]=0)+1=1（matrix[0][0]="1"），dp[1][2]=0（"0"），dp[1][3]=1，dp[1][4]=0，dp[1][5]=0。mx=1。' },
+  // 4. i=1 行（matrix 行 1 "10111"）
+  { grid: { values: [[0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 0], [0, 1, 0, 1, 1, 1], [0, null, null, null, null, null], [0, null, null, null, null, null]], rowLabels: ['0', '1', '2', '3', '4'], colLabels: ['0', '1', '2', '3', '4', '5'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }, { r: 0, c: 5, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 2, c: 0, state: 'done' }, { r: 3, c: 0, state: 'done' }, { r: 4, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 1, c: 3, state: 'done' }, { r: 1, c: 4, state: 'done' }, { r: 1, c: 5, state: 'done' }, { r: 2, c: 1, state: 'cur' }, { r: 2, c: 2, state: 'cur' }, { r: 2, c: 3, state: 'cur' }, { r: 2, c: 4, state: 'cur' }, { r: 2, c: 5, state: 'cur' }], note: 'i=1 行（matrix 第 1 行 "10111"）：dp[2][1]=1，dp[2][2]=0，dp[2][3]=1，dp[2][4]=min(dp[1][4]=0, dp[2][3]=1, dp[1][3]=1)+1=1，dp[2][5]=1。mx 仍为 1。' },
+  // 5. i=2 行（matrix 行 2 "11111"），cur 标 dp[3][4]
+  { grid: { values: [[0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 0], [0, 1, 0, 1, 1, 1], [0, 1, 1, 1, 2, null], [0, null, null, null, null, null]], rowLabels: ['0', '1', '2', '3', '4'], colLabels: ['0', '1', '2', '3', '4', '5'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }, { r: 0, c: 5, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 2, c: 0, state: 'done' }, { r: 3, c: 0, state: 'done' }, { r: 4, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 1, c: 3, state: 'done' }, { r: 1, c: 4, state: 'done' }, { r: 1, c: 5, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 2, c: 3, state: 'done' }, { r: 2, c: 4, state: 'done' }, { r: 2, c: 5, state: 'done' }, { r: 3, c: 1, state: 'done' }, { r: 3, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 3, c: 4, state: 'cur' }], note: 'i=2 行（matrix 第 2 行 "11111"）：dp[3][1]=1，dp[3][2]=1，dp[3][3]=1，dp[3][4]=min(dp[2][4]=1, dp[3][3]=1, dp[2][3]=1)+1=2！首次出现边长为 2 的正方形，mx=2。' },
+  // 6. i=2 行继续，dp[3][5]
+  { grid: { values: [[0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 0], [0, 1, 0, 1, 1, 1], [0, 1, 1, 1, 2, 2], [0, null, null, null, null, null]], rowLabels: ['0', '1', '2', '3', '4'], colLabels: ['0', '1', '2', '3', '4', '5'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }, { r: 0, c: 5, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 2, c: 0, state: 'done' }, { r: 3, c: 0, state: 'done' }, { r: 4, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 1, c: 3, state: 'done' }, { r: 1, c: 4, state: 'done' }, { r: 1, c: 5, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 2, c: 3, state: 'done' }, { r: 2, c: 4, state: 'done' }, { r: 2, c: 5, state: 'done' }, { r: 3, c: 1, state: 'done' }, { r: 3, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 3, c: 4, state: 'done' }, { r: 3, c: 5, state: 'cur' }], note: 'i=2 行继续：dp[3][5]=min(dp[2][5]=1, dp[3][4]=2, dp[2][4]=1)+1=2。mx 仍为 2。' },
+  // 7. i=3 行（matrix 行 3 "10010"）
+  { grid: { values: [[0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 0], [0, 1, 0, 1, 1, 1], [0, 1, 1, 1, 2, 2], [0, 1, 0, 0, 1, 0]], rowLabels: ['0', '1', '2', '3', '4'], colLabels: ['0', '1', '2', '3', '4', '5'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }, { r: 0, c: 5, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 2, c: 0, state: 'done' }, { r: 3, c: 0, state: 'done' }, { r: 4, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 1, c: 3, state: 'done' }, { r: 1, c: 4, state: 'done' }, { r: 1, c: 5, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 2, c: 3, state: 'done' }, { r: 2, c: 4, state: 'done' }, { r: 2, c: 5, state: 'done' }, { r: 3, c: 1, state: 'done' }, { r: 3, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 3, c: 4, state: 'done' }, { r: 3, c: 5, state: 'done' }, { r: 4, c: 1, state: 'cur' }, { r: 4, c: 2, state: 'cur' }, { r: 4, c: 3, state: 'cur' }, { r: 4, c: 4, state: 'cur' }, { r: 4, c: 5, state: 'cur' }], note: 'i=3 行（matrix 第 3 行 "10010"）：dp[4][1]=1，dp[4][2]=0，dp[4][3]=0，dp[4][4]=min(dp[3][4]=2, dp[4][3]=0, dp[3][3]=1)+1=1，dp[4][5]=0。mx 仍为 2。' },
+  // 8. 结论：mx=2，面积 = 4
+  { grid: { values: [[0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 0], [0, 1, 0, 1, 1, 1], [0, 1, 1, 1, 2, 2], [0, 1, 0, 0, 1, 0]], rowLabels: ['0', '1', '2', '3', '4'], colLabels: ['0', '1', '2', '3', '4', '5'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 0, c: 3, state: 'done' }, { r: 0, c: 4, state: 'done' }, { r: 0, c: 5, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 1, c: 3, state: 'done' }, { r: 1, c: 4, state: 'done' }, { r: 1, c: 5, state: 'done' }, { r: 2, c: 0, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 2, c: 2, state: 'done' }, { r: 2, c: 3, state: 'done' }, { r: 2, c: 4, state: 'done' }, { r: 2, c: 5, state: 'done' }, { r: 3, c: 0, state: 'done' }, { r: 3, c: 1, state: 'done' }, { r: 3, c: 2, state: 'done' }, { r: 3, c: 3, state: 'done' }, { r: 3, c: 4, state: 'done' }, { r: 3, c: 5, state: 'done' }, { r: 4, c: 0, state: 'done' }, { r: 4, c: 1, state: 'done' }, { r: 4, c: 2, state: 'done' }, { r: 4, c: 3, state: 'done' }, { r: 4, c: 4, state: 'done' }, { r: 4, c: 5, state: 'done' }], gridTexts: [{ r: 3, c: 4, text: '2', state: 'mark' }, { r: 3, c: 5, text: '2', state: 'mark' }], note: '遍历结束：mx=2，最大正方形边长为 2，面积 = 2×2 = 4 ✅。红色标出两个边长为 2 的全 1 正方形的右下角（dp[3][4] 对应 matrix[2][3]，dp[3][5] 对应 matrix[2][4]）。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [221. 最大正方形](https://leetcode.cn/problems/maximal-square)
@@ -74,10 +98,19 @@ $$
 
 时间复杂度 $O(m\times n)$，空间复杂度 $O(m\times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
 
+### 可视化演示
+
+> 以 `matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]` 为例，演示动态规划填表：`dp[i+1][j+1]` 为以 `matrix[i][j]` 为右下角的最大正方形边长，字符为 `1` 时取左上、上、左三者的最小值 +1。蓝色为当前计算格子，绿色为已完成，红色为最大边长所在。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="maximalSquareSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
 假设我们要计算 $dp[4][4]$，此时$matrix[3][3]$等于1，我们分别往上和往左进行延伸，直到碰到一个0为止，上面的长度为1，左边的长度为3，$dp[3][3]$等于1，那么本次的瓶颈在于这三者的最小值，即$min(1,1,3)$，也就是1，那么$dp[3][3]$就等于$min(1,1,3) + 1$ 。
 
 ![image-20240814140347623](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20240814140347623.png)
 
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

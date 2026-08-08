@@ -9,6 +9,29 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（BFS）可视化：root = [1, 3, 2, 5, 3, null, 9]
+// 层序下标：0=1, 1=3, 2=2, 3=5, 4=3, 5=null, 6=9
+const maxWidthBfsSteps = [
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'cur' }], labels: [{ id: 0, text: 'i:1' }], aux: [{ title: '队列 q（编号）', values: [1] }], note: 'BFS 初始化：根节点 1 编号为 1 入队，q = [1]。每层宽度 = 该层最大编号 - 最小编号 + 1。' },
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'done' }, { id: 1, state: 'hl' }, { id: 2, state: 'hl' }], labels: [{ id: 1, text: 'i:2' }, { id: 2, text: 'i:3' }], aux: [{ title: '队列 q（编号）', values: [2, 3] }], note: '第一层：宽度 = 1 - 1 + 1 = 1，ans = 1。出队 1，将左右孩子 3、2（编号 2、3）入队 → q = [2, 3]。' },
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'hl' }, { id: 4, state: 'hl' }, { id: 6, state: 'hl' }], labels: [{ id: 3, text: 'i:4' }, { id: 4, text: 'i:5' }, { id: 6, text: 'i:7' }], aux: [{ title: '队列 q（编号）', values: [4, 5, 7] }], note: '第二层：宽度 = 3 - 2 + 1 = 2，ans = 2。出队 3、2，将孩子 5、3、9（编号 4、5、7）入队 → q = [4, 5, 7]。' },
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'hl' }, { id: 4, state: 'hl' }, { id: 6, state: 'hl' }], labels: [{ id: 3, text: 'i:4' }, { id: 4, text: 'i:5' }, { id: 6, text: 'i:7' }], aux: [{ title: '队列 q（编号）', values: [] }], note: '第三层：宽度 = 7 - 4 + 1 = 4，ans = max(2, 4) = 4。叶子节点无孩子，全部出队，q 为空。' },
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'mark' }, { id: 4, state: 'mark' }, { id: 6, state: 'mark' }], labels: [{ id: 3, text: 'i:4' }, { id: 4, text: 'i:5' }, { id: 6, text: 'i:7' }], note: '最大宽度 = 4 ✅（第 3 层：编号 4~7，位置 4、5、6、7，节点 5、3、null、9 占位 4）。' },
+]
+
+// 方法二（DFS）可视化：root = [1, 3, 2, 5, 3, null, 9]
+// 层序下标：0=1, 1=3, 2=2, 3=5, 4=3, 5=null, 6=9
+const maxWidthDfsSteps = [
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'cur' }], labels: [{ id: 0, text: 'i:1' }], note: 'dfs(1, depth=0, i=1)：t[0] = 1（第 0 层最左编号 1）。' },
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'done' }, { id: 1, state: 'cur' }], labels: [{ id: 1, text: 'i:2' }], note: 'dfs(3, depth=1, i=2)：t[1] = 2（第 1 层最左编号 2）。' },
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 3, state: 'cur' }], labels: [{ id: 3, text: 'i:4' }], note: 'dfs(5, depth=2, i=4)：t[2] = 4（第 2 层最左编号 4）。' },
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'cur' }], labels: [{ id: 4, text: 'i:5' }], note: 'dfs(3, depth=2, i=5)：t[2] = 4 已存在 → width = 5 - 4 + 1 = 2，ans = max(1, 2) = 2。' },
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'done' }, { id: 4, state: 'done' }, { id: 6, state: 'cur' }], labels: [{ id: 2, text: 'i:3' }, { id: 6, text: 'i:7' }], note: '左子树访问完，回溯到根 1，进入右子树：dfs(2, depth=1, i=3) → width = 3 - 2 + 1 = 2（ans 不变）；dfs(9, depth=2, i=7) → width = 7 - 4 + 1 = 4，ans = max(2, 4) = 4。' },
+  { tree: [1, 3, 2, 5, 3, null, 9], states: [{ id: 0, state: 'done' }, { id: 1, state: 'done' }, { id: 2, state: 'done' }, { id: 3, state: 'mark' }, { id: 4, state: 'done' }, { id: 6, state: 'mark' }], labels: [{ id: 3, text: 'i:4' }, { id: 6, text: 'i:7' }], note: '最大宽度 = 4 ✅（第 3 层最左编号 4、最右编号 7，宽度 = 7 - 4 + 1 = 4）。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [662. 二叉树最大宽度](https://leetcode.cn/problems/maximum-width-of-binary-tree)
@@ -81,6 +104,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
+### 可视化演示
+
+> 以 `root = [1, 3, 2, 5, 3, null, 9]` 为例，演示 BFS 逐层求最大宽度：对节点编号（根为 1，左右孩子编号为 2i、2i+1），每层宽度 = 该层最大编号 - 最小编号 + 1。节点下方 `i:` 标签为编号，队列 `q` 存放当前层编号。黄色为当前层节点，绿色为已处理层，红色为最终最大宽度所在层。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="maxWidthBfsSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -164,6 +196,15 @@ class Solution:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
 
+### 可视化演示
+
+> 以 `root = [1, 3, 2, 5, 3, null, 9]` 为例，演示 DFS 求最大宽度：`dfs(root, depth, i)` 记录每层最左节点编号 `t[depth]`，width = `i - t[depth] + 1`。蓝色为当前访问节点，绿色为已处理，节点下方 `i:` 标签为编号。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="maxWidthDfsSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 

@@ -7,6 +7,17 @@ tags:
     - 哈希表
 ---
 
+<script setup>
+// 可视化演示数据：nums = [2,7,11,15]，target = 9，返回 [0, 1]
+// 哈希表 d：key 存元素值，value 存下标。遍历时先查 target - x 是否已在表内
+const twoSumSteps = [
+  { array: [2, 7, 11, 15], pointers: [{ label: 'i', index: 0 }], map: [], note: '初始：哈希表 d 为空，i 从头遍历' },
+  { array: [2, 7, 11, 15], pointers: [{ label: 'i', index: 0 }], map: [], highlight: [0], note: 'i=0，x=2，需要找 y = target - x = 7。d 中无 7，将 2→0 存入哈希表' },
+  { array: [2, 7, 11, 15], pointers: [{ label: 'i', index: 1 }], map: [{ key: 2, value: 0 }], highlight: [1], note: 'i=1，x=7，需要找 y = target - x = 2。d 中有 key=2（value=0）！' },
+  { array: [2, 7, 11, 15], pointers: [{ label: 'i', index: 1 }], map: [{ key: 2, value: 0 }], mapHighlight: [0], highlight: [0, 1], note: '命中！返回 [d[2], i] = [0, 1] ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [1. 两数之和](https://leetcode.cn/problems/two-sum)
@@ -72,6 +83,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。
 
+## 可视化演示
+
+> 以 `nums = [2, 7, 11, 15]`、`target = 9` 为例，演示哈希表边遍历边查表的过程。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="twoSumSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

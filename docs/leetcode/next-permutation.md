@@ -7,6 +7,18 @@ tags:
     - 双指针
 ---
 
+<script setup>
+// 可视化演示数据：nums = [1,2,3] → 下一个排列 [1,3,2]
+// 两次遍历：先找 nums[i] < nums[i+1]，再从右找 nums[j] > nums[i] 交换，最后反转后半段
+const nextPermutationSteps = [
+  { array: [1, 2, 3], note: '从后往前找第一个 nums[i] < nums[i+1] 的位置。i 从 n-2 = 1 开始：nums[1]=2 < nums[2]=3 ✓' },
+  { array: [1, 2, 3], pointers: [{ label: 'i', index: 1 }], highlight: [1, 2], note: '找到 i=1：nums[1]=2 是需要交换的元素，nums[2..] 为降序尾段' },
+  { array: [1, 2, 3], pointers: [{ label: 'i', index: 1 }, { label: 'j', index: 2 }], highlight: [1, 2], note: '再从后往前找第一个 nums[j] > nums[i]：j=2，nums[2]=3 > 2 ✓' },
+  { array: [1, 3, 2], pointers: [{ label: 'i', index: 1 }], highlight: [1, 2], note: '交换 nums[1] 与 nums[2] → [1,3,2]' },
+  { array: [1, 3, 2], note: '将 i+1=2 到末尾反转（只剩单个元素，不变）。结果 [1,3,2]，比 [1,2,3] 大 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [31. 下一个排列](https://leetcode.cn/problems/next-permutation)
@@ -77,6 +89,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组的长度。
 
+## 可视化演示
+
+> 以 `nums = [1, 2, 3]` 为例，演示「两次遍历」求下一个排列的过程：从右找升序拐点 `i` → 从右找比 `nums[i]` 大的 `j` → 交换 → 反转后半段。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="nextPermutationSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

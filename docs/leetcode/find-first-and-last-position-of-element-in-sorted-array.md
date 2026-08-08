@@ -7,6 +7,20 @@ tags:
     - 二分查找
 ---
 
+<script setup>
+// 可视化演示数据：nums = [5,7,7,8,8,10]，target = 8
+// 核心思路：两次二分 —— 找 target 的插入位置 l、target+1 的插入位置 r，区间为 [l, r-1]
+const searchRangeSteps = [
+  { array: [5, 7, 7, 8, 8, 10], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 6 }], note: '第一次二分：查找 target=8 的插入位置（左边界）。left = 0，right = n = 6' },
+  { array: [5, 7, 7, 8, 8, 10], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 6 }], highlight: [3], note: 'mid = 3，nums[3] = 8 ≥ 8，满足条件，right = mid = 3' },
+  { array: [5, 7, 7, 8, 8, 10], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 3 }], highlight: [1], note: 'mid = 1，nums[1] = 7 < 8，left = mid + 1 = 2' },
+  { array: [5, 7, 7, 8, 8, 10], pointers: [{ label: 'left', index: 2 }, { label: 'right', index: 3 }], highlight: [2], note: 'mid = 2，nums[2] = 7 < 8，left = mid + 1 = 3' },
+  { array: [5, 7, 7, 8, 8, 10], pointers: [{ label: 'left', index: 3 }, { label: 'right', index: 3 }], highlight: [3], note: 'left == right = 3，第一次二分结束：左边界 l = 3' },
+  { array: [5, 7, 7, 8, 8, 10], pointers: [{ label: 'left', index: 0 }, { label: 'right', index: 6 }], highlight: [5], note: '第二次二分：查找 target+1=9 的插入位置（右边界外）。可得 r = 5' },
+  { array: [5, 7, 7, 8, 8, 10], highlight: [3, 4], note: 'l = 3，r = 5，区间为 [l, r-1] = [3, 4]。返回 [3, 4] ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array)
@@ -64,6 +78,14 @@ tags:
 
 时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。其中 $n$ 是数组 $nums$ 的长度。
 
+## 可视化演示
+
+> 以 `nums = [5, 7, 7, 8, 8, 10]`、`target = 8` 为例，演示两次二分查找左右边界的过程。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="searchRangeSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
 以下是二分查找的两个通用模板：
 
 模板 1：
@@ -115,6 +137,7 @@ int search(int left, int right) {
 
 注意，这两个模板的优点是始终保持答案位于二分区间内，二分结束条件对应的值恰好在答案所处的位置。 对于可能无解的情况，只要判断二分结束后的 $left$ 或者 $right$ 是否满足题意即可。
 
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

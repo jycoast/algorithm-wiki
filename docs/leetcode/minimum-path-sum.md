@@ -8,6 +8,21 @@ tags:
     - 矩阵
 ---
 
+<script setup>
+// 方法一（动态规划）可视化：grid = [[1,3,1],[1,5,1],[4,2,1]]
+// f[i][j] 表示从左上角走到 (i,j) 的最小路径和
+// f[i][j] = min(f[i-1][j], f[i][j-1]) + grid[i][j]
+const minPathSumSteps = [
+  { grid: { values: [[1, null, null], [null, null, null], [null, null, null]], rowLabels: ['行0', '行1', '行2'], colLabels: ['列0', '列1', '列2'] }, gridStates: [{ r: 0, c: 0, state: 'cur' }], note: '起点：f[0][0] = grid[0][0] = 1。' },
+  { grid: { values: [[1, 4, 5], [null, null, null], [null, null, null]], rowLabels: ['行0', '行1', '行2'], colLabels: ['列0', '列1', '列2'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'cur' }, { r: 0, c: 2, state: 'cur' }], note: '第 0 行：只能向右走。f[0][1] = f[0][0] + grid[0][1] = 1 + 3 = 4；f[0][2] = f[0][1] + grid[0][2] = 4 + 1 = 5。' },
+  { grid: { values: [[1, 4, 5], [2, null, null], [6, null, null]], rowLabels: ['行0', '行1', '行2'], colLabels: ['列0', '列1', '列2'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'cur' }, { r: 2, c: 0, state: 'cur' }], note: '第 0 列：只能向下走。f[1][0] = f[0][0] + grid[1][0] = 1 + 1 = 2；f[2][0] = f[1][0] + grid[2][0] = 2 + 4 = 6。' },
+  { grid: { values: [[1, 4, 5], [2, 7, null], [6, null, null]], rowLabels: ['行0', '行1', '行2'], colLabels: ['列0', '列1', '列2'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'hl' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'hl' }, { r: 1, c: 1, state: 'cur' }, { r: 2, c: 0, state: 'done' }], note: 'f[1][1]：min(f[0][1]=4, f[1][0]=2) + grid[1][1]=5 = 2 + 5 = 7。' },
+  { grid: { values: [[1, 4, 5], [2, 7, 6], [6, 8, null]], rowLabels: ['行0', '行1', '行2'], colLabels: ['列0', '列1', '列2'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'hl' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'hl' }, { r: 1, c: 2, state: 'cur' }, { r: 2, c: 0, state: 'hl' }, { r: 2, c: 1, state: 'cur' }], note: 'f[1][2]：min(f[0][2]=5, f[1][1]=7) + grid[1][2]=1 = 5 + 1 = 6；f[2][1]：min(f[1][1]=7, f[2][0]=6) + grid[2][1]=2 = 6 + 2 = 8。' },
+  { grid: { values: [[1, 4, 5], [2, 7, 6], [6, 8, 7]], rowLabels: ['行0', '行1', '行2'], colLabels: ['列0', '列1', '列2'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'hl' }, { r: 2, c: 0, state: 'done' }, { r: 2, c: 1, state: 'hl' }, { r: 2, c: 2, state: 'mark' }], note: 'f[2][2]：min(f[1][2]=6, f[2][1]=8) + grid[2][2]=1 = 6 + 1 = 7。答案 f[2][2] = 7。' },
+  { grid: { values: [[1, 4, 5], [2, 7, 6], [6, 8, 7]], rowLabels: ['行0', '行1', '行2'], colLabels: ['列0', '列1', '列2'] }, gridStates: [{ r: 0, c: 0, state: 'done' }, { r: 0, c: 1, state: 'done' }, { r: 0, c: 2, state: 'done' }, { r: 1, c: 0, state: 'done' }, { r: 1, c: 1, state: 'done' }, { r: 1, c: 2, state: 'done' }, { r: 2, c: 0, state: 'done' }, { r: 2, c: 1, state: 'done' }, { r: 2, c: 2, state: 'mark' }], gridTexts: [{ r: 0, c: 0, text: '1', state: 'path' }, { r: 0, c: 1, text: '4', state: 'path' }, { r: 0, c: 2, text: '5', state: 'path' }, { r: 1, c: 2, text: '6', state: 'path' }, { r: 2, c: 2, text: '7', state: 'mark' }], note: '回溯最优路径：(0,0)→(0,1)→(0,2)→(1,2)→(2,2)，对应 grid 值 1→3→1→1→1，最小路径和 = 7 ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [64. 最小路径和](https://leetcode.cn/problems/minimum-path-sum)
@@ -66,6 +81,15 @@ tags:
 
 时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
 
+### 可视化演示
+
+> 以 `grid = [[1,3,1],[1,5,1],[4,2,1]]` 为例，演示动态规划填表：`f[i][j]` 为从左上角到 `(i,j)` 的最小路径和，`f[i][j] = min(f[i-1][j], f[i][j-1]) + grid[i][j]`。蓝色为当前计算格子，绿色为已完成，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="minPathSumSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

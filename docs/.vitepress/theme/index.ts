@@ -10,9 +10,20 @@ import { onMounted, watch, nextTick, h } from 'vue'
 import { useRoute } from 'vitepress'
 import mediumZoom from 'medium-zoom'
 import GiscusComments from './components/GiscusComments.vue'
+import ArrayViz from './components/ArrayViz.vue'
+import TreeViz from './components/TreeViz.vue'
+import DpViz from './components/DpViz.vue'
+import Mermaid from './components/Mermaid.vue'
 
 export default {
   extends: DefaultTheme,
+  enhanceApp({ app }) {
+    // markdown 中可直接使用 <ArrayViz /> / <TreeViz /> / <DpViz /> / <Mermaid />
+    app.component('ArrayViz', ArrayViz)
+    app.component('TreeViz', TreeViz)
+    app.component('DpViz', DpViz)
+    app.component('Mermaid', Mermaid)
+  },
   Layout() {
     return h(DefaultTheme.Layout, null, {
       // 题解页正文之后、编辑链接之前：Giscus 评论区

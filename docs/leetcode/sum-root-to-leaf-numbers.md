@@ -8,6 +8,18 @@ tags:
     - 二叉树
 ---
 
+<script setup>
+// 方法一（DFS）可视化：root = [1, 2, 3]
+// 层序下标：0=1, 1=2, 2=3
+const sumNumbersSteps = [
+  { tree: [1, 2, 3], states: [{ id: 0, state: 'path' }], labels: [{ id: 0, text: 's:1' }], note: 'dfs(1, s=0)：s = 0×10 + 1 = 1。节点 1 不是叶子，继续递归左右子树。' },
+  { tree: [1, 2, 3], states: [{ id: 0, state: 'path' }, { id: 1, state: 'mark' }], labels: [{ id: 0, text: 's:1' }, { id: 1, text: 's:12' }], note: '递归左孩子：dfs(2, s=1)：s = 1×10 + 2 = 12。节点 2 是叶子 → 返回 12，左路径 1→2 代表数字 12。' },
+  { tree: [1, 2, 3], states: [{ id: 0, state: 'path' }, { id: 1, state: 'done' }, { id: 2, state: 'mark' }], labels: [{ id: 0, text: 's:1' }, { id: 1, text: 's:12' }, { id: 2, text: 's:13' }], note: '递归右孩子：dfs(3, s=1)：s = 1×10 + 3 = 13。节点 3 是叶子 → 返回 13，右路径 1→3 代表数字 13。' },
+  { tree: [1, 2, 3], states: [{ id: 0, state: 'done' }, { id: 1, state: 'mark' }, { id: 2, state: 'mark' }], labels: [{ id: 0, text: 's:1' }, { id: 1, text: 's:12' }, { id: 2, text: 's:13' }], note: '两条路径分别代表数字 12 与 13，左、右子树结果求和。' },
+  { tree: [1, 2, 3], states: [{ id: 0, state: 'done' }, { id: 1, state: 'mark' }, { id: 2, state: 'mark' }], labels: [{ id: 0, text: 's:1' }, { id: 1, text: 's:12' }, { id: 2, text: 's:13' }], note: '总和 = dfs(左, s=1) + dfs(右, s=1) = 12 + 13 = 25 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [129. 求根节点到叶节点数字之和](https://leetcode.cn/problems/sum-root-to-leaf-numbers)
@@ -84,6 +96,15 @@ tags:
 
 时间复杂度 $O(n)$，空间复杂度 $O(\log n)$。其中 $n$ 是二叉树的节点数。
 
+### 可视化演示
+
+> 以 `root = [1, 2, 3]` 为例，演示 DFS 求根到叶数字之和：`s = s * 10 + root.val`，叶子节点返回 `s`。绿色描边为当前递归路径，红色为叶子节点结果，节点下方标注该节点处的路径数字 `s`。点击 ▶ 播放，或逐步操作。
+
+<TreeViz :steps="sumNumbersSteps" />
+
+<div class="viz-jump"><a href="#code">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code"></a>
 <!-- tabs:start -->
 ::: code-group
 

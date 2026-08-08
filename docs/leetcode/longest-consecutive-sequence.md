@@ -8,6 +8,30 @@ tags:
     - 哈希表
 ---
 
+<script setup>
+// 方法一（排序）可视化：nums = [100,4,200,1,3,2] 排序后为 [1,2,3,4,100,200]
+const sortSteps = [
+  { array: [1, 2, 3, 4, 100, 200], pointers: [{ label: 'i', index: 1 }], note: '排序后：t = 1（当前连续长度），ans = 1，从 i = 1 开始遍历' },
+  { array: [1, 2, 3, 4, 100, 200], pointers: [{ label: 'i', index: 1 }], highlight: [0, 1], note: 'nums[1]=2 = nums[0]+1，可接上 → t = 2，ans = max(1,2) = 2' },
+  { array: [1, 2, 3, 4, 100, 200], pointers: [{ label: 'i', index: 2 }], highlight: [1, 2], note: 'nums[2]=3 = nums[1]+1 → t = 3，ans = max(2,3) = 3' },
+  { array: [1, 2, 3, 4, 100, 200], pointers: [{ label: 'i', index: 3 }], highlight: [2, 3], note: 'nums[3]=4 = nums[2]+1 → t = 4，ans = max(3,4) = 4' },
+  { array: [1, 2, 3, 4, 100, 200], pointers: [{ label: 'i', index: 4 }], highlight: [4], note: 'nums[4]=100 ≠ 4+1，断开 → t 重置为 1' },
+  { array: [1, 2, 3, 4, 100, 200], pointers: [{ label: 'i', index: 5 }], highlight: [5], note: 'nums[5]=200 ≠ 100+1，断开 → t 重置为 1。遍历结束' },
+  { array: [1, 2, 3, 4, 100, 200], highlight: [0, 1, 2, 3], note: '最长连续序列 [1,2,3,4]，长度 ans = 4 ✅' },
+]
+
+// 方法二（哈希表）可视化：nums = [100,4,200,1,3,2]，set 存储所有元素
+const setSteps = [
+  { array: [100, 4, 200, 1, 3, 2], map: [{ key: 100, value: 1 }, { key: 4, value: 1 }, { key: 200, value: 1 }, { key: 1, value: 1 }, { key: 3, value: 1 }, { key: 2, value: 1 }], pointers: [{ label: 'x', index: 0 }], note: '初始：将所有元素存入哈希表 set。遍历 x = 100' },
+  { array: [100, 4, 200, 1, 3, 2], map: [{ key: 100, value: 1 }, { key: 4, value: 1 }, { key: 200, value: 1 }, { key: 1, value: 1 }, { key: 3, value: 1 }, { key: 2, value: 1 }], pointers: [{ label: 'x', index: 0 }], mapHighlight: [0], note: 'x=100，前驱 99 不在 set → 100 是起点，向后延伸：101 不在 set，长度 = 1，ans = 1' },
+  { array: [100, 4, 200, 1, 3, 2], map: [{ key: 100, value: 1 }, { key: 4, value: 1 }, { key: 200, value: 1 }, { key: 1, value: 1 }, { key: 3, value: 1 }, { key: 2, value: 1 }], pointers: [{ label: 'x', index: 1 }], mapHighlight: [1], note: 'x=4，前驱 3 在 set → 不是起点，跳过' },
+  { array: [100, 4, 200, 1, 3, 2], map: [{ key: 100, value: 1 }, { key: 4, value: 1 }, { key: 200, value: 1 }, { key: 1, value: 1 }, { key: 3, value: 1 }, { key: 2, value: 1 }], pointers: [{ label: 'x', index: 2 }], mapHighlight: [2], note: 'x=200，前驱 199 不在 set → 起点，201 不在 set，长度 = 1，ans 保持 1' },
+  { array: [100, 4, 200, 1, 3, 2], map: [{ key: 100, value: 1 }, { key: 4, value: 1 }, { key: 200, value: 1 }, { key: 1, value: 1 }, { key: 3, value: 1 }, { key: 2, value: 1 }], pointers: [{ label: 'x', index: 3 }], mapHighlight: [3], note: 'x=1，前驱 0 不在 set → 起点！向后延伸：2、3、4 都在 set，5 不在 → 长度 = 4，ans = 4' },
+  { array: [100, 4, 200, 1, 3, 2], map: [{ key: 100, value: 1 }, { key: 4, value: 1 }, { key: 200, value: 1 }, { key: 1, value: 1 }, { key: 3, value: 1 }, { key: 2, value: 1 }], pointers: [{ label: 'x', index: 4 }], mapHighlight: [4], note: 'x=3，前驱 2 在 set → 不是起点，跳过' },
+  { array: [100, 4, 200, 1, 3, 2], map: [{ key: 100, value: 1 }, { key: 4, value: 1 }, { key: 200, value: 1 }, { key: 1, value: 1 }, { key: 3, value: 1 }, { key: 2, value: 1 }], pointers: [{ label: 'x', index: 5 }], mapHighlight: [5], note: 'x=2，前驱 1 在 set → 不是起点，跳过。遍历结束，返回 ans = 4 ✅' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [128. 最长连续序列](https://leetcode.cn/problems/longest-consecutive-sequence)
@@ -66,6 +90,15 @@ tags:
 
 时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组的长度。
 
+### 可视化演示
+
+> 以 `nums = [100, 4, 200, 1, 3, 2]` 为例（排序后为 `[1, 2, 3, 4, 100, 200]`），演示排序后统计连续序列的过程。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="sortSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -173,6 +206,15 @@ class Solution:
 
 时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
 
+### 可视化演示
+
+> 以 `nums = [100, 4, 200, 1, 3, 2]` 为例，演示从「没有前驱」的元素开始向后延伸的哈希表解法。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="setSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 

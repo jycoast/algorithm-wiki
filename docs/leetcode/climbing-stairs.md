@@ -8,6 +8,30 @@ tags:
     - 动态规划
 ---
 
+<script setup>
+// 方法一（动态规划）可视化：n = 6，f[i] 表示爬到第 i 阶的方法数
+// f[i] = f[i-1] + f[i-2]，f[0] = f[1] = 1；答案 f[6] = 13
+const stairSteps = [
+  { dp: [1, 1, null, null, null, null, null], dpStates: [{ i: 0, state: 'cur' }, { i: 1, state: 'cur' }], pointers: [{ i: 0, label: 'i' }, { i: 1, label: 'i' }], note: '初始化边界：f[0]=1（0 阶到 0 阶 1 种），f[1]=1（1 阶 1 种）。' },
+  { dp: [1, 1, 2, null, null, null, null], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'cur' }], pointers: [{ i: 2, label: 'i' }], note: 'i=2：f[2]=f[1]+f[0]=1+1=2（一次跨 2 阶或两次跨 1 阶）。' },
+  { dp: [1, 1, 2, 3, null, null, null], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'cur' }], pointers: [{ i: 3, label: 'i' }], note: 'i=3：f[3]=f[2]+f[1]=2+1=3。' },
+  { dp: [1, 1, 2, 3, 5, null, null], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'done' }, { i: 4, state: 'cur' }], pointers: [{ i: 4, label: 'i' }], note: 'i=4：f[4]=f[3]+f[2]=3+2=5。' },
+  { dp: [1, 1, 2, 3, 5, 8, null], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'done' }, { i: 4, state: 'done' }, { i: 5, state: 'cur' }], pointers: [{ i: 5, label: 'i' }], note: 'i=5：f[5]=f[4]+f[3]=5+3=8。' },
+  { dp: [1, 1, 2, 3, 5, 8, 13], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'done' }, { i: 4, state: 'done' }, { i: 5, state: 'done' }, { i: 6, state: 'cur' }], pointers: [{ i: 6, label: 'i' }], note: 'i=6：f[6]=f[5]+f[4]=8+5=13。' },
+  { dp: [1, 1, 2, 3, 5, 8, 13], dpStates: [{ i: 0, state: 'done' }, { i: 1, state: 'done' }, { i: 2, state: 'done' }, { i: 3, state: 'done' }, { i: 4, state: 'done' }, { i: 5, state: 'done' }, { i: 6, state: 'mark' }], note: '结论：f[6]=13 ✅，爬到第 6 阶共有 13 种方法。' },
+]
+// 方法二（矩阵快速幂）可视化：base = [[1,1],[1,0]]，res = [[1,1]]
+// f[n] = (base^(n-1))[0][0]，本例 n=6，需计算 base^5
+const matrixSteps = [
+  { grid: { values: [[1, 1], [1, 0]], rowLabels: ['', ''], colLabels: ['', ''] }, gridStates: [{ r: 0, c: 0, state: 'cur' }, { r: 0, c: 1, state: 'cur' }, { r: 1, c: 0, state: 'cur' }, { r: 1, c: 1, state: 'cur' }], note: 'base = [[1,1],[1,0]]。斐波那契递推的转移矩阵，f[n] = (base^(n-1))[0][0]，本例需计算 base^5。' },
+  { grid: { values: [[2, 1], [1, 1]], rowLabels: ['', ''], colLabels: ['', ''] }, gridStates: [{ r: 0, c: 0, state: 'cur' }, { r: 0, c: 1, state: 'cur' }, { r: 1, c: 0, state: 'cur' }, { r: 1, c: 1, state: 'cur' }], note: 'base^2 = base × base = [[1×1+1×1, 1×1+1×0],[1×1+0×1, 1×1+0×0]] = [[2,1],[1,1]]。' },
+  { grid: { values: [[3, 2], [2, 1]], rowLabels: ['', ''], colLabels: ['', ''] }, gridStates: [{ r: 0, c: 0, state: 'cur' }, { r: 0, c: 1, state: 'cur' }, { r: 1, c: 0, state: 'cur' }, { r: 1, c: 1, state: 'cur' }], note: 'base^3 = base^2 × base = [[2,1],[1,1]] × [[1,1],[1,0]] = [[3,2],[2,1]]。' },
+  { grid: { values: [[5, 3], [3, 2]], rowLabels: ['', ''], colLabels: ['', ''] }, gridStates: [{ r: 0, c: 0, state: 'cur' }, { r: 0, c: 1, state: 'cur' }, { r: 1, c: 0, state: 'cur' }, { r: 1, c: 1, state: 'cur' }], note: 'base^4 = base^3 × base = [[3,2],[2,1]] × [[1,1],[1,0]] = [[5,3],[3,2]]。' },
+  { grid: { values: [[8, 5], [5, 3]], rowLabels: ['', ''], colLabels: ['', ''] }, gridStates: [{ r: 0, c: 0, state: 'cur' }, { r: 0, c: 1, state: 'cur' }, { r: 1, c: 0, state: 'cur' }, { r: 1, c: 1, state: 'cur' }], note: 'base^5 = base^4 × base = [[5,3],[3,2]] × [[1,1],[1,0]] = [[8,5],[5,3]]。' },
+  { grid: { values: [[13, 8]], rowLabels: [''], colLabels: ['', ''] }, gridStates: [{ r: 0, c: 0, state: 'mark' }, { r: 0, c: 1, state: 'done' }], note: 'res × base^5 = [[1,1]] × [[8,5],[5,3]] = [[13, 8]]。答案 f[6] = res[0][0] = 13 ✅。' },
+]
+</script>
+
 <!-- problem:start -->
 
 # [70. 爬楼梯](https://leetcode.cn/problems/climbing-stairs)
@@ -72,6 +96,15 @@ $$
 
 时间复杂度 $O(n)$，空间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以 `n = 6` 为例，演示动态规划：`f[i]` 为爬到第 `i` 阶的方法数，`f[i] = f[i-1] + f[i-2]`。蓝色为当前计算，绿色为已完成，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="stairSteps" />
+
+<div class="viz-jump"><a href="#code-1">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-1"></a>
 <!-- tabs:start -->
 ::: code-group
 
@@ -171,6 +204,15 @@ $$
 
 时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。
 
+### 可视化演示
+
+> 以 `n = 6` 为例，演示矩阵快速幂：`f[n] = (base^(n-1))[0][0]`，`base = [[1,1],[1,0]]`。逐步计算 `base` 的幂，蓝色为当前计算的矩阵，绿色为已完成，红色为答案。点击 ▶ 播放，或逐步操作。
+
+<DpViz :steps="matrixSteps" />
+
+<div class="viz-jump"><a href="#code-2">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-2"></a>
 <!-- tabs:start -->
 ::: code-group
 
