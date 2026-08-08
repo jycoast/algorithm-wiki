@@ -7,7 +7,7 @@
  *   2. scripts/list-data.json —— Top100 热度排序 order + 分类归属 categories
  *
  * 生成输出：
- *   1. docs/.vitepress/configs/sidebar.mts   （Top100 侧边栏）
+ *   1. docs/.vitepress/configs/sidebar.mts   （按分类折叠的侧边栏）
  *   2. docs/index.md                         （首页分类表格）
  *
  * 用法：
@@ -135,8 +135,22 @@ const TEMPLATE_SECTION = `function getTemplate() {
     ]
 }`
 
-function renderSidebar(order, problems) {
-  const items = order.map((slug) => `        { text: "${problems[slug].title}", link: "/leetcode/${slug}" },`).join('\n')
+function renderSidebar(data, problems) {
+  const groups = CATEGORY_ORDER
+    .filter((cat) => data.categories[cat] && data.categories[cat].length)
+    .map((cat, i) => {
+      const items = data.categories[cat]
+        .map((slug) => `        { text: "${problems[slug].title}", link: "/leetcode/${slug}" },`)
+        .join('\n')
+      return `    {
+      text: '${cat}',
+      collapsed: ${i === 0 ? 'false' : 'true'},
+      items: [
+${items}
+      ]
+    }`
+    })
+    .join(',\n')
   return `export default {
   '/': getLeetCode(),
   '/template/': getTemplate()
@@ -144,12 +158,7 @@ function renderSidebar(order, problems) {
 
 function getLeetCode() {
   return [
-    {
-      text: 'Top100',
-      items: [
-${items}
-      ]
-    }
+${groups}
   ]
 }
 
@@ -251,7 +260,7 @@ function main() {
   }
   warnings.forEach((w) => console.warn('⚠️  ' + w))
 
-  fs.writeFileSync(SIDEBAR_FILE, renderSidebar(data.order, problems))
+  fs.writeFileSync(SIDEBAR_FILE, renderSidebar(data, problems))
   fs.writeFileSync(INDEX_FILE, renderIndex(data, problems))
   console.log(`✅ 已生成 ${SIDEBAR_FILE}（${data.order.length} 项）`)
   console.log(`✅ 已生成 ${INDEX_FILE}（${Object.keys(data.categories).length} 个分类）`)
