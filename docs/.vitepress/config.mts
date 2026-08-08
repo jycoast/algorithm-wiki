@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
-import nav from './configs/nav.mjs'
-import sidebar from './configs/sidebar.mjs'
+import nav from './configs/nav.mts'
+import sidebar from './configs/sidebar.mts'
 import { groupIconMdPlugin, groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
