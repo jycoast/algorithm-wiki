@@ -1,5 +1,6 @@
 export default {
-  '/': getLeetCode(),
+  '/category': getLeetCode(),
+  '/leetcode/': getLeetCode(),
   '/top100': getTop100(),
   '/template/': getTemplate()
 }

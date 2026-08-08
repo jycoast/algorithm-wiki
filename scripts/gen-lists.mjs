@@ -8,11 +8,13 @@
  *
  * 生成输出：
  *   1. docs/.vitepress/configs/sidebar.mts   （分类折叠侧边栏 + Top100 平铺侧边栏）
- *   2. docs/index.md                         （首页分类表格）
+ *   2. docs/category.md                      （分类刷题页，原首页分类表格）
  *   3. docs/top100.md                        （Top100 热度榜页面）
  *
+ * 说明：首页 docs/index.md 为手写落地页（layout: home），不由此脚本生成。
+ *
  * 用法：
- *   node scripts/gen-lists.mjs --init   # 首次：从现有 sidebar.mts / index.md 抽取生成 list-data.json
+ *   node scripts/gen-lists.mjs --init   # 首次：从现有 sidebar.mts / category.md 抽取生成 list-data.json
  *   node scripts/gen-lists.mjs          # 生成全部清单 + 一致性校验
  *
  * 校验项：文件缺失、标题/难度/tags 缺失、重复 slug、未分类/未收录文件等。
@@ -27,7 +29,7 @@ const ROOT = path.resolve(__dirname, '..')
 const LEETCODE_DIR = path.join(ROOT, 'docs', 'leetcode')
 const DATA_FILE = path.join(__dirname, 'list-data.json')
 const SIDEBAR_FILE = path.join(ROOT, 'docs', '.vitepress', 'configs', 'sidebar.mts')
-const INDEX_FILE = path.join(ROOT, 'docs', 'index.md')
+const CATEGORY_FILE = path.join(ROOT, 'docs', 'category.md')
 const TOP100_FILE = path.join(ROOT, 'docs', 'top100.md')
 
 /** 首页分类顺序（也是 index.md 的章节顺序） */
@@ -102,7 +104,7 @@ function extractSidebarOrder() {
 }
 
 function extractIndexCategories() {
-  const src = fs.readFileSync(INDEX_FILE, 'utf8')
+  const src = fs.readFileSync(CATEGORY_FILE, 'utf8')
   const categories = {}
   let current = null
   for (const line of src.split(/\r?\n/)) {
@@ -158,7 +160,8 @@ ${items}
     .map((slug) => `        { text: "${problems[slug].title}", link: "/leetcode/${slug}" },`)
     .join('\n')
   return `export default {
-  '/': getLeetCode(),
+  '/category': getLeetCode(),
+  '/leetcode/': getLeetCode(),
   '/top100': getTop100(),
   '/template/': getTemplate()
 }
@@ -184,9 +187,9 @@ ${TEMPLATE_SECTION}
 `
 }
 
-/* ---------------- 生成 index.md ---------------- */
+/* ---------------- 生成 category.md ---------------- */
 
-function renderIndex(data, problems) {
+function renderCategory(data, problems) {
   const byTop100 = rankByTop100(data.order)
   const sections = CATEGORY_ORDER
     .filter((cat) => data.categories[cat] && data.categories[cat].length)
@@ -208,7 +211,7 @@ ${rows}
     .join('\n')
 
   return `---
-title: Algorithm Wiki
+title: 分类刷题
 ---
 
 # 题目分类
@@ -282,7 +285,7 @@ function main() {
       categories: extractIndexCategories(),
     }
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2) + '\n')
-    console.log(`✅ 已从现有 sidebar.mts / index.md 生成 ${DATA_FILE}`)
+    console.log(`✅ 已从现有 sidebar.mts / category.md 生成 ${DATA_FILE}`)
     console.log(`   order: ${data.order.length} 条，categories: ${Object.keys(data.categories).length} 个`)
     return
   }
@@ -303,10 +306,10 @@ function main() {
   warnings.forEach((w) => console.warn('⚠️  ' + w))
 
   fs.writeFileSync(SIDEBAR_FILE, renderSidebar(data, problems))
-  fs.writeFileSync(INDEX_FILE, renderIndex(data, problems))
+  fs.writeFileSync(CATEGORY_FILE, renderCategory(data, problems))
   fs.writeFileSync(TOP100_FILE, renderTop100(data, problems))
   console.log(`✅ 已生成 ${SIDEBAR_FILE}（${data.order.length} 项）`)
-  console.log(`✅ 已生成 ${INDEX_FILE}（${Object.keys(data.categories).length} 个分类）`)
+  console.log(`✅ 已生成 ${CATEGORY_FILE}（${Object.keys(data.categories).length} 个分类）`)
   console.log(`✅ 已生成 ${TOP100_FILE}（${data.order.length} 项）`)
   if (warnings.length) console.log('⚠️  有 ' + warnings.length + ' 条警告，见上方输出')
 }

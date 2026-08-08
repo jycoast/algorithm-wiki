@@ -88,7 +88,10 @@ npm run preview
 |   |-- leetcode/        # 题解内容
 |   |-- template/        # 常用算法模板
 |   |-- public/          # 静态资源（图标等）
-|   |-- index.md         # 文档首页
+|   |-- index.md         # 落地首页（手写，layout: home）
+|   |-- category.md      # 分类刷题页（由 gen 脚本生成）
+|   |-- top100.md        # Top100 热度榜页（由 gen 脚本生成）
+|-- scripts/             # list-data.json + gen-lists.mjs 生成器
 |-- source-code/         # 示例实现（多语言）
 |-- README.md
 ```
@@ -107,30 +110,6 @@ npm run preview
 * 标题清晰、具备可检索性
 * 题解结构统一（思路 / 复杂度 / 关键实现）
 * 优先抽象通用解法与模式
-
-### 评论区（Giscus）
-
-每道题解底部集成 [Giscus](https://giscus.app/) 评论区（基于 GitHub Discussions），访客无需登录即可评论，评论以讨论串形式沉淀在仓库中。
-
-评论功能默认关闭（未配置 ID 时不渲染），接入需完成一次配置：
-
-1. 在仓库 Settings → Features 中开启 **Discussions**，并新建分类（如 `General`）
-2. 打开 [giscus.app](https://giscus.app/)，填入仓库名 `jycoast/algorithm-wiki`，选择分类，复制生成的 **repo-id** 与 **category-id**
-3. 填入 `docs/.vitepress/theme/giscus-config.ts` 中的 `repoId` 与 `categoryId`
-
-配置完成后重新部署即可生效。跟随站点的亮/暗主题自动换肤。
-
-### 新增题解（自动维护清单）
-
-侧边栏（Top100）与首页分类表格由 `scripts/gen-lists.mjs` 从题解文件自动生成，无需手改。
-
-新增一道题：
-
-1. 在 `docs/leetcode/` 新建题解 md，frontmatter 需含 `difficulty` 与 `tags`，H1 标题格式为 `# [N. 题目](url)`
-2. 将文件名 slug 加入 `scripts/list-data.json` 的 `order`（热度排序位置）与对应分类
-3. 运行 `npm run gen` 重新生成 `sidebar.mts` 与 `index.md`
-
-首次使用或需要重建清单数据时运行 `node scripts/gen-lists.mjs --init`（从现有 sidebar/index.md 抽取 order 与分类）。
 
 ### Recommended Resources
 
