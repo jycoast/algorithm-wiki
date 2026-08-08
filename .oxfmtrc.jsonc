@@ -1,0 +1,23 @@
+{
+  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": true,
+  "quoteProps": "as-needed",
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "htmlWhitespaceSensitivity": "ignore",
+  "bracketSameLine": true,
+  "sortPackageJson": false,
+  "embeddedLanguageFormatting": "auto",
+  "ignorePatterns": [
+    ".vitepress/cache",
+    ".vitepress/dist",
+    "node_modules",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "bun.lockb",
+    ".env",
+  ],
+}
