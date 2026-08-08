@@ -150,6 +150,23 @@ for (const file of files) {
   }
   ok(jumps.length > 0, '没有任何 viz-jump 跳过链接')
 
+  // 6. 每个「方法N」section 都必须有可视化：组件 + viz-jump + 本 section 内匹配锚点
+  const methodHeads = [...src.matchAll(/^#{2,3}\s*方法[一二三四五六七八九十]+/gm)]
+  for (let i = 0; i < methodHeads.length; i++) {
+    const head = methodHeads[i]
+    const name = head[0].trim()
+    const start = head.index
+    const end = i + 1 < methodHeads.length ? methodHeads[i + 1].index : src.length
+    const sec = src.slice(start, end)
+    ok(/<(ArrayViz|ListViz|DpViz|TreeViz|Mermaid)\b/.test(sec), `${name} 缺少可视化组件`)
+    const secJumps = [...sec.matchAll(/class="viz-jump"><a href="#(code[^"]*)"/g)].map((x) => x[1])
+    ok(secJumps.length > 0, `${name} 缺少 viz-jump`)
+    const secAnchorSet = new Set([...sec.matchAll(/<a id="(code[^"]*)"/g)].map((x) => x[1]))
+    for (const j of secJumps) {
+      ok(secAnchorSet.has(j), `${name} 的 viz-jump 指向 #${j} 但本 section 内无对应锚点`)
+    }
+  }
+
   reports.push({ file, steps: usedNames.length, errors })
 }
 

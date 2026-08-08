@@ -40,6 +40,23 @@ const countSortSteps = [
   { array: [3, 2, 1, 5, 6, 4], map: [{ key: 1, value: 1 }, { key: 2, value: 1 }, { key: 3, value: 1 }, { key: 4, value: 1 }, { key: 5, value: 1 }, { key: 6, value: 1 }], mapHighlight: [5], note: 'i=6：k -= cnt[6]=1 → k=1，仍 > 0，继续' },
   { array: [3, 2, 1, 5, 6, 4], map: [{ key: 1, value: 1 }, { key: 2, value: 1 }, { key: 3, value: 1 }, { key: 4, value: 1 }, { key: 5, value: 1 }, { key: 6, value: 1 }], mapHighlight: [4], note: 'i=5：k -= cnt[5]=1 → k=0，k ≤ 0 → 返回 i = 5。第 2 大元素 = 5 ✅' },
 ]
+
+// 方法四（计数排序的优化）可视化：count[offset+num]++，i 从高到低扫描，remain 累减
+// 只展示最大值附近的非零段：行 0 为下标 i，行 1 为 count[i]
+const countOptSteps = [
+  { rows: [
+      [10006, 10005, 10004, 10003, 10002, 10001, 10000],
+      [1, 1, 1, 1, 1, 1, 0],
+    ], rowPointers: [{ row: 0, col: 0, label: 'i' }], rowHighlight: [{ row: 1, cols: [0] }], note: '统计频次：count[offset+num]++，nums=[3,2,1,5,6,4] 中 1~6 各出现一次 → count[10001..10006] = 1，其余为 0。remain = k = 2，i 从最高下标开始向下扫描。' },
+  { rows: [
+      [10006, 10005, 10004, 10003, 10002, 10001, 10000],
+      [1, 1, 1, 1, 1, 1, 0],
+    ], rowPointers: [{ row: 0, col: 0, label: 'i' }], rowHighlight: [{ row: 1, cols: [0] }], note: 'i=10006：remain -= count[10006] = 1 → remain = 1。remain > 0，继续向下扫描。' },
+  { rows: [
+      [10006, 10005, 10004, 10003, 10002, 10001, 10000],
+      [1, 1, 1, 1, 1, 1, 0],
+    ], rowPointers: [{ row: 0, col: 1, label: 'i' }], rowHighlight: [{ row: 1, cols: [1] }], note: 'i=10005：remain -= count[10005] = 1 → remain = 0 ≤ 0，返回 i - offset = 10005 - 10000 = 5。第 2 大的元素是 5 ✅' },
+]
 </script>
 
 <!-- problem:start -->
@@ -395,6 +412,21 @@ class Solution:
 
 ## 方法四：计数排序的优化
 
+当数值范围有限时，可以用一个计数数组统计每个数值出现的次数，然后从大到小累减，直接定位第 $k$ 大的元素。先用 `offset = 10000` 做偏移，`count[offset + num]` 表示数值 `num` 出现的次数；再用 `remain = k` 从最大值往下扫：`remain -= count[i]`，当 `remain <= 0` 时，`i - offset` 就是答案。
+
+时间复杂度 $O(n + U)$，空间复杂度 $O(U)$，其中 $U$ 为值域大小（本题为 $20001$）。
+
+### 可视化演示
+
+> 以 `nums = [3,2,1,5,6,4]`、`k = 2` 为例，演示计数排序优化的扫描过程：上面一行是计数数组的下标 `i`，下面一行是对应的 `count[i]`。`i` 从大到小扫描，黄色高亮为当前检查的频次，`remain` 从 `k` 开始逐项累减，减到 ≤ 0 时返回 `i - offset`。点击 ▶ 播放，或逐步操作。
+
+<ArrayViz :steps="countOptSteps" />
+
+<div class="viz-jump"><a href="#code-4">跳过可视化，直接看代码 ↓</a></div>
+
+<a id="code-4"></a>
+
+<!-- tabs:start -->
 ::: code-group
 
 ```java [Java]

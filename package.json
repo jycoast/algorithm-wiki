@@ -6,7 +6,8 @@
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
     "preview": "vitepress preview docs",
-    "gen": "node scripts/gen-lists.mjs"
+    "gen": "node scripts/gen-lists.mjs",
+    "validate": "node scripts/validate-viz.mjs"
   },
   "devDependencies": {
     "markdown-it-mathjax3": "^4.3.2",
