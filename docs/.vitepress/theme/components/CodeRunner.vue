@@ -17,6 +17,7 @@ import { python } from '@codemirror/lang-python'
 import { java } from '@codemirror/lang-java'
 import { problemsData } from '../runner/problems-data'
 import { runPython } from '../runner/pythonHarness'
+import { runJava } from '../runner/javaHarness'
 import type { RunLang, RunReport, TestCase } from '../runner/types'
 
 const { page } = useData()
@@ -33,6 +34,11 @@ const entry = computed(() => (frontmatter.value.entry ?? '') as string)
 const testcases = computed(() =>
   (Array.isArray(frontmatter.value.testcases) ? frontmatter.value.testcases : []) as TestCase[],
 )
+/** 特殊判题模式：void-first-arg = 判第一个数组参数原地修改后的值（如 moveZeroes） */
+const mode = computed<'void-first-arg' | undefined>(() => {
+  const m = frontmatter.value.mode
+  return m === 'void-first-arg' ? 'void-first-arg' : undefined
+})
 
 const hasData = computed(() => {
   const sol = problemsData[slug.value]
@@ -154,13 +160,7 @@ async function run() {
     if (lang.value === 'python') {
       report.value = await runPython(currentCode.value, entry.value, testcases.value)
     } else {
-      // Java（CheerpJ）在后续阶段接入
-      report.value = {
-        results: [],
-        passed: 0,
-        total: testcases.value.length,
-        compileError: 'Java 判题正在接入中，敬请期待 🚧（Python 已可用）',
-      }
+      report.value = await runJava(currentCode.value, entry.value, testcases.value, mode.value)
     }
   } finally {
     running.value = false
