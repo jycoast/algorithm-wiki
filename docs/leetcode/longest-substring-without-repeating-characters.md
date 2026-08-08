@@ -1,5 +1,7 @@
 ---
 comments: true
+difficulty: 中等
+
 tags:
     - 哈希表
     - 字符串

@@ -1,5 +1,7 @@
 ---
 comments: true
+difficulty: 简单
+
 tags:
     - 递归
     - 链表

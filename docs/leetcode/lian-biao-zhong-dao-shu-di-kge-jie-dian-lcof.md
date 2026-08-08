@@ -1,6 +1,10 @@
 ---
 comments: true
 difficulty: 简单
+
+tags:
+    - 链表
+    - 双指针
 ---
 
 <!-- problem:start -->

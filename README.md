@@ -107,6 +107,18 @@ npm run preview
 * 题解结构统一（思路 / 复杂度 / 关键实现）
 * 优先抽象通用解法与模式
 
+### 新增题解（自动维护清单）
+
+侧边栏（Top100）与首页分类表格由 `scripts/gen-lists.mjs` 从题解文件自动生成，无需手改。
+
+新增一道题：
+
+1. 在 `docs/leetcode/` 新建题解 md，frontmatter 需含 `difficulty` 与 `tags`，H1 标题格式为 `# [N. 题目](url)`
+2. 将文件名 slug 加入 `scripts/list-data.json` 的 `order`（热度排序位置）与对应分类
+3. 运行 `npm run gen` 重新生成 `sidebar.mts` 与 `index.md`
+
+首次使用或需要重建清单数据时运行 `node scripts/gen-lists.mjs --init`（从现有 sidebar/index.md 抽取 order 与分类）。
+
 ### Recommended Resources
 
 * Hello 算法：[https://www.hello-algo.com/](https://www.hello-algo.com/)
