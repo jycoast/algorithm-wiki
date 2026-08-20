@@ -14,6 +14,13 @@ testcases:
     output: 3
   - input: [[2, 2, 1, 1, 1, 2, 2]]
     output: 2
+hidden_testcases:
+  - input: [[1, 1, 1, 2, 2]]
+    output: 1
+  - input: [[5]]
+    output: 5
+  - input: [[2, 1, 2, 1, 2]]
+    output: 2
 ---
 
 <script setup>

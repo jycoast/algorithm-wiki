@@ -3,18 +3,13 @@
  * 在线运行 + 自动判题面板（LeetCode 风格，纯前端）。
  *
  * - 由 markdown 插件 inject-runner 自动追加到有 testcases 的 /leetcode/ 页面
- * - 语言 tab：Python（Pyodide）/ Java（CheerpJ，即将上线）
- * - 编辑器预填题库自带解法（problems-data.ts 构建时从代码块提取）
+ * - 语言 tab：Python（Pyodide）/ Java（CheerpJ）
+ * - 编辑器复用 useEditor 组合式：预填官方解法 + 语言切换 + 深浅色主题
  * - 运行 → WASM 懒加载判题 → 逐用例 ✓/✗ + 期望/实际 + print 输出
  */
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useData } from 'vitepress'
-import { basicSetup } from 'codemirror'
-import { EditorState } from '@codemirror/state'
-import { EditorView, keymap } from '@codemirror/view'
-import { indentWithTab } from '@codemirror/commands'
-import { python } from '@codemirror/lang-python'
-import { java } from '@codemirror/lang-java'
+import { useEditor } from '../runner/useEditor'
 import { problemsData } from '../runner/problems-data'
 import { runPython } from '../runner/pythonHarness'
 import { runJava } from '../runner/javaHarness'
@@ -45,100 +40,39 @@ const hasData = computed(() => {
   return !!(entry.value && testcases.value.length > 0 && sol && (sol.python || sol.java))
 })
 
-/* ---------------- 语言与代码缓冲 ---------------- */
+/* ---------------- 编辑器（useEditor） ---------------- */
 
-const lang = ref<RunLang>('python')
-const pythonCode = ref('')
-const javaCode = ref('')
-const currentCode = computed(() => (lang.value === 'python' ? pythonCode.value : javaCode.value))
-
-const STUB_PYTHON = '# 在此编写你的解法…\n'
-const STUB_JAVA = '// 在此编写你的解法…\n'
-
-function seedIfEmpty() {
-  if (lang.value === 'python' && !pythonCode.value) {
-    pythonCode.value = problemsData[slug.value]?.python ?? STUB_PYTHON
-  }
-  if (lang.value === 'java' && !javaCode.value) {
-    javaCode.value = problemsData[slug.value]?.java ?? STUB_JAVA
-  }
-}
-
-function switchLang(l: RunLang) {
-  if (lang.value === l || running.value) return
-  lang.value = l
-  report.value = null
-  seedIfEmpty()
-}
-
-/* ---------------- CodeMirror ---------------- */
+const running = ref(false)
+const { lang, currentCode, setLang, reset: resetEditor, initEditor, destroy: destroyEditor } =
+  useEditor(slug, { isLocked: () => running.value })
 
 const editorEl = ref<HTMLDivElement | null>(null)
-let view: EditorView | null = null
-
-// 跟随站点深浅色主题（用 VitePress 变量，无需额外暗色主题包）
-const runnerTheme = EditorView.theme({
-  '&': {
-    fontSize: '13.5px',
-    height: 'auto',
-    color: 'var(--vp-c-text-1)',
-    backgroundColor: 'transparent',
-  },
-  '.cm-gutters': {
-    backgroundColor: 'transparent',
-    color: 'var(--vp-c-text-3)',
-    borderRight: '1px solid var(--vp-c-divider)',
-  },
-  '.cm-activeLine': { backgroundColor: 'color-mix(in srgb, var(--vp-c-brand-1) 7%, transparent)' },
-  '.cm-activeLineGutter': { backgroundColor: 'transparent' },
-  '.cm-selectionBackground, &.cm-focused .cm-selectionBackground': {
-    backgroundColor: 'color-mix(in srgb, var(--vp-c-brand-1) 22%, transparent)',
-  },
-  '.cm-cursor': { borderLeftColor: 'var(--vp-c-brand-1)' },
-  '.cm-matchingBracket': { color: 'var(--vp-c-brand-1)', fontWeight: 'bold' },
-})
-
-function initEditor() {
-  const el = editorEl.value
-  if (!el) return
-  view?.destroy()
-  view = new EditorView({
-    state: EditorState.create({
-      doc: currentCode.value,
-      extensions: [
-        basicSetup,
-        lang.value === 'python' ? python() : java(),
-        keymap.of([indentWithTab]),
-        EditorView.lineWrapping,
-        runnerTheme,
-        EditorView.updateListener.of((u) => {
-          if (!u.docChanged) return
-          const text = u.state.doc.toString()
-          if (lang.value === 'python') pythonCode.value = text
-          else javaCode.value = text
-        }),
-      ],
-    }),
-    parent: el,
-  })
-}
 
 watch(
   [lang, hasData],
   async () => {
     if (!hasData.value) return
-    seedIfEmpty()
     await nextTick()
-    initEditor()
+    if (editorEl.value) initEditor(editorEl.value, true)
   },
   { immediate: true },
 )
 
-onBeforeUnmount(() => view?.destroy())
+onBeforeUnmount(() => destroyEditor())
+
+function switchLang(l: RunLang) {
+  setLang(l)
+  report.value = null
+}
+
+function reset() {
+  resetEditor()
+  report.value = null
+  if (editorEl.value) initEditor(editorEl.value)
+}
 
 /* ---------------- 运行与结果 ---------------- */
 
-const running = ref(false)
 const loading = ref(false)
 const loadingText = ref('')
 const report = ref<RunReport | null>(null)
@@ -166,13 +100,6 @@ async function run() {
     running.value = false
     loading.value = false
   }
-}
-
-function reset() {
-  if (lang.value === 'python') pythonCode.value = problemsData[slug.value]?.python ?? STUB_PYTHON
-  else javaCode.value = problemsData[slug.value]?.java ?? STUB_JAVA
-  report.value = null
-  initEditor()
 }
 </script>
 

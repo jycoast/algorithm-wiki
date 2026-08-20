@@ -1,10 +1,11 @@
 /**
- * VitePress markdown 插件：给带 testcases 的 /leetcode/ 页面追加 <CodeRunner />。
+ * VitePress markdown 插件：给带 testcases 的 /leetcode/ 页面前置 <SolveEntry />（刷题入口）
+ * 并追加 <CodeRunner />（内嵌判题面板）。
  *
- * <CodeRunner /> 由 theme/index.ts 全局注册，markdown 输出作为页面模板编译时
- * 按全局组件解析（与 ArrayViz / TreeViz 等一致的机制）。
+ * 二者由 theme/index.ts 全局注册，markdown 输出作为页面模板编译时按全局组件解析
+ * （与 ArrayViz / TreeViz 等一致的机制）。
  *
- * 仅当 frontmatter 含非空 testcases 时注入，避免 77 道未接入题目出现空面板。
+ * 仅当 frontmatter 含非空 testcases 时注入，避免未接入题目出现空面板。
  */
 import type { PluginSimple } from 'markdown-it'
 
@@ -15,7 +16,7 @@ export const injectRunnerPlugin: PluginSimple = (md) => {
     const rel = (env?.relativePath as string | undefined) ?? ''
     const testcases = (env?.frontmatter as { testcases?: unknown } | undefined)?.testcases
     if (rel.startsWith('leetcode/') && Array.isArray(testcases) && testcases.length > 0) {
-      return html + '\n\n<CodeRunner />\n'
+      return '<SolveEntry />\n\n' + html + '\n\n<CodeRunner />\n'
     }
     return html
   }

@@ -17,6 +17,8 @@ import ListViz from './components/ListViz.vue'
 import Mermaid from './components/Mermaid.vue'
 import VizControls from './components/VizControls.vue'
 import CodeRunner from './components/CodeRunner.vue'
+import Solver from './components/Solver.vue'
+import SolveEntry from './components/SolveEntry.vue'
 
 export default {
   extends: DefaultTheme,
@@ -29,6 +31,8 @@ export default {
     app.component('Mermaid', Mermaid)
     app.component('VizControls', VizControls)
     app.component('CodeRunner', CodeRunner)
+    app.component('Solver', Solver)
+    app.component('SolveEntry', SolveEntry)
   },
   Layout() {
     return h(DefaultTheme.Layout, null, {

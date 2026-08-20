@@ -48,6 +48,7 @@ function discoverProblems() {
       slug,
       entry: fm.entry,
       testcases: fm.testcases,
+      hiddenTestcases: Array.isArray(fm.hidden_testcases) ? fm.hidden_testcases : [],
       mode: fm.mode === 'void-first-arg' ? 'void-first-arg' : undefined,
       python: extractCode(content, 'python', 'Python'),
     })
@@ -88,6 +89,30 @@ for (const p of problems) {
     }
   } else {
     console.log(`✅ ${p.slug} [${p.entry}]：${report.passed}/${report.total} 通过`)
+  }
+}
+
+/* ---------------- 隐藏用例校验：官方解法必须全过 ---------------- */
+const hiddenCount = problems.filter((p) => p.hiddenTestcases.length).length
+if (hiddenCount) {
+  console.log(`\n🔍 校验 hidden_testcases（${hiddenCount} 道题）…`)
+  for (const p of problems) {
+    if (!p.hiddenTestcases.length) continue
+    const report = await runPython(p.python, p.entry, p.hiddenTestcases, pyodide, p.mode)
+    if (report.compileError) {
+      failed++
+      console.error(`❌ ${p.slug}：隐藏用例编译失败 → ${report.compileError}`)
+    } else if (report.passed === report.total) {
+      console.log(`✅ ${p.slug}：hidden ${report.passed}/${report.total} 通过`)
+    } else {
+      failed++
+      console.error(`❌ ${p.slug}：hidden ${report.passed}/${report.total} 通过`)
+      for (const r of report.results) {
+        if (!r.ok) {
+          console.error(`   - hidden 用例 ${r.index}：期望 ${JSON.stringify(r.expected)}，实际 ${JSON.stringify(r.actual)}${r.error ? '，错误 ' + r.error : ''}`)
+        }
+      }
+    }
   }
 }
 

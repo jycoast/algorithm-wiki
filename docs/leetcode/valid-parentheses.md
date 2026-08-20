@@ -15,6 +15,15 @@ testcases:
     output: false
   - input: ["([)]"]
     output: false
+hidden_testcases:
+  - input: ["((()))"]
+    output: true
+  - input: ["{[()]}"]
+    output: true
+  - input: ["["]
+    output: false
+  - input: ["[(])"]
+    output: false
 ---
 
 <script setup>

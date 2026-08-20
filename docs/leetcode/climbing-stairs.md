@@ -14,6 +14,13 @@ testcases:
     output: 3
   - input: [5]
     output: 8
+hidden_testcases:
+  - input: [1]
+    output: 1
+  - input: [4]
+    output: 5
+  - input: [10]
+    output: 89
 ---
 
 <script setup>

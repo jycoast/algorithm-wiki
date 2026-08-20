@@ -11,6 +11,15 @@ testcases:
     output: "fl"
   - input: [["dog", "racecar", "car"]]
     output: ""
+hidden_testcases:
+  - input: [["a"]]
+    output: "a"
+  - input: [["interspecies", "interstellar", "interstate"]]
+    output: "inters"
+  - input: [["ab", "a"]]
+    output: "a"
+  - input: [["", "b"]]
+    output: ""
 ---
 
 <script setup>
