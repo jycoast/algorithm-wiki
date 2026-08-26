@@ -13,6 +13,12 @@ export default defineConfig({
   markdown: {
     math: true,
     config(md) {
+      // 幂等守卫：某些构建环境（如托管平台）会对同一 markdown-it 实例多次应用
+      // markdown.config，重复 md.use() 会让 renderer 被多次包裹（<SolveEntry /> 双份）。
+      const KEY = '__algorithmWikiMarkdownConfigured'
+      const self = md as unknown as Record<string, unknown>
+      if (self[KEY]) return
+      Object.defineProperty(md, KEY, { value: true, enumerable: false, configurable: true })
       md.use(groupIconMdPlugin)
       md.use(injectRunnerPlugin)
     },
