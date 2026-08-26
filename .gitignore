@@ -4,6 +4,8 @@ node_modules
 dist
 docs/.vitepress/cache/
 docs/.vitepress/dist/
+# 构建时由 scripts/gen-runner-data.mjs 自动生成（npm run dev/build 都会先生成）
+docs/solve/
 # local env files
 .env.local
 .env.*.local

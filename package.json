@@ -3,7 +3,7 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
-    "dev": "vitepress dev docs",
+    "dev": "node scripts/gen-runner-data.mjs && vitepress dev docs",
     "build": "node scripts/gen-runner-data.mjs && vitepress build docs",
     "preview": "vitepress preview docs",
     "gen": "node scripts/gen-lists.mjs",
