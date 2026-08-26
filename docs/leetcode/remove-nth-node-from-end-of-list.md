@@ -1,11 +1,36 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 链表
-    - 双指针
+  - 链表
+  - 双指针
+entry: removeNthFromEnd
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      - 2
+    output:
+      - 1
+      - 2
+      - 3
+      - 5
+  - input:
+      - - 1
+      - 1
+    output: []
+  - input:
+      - - 1
+        - 2
+      - 1
+    output:
+      - 1
+mode: link
 ---
+
 
 <script setup>
 // 方法一（快慢指针）可视化：head = [1,2,3,4,5]，n = 2

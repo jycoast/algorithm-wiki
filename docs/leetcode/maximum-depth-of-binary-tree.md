@@ -1,13 +1,30 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 广度优先搜索
+  - 二叉树
+entry: maxDepth
+testcases:
+  - input:
+      - - 3
+        - 9
+        - 20
+        - null
+        - null
+        - 15
+        - 7
+    output: 3
+  - input:
+      - - 1
+        - null
+        - 2
+    output: 2
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（递归）可视化：root = [3, 9, 20, null, null, 15, 7]

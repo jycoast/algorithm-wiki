@@ -1,11 +1,31 @@
 ---
 comments: true
 difficulty: 困难
-
 tags:
-    - 数组
-    - 哈希表
+  - 数组
+  - 哈希表
+entry: firstMissingPositive
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 0
+    output: 3
+  - input:
+      - - 3
+        - 4
+        - -1
+        - 1
+    output: 2
+  - input:
+      - - 7
+        - 8
+        - 9
+        - 11
+        - 12
+    output: 1
 ---
+
 
 <script setup>
 // 方法一（原地交换）可视化：nums = [3,4,-1,1]，n=4

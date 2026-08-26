@@ -1,13 +1,38 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 广度优先搜索
+  - 二叉树
+entry: rightSideView
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+        - null
+        - 5
+        - null
+        - 4
+    output:
+      - 1
+      - 3
+      - 4
+  - input:
+      - - 1
+        - null
+        - 3
+    output:
+      - 1
+      - 3
+  - input:
+      - []
+    output: []
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（BFS）可视化：root = [1, 2, 3, null, 5, null, 4]

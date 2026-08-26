@@ -1,12 +1,27 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 二叉树
+entry: sumNumbers
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+    output: 25
+  - input:
+      - - 4
+        - 9
+        - 0
+        - 5
+        - 1
+    output: 1026
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（DFS）可视化：root = [1, 2, 3]

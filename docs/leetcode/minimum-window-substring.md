@@ -1,12 +1,26 @@
 ---
 comments: true
 difficulty: 困难
-
 tags:
-    - 哈希表
-    - 字符串
-    - 滑动窗口
+  - 哈希表
+  - 字符串
+  - 滑动窗口
+entry: minWindow
+testcases:
+  - input:
+      - ADOBECODEBANC
+      - ABC
+    output: BANC
+  - input:
+      - a
+      - a
+    output: a
+  - input:
+      - a
+      - aa
+    output: ''
 ---
+
 
 <script setup>
 // 可视化演示数据：s = "ABAC"，t = "ABC"，答案 s.slice(1, 4) = "BAC"

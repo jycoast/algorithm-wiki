@@ -5,6 +5,13 @@ difficulty: 中等
 tags:
     - 栈
     - 设计
+entry: MinStack
+mode: ops
+testcases:
+  - input: [["MinStack","push","push","push","getMin","pop","top","getMin"], [[],[-2],[0],[-3],[],[],[],[]]]
+    output: [null, null, null, null, -3, null, 0, -2]
+  - input: [["MinStack","push","push","getMin","pop","top","getMin"], [[],[1],[2],[],[],[],[]]]
+    output: [null, null, null, 1, null, 1, 1]
 ---
 
 <script setup>

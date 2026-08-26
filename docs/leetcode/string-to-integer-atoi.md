@@ -1,10 +1,27 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 字符串
+  - 字符串
+entry: myAtoi
+testcases:
+  - input:
+      - '42'
+    output: 42
+  - input:
+      - ' -042'
+    output: -42
+  - input:
+      - ' 1337c0d3 '
+    output: 1337
+  - input:
+      - 0-1
+    output: 0
+  - input:
+      - words and 987
+    output: 0
 ---
+
 
 <script setup>
 // 方法一（遍历字符串）可视化：s = " -042" → -42

@@ -1,12 +1,51 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 二叉树
+entry: lowestCommonAncestor
+testcases:
+  - input:
+      - - 3
+        - 5
+        - 1
+        - 6
+        - 2
+        - 0
+        - 8
+        - null
+        - null
+        - 7
+        - 4
+      - 5
+      - 1
+    output: 3
+  - input:
+      - - 3
+        - 5
+        - 1
+        - 6
+        - 2
+        - 0
+        - 8
+        - null
+        - null
+        - 7
+        - 4
+      - 5
+      - 4
+    output: 5
+  - input:
+      - - 1
+        - 2
+      - 1
+      - 2
+    output: 1
+mode: tree-lca
 ---
+
 
 <script setup>
 // 方法一（递归）可视化：root = [3,5,1,6,2,0,8,null,null,7,4]，p = 5，q = 1

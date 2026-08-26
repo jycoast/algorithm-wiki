@@ -1,11 +1,40 @@
 ---
 comments: true
 difficulty: 困难
-
 tags:
-    - 递归
-    - 链表
+  - 递归
+  - 链表
+entry: reverseKGroup
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      - 2
+    output:
+      - 2
+      - 1
+      - 4
+      - 3
+      - 5
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      - 3
+    output:
+      - 3
+      - 2
+      - 1
+      - 4
+      - 5
+mode: link
 ---
+
 
 <script setup>
 // 方法一（迭代）可视化：head = [1,2,3,4,5]，k = 2 → [2,1,4,3,5]

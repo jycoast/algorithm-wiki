@@ -1,15 +1,35 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 字典树
-    - 记忆化搜索
-    - 数组
-    - 哈希表
-    - 字符串
-    - 动态规划
+  - 字典树
+  - 记忆化搜索
+  - 数组
+  - 哈希表
+  - 字符串
+  - 动态规划
+entry: wordBreak
+testcases:
+  - input:
+      - leetcode
+      - - leet
+        - code
+    output: true
+  - input:
+      - applepenapple
+      - - apple
+        - pen
+    output: true
+  - input:
+      - catsandog
+      - - cats
+        - dog
+        - sand
+        - and
+        - cat
+    output: false
 ---
+
 
 <script setup>
 // 方法一（哈希表 + 动态规划）可视化：s = "leetcode"，wordDict = ["leet", "code"]，答案 true

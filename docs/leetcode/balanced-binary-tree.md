@@ -1,12 +1,38 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 二叉树
+entry: isBalanced
+testcases:
+  - input:
+      - - 3
+        - 9
+        - 20
+        - null
+        - null
+        - 15
+        - 7
+    output: true
+  - input:
+      - - 1
+        - 2
+        - 2
+        - 3
+        - 3
+        - null
+        - null
+        - 4
+        - 4
+    output: false
+  - input:
+      - []
+    output: true
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（自底向上递归）可视化：root = [3, 9, 20, null, null, 15, 7]

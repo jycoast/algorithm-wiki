@@ -1,13 +1,41 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 二分查找
-    - 前缀和
-    - 滑动窗口
+  - 数组
+  - 二分查找
+  - 前缀和
+  - 滑动窗口
+entry: minSubArrayLen
+testcases:
+  - input:
+      - 7
+      - - 2
+        - 3
+        - 1
+        - 2
+        - 4
+        - 3
+    output: 2
+  - input:
+      - 4
+      - - 1
+        - 4
+        - 4
+    output: 1
+  - input:
+      - 11
+      - - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+    output: 0
 ---
+
 
 <script setup>
 // 方法一（前缀和 + 二分）可视化：nums = [2,3,1,2,4,3]，target = 7

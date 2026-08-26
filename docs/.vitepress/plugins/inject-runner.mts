@@ -16,7 +16,7 @@ export const injectRunnerPlugin: PluginSimple = (md) => {
     const rel = (env?.relativePath as string | undefined) ?? ''
     const testcases = (env?.frontmatter as { testcases?: unknown } | undefined)?.testcases
     if (rel.startsWith('leetcode/') && Array.isArray(testcases) && testcases.length > 0) {
-      return '<SolveEntry />\n\n' + html + '\n\n<CodeRunner />\n'
+      return '<SolveEntry />\n\n' + html
     }
     return html
   }

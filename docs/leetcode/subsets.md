@@ -1,12 +1,39 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 位运算
-    - 数组
-    - 回溯
+  - 位运算
+  - 数组
+  - 回溯
+entry: subsets
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+    output:
+      - []
+      - - 1
+      - - 2
+      - - 1
+        - 2
+      - - 3
+      - - 1
+        - 3
+      - - 2
+        - 3
+      - - 1
+        - 2
+        - 3
+    unordered: true
+  - input:
+      - - 0
+    output:
+      - []
+      - - 0
+    unordered: true
 ---
+
 
 <script setup>
 // 方法一（DFS 回溯）可视化：nums=[1,2,3]

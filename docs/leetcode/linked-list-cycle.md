@@ -1,12 +1,34 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 哈希表
-    - 链表
-    - 双指针
+  - 哈希表
+  - 链表
+  - 双指针
+entry: hasCycle
+testcases:
+  # head = [3,2,0,-4], pos = 1（尾节点 -4 指向下标 1 的节点 2，构成环）
+  - input:
+      - - 3
+        - 2
+        - 0
+        - -4
+      - 1
+    output: true
+  # head = [1,2], pos = 0（尾节点 2 指向头节点 1，构成环）
+  - input:
+      - - 1
+        - 2
+      - 0
+    output: true
+  # head = [1], pos = -1（无环）
+  - input:
+      - - 1
+      - -1
+    output: false
+mode: link-cycle
 ---
+
 
 <script setup>
 // 方法一（哈希表）可视化：head = [3,2,0,-4]，pos = 1（尾节点 -4 指向下标 1 的节点 2，构成环）

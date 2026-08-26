@@ -1,8 +1,20 @@
 export default {
   '/category': getLeetCode(),
   '/leetcode/': getLeetCode(),
+  '/solve/': getSolve(),
   '/top100': getTop100(),
   '/template/': getTemplate()
+}
+
+function getSolve() {
+  return [
+    {
+      text: '在线刷题',
+      items: [
+        { text: '全部可刷题题目', link: '/solve' },
+      ]
+    }
+  ]
 }
 
 function getLeetCode() {

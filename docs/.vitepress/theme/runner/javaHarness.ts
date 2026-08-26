@@ -12,8 +12,8 @@
  * 判题结果不经过 stdout，用户 System.out 独立收集，避免污染结果解析。
  */
 
-import { compareOutput } from './compare.ts'
-import type { RunReport, TestCase } from './types.ts'
+import { compareTestCase } from './compare.ts'
+import type { JudgeMode, RunReport, TestCase } from './types.ts'
 import { getCheerpJ, type CheerpJLike } from './cheerpjLoader.ts'
 
 const IDENT = /^[A-Za-z_][A-Za-z0-9_]*$/
@@ -174,7 +174,7 @@ export async function runJava(
   code: string,
   entry: string,
   testcases: TestCase[],
-  mode?: 'void-first-arg',
+  mode?: JudgeMode,
 ): Promise<RunReport> {
   const total = testcases.length
   if (!IDENT.test(entry)) {
@@ -243,7 +243,7 @@ export async function runJava(
   const results = items.map((item, i) => {
     const base = { index: i + 1, expected: testcases[i]?.output }
     if (item.error) return { ...base, ok: false, error: item.error }
-    return { ...base, ok: compareOutput(item.actual, testcases[i]?.output), actual: item.actual }
+    return { ...base, ok: compareTestCase(item.actual, testcases[i]), actual: item.actual }
   })
   const passed = results.filter((r) => r.ok).length
 

@@ -47,11 +47,13 @@ function extractCode(content, lang, label) {
   return m ? m[1].replace(/\r?\n$/, '') : undefined
 }
 
-/** 从 H1 `# [12. 标题](url)` 提取题号与题名 */
+/** 从 H1 `# [12. 标题](url)` 提取题号与题名；剑指 Offer 格式 `# [面试题 22. 标题](url)` 只取标题（无数值题号） */
 function extractTitle(content) {
-  const m = content.match(/^#\s*\[(\d+)\.\s*([^\]]+)\]/m)
-  if (!m) return undefined
-  return { number: Number(m[1]), title: `${m[1]}. ${m[2].trim()}` }
+  let m = content.match(/^#\s*\[(\d+)\.\s*([^\]]+)\]/m)
+  if (m) return { number: Number(m[1]), title: `${m[1]}. ${m[2].trim()}` }
+  m = content.match(/^#\s*\[面试题\s*(\d+)\.\s*([^\]]+)\]/m)
+  if (m) return { number: undefined, title: `面试题 ${m[1]}. ${m[2].trim()}` }
+  return undefined
 }
 
 /** 截取 <!-- description:start --> 与 <!-- description:end --> 之间的题目描述 HTML */
@@ -82,6 +84,36 @@ title: '${safe} · 在线刷题'
 
 <Solver slug="${slug}" />
 `
+}
+
+/** 生成 /solve 导航表格页（题号 · 题目 · 难度 · 标签 · 刷题按钮） */
+function writeSolveIndex(data) {
+  const rows = Object.entries(data)
+    .map(([slug, p]) => ({ slug, p, num: typeof p.number === 'number' ? p.number : Infinity }))
+    .sort((a, b) => a.num - b.num || String(a.p.title).localeCompare(String(b.p.title)))
+  const lines = [
+    '---',
+    'title: 在线刷题',
+    '---',
+    '',
+    '# 在线刷题',
+    '',
+    '> 全部支持在线刷题的题目。点击「刷题」进入全屏 IDE 模式；点击题名进入题解页查看讲解与可视化。',
+    '',
+    '| # | 题目 | 难度 | 标签 | 操作 |',
+    '|---|------|------|------|------|',
+  ]
+  for (const { slug, p, num } of rows) {
+    const displayTitle = String(p.title).replace(/^\d+\.\s*/, '').replace(/\|/g, '\\|')
+    const diff = p.difficulty ?? '—'
+    const tags = Array.isArray(p.tags) && p.tags.length ? p.tags.join(' / ') : '—'
+    const numText = num === Infinity ? '—' : num
+    lines.push(
+      `| ${numText} | [${displayTitle}](/leetcode/${slug}) | ${diff} | ${tags} | [刷题](/solve/${slug}) |`,
+    )
+  }
+  lines.push('', `> 共 ${rows.length} 道可在线判题的题目。`, '')
+  fs.writeFileSync(path.join(SOLVE_DIR, 'index.md'), lines.join('\n'))
 }
 
 /* ---------------- main ---------------- */
@@ -129,14 +161,14 @@ function main() {
     testcaseCount += testcases.length
   }
 
-  // 按题号升序排列，计算上一题 / 下一题
+  // 按题号升序排列（剑指 Offer 等无题号的排最后），计算上一题 / 下一题
   const ordered = Object.entries(data)
-    .filter(([, p]) => typeof p.number === 'number')
-    .sort((a, b) => a[1].number - b[1].number)
+    .map(([slug, p]) => ({ slug, p, num: typeof p.number === 'number' ? p.number : Infinity }))
+    .sort((a, b) => a.num - b.num || String(a.p.title).localeCompare(String(b.p.title)))
   for (let i = 0; i < ordered.length; i++) {
-    const [slug, p] = ordered[i]
-    if (i > 0) p.prev = ordered[i - 1][0]
-    if (i < ordered.length - 1) p.next = ordered[i + 1][0]
+    const { slug, p } = ordered[i]
+    if (i > 0) p.prev = ordered[i - 1].slug
+    if (i < ordered.length - 1) p.next = ordered[i + 1].slug
   }
 
   /* -------- 写 problems-data.ts -------- */
@@ -158,7 +190,7 @@ function main() {
   lines.push("  difficulty?: string")
   lines.push("  tags?: string[]")
   lines.push("  entry: string")
-  lines.push("  mode?: 'void-first-arg'")
+  lines.push("  mode?: 'void-first-arg' | 'link' | 'link-lists' | 'tree' | 'link-void' | 'tree-output' | 'tree-lca' | 'link-cycle' | 'link-cycle-ii' | 'link-intersection' | 'ops'")
   lines.push('  testcases: TestCase[]')
   lines.push('  hiddenTestcases?: TestCase[]')
   lines.push('  descriptionHtml: string')
@@ -195,6 +227,9 @@ function main() {
       fs.unlinkSync(path.join(SOLVE_DIR, f))
     }
   }
+
+  // 生成 /solve 导航表格页
+  writeSolveIndex(data)
 
   console.log(`✅ 已生成 ${RUNNER_DATA}`)
   console.log(`   已生成刷题页 docs/solve/ 共 ${Object.keys(data).length} 个`)

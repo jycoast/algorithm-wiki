@@ -1,11 +1,37 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 排序
+  - 数组
+  - 排序
+entry: merge
+testcases:
+  - input:
+      - - - 1
+          - 3
+        - - 2
+          - 6
+        - - 8
+          - 10
+        - - 15
+          - 18
+    output:
+      - - 1
+        - 6
+      - - 8
+        - 10
+      - - 15
+        - 18
+  - input:
+      - - - 1
+          - 4
+        - - 4
+          - 5
+    output:
+      - - 1
+        - 5
 ---
+
 
 <script setup>
 // 可视化演示数据：intervals = [[1,3],[2,6],[8,10],[15,18]]

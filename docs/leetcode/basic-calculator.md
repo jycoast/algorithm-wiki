@@ -1,13 +1,24 @@
 ---
 comments: true
 difficulty: 困难
-
 tags:
-    - 栈
-    - 递归
-    - 数学
-    - 字符串
+  - 栈
+  - 递归
+  - 数学
+  - 字符串
+entry: calculate
+testcases:
+  - input:
+      - 1 + 1
+    output: 2
+  - input:
+      - ' 2-1 + 2 '
+    output: 3
+  - input:
+      - (1+(4+5+2)-3)+(6+8)
+    output: 23
 ---
+
 
 <script setup>
 // 方法一（栈）可视化：s = "1-(2+3)"，期望结果 -4

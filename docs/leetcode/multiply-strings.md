@@ -1,12 +1,22 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数学
-    - 字符串
-    - 模拟
+  - 数学
+  - 字符串
+  - 模拟
+entry: multiply
+testcases:
+  - input:
+      - '2'
+      - '3'
+    output: '6'
+  - input:
+      - '123'
+      - '456'
+    output: '56088'
 ---
+
 
 <script setup>
 // 方法一（数学乘法模拟）可视化：num1 = "123", num2 = "456" → "56088"

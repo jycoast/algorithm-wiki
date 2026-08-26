@@ -1,13 +1,26 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 栈
-    - 递归
-    - 链表
-    - 双指针
+  - 栈
+  - 递归
+  - 链表
+  - 双指针
+entry: isPalindrome
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 2
+        - 1
+    output: true
+  - input:
+      - - 1
+        - 2
+    output: false
+mode: link
 ---
+
 
 <script setup>
 // 方法一（快慢指针）可视化：head = [1,2,2,1]

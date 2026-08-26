@@ -1,14 +1,37 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 分治
-    - 快速选择
-    - 排序
-    - 堆（优先队列）
+  - 数组
+  - 分治
+  - 快速选择
+  - 排序
+  - 堆（优先队列）
+entry: findKthLargest
+testcases:
+  - input:
+      - - 3
+        - 2
+        - 1
+        - 5
+        - 6
+        - 4
+      - 2
+    output: 5
+  - input:
+      - - 3
+        - 2
+        - 3
+        - 1
+        - 2
+        - 4
+        - 5
+        - 5
+        - 6
+      - 4
+    output: 4
 ---
+
 
 <script setup>
 // 方法一（快速选择）可视化：nums = [3,2,1,5,6,4]，k = 2（第 2 大 → 排序后下标 k' = n-k = 4 的元素）

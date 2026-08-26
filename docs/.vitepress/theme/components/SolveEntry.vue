@@ -29,26 +29,27 @@ const href = computed(() => '/solve/' + slug.value)
   justify-content: space-between;
   gap: 12px;
   margin: 0 0 16px;
-  padding: 10px 16px;
+  padding: 14px 20px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
+  border-radius: 10px;
   background: linear-gradient(135deg, color-mix(in srgb, var(--vp-c-brand-1) 8%, transparent), color-mix(in srgb, var(--vp-c-brand-2) 5%, transparent));
   flex-wrap: wrap;
 }
 
 .se-text {
-  font-size: 13.5px;
+  font-size: 14.5px;
   color: var(--vp-c-text-2);
 }
 
 .se-btn {
-  padding: 5px 18px;
+  padding: 6px 22px;
   border-radius: 6px;
   background: var(--vp-c-brand-1);
   color: #fff;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 500;
   text-decoration: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   transition: background 0.2s;
   white-space: nowrap;
 }

@@ -1,13 +1,32 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 栈
-    - 树
-    - 深度优先搜索
-    - 二叉树
+  - 栈
+  - 树
+  - 深度优先搜索
+  - 二叉树
+entry: inorderTraversal
+testcases:
+  - input:
+      - - 1
+        - null
+        - 2
+        - 3
+    output:
+      - 1
+      - 3
+      - 2
+  - input:
+      - []
+    output: []
+  - input:
+      - - 1
+    output:
+      - 1
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（递归）可视化：root = [1, null, 2, null, null, null, 3]

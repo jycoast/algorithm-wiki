@@ -1,12 +1,30 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数学
-    - 动态规划
-    - 组合数学
+  - 数学
+  - 动态规划
+  - 组合数学
+entry: uniquePaths
+testcases:
+  - input:
+      - 3
+      - 7
+    output: 28
+  - input:
+      - 3
+      - 2
+    output: 3
+  - input:
+      - 7
+      - 3
+    output: 28
+  - input:
+      - 3
+      - 3
+    output: 6
 ---
+
 
 <script setup>
 // 方法一（二维动态规划）可视化：m = 3, n = 3

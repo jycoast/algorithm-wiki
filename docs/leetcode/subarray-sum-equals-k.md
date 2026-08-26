@@ -1,12 +1,26 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 哈希表
-    - 前缀和
+  - 数组
+  - 哈希表
+  - 前缀和
+entry: subarraySum
+testcases:
+  - input:
+      - - 1
+        - 1
+        - 1
+      - 2
+    output: 2
+  - input:
+      - - 1
+        - 2
+        - 3
+      - 3
+    output: 2
 ---
+
 
 <script setup>
 // 可视化演示数据：nums = [1,1,1]，k = 2，答案为 2

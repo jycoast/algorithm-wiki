@@ -1,12 +1,23 @@
 ---
 comments: true
 difficulty: 困难
-
 tags:
-    - 栈
-    - 字符串
-    - 动态规划
+  - 栈
+  - 字符串
+  - 动态规划
+entry: longestValidParentheses
+testcases:
+  - input:
+      - (()
+    output: 2
+  - input:
+      - )()())
+    output: 4
+  - input:
+      - ''
+    output: 0
 ---
+
 
 <script setup>
 // 方法一（动态规划）可视化：s = ")()())"

@@ -1,12 +1,36 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 贪心
-    - 数组
-    - 动态规划
+  - 贪心
+  - 数组
+  - 动态规划
+entry: maxProfit
+testcases:
+  - input:
+      - - 7
+        - 1
+        - 5
+        - 3
+        - 6
+        - 4
+    output: 7
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+    output: 4
+  - input:
+      - - 7
+        - 6
+        - 4
+        - 3
+        - 1
+    output: 0
 ---
+
 
 <script setup>
 // 方法一（贪心）可视化：prices = [7, 1, 5, 3, 6, 4]，ans += max(0, prices[i] - prices[i-1])，答案 7

@@ -1,11 +1,48 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 回溯
+  - 数组
+  - 回溯
+entry: permute
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+    output:
+      - - 1
+        - 2
+        - 3
+      - - 1
+        - 3
+        - 2
+      - - 2
+        - 1
+        - 3
+      - - 2
+        - 3
+        - 1
+      - - 3
+        - 1
+        - 2
+      - - 3
+        - 2
+        - 1
+  - input:
+      - - 0
+        - 1
+    output:
+      - - 0
+        - 1
+      - - 1
+        - 0
+  - input:
+      - - 1
+    output:
+      - - 1
 ---
+
 
 <script setup>
 // 方法一（DFS 回溯）可视化：nums = [1, 2, 3]

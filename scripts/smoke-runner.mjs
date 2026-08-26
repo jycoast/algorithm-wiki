@@ -49,7 +49,9 @@ function discoverProblems() {
       entry: fm.entry,
       testcases: fm.testcases,
       hiddenTestcases: Array.isArray(fm.hidden_testcases) ? fm.hidden_testcases : [],
-      mode: fm.mode === 'void-first-arg' ? 'void-first-arg' : undefined,
+      mode: ['void-first-arg', 'link', 'link-lists', 'tree', 'link-void', 'tree-output', 'tree-lca', 'link-cycle', 'link-cycle-ii', 'link-intersection', 'ops'].includes(fm.mode)
+        ? fm.mode
+        : undefined,
       python: extractCode(content, 'python', 'Python'),
     })
   }

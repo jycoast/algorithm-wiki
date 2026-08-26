@@ -6,6 +6,15 @@ tags:
     - 哈希表
     - 链表
     - 双指针
+entry: detectCycle
+mode: link-cycle-ii
+testcases:
+  - input: [[3, 2, 0, -4], 1]
+    output: 2
+  - input: [[1, 2], 0]
+    output: 1
+  - input: [[1], -1]
+    output: null
 ---
 
 <script setup>

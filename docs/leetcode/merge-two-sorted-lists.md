@@ -1,11 +1,37 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 递归
-    - 链表
+  - 递归
+  - 链表
+entry: mergeTwoLists
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 4
+      - - 1
+        - 3
+        - 4
+    output:
+      - 1
+      - 1
+      - 2
+      - 3
+      - 4
+      - 4
+  - input:
+      - []
+      - []
+    output: []
+  - input:
+      - []
+      - - 0
+    output:
+      - 0
+mode: link
 ---
+
 
 <script setup>
 // 方法一（递归）可视化：l1 = [1,2,4]，l2 = [1,3,4]

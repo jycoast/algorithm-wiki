@@ -1,14 +1,41 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 树
-    - 数组
-    - 哈希表
-    - 分治
-    - 二叉树
+  - 树
+  - 数组
+  - 哈希表
+  - 分治
+  - 二叉树
+entry: buildTree
+testcases:
+  - input:
+      - - 3
+        - 9
+        - 20
+        - 15
+        - 7
+      - - 9
+        - 3
+        - 15
+        - 20
+        - 7
+    output:
+      - 3
+      - 9
+      - 20
+      - null
+      - null
+      - 15
+      - 7
+  - input:
+      - - -1
+      - - -1
+    output:
+      - -1
+mode: tree-output
 ---
+
 
 <script setup>
 // 方法一（哈希表 + 递归）可视化：preorder = [3, 9, 20, 15, 7]，inorder = [9, 3, 15, 20, 7]

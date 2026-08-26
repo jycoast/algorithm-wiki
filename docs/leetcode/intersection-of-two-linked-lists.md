@@ -6,6 +6,15 @@ tags:
     - 哈希表
     - 链表
     - 双指针
+entry: getIntersectionNode
+mode: link-intersection
+testcases:
+  - input: [[4, 1, 8, 4, 5], [5, 6, 1, 8, 4, 5], 8]
+    output: 8
+  - input: [[1, 9, 1, 2, 4], [3, 2, 4], 2]
+    output: 2
+  - input: [[2, 6, 4], [1, 5], 0]
+    output: null
 ---
 
 <script setup>

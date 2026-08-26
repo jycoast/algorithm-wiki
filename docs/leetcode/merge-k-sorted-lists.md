@@ -1,13 +1,40 @@
 ---
 comments: true
 difficulty: 困难
-
 tags:
-    - 链表
-    - 分治
-    - 堆（优先队列）
-    - 归并排序
+  - 链表
+  - 分治
+  - 堆（优先队列）
+  - 归并排序
+entry: mergeKLists
+testcases:
+  - input:
+      - - - 1
+          - 4
+          - 5
+        - - 1
+          - 3
+          - 4
+        - - 2
+          - 6
+    output:
+      - 1
+      - 1
+      - 2
+      - 3
+      - 4
+      - 4
+      - 5
+      - 6
+  - input:
+      - []
+    output: []
+  - input:
+      - - []
+    output: []
+mode: link-lists
 ---
+
 
 <script setup>
 // 方法一（优先队列/小根堆）可视化：lists = [[1,4,5],[1,3,4],[2,6]]

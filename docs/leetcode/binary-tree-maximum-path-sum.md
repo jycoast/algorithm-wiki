@@ -1,13 +1,30 @@
 ---
 comments: true
 difficulty: 困难
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 动态规划
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 动态规划
+  - 二叉树
+entry: maxPathSum
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+    output: 6
+  - input:
+      - - -10
+        - 9
+        - 20
+        - null
+        - null
+        - 15
+        - 7
+    output: 42
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（递归）可视化：root = [-10, 9, 20, null, null, 15, 7]

@@ -1,12 +1,33 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 动态规划
-    - 矩阵
+  - 数组
+  - 动态规划
+  - 矩阵
+entry: minPathSum
+testcases:
+  - input:
+      - - - 1
+          - 3
+          - 1
+        - - 1
+          - 5
+          - 1
+        - - 4
+          - 2
+          - 1
+    output: 7
+  - input:
+      - - - 1
+          - 2
+          - 3
+        - - 4
+          - 5
+          - 6
+    output: 12
 ---
+
 
 <script setup>
 // 方法一（动态规划）可视化：grid = [[1,3,1],[1,5,1],[4,2,1]]

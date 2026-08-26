@@ -1,12 +1,26 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 数学
-    - 字符串
-    - 模拟
+  - 数学
+  - 字符串
+  - 模拟
+entry: addStrings
+testcases:
+  - input:
+      - '11'
+      - '123'
+    output: '134'
+  - input:
+      - '456'
+      - '77'
+    output: '533'
+  - input:
+      - '0'
+      - '0'
+    output: '0'
 ---
+
 
 <script setup>
 // 方法一（双指针）可视化：num1 = "456", num2 = "77" → "533"

@@ -1,13 +1,26 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 贪心
-    - 数组
-    - 字符串
-    - 排序
+  - 贪心
+  - 数组
+  - 字符串
+  - 排序
+entry: largestNumber
+testcases:
+  - input:
+      - - 10
+        - 2
+    output: '210'
+  - input:
+      - - 3
+        - 30
+        - 34
+        - 5
+        - 9
+    output: '9534330'
 ---
+
 
 <script setup>
 // 可视化演示数据：nums = [3,30,34,5,9] → "9534330"

@@ -1,14 +1,38 @@
 ---
 comments: true
 difficulty: 困难
-
 tags:
-    - 栈
-    - 数组
-    - 双指针
-    - 动态规划
-    - 单调栈
+  - 栈
+  - 数组
+  - 双指针
+  - 动态规划
+  - 单调栈
+entry: trap
+testcases:
+  - input:
+      - - 0
+        - 1
+        - 0
+        - 2
+        - 1
+        - 0
+        - 1
+        - 3
+        - 2
+        - 1
+        - 2
+        - 1
+    output: 6
+  - input:
+      - - 4
+        - 2
+        - 0
+        - 3
+        - 2
+        - 5
+    output: 9
 ---
+
 
 <script setup>
 // 方法一（动态规划）可视化：height = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]

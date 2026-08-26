@@ -1,13 +1,42 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 广度优先搜索
+  - 二叉树
+entry: hasPathSum
+testcases:
+  - input:
+      - - 5
+        - 4
+        - 8
+        - 11
+        - null
+        - 13
+        - 4
+        - 7
+        - 2
+        - null
+        - null
+        - null
+        - 1
+      - 22
+    output: true
+  - input:
+      - - 1
+        - 2
+        - 3
+      - 5
+    output: false
+  - input:
+      - []
+      - 0
+    output: false
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（递归）可视化：root = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1]，targetSum = 22

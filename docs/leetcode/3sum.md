@@ -1,12 +1,41 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 双指针
-    - 排序
+  - 数组
+  - 双指针
+  - 排序
+entry: threeSum
+testcases:
+  - input:
+      - - -1
+        - 0
+        - 1
+        - 2
+        - -1
+        - -4
+    output:
+      - - -1
+        - -1
+        - 2
+      - - -1
+        - 0
+        - 1
+  - input:
+      - - 0
+        - 1
+        - 1
+    output: []
+  - input:
+      - - 0
+        - 0
+        - 0
+    output:
+      - - 0
+        - 0
+        - 0
 ---
+
 
 <script setup>
 // 可视化演示数据：nums = [-1,0,1,2,-1,-4] 排序后为 [-4,-1,-1,0,1,2]

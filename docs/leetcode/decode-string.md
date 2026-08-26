@@ -1,12 +1,26 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 栈
-    - 递归
-    - 字符串
+  - 栈
+  - 递归
+  - 字符串
+entry: decodeString
+testcases:
+  - input:
+      - 3[a]2[bc]
+    output: aaabcbc
+  - input:
+      - 3[a2[c]]
+    output: accaccacc
+  - input:
+      - 2[abc]3[cd]ef
+    output: abcabccdcdcdef
+  - input:
+      - abc3[cd]xyz
+    output: abccdcdcdxyz
 ---
+
 
 <script setup>
 // 方法一（辅助栈）可视化：s = "3[a2[c]]"

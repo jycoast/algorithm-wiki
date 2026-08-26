@@ -1,12 +1,28 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 广度优先搜索
-    - 数组
-    - 动态规划
+  - 广度优先搜索
+  - 数组
+  - 动态规划
+entry: coinChange
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 5
+      - 11
+    output: 3
+  - input:
+      - - 2
+      - 3
+    output: -1
+  - input:
+      - - 1
+      - 0
+    output: 0
 ---
+
 
 <script setup>
 // 方法一（动态规划·二维完全背包）可视化：coins = [1, 2, 5]，amount = 11

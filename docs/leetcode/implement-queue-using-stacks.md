@@ -6,6 +6,13 @@ tags:
     - 栈
     - 设计
     - 队列
+entry: MyQueue
+mode: ops
+testcases:
+  - input: [["MyQueue","push","push","peek","pop","empty"], [[],[1],[2],[],[],[]]]
+    output: [null, null, null, 1, 1, false]
+  - input: [["MyQueue","push","push","pop","empty"], [[],[1],[2],[],[]]]
+    output: [null, null, null, 1, false]
 ---
 
 <script setup>

@@ -1,11 +1,31 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 递归
-    - 链表
+  - 递归
+  - 链表
+entry: swapPairs
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 4
+    output:
+      - 2
+      - 1
+      - 4
+      - 3
+  - input:
+      - []
+    output: []
+  - input:
+      - - 1
+    output:
+      - 1
+mode: link
 ---
+
 
 <script setup>
 // 方法一（递归）可视化：head = [1,2,3,4]

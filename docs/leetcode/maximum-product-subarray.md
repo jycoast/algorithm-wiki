@@ -1,11 +1,24 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 动态规划
+  - 数组
+  - 动态规划
+entry: maxProduct
+testcases:
+  - input:
+      - - 2
+        - 3
+        - -2
+        - 4
+    output: 6
+  - input:
+      - - -2
+        - 0
+        - -1
+    output: 0
 ---
+
 
 <script setup>
 // 方法一（二维动态规划）可视化：nums = [2, 3, -2, 4]

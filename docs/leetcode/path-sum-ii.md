@@ -1,13 +1,51 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 回溯
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 回溯
+  - 二叉树
+entry: pathSum
+testcases:
+  - input:
+      - - 5
+        - 4
+        - 8
+        - 11
+        - null
+        - 13
+        - 4
+        - 7
+        - 2
+        - null
+        - null
+        - 5
+        - 1
+      - 22
+    output:
+      - - 5
+        - 4
+        - 11
+        - 2
+      - - 5
+        - 8
+        - 4
+        - 5
+  - input:
+      - - 1
+        - 2
+        - 3
+      - 5
+    output: []
+  - input:
+      - - 1
+        - 2
+      - 0
+    output: []
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（DFS 回溯）可视化：root = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1]，targetSum = 22

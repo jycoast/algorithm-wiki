@@ -1,12 +1,36 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 树
-    - 广度优先搜索
-    - 二叉树
+  - 树
+  - 广度优先搜索
+  - 二叉树
+entry: levelOrder
+testcases:
+  - input:
+      - - 3
+        - 9
+        - 20
+        - null
+        - null
+        - 15
+        - 7
+    output:
+      - - 3
+      - - 9
+        - 20
+      - - 15
+        - 7
+  - input:
+      - - 1
+    output:
+      - - 1
+  - input:
+      - []
+    output: []
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（BFS 层序）可视化：root = [3,9,20,null,null,15,7]

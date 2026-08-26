@@ -14,7 +14,7 @@ import { useEditor } from '../runner/useEditor'
 import { problemsData, type GeneratedProblem } from '../runner/problems-data'
 import { runPython } from '../runner/pythonHarness'
 import { runJava } from '../runner/javaHarness'
-import type { RunReport, TestCase } from '../runner/types'
+import type { JudgeMode, RunReport, TestCase } from '../runner/types'
 
 const props = defineProps<{ slug: string }>()
 const router = useRouter()
@@ -25,7 +25,9 @@ const problem = computed<GeneratedProblem | undefined>(() => problemsData[props.
 const entry = computed(() => problem.value?.entry ?? '')
 const testcases = computed<TestCase[]>(() => problem.value?.testcases ?? [])
 const hiddenTestcases = computed<TestCase[]>(() => problem.value?.hiddenTestcases ?? [])
-const mode = computed<'void-first-arg' | undefined>(() => problem.value?.mode)
+const mode = computed<JudgeMode | undefined>(() => problem.value?.mode)
+// Java 判题目前仅支持「返回普通值」与 void-first-arg；链表/树输入（link/tree 系）暂不支持，禁用并提示用 Python
+const javaUnsupported = computed(() => mode.value !== undefined && mode.value !== 'void-first-arg')
 
 const difficultyText = computed(() => problem.value?.difficulty ?? '')
 const difficultyClass = computed(() => {
@@ -51,6 +53,8 @@ watch(
   [lang, slugRef],
   async () => {
     if (!problem.value) return
+    // 切换题目时若该题 Java 不可判，强制回到 Python（避免遗留 Java 缓冲产生误判）
+    if (lang.value === 'java' && javaUnsupported.value) setLang('python')
     await nextTick()
     if (editorEl.value) initEditor(editorEl.value, true)
   },
@@ -190,7 +194,13 @@ function go(href: string) {
       <div class="sv-actions">
         <div class="sv-tabs">
           <button class="sv-tab" :class="{ active: lang === 'python' }" :disabled="running" @click="switchLang('python')">Python</button>
-          <button class="sv-tab" :class="{ active: lang === 'java' }" :disabled="running" @click="switchLang('java')">Java</button>
+          <button
+            class="sv-tab"
+            :class="{ active: lang === 'java', unsupported: javaUnsupported }"
+            :disabled="running || javaUnsupported"
+            :title="javaUnsupported ? 'Java 判题暂不支持链表/树输入，请使用 Python' : ''"
+            @click="switchLang('java')"
+          >Java</button>
         </div>
         <button class="sv-btn sv-btn-ghost" :disabled="running" @click="reset">重置</button>
         <button class="sv-btn sv-btn-ghost" :disabled="running" @click="run">
@@ -431,6 +441,10 @@ function go(href: string) {
 .sv-tab:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.sv-tab.unsupported {
+  text-decoration: line-through;
 }
 
 .sv-btn {

@@ -1,11 +1,43 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 回溯
+  - 数组
+  - 回溯
+entry: combinationSum
+testcases:
+  - input:
+      - - 2
+        - 3
+        - 6
+        - 7
+      - 7
+    output:
+      - - 2
+        - 2
+        - 3
+      - - 7
+  - input:
+      - - 2
+        - 3
+        - 5
+      - 8
+    output:
+      - - 2
+        - 2
+        - 2
+        - 2
+      - - 2
+        - 3
+        - 3
+      - - 3
+        - 5
+  - input:
+      - - 2
+      - 1
+    output: []
 ---
+
 
 <script setup>
 // 方法一（排序 + 剪枝 + 回溯）可视化：candidates=[2,3,6,7]，target=7

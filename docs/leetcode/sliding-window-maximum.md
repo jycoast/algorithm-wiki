@@ -1,14 +1,38 @@
 ---
 comments: true
 difficulty: 困难
-
 tags:
-    - 队列
-    - 数组
-    - 滑动窗口
-    - 单调队列
-    - 堆（优先队列）
+  - 队列
+  - 数组
+  - 滑动窗口
+  - 单调队列
+  - 堆（优先队列）
+entry: maxSlidingWindow
+testcases:
+  - input:
+      - - 1
+        - 3
+        - -1
+        - -3
+        - 5
+        - 3
+        - 6
+        - 7
+      - 3
+    output:
+      - 3
+      - 3
+      - 5
+      - 5
+      - 6
+      - 7
+  - input:
+      - - 1
+      - 1
+    output:
+      - 1
 ---
+
 
 <script setup>
 // 方法一（优先队列/大根堆）可视化：nums = [3,1,2,-1]，k=3

@@ -1,11 +1,35 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 递归
-    - 链表
+  - 递归
+  - 链表
+entry: reverseList
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+    output:
+      - 5
+      - 4
+      - 3
+      - 2
+      - 1
+  - input:
+      - - 1
+        - 2
+    output:
+      - 2
+      - 1
+  - input:
+      - []
+    output: []
+mode: link
 ---
+
 
 <script setup>
 // 方法一（双指针）可视化：head = [1,2,3,4,5]

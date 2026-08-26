@@ -1,11 +1,30 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 字符串
-    - 回溯
+  - 字符串
+  - 回溯
+entry: restoreIpAddresses
+testcases:
+  - input:
+      - '25525511135'
+    output:
+      - 255.255.11.135
+      - 255.255.111.35
+  - input:
+      - '0000'
+    output:
+      - 0.0.0.0
+  - input:
+      - '101023'
+    output:
+      - 1.0.10.23
+      - 1.0.102.3
+      - 10.1.0.23
+      - 10.10.2.3
+      - 101.0.2.3
 ---
+
 
 <script setup>
 // 方法一（DFS）可视化：s="12345"

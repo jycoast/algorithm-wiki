@@ -1,11 +1,41 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 二分查找
+  - 数组
+  - 二分查找
+entry: searchRange
+testcases:
+  - input:
+      - - 5
+        - 7
+        - 7
+        - 8
+        - 8
+        - 10
+      - 8
+    output:
+      - 3
+      - 4
+  - input:
+      - - 5
+        - 7
+        - 7
+        - 8
+        - 8
+        - 10
+      - 6
+    output:
+      - -1
+      - -1
+  - input:
+      - []
+      - 0
+    output:
+      - -1
+      - -1
 ---
+
 
 <script setup>
 // 可视化演示数据：nums = [5,7,7,8,8,10]，target = 8

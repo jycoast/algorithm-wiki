@@ -1,12 +1,23 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 栈
-    - 数学
-    - 字符串
+  - 栈
+  - 数学
+  - 字符串
+entry: calculate
+testcases:
+  - input:
+      - 3+2*2
+    output: 7
+  - input:
+      - ' 3/2 '
+    output: 1
+  - input:
+      - ' 3+5 / 2 '
+    output: 5
 ---
+
 
 <script setup>
 // 方法一（栈）可视化：s = "3+2*2"，期望结果 7

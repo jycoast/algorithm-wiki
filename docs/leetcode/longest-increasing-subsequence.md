@@ -1,12 +1,41 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 数组
-    - 二分查找
-    - 动态规划
+  - 数组
+  - 二分查找
+  - 动态规划
+entry: lengthOfLIS
+testcases:
+  - input:
+      - - 10
+        - 9
+        - 2
+        - 5
+        - 3
+        - 7
+        - 101
+        - 18
+    output: 4
+  - input:
+      - - 0
+        - 1
+        - 0
+        - 3
+        - 2
+        - 3
+    output: 4
+  - input:
+      - - 7
+        - 7
+        - 7
+        - 7
+        - 7
+        - 7
+        - 7
+    output: 1
 ---
+
 
 <script setup>
 // 方法一（动态规划 O(n²)）可视化：nums = [10, 9, 2, 5, 3, 7, 101, 18]

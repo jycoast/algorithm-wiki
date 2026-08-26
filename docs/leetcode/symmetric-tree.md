@@ -1,13 +1,34 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 广度优先搜索
+  - 二叉树
+entry: isSymmetric
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 2
+        - 3
+        - 4
+        - 4
+        - 3
+    output: true
+  - input:
+      - - 1
+        - 2
+        - 2
+        - null
+        - 3
+        - null
+        - 3
+    output: false
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（递归）可视化：root = [1, 2, 2, 3, 4, 4, 3]

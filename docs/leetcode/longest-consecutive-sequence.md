@@ -1,12 +1,34 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 并查集
-    - 数组
-    - 哈希表
+  - 并查集
+  - 数组
+  - 哈希表
+entry: longestConsecutive
+testcases:
+  - input:
+      - - 100
+        - 4
+        - 200
+        - 1
+        - 3
+        - 2
+    output: 4
+  - input:
+      - - 0
+        - 3
+        - 7
+        - 2
+        - 5
+        - 8
+        - 4
+        - 6
+        - 0
+        - 1
+    output: 9
 ---
+
 
 <script setup>
 // 方法一（排序）可视化：nums = [100,4,200,1,3,2] 排序后为 [1,2,3,4,100,200]

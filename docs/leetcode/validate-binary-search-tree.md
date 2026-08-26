@@ -1,13 +1,30 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉搜索树
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 二叉搜索树
+  - 二叉树
+entry: isValidBST
+testcases:
+  - input:
+      - - 2
+        - 1
+        - 3
+    output: true
+  - input:
+      - - 5
+        - 1
+        - 4
+        - null
+        - null
+        - 3
+        - 6
+    output: false
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（递归中序）可视化：root = [2, 1, 3]

@@ -1,12 +1,23 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 双指针
-    - 字符串
-    - 动态规划
+  - 双指针
+  - 字符串
+  - 动态规划
+entry: longestPalindrome
+testcases:
+  - input:
+      - babad
+    output: bab
+    accept:
+      - bab
+      - aba
+  - input:
+      - cbbd
+    output: bb
 ---
+
 
 <script setup>
 // 方法一（动态规划）可视化：s = "babad"，n = 5

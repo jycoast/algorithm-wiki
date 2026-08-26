@@ -1,11 +1,35 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 链表
-    - 双指针
+  - 链表
+  - 双指针
+entry: deleteDuplicates
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 3
+        - 4
+        - 4
+        - 5
+    output:
+      - 1
+      - 2
+      - 5
+  - input:
+      - - 1
+        - 1
+        - 1
+        - 2
+        - 3
+    output:
+      - 2
+      - 3
+mode: link
 ---
+
 
 <script setup>
 // 方法一（一次遍历）可视化：dummy 虚拟头节点 + pre/cur 指针，head = [1,2,3,3,4,4,5]

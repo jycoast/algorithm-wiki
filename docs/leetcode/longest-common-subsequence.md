@@ -1,11 +1,25 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 字符串
-    - 动态规划
+  - 字符串
+  - 动态规划
+entry: longestCommonSubsequence
+testcases:
+  - input:
+      - abcde
+      - ace
+    output: 3
+  - input:
+      - abc
+      - abc
+    output: 3
+  - input:
+      - abc
+      - def
+    output: 0
 ---
+
 
 <script setup>
 // 方法一（动态规划）可视化：text1 = "abcde"，text2 = "ace"

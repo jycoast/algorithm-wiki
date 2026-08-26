@@ -1,11 +1,25 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 双指针
-    - 字符串
+  - 双指针
+  - 字符串
+entry: compareVersion
+testcases:
+  - input:
+      - '1.2'
+      - '1.10'
+    output: -1
+  - input:
+      - '1.01'
+      - '1.001'
+    output: 0
+  - input:
+      - '1.0'
+      - 1.0.0.0
+    output: 0
 ---
+
 
 <script setup>
 // 方法一（双指针）可视化：version1 = "1.2"，version2 = "1.10"

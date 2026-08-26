@@ -7,6 +7,14 @@ tags:
     - 拒绝采样
     - 概率与统计
     - 随机化
+entry: rand10
+testcases:
+  - input: []
+    output: 5
+    accept: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  - input: []
+    output: 1
+    accept: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 ---
 
 <script setup>

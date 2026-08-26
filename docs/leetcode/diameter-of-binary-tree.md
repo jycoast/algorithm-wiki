@@ -1,12 +1,26 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 二叉树
+entry: diameterOfBinaryTree
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+    output: 3
+  - input:
+      - - 1
+        - 2
+    output: 1
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（dfs 求子树高度）可视化：root = [1, 2, 3, 4, 5]

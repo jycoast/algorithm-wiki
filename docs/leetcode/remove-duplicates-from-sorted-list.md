@@ -1,10 +1,30 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 链表
+  - 链表
+entry: deleteDuplicates
+testcases:
+  - input:
+      - - 1
+        - 1
+        - 2
+    output:
+      - 1
+      - 2
+  - input:
+      - - 1
+        - 1
+        - 2
+        - 3
+        - 3
+    output:
+      - 1
+      - 2
+      - 3
+mode: link
 ---
+
 
 <script setup>
 // 方法一（一次遍历）可视化：head = [1,1,2,3,3]

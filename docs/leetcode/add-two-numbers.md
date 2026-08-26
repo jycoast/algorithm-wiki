@@ -1,12 +1,52 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 递归
-    - 链表
-    - 数学
+  - 递归
+  - 链表
+  - 数学
+entry: addTwoNumbers
+testcases:
+  - input:
+      - - 2
+        - 4
+        - 3
+      - - 5
+        - 6
+        - 4
+    output:
+      - 7
+      - 0
+      - 8
+  - input:
+      - - 0
+      - - 0
+    output:
+      - 0
+  - input:
+      - - 9
+        - 9
+        - 9
+        - 9
+        - 9
+        - 9
+        - 9
+      - - 9
+        - 9
+        - 9
+        - 9
+    output:
+      - 8
+      - 9
+      - 9
+      - 9
+      - 0
+      - 0
+      - 0
+      - 1
+mode: link
 ---
+
 
 <script setup>
 // 方法一（模拟）可视化：l1 = [2,4,3]，l2 = [5,6,4]，表示 342 + 465 = 807

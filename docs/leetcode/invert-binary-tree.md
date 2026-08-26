@@ -1,13 +1,43 @@
 ---
 comments: true
 difficulty: 简单
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 广度优先搜索
+  - 二叉树
+entry: invertTree
+testcases:
+  - input:
+      - - 4
+        - 2
+        - 7
+        - 1
+        - 3
+        - 6
+        - 9
+    output:
+      - 4
+      - 7
+      - 2
+      - 9
+      - 6
+      - 3
+      - 1
+  - input:
+      - - 2
+        - 1
+        - 3
+    output:
+      - 2
+      - 3
+      - 1
+  - input:
+      - []
+    output: []
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（递归，先交换再递归）可视化：root = [4, 2, 7, 1, 3, 6, 9]

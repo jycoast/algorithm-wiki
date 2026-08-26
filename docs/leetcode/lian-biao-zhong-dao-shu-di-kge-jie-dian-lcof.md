@@ -5,6 +5,15 @@ difficulty: 简单
 tags:
     - 链表
     - 双指针
+entry: getKthFromEnd
+mode: link
+testcases:
+  - input: [[1, 2, 3, 4, 5], 2]
+    output: [4, 5]
+  - input: [[1, 2, 3, 4, 5], 1]
+    output: [5]
+  - input: [[1, 2, 3, 4, 5], 5]
+    output: [1, 2, 3, 4, 5]
 ---
 
 <script setup>
@@ -81,7 +90,7 @@ const getKthFromEndSteps = [
 <!-- tabs:start -->
 ::: code-group
 
-```java
+```java [Java]
 class Solution {
     public ListNode getKthFromEnd(ListNode head, int k) {
         ListNode slow = head, fast = head;
@@ -114,7 +123,7 @@ public:
 };
 ```
 
-```python
+```python [Python]
 class Solution:
     def getKthFromEnd(self, head: ListNode, k: int) -> ListNode:
         slow = fast = head

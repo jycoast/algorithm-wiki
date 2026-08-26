@@ -1,13 +1,38 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 栈
-    - 递归
-    - 链表
-    - 双指针
+  - 栈
+  - 递归
+  - 链表
+  - 双指针
+entry: reorderList
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 4
+    output:
+      - 1
+      - 4
+      - 2
+      - 3
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+    output:
+      - 1
+      - 5
+      - 2
+      - 4
+      - 3
+mode: link-void
 ---
+
 
 <script setup>
 // 方法一（快慢指针 + 反转 + 合并）可视化：head = [1,2,3,4,5] → [1,5,2,4,3]

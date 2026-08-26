@@ -1,12 +1,36 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 树
-    - 广度优先搜索
-    - 二叉树
+  - 树
+  - 广度优先搜索
+  - 二叉树
+entry: zigzagLevelOrder
+testcases:
+  - input:
+      - - 3
+        - 9
+        - 20
+        - null
+        - null
+        - 15
+        - 7
+    output:
+      - - 3
+      - - 20
+        - 9
+      - - 15
+        - 7
+  - input:
+      - - 1
+    output:
+      - - 1
+  - input:
+      - []
+    output: []
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（BFS + left 标志）可视化：root = [3,9,20,null,null,15,7]

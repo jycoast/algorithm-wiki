@@ -1,11 +1,22 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 双指针
-    - 字符串
+  - 双指针
+  - 字符串
+entry: reverseWords
+testcases:
+  - input:
+      - 'the sky is blue'
+    output: 'blue is sky the'
+  - input:
+      - ' hello world '
+    output: world hello
+  - input:
+      - a good example
+    output: example good a
 ---
+
 
 <script setup>
 // 方法一（双指针）可视化：s = "the sky is blue" → "blue is sky the"

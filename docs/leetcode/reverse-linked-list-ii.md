@@ -1,10 +1,33 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 链表
+  - 链表
+entry: reverseBetween
+testcases:
+  - input:
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      - 2
+      - 4
+    output:
+      - 1
+      - 4
+      - 3
+      - 2
+      - 5
+  - input:
+      - - 5
+      - 1
+      - 1
+    output:
+      - 5
+mode: link
 ---
+
 
 <script setup>
 // 方法一（模拟）可视化：head = [1,2,3,4,5]，left = 2，right = 4

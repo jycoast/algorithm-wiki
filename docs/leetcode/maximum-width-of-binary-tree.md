@@ -1,13 +1,43 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+  - 树
+  - 深度优先搜索
+  - 广度优先搜索
+  - 二叉树
+entry: widthOfBinaryTree
+testcases:
+  - input:
+      - - 1
+        - 3
+        - 2
+        - 5
+        - 3
+        - null
+        - 9
+    output: 4
+  - input:
+      - - 1
+        - 3
+        - 2
+        - 5
+        - null
+        - null
+        - 9
+        - 6
+        - null
+        - 7
+    output: 7
+  - input:
+      - - 1
+        - 3
+        - 2
+        - 5
+    output: 2
+mode: tree
 ---
+
 
 <script setup>
 // 方法一（BFS）可视化：root = [1, 3, 2, 5, 3, null, 9]

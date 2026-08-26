@@ -1,11 +1,21 @@
 ---
 comments: true
 difficulty: 中等
-
 tags:
-    - 字符串
-    - 动态规划
+  - 字符串
+  - 动态规划
+entry: minDistance
+testcases:
+  - input:
+      - horse
+      - ros
+    output: 3
+  - input:
+      - intention
+      - execution
+    output: 5
 ---
+
 
 <script setup>
 // 方法一（动态规划）可视化：word1 = "horse"，word2 = "ros"

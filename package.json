@@ -8,6 +8,7 @@
     "preview": "vitepress preview docs",
     "gen": "node scripts/gen-lists.mjs",
     "gen:runner": "node scripts/gen-runner-data.mjs",
+    "migrate:testcases": "node scripts/migrate-testcases.mjs",
     "smoke": "node scripts/smoke-runner.mjs",
     "validate": "node scripts/validate-viz.mjs"
   },

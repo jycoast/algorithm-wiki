@@ -1,12 +1,25 @@
 ---
 comments: true
 difficulty: 困难
-
 tags:
-    - 数组
-    - 二分查找
-    - 分治
+  - 数组
+  - 二分查找
+  - 分治
+entry: findMedianSortedArrays
+testcases:
+  - input:
+      - - 1
+        - 3
+      - - 2
+    output: 2
+  - input:
+      - - 1
+        - 2
+      - - 3
+        - 4
+    output: 2.5
 ---
+
 
 <script setup>
 // 方法一（分治）可视化：nums1 = [1,3]，nums2 = [2]，m+n=3 → 中位数是第 2 小的数
