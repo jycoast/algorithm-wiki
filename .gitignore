@@ -6,6 +6,7 @@ docs/.vitepress/cache/
 docs/.vitepress/dist/
 # 构建时由 scripts/gen-runner-data.mjs 自动生成（npm run dev/build 都会先生成）
 docs/solve/
+docs/.vitepress/theme/runner/problems-data.ts
 # local env files
 .env.local
 .env.*.local
