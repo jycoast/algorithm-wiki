@@ -8,6 +8,7 @@ import './custom.css'
 
 import { onMounted, watch, nextTick, h } from 'vue'
 import { useRoute } from 'vitepress'
+import { useHighDpiScale } from './composables/useHighDpiScale'
 import mediumZoom from 'medium-zoom'
 import GiscusComments from './components/GiscusComments.vue'
 import ArrayViz from './components/ArrayViz.vue'
@@ -40,6 +41,8 @@ export default {
   },
   setup() {
     const route = useRoute()
+    // 高分屏整体等比缩放：让 2K/4K 等大屏的显示观感与 1080p 一致
+    useHighDpiScale()
     const initZoom = () => {
       // 为所有图片增加缩放功能
       mediumZoom('.main img', { background: 'var(--vp-c-bg)' })
